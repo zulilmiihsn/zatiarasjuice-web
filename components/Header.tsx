@@ -66,8 +66,8 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
           : 'bg-transparent'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 lg:h-20">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
+        <div className="flex items-center justify-between h-14 sm:h-16 lg:h-20">
           {/* Logo */}
           <motion.div
             whileHover={{ scale: 1.05 }}
@@ -75,15 +75,15 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
             className="flex-shrink-0"
           >
             <Link href={branch ? `/${branch}` : '/'} className="flex items-center space-x-2">
-              <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-xl flex items-center justify-center">
-                <span className="text-white font-bold text-lg">Z</span>
+              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-xl flex items-center justify-center">
+                <span className="text-white font-bold text-sm sm:text-lg">Z</span>
               </div>
-              <div className="hidden sm:block">
-                <h1 className="text-xl font-bold text-gray-900">
+              <div className="hidden xs:block">
+                <h1 className="text-lg sm:text-xl font-bold text-gray-900">
                   Zatiaras Juice
                 </h1>
                 {branch && (
-                  <p className="text-sm text-gray-600">{branchInfo[branch].name}</p>
+                  <p className="text-xs sm:text-sm text-gray-600">{branchInfo[branch].name}</p>
                 )}
               </div>
             </Link>
@@ -158,7 +158,7 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
             transition={{ duration: 0.3 }}
             className="lg:hidden bg-white border-t border-gray-200 shadow-strong"
           >
-            <div className="px-4 py-6 space-y-4">
+            <div className="px-3 sm:px-4 py-4 sm:py-6 space-y-3 sm:space-y-4">
               {navigationItems.map((item) => (
                 <motion.div
                   key={item.name}

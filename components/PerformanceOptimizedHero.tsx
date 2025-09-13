@@ -146,13 +146,13 @@ const PerformanceOptimizedHero: React.FC<PerformanceOptimizedHeroProps> = ({ bra
 
           {/* Content */}
           <div className="relative z-10 h-full flex items-center">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 w-full">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-center">
                 {/* Text Content with Glass Effect */}
                 <GlassCard
                   variant="crystal"
                   intensity="high"
-                  className="text-white p-8 backdrop-blur-xl"
+                  className="text-white p-4 sm:p-6 lg:p-8 backdrop-blur-xl"
                 >
                   <motion.div
                     initial={{ opacity: 0, x: -50 }}
@@ -183,7 +183,7 @@ const PerformanceOptimizedHero: React.FC<PerformanceOptimizedHeroProps> = ({ bra
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.6, delay: 0.6 }}
-                      className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight bg-gradient-to-r from-white via-yellow-200 to-white bg-clip-text text-transparent"
+                      className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 leading-tight bg-gradient-to-r from-white via-yellow-200 to-white bg-clip-text text-transparent"
                       style={{
                         textShadow: '0 0 30px rgba(255, 255, 255, 0.5)',
                       }}
@@ -195,7 +195,7 @@ const PerformanceOptimizedHero: React.FC<PerformanceOptimizedHeroProps> = ({ bra
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.6, delay: 0.8 }}
-                      className="text-lg sm:text-xl text-white/90 mb-8 leading-relaxed max-w-lg"
+                      className="text-sm sm:text-base md:text-lg lg:text-xl text-white/90 mb-6 sm:mb-8 leading-relaxed max-w-lg"
                     >
                       {heroSlides[currentSlide].description}
                     </motion.p>
@@ -204,13 +204,13 @@ const PerformanceOptimizedHero: React.FC<PerformanceOptimizedHeroProps> = ({ bra
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.6, delay: 1 }}
-                      className="flex flex-col sm:flex-row gap-4"
+                      className="flex flex-col sm:flex-row gap-3 sm:gap-4"
                     >
                       <motion.a
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                         href={heroSlides[currentSlide].ctaLink}
-                        className="relative group bg-gradient-to-r from-white to-yellow-100 text-gray-900 px-8 py-4 rounded-full text-lg font-semibold overflow-hidden"
+                        className="relative group bg-gradient-to-r from-white to-yellow-100 text-gray-900 px-4 sm:px-6 lg:px-8 py-3 sm:py-4 rounded-full text-sm sm:text-base lg:text-lg font-semibold overflow-hidden"
                         style={{
                           boxShadow: '0 10px 30px rgba(0,0,0,0.2)',
                         }}
@@ -227,7 +227,7 @@ const PerformanceOptimizedHero: React.FC<PerformanceOptimizedHeroProps> = ({ bra
                         href={`https://wa.me/6281234567890`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="relative group border-2 border-white/50 text-white px-8 py-4 rounded-full text-lg font-semibold overflow-hidden backdrop-blur-sm"
+                        className="relative group border-2 border-white/50 text-white px-4 sm:px-6 lg:px-8 py-3 sm:py-4 rounded-full text-sm sm:text-base lg:text-lg font-semibold overflow-hidden backdrop-blur-sm"
                         style={{
                           background: 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)',
                         }}
@@ -267,37 +267,37 @@ const PerformanceOptimizedHero: React.FC<PerformanceOptimizedHeroProps> = ({ bra
       </AnimatePresence>
 
       {/* Navigation Controls - Simplified */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex items-center space-x-4">
+      <div className="absolute bottom-4 sm:bottom-8 left-1/2 transform -translate-x-1/2 flex items-center space-x-2 sm:space-x-4">
         <motion.button
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
           onClick={prevSlide}
-          className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-colors duration-300"
+          className="w-10 h-10 sm:w-12 sm:h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-colors duration-300"
         >
-          <ChevronLeft className="w-6 h-6" />
+          <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
         </motion.button>
 
         <motion.button
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
           onClick={togglePlayPause}
-          className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-colors duration-300"
+          className="w-10 h-10 sm:w-12 sm:h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-colors duration-300"
         >
-          {isPlaying ? <Pause className="w-6 h-6" /> : <Play className="w-6 h-6" />}
+          {isPlaying ? <Pause className="w-5 h-5 sm:w-6 sm:h-6" /> : <Play className="w-5 h-5 sm:w-6 sm:h-6" />}
         </motion.button>
 
         <motion.button
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
           onClick={nextSlide}
-          className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-colors duration-300"
+          className="w-10 h-10 sm:w-12 sm:h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-colors duration-300"
         >
-          <ChevronRight className="w-6 h-6" />
+          <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
         </motion.button>
       </div>
 
       {/* Slide Indicators - Simplified */}
-      <div className="absolute bottom-8 right-8 flex space-x-2">
+      <div className="absolute bottom-4 sm:bottom-8 right-4 sm:right-8 flex space-x-2">
         {heroSlides.map((_, index) => (
           <motion.button
             key={index}

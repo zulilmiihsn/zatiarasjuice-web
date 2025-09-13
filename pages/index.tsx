@@ -105,12 +105,12 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
             transition={{ duration: 0.6 }}
             className="bg-gradient-to-r from-primary-500 to-secondary-500 py-16"
           >
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 text-center">
               <motion.h2
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
-                className="text-3xl font-bold text-white mb-4"
+                className="text-2xl sm:text-3xl font-bold text-white mb-4"
               >
                 Kami Mendeteksi Lokasi Anda
               </motion.h2>
@@ -118,7 +118,7 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
-                className="text-xl text-white/90 mb-8"
+                className="text-lg sm:text-xl text-white/90 mb-6 sm:mb-8"
               >
                 Cabang terdekat: <span className="font-semibold capitalize">{nearestBranch}</span>
               </motion.p>
@@ -126,7 +126,7 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6 }}
-                className="flex flex-col sm:flex-row gap-4 justify-center"
+                className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center"
               >
                 <motion.button
                   whileHover={{ scale: 1.05 }}
@@ -150,23 +150,23 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
         )}
 
         {/* Branch Selection Section */}
-        <section className="py-20 bg-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section className="py-12 sm:py-16 lg:py-20 bg-white">
+          <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="text-center mb-16"
+              className="text-center mb-8 sm:mb-12 lg:mb-16"
             >
-              <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
                 Pilih Cabang Terdekat
               </h2>
-              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto">
                 Nikmati kesegaran jus alpukat dan aneka jus buah segar di cabang terdekat Anda
               </p>
             </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
               {/* Berau Branch */}
               <motion.div
                 initial={{ opacity: 0, x: -50 }}
