@@ -1,9 +1,13 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ChevronRight, Play, Pause } from 'lucide-react';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import { ChevronLeft, ChevronRight, Play, Pause, Sparkles, Zap } from 'lucide-react';
 import Image from 'next/image';
+import GlassCard from './GlassCard';
+import MorphingText from './MorphingText';
+import ParallaxSection from './ParallaxSection';
+import { FloatingElements } from './FloatingElements';
 
 interface HeroSlide {
   id: string;
@@ -25,6 +29,9 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  
+  const { scrollYProgress } = useScroll();
 
   // Default slides jika tidak ada props
   const defaultSlides: HeroSlide[] = [
@@ -73,6 +80,26 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides }) => {
     return () => clearInterval(interval);
   }, [isPlaying, heroSlides.length]);
 
+  // Mouse tracking for 3D effects - throttled for performance
+  useEffect(() => {
+    let lastTime = 0;
+    const throttleDelay = 16; // ~60fps max
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const now = Date.now();
+      if (now - lastTime < throttleDelay) return;
+      
+      lastTime = now;
+      setMousePosition({
+        x: (e.clientX / window.innerWidth) * 100,
+        y: (e.clientY / window.innerHeight) * 100,
+      });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
   // Preload images
   useEffect(() => {
     const preloadImages = heroSlides.map((slide) => {
@@ -119,93 +146,175 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides }) => {
 
   return (
     <div className="relative h-screen overflow-hidden">
+      {/* Floating Elements Background - Reduced count for performance */}
+      <FloatingElements count={4} className="absolute inset-0 pointer-events-none">
+        <motion.div
+          className="w-4 h-4 bg-white/20 rounded-full"
+          animate={{
+            scale: [1, 1.5, 1],
+            opacity: [0.3, 0.8, 0.3],
+          }}
+          transition={{
+            duration: 3,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          }}
+        />
+      </FloatingElements>
+
       {/* Slides */}
       <AnimatePresence mode="wait">
         <motion.div
           key={currentSlide}
-          initial={{ opacity: 0, scale: 1.1 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.9 }}
+          initial={{ opacity: 0, scale: 1.1, rotateY: 15 }}
+          animate={{ 
+            opacity: 1, 
+            scale: 1, 
+            rotateY: 0,
+            x: mousePosition.x * 0.02,
+            y: mousePosition.y * 0.02,
+          }}
+          exit={{ opacity: 0, scale: 0.9, rotateY: -15 }}
           transition={{ duration: 0.8, ease: 'easeInOut' }}
           className="absolute inset-0"
         >
-          {/* Background Image */}
-          <div className="absolute inset-0">
+          {/* Background Image with Parallax */}
+          <ParallaxSection speed={0.5} direction="up" className="absolute inset-0">
             <Image
               src={heroSlides[currentSlide].image}
               alt={heroSlides[currentSlide].title}
               fill
               className="object-cover"
               priority
+              style={{
+                transform: `perspective(1000px) rotateX(${mousePosition.y * 0.1}deg) rotateY(${mousePosition.x * 0.1}deg)`,
+              }}
             />
             <div className={`absolute inset-0 bg-gradient-to-br ${heroSlides[currentSlide].bgGradient} opacity-80`} />
-          </div>
+            
+            {/* Animated Gradient Overlay */}
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent"
+              animate={{
+                x: ['-100%', '100%'],
+              }}
+              transition={{
+                duration: 3,
+                repeat: Infinity,
+                ease: 'linear',
+              }}
+            />
+          </ParallaxSection>
 
           {/* Content */}
           <div className="relative z-10 h-full flex items-center">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                {/* Text Content */}
-                <motion.div
-                  initial={{ opacity: 0, x: -50 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.8, delay: 0.2 }}
-                  className="text-white"
+                {/* Text Content with Glass Effect */}
+                <GlassCard
+                  variant="crystal"
+                  intensity="high"
+                  className="text-white p-8 backdrop-blur-xl"
                 >
-                  <motion.h2
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.4 }}
-                    className="text-2xl sm:text-3xl font-bold text-white/90 mb-2"
-                  >
-                    {heroSlides[currentSlide].subtitle}
-                  </motion.h2>
-                  
-                  <motion.h1
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.6 }}
-                    className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight"
-                  >
-                    {heroSlides[currentSlide].title}
-                  </motion.h1>
-                  
-                  <motion.p
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.8 }}
-                    className="text-lg sm:text-xl text-white/90 mb-8 leading-relaxed max-w-lg"
-                  >
-                    {heroSlides[currentSlide].description}
-                  </motion.p>
-                  
                   <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 1 }}
-                    className="flex flex-col sm:flex-row gap-4"
+                    initial={{ opacity: 0, x: -50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.8, delay: 0.2 }}
                   >
-                    <motion.a
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      href={heroSlides[currentSlide].ctaLink}
-                      className="bg-white text-gray-900 px-8 py-4 rounded-full text-lg font-semibold hover:shadow-strong transition-all duration-300 text-center"
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 0.4 }}
+                      className="flex items-center space-x-2 mb-4"
                     >
-                      {heroSlides[currentSlide].ctaText}
-                    </motion.a>
+                      <Sparkles className="w-6 h-6 text-yellow-300" />
+                      <MorphingText
+                        texts={[
+                          heroSlides[currentSlide].subtitle,
+                          "Jus Segar Berkualitas",
+                          "100% Alami",
+                          "Tanpa Pengawet"
+                        ]}
+                        duration={2000}
+                        variant="fade"
+                        className="text-2xl sm:text-3xl font-bold text-white/90"
+                      />
+                    </motion.div>
                     
-                    <motion.a
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      href={`https://wa.me/6281234567890`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="border-2 border-white text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white hover:text-gray-900 transition-all duration-300 text-center"
+                    <motion.h1
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 0.6 }}
+                      className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight bg-gradient-to-r from-white via-yellow-200 to-white bg-clip-text text-transparent"
+                      style={{
+                        textShadow: '0 0 30px rgba(255, 255, 255, 0.5)',
+                      }}
                     >
-                      Order via WhatsApp
-                    </motion.a>
+                      {heroSlides[currentSlide].title}
+                    </motion.h1>
+                    
+                    <motion.p
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 0.8 }}
+                      className="text-lg sm:text-xl text-white/90 mb-8 leading-relaxed max-w-lg"
+                    >
+                      {heroSlides[currentSlide].description}
+                    </motion.p>
+                  
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 1 }}
+                      className="flex flex-col sm:flex-row gap-4"
+                    >
+                      <motion.a
+                        whileHover={{ 
+                          scale: 1.05,
+                          boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
+                          y: -2
+                        }}
+                        whileTap={{ scale: 0.95 }}
+                        href={heroSlides[currentSlide].ctaLink}
+                        className="relative group bg-gradient-to-r from-white to-yellow-100 text-gray-900 px-8 py-4 rounded-full text-lg font-semibold overflow-hidden"
+                        style={{
+                          boxShadow: '0 10px 30px rgba(0,0,0,0.2)',
+                        }}
+                      >
+                        <motion.div
+                          className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-orange-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                          initial={false}
+                        />
+                        <span className="relative z-10 flex items-center space-x-2">
+                          <Zap className="w-5 h-5" />
+                          <span>{heroSlides[currentSlide].ctaText}</span>
+                        </span>
+                      </motion.a>
+                      
+                      <motion.a
+                        whileHover={{ 
+                          scale: 1.05,
+                          boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
+                          y: -2
+                        }}
+                        whileTap={{ scale: 0.95 }}
+                        href={`https://wa.me/6281234567890`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="relative group border-2 border-white/50 text-white px-8 py-4 rounded-full text-lg font-semibold overflow-hidden backdrop-blur-sm"
+                        style={{
+                          background: 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)',
+                        }}
+                      >
+                        <motion.div
+                          className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                          initial={false}
+                        />
+                        <span className="relative z-10">Order via WhatsApp</span>
+                      </motion.a>
+                    </motion.div>
                   </motion.div>
-                </motion.div>
+                </GlassCard>
 
                 {/* Image Content */}
                 <motion.div

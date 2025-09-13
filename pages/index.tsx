@@ -5,8 +5,10 @@ import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import HeroBanner from '../components/HeroBanner';
+import PerformanceOptimizedHero from '../components/PerformanceOptimizedHero';
 import ProductCard from '../components/ProductCard';
+import ParticleBackground from '../components/ParticleBackground';
+import PerformanceOptimizedLoading from '../components/PerformanceOptimizedLoading';
 import { getUserLocationWithFallback } from '../lib/geolocation';
 import { getBranchSEOData } from '../lib/seo';
 
@@ -48,11 +50,13 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center">
-        <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-          className="w-16 h-16 border-4 border-white border-t-transparent rounded-full"
+      <div className="min-h-screen bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center relative overflow-hidden">
+        <ParticleBackground count={15} color="rgba(255, 255, 255, 0.2)" />
+        <PerformanceOptimizedLoading
+          size="xl"
+          variant="pulse"
+          text="Memuat Zatiaras Juice..."
+          className="text-white"
         />
       </div>
     );
@@ -86,11 +90,12 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
         />
       </Head>
 
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-gray-50 relative overflow-hidden">
+        <ParticleBackground count={10} color="rgba(255, 110, 199, 0.05)" />
         <Header />
         
-        {/* Hero Section */}
-        <HeroBanner />
+        {/* Hero Section - Performance Optimized */}
+        <PerformanceOptimizedHero branch={nearestBranch as 'berau' | 'samarinda' | undefined} />
 
         {/* Location Detection Section */}
         {nearestBranch && (
