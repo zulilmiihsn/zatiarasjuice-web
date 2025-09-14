@@ -73,7 +73,7 @@ const Footer: React.FC<FooterProps> = ({ branch }) => {
                 <span className="text-white font-bold text-lg">Z</span>
               </div>
               <div>
-                <h3 className="text-xl font-bold">Zatiaras Juice</h3>
+                <h3 className="text-xl font-bold text-white">Zatiaras Juice</h3>
                 <p className="text-sm text-gray-400">Jus Alpukat & Buah Segar Nomor 1</p>
               </div>
             </div>

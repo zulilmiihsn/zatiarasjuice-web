@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
-import HeroBanner from '../../components/HeroBanner';
+import PerformanceOptimizedHero from '../../components/PerformanceOptimizedHero';
 import ProductCard from '../../components/ProductCard';
 import { getProducts, getCategories, getBranchInfo, createSupabaseClient } from '../../lib/supabase';
 import { getBranchSEOData, getMenuStructuredData } from '../../lib/seo';
@@ -94,8 +94,10 @@ const BranchPage: React.FC<BranchPageProps> = ({
       <div className="min-h-screen bg-gray-50">
         <Header branch={branch} />
         
-        {/* Hero Section */}
-        <HeroBanner branch={branch} />
+        {/* Hero Section - Fixed positioning for mobile */}
+        <div className="pt-16 sm:pt-20 lg:pt-0">
+          <PerformanceOptimizedHero branch={branch} />
+        </div>
 
         {/* Branch Info Section */}
         <section className="py-16 bg-white">

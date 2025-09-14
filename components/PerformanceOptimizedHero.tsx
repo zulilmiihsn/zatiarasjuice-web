@@ -147,7 +147,7 @@ const PerformanceOptimizedHero: React.FC<PerformanceOptimizedHeroProps> = ({ bra
           {/* Content */}
           <div className="relative z-10 h-full flex items-center">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12 items-center">
                 {/* Text Content with Glass Effect */}
                 <GlassCard
                   variant="crystal"
@@ -238,12 +238,12 @@ const PerformanceOptimizedHero: React.FC<PerformanceOptimizedHeroProps> = ({ bra
                   </motion.div>
                 </GlassCard>
 
-                {/* Image Content - Simplified */}
+                {/* Image Content - Show on all devices */}
                 <motion.div
                   initial={{ opacity: 0, x: 50 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.8, delay: 0.4 }}
-                  className="relative hidden lg:block"
+                  className="relative mt-8 lg:mt-0"
                 >
                   <motion.div
                     animate={{ y: [0, -10, 0] }}
@@ -255,7 +255,7 @@ const PerformanceOptimizedHero: React.FC<PerformanceOptimizedHeroProps> = ({ bra
                       alt={heroSlides[currentSlide].title}
                       width={600}
                       height={400}
-                      className="rounded-3xl shadow-2xl"
+                      className="rounded-3xl shadow-2xl w-full h-auto"
                       priority
                     />
                   </motion.div>
