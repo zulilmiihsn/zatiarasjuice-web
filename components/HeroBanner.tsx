@@ -145,7 +145,7 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides }) => {
   }
 
   return (
-    <div className="relative h-screen overflow-hidden pt-24 sm:pt-28 lg:pt-0">
+    <div className="relative h-screen overflow-hidden pt-16 sm:pt-20 lg:pt-0">
       {/* Floating Elements Background - Reduced count for performance */}
       <FloatingElements count={3} className="absolute inset-0 pointer-events-none">
         <motion.div
@@ -209,7 +209,133 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides }) => {
           {/* Content */}
           <div className="relative z-10 h-full flex items-center">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              {/* Mobile Layout: Image as background, Glassmorphism overlay */}
+              <div className="lg:hidden relative h-full flex items-center justify-center">
+                {/* Mobile Background Image */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 1.1 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.8, delay: 0.2 }}
+                  className="absolute inset-0 flex items-center justify-center"
+                >
+                  <Image
+                    src={heroSlides[currentSlide].image}
+                    alt={heroSlides[currentSlide].title}
+                    fill
+                    className="object-cover"
+                    priority
+                  />
+                </motion.div>
+
+                {/* Mobile Glassmorphism Overlay */}
+                <GlassCard
+                  variant="crystal"
+                  intensity="high"
+                  className="relative z-10 text-white p-6 backdrop-blur-xl mx-4 max-w-sm"
+                >
+                  <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.4 }}
+                  >
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 0.6 }}
+                      className="flex items-center space-x-2 mb-3"
+                    >
+                      <Sparkles className="w-5 h-5 text-yellow-300" />
+                      <MorphingText
+                        texts={[
+                          heroSlides[currentSlide].subtitle,
+                          "Jus Segar Berkualitas",
+                          "100% Alami",
+                          "Tanpa Pengawet"
+                        ]}
+                        duration={2000}
+                        variant="fade"
+                        className="text-lg font-bold text-white/90"
+                      />
+                    </motion.div>
+                    
+                    <motion.h1
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 0.8 }}
+                      className="text-2xl sm:text-3xl font-bold mb-4 leading-tight bg-gradient-to-r from-white via-yellow-200 to-white bg-clip-text text-transparent"
+                      style={{
+                        textShadow: '0 0 20px rgba(255, 255, 255, 0.5)',
+                      }}
+                    >
+                      {heroSlides[currentSlide].title}
+                    </motion.h1>
+                    
+                    <motion.p
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 1 }}
+                      className="text-sm sm:text-base text-white/90 mb-6 leading-relaxed"
+                    >
+                      {heroSlides[currentSlide].description}
+                    </motion.p>
+                  
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 1.2 }}
+                      className="flex flex-col gap-3"
+                    >
+                      <motion.a
+                        whileHover={{ 
+                          scale: 1.05,
+                          boxShadow: '0 15px 30px rgba(0,0,0,0.3)',
+                          y: -2
+                        }}
+                        whileTap={{ scale: 0.95 }}
+                        href={heroSlides[currentSlide].ctaLink}
+                        className="relative group bg-gradient-to-r from-white to-yellow-100 text-gray-900 px-6 py-3 rounded-full text-base font-semibold overflow-hidden"
+                        style={{
+                          boxShadow: '0 8px 25px rgba(0,0,0,0.2)',
+                        }}
+                      >
+                        <motion.div
+                          className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-orange-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                          initial={false}
+                        />
+                        <span className="relative z-10 flex items-center justify-center space-x-2">
+                          <Zap className="w-4 h-4" />
+                          <span>{heroSlides[currentSlide].ctaText}</span>
+                        </span>
+                      </motion.a>
+                      
+                      <motion.a
+                        whileHover={{ 
+                          scale: 1.05,
+                          boxShadow: '0 15px 30px rgba(0,0,0,0.3)',
+                          y: -2
+                        }}
+                        whileTap={{ scale: 0.95 }}
+                        href={`https://wa.me/6281234567890`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="relative group border-2 border-white/50 text-white px-6 py-3 rounded-full text-base font-semibold overflow-hidden backdrop-blur-sm"
+                        style={{
+                          background: 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)',
+                        }}
+                      >
+                        <motion.div
+                          className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                          initial={false}
+                        />
+                        <span className="relative z-10">Order via WhatsApp</span>
+                      </motion.a>
+                    </motion.div>
+                  </motion.div>
+                </GlassCard>
+              </div>
+
+              {/* Desktop Layout: Side by side */}
+              <div className="hidden lg:grid grid-cols-2 gap-12 items-center">
                 {/* Text Content with Glass Effect */}
                 <GlassCard
                   variant="crystal"
@@ -321,7 +447,7 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides }) => {
                   initial={{ opacity: 0, x: 50 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.8, delay: 0.4 }}
-                  className="relative"
+                  className="relative transform translate-y-8"
                 >
                   <motion.div
                     animate={{ y: [0, -20, 0] }}
