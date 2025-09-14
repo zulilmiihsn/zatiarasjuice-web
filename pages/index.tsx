@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import PerformanceOptimizedHero from '../components/PerformanceOptimizedHero';
+import HeroBanner from '../components/HeroBanner';
 import ProductCard from '../components/ProductCard';
 import ParticleBackground from '../components/ParticleBackground';
 import PerformanceOptimizedLoading from '../components/PerformanceOptimizedLoading';
@@ -94,8 +94,8 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
         <ParticleBackground count={10} color="rgba(255, 110, 199, 0.05)" />
         <Header />
         
-        {/* Hero Section - Performance Optimized */}
-        <PerformanceOptimizedHero branch={nearestBranch as 'berau' | 'samarinda' | undefined} />
+        {/* Hero Section */}
+        <HeroBanner branch={nearestBranch as 'berau' | 'samarinda' | undefined} />
 
         {/* Location Detection Section */}
         {nearestBranch && (
