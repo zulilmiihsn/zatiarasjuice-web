@@ -145,7 +145,7 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides }) => {
   }
 
   return (
-    <div className="relative h-screen overflow-hidden pt-16 sm:pt-20 lg:pt-0">
+    <div className="relative min-h-screen h-screen overflow-hidden pt-12 sm:pt-14 lg:pt-0">
       {/* Floating Elements Background - Reduced count for performance */}
       <FloatingElements count={3} className="absolute inset-0 pointer-events-none">
         <motion.div
@@ -178,6 +178,9 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides }) => {
           transition={{ duration: 0.8, ease: 'easeInOut' }}
           className="absolute inset-0"
         >
+          {/* Background Gradient - Full Screen */}
+          <div className={`absolute inset-0 bg-gradient-to-br ${heroSlides[currentSlide].bgGradient} opacity-90`} />
+          
           {/* Background Image with Parallax */}
           <ParallaxSection speed={0.5} direction="up" className="absolute inset-0">
             <Image
@@ -190,7 +193,6 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides }) => {
                 transform: `perspective(1000px) rotateX(${mousePosition.y * 0.05}deg) rotateY(${mousePosition.x * 0.05}deg)`,
               }}
             />
-            <div className={`absolute inset-0 bg-gradient-to-br ${heroSlides[currentSlide].bgGradient} opacity-80`} />
             
             {/* Animated Gradient Overlay */}
             <motion.div
@@ -207,10 +209,10 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides }) => {
           </ParallaxSection>
 
           {/* Content */}
-          <div className="relative z-10 h-full flex items-center">
+          <div className="relative z-10 min-h-screen h-full flex items-center">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
               {/* Mobile Layout: Image as background, Glassmorphism overlay */}
-              <div className="lg:hidden relative h-full flex items-center justify-center">
+              <div className="lg:hidden relative min-h-screen h-full flex items-center justify-center">
                 {/* Mobile Background Image */}
                 <motion.div
                   initial={{ opacity: 0, scale: 1.1 }}
@@ -335,7 +337,7 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides }) => {
               </div>
 
               {/* Desktop Layout: Side by side */}
-              <div className="hidden lg:grid grid-cols-2 gap-12 items-center">
+              <div className="hidden lg:grid grid-cols-2 gap-12 items-center min-h-screen">
                 {/* Text Content with Glass Effect */}
                 <GlassCard
                   variant="crystal"

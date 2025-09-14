@@ -8,7 +8,7 @@ import Footer from '../components/Footer';
 import HeroBanner from '../components/HeroBanner';
 import ProductCard from '../components/ProductCard';
 import ParticleBackground from '../components/ParticleBackground';
-import PerformanceOptimizedLoading from '../components/PerformanceOptimizedLoading';
+import LoadingSpinner from '../components/LoadingSpinner';
 import { getUserLocationWithFallback } from '../lib/geolocation';
 import { getBranchSEOData } from '../lib/seo';
 
@@ -52,7 +52,7 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
     return (
       <div className="min-h-screen bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center relative overflow-hidden">
         <ParticleBackground count={15} color="rgba(255, 255, 255, 0.2)" />
-        <PerformanceOptimizedLoading
+        <LoadingSpinner
           size="xl"
           variant="pulse"
           text="Memuat Zatiaras Juice..."

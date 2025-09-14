@@ -16,10 +16,10 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const router = useRouter();
 
-  // Handle scroll effect
+  // Handle scroll effect with smooth transition
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      setIsScrolled(window.scrollY > 10);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -60,31 +60,23 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6, ease: 'easeOut' }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out ${
         isScrolled
           ? 'bg-white/95 backdrop-blur-md shadow-soft'
-          : 'bg-white/90 backdrop-blur-sm'
+          : 'bg-transparent backdrop-blur-none'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 lg:h-20">
+        <div className="flex items-center justify-between h-12 lg:h-14">
           {/* Logo */}
           <motion.div
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className="flex-shrink-0"
           >
-            <Link href={branch ? `/${branch}` : '/'} className="flex items-center space-x-2">
-              <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-xl flex items-center justify-center">
-                <span className="text-white font-bold text-lg">Z</span>
-              </div>
-              <div className="hidden sm:block">
-                <h1 className="text-xl font-bold text-gray-900">
-                  Zatiaras Juice
-                </h1>
-                {branch && (
-                  <p className="text-sm text-gray-600">{branchInfo[branch].name}</p>
-                )}
+            <Link href={branch ? `/${branch}` : '/'} className="flex items-center">
+              <div className="w-8 h-8 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-sm">Z</span>
               </div>
             </Link>
           </motion.div>
@@ -99,10 +91,12 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
               >
                 <Link
                   href={item.href}
-                  className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200 ${
+                  className={`px-2 py-1.5 rounded-lg text-xs font-medium transition-all duration-500 ${
                     currentPath === item.href
                       ? 'text-primary-600 bg-primary-50'
-                      : 'text-gray-700 hover:text-primary-600 hover:bg-primary-50'
+                      : isScrolled
+                      ? 'text-gray-700 hover:text-primary-600 hover:bg-primary-50'
+                      : 'text-white hover:text-primary-200 hover:bg-white/20 drop-shadow-lg'
                   }`}
                 >
                   {item.name}
@@ -117,7 +111,9 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="flex items-center space-x-2 text-sm text-gray-600"
+                className={`flex items-center space-x-2 text-sm transition-colors duration-500 ${
+                  isScrolled ? 'text-gray-600' : 'text-white/80 drop-shadow-md'
+                }`}
               >
                 <MapPin className="w-4 h-4" />
                 <span>{branchInfo[branch].name}</span>
@@ -130,7 +126,11 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
               href={`https://wa.me/${branch ? branchInfo[branch].phone.replace(/\D/g, '') : '6281234567890'}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-gradient-to-r from-primary-500 to-primary-600 text-white px-6 py-2 rounded-full text-sm font-medium hover:shadow-glow transition-all duration-300"
+              className={`px-4 py-1.5 rounded-full text-xs font-medium transition-all duration-500 ${
+                isScrolled
+                  ? 'bg-gradient-to-r from-primary-500 to-primary-600 text-white hover:shadow-glow'
+                  : 'bg-white/20 text-white hover:bg-white/30 backdrop-blur-sm border border-white/30'
+              }`}
             >
               Order Now
             </motion.a>
@@ -141,9 +141,13 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={handleMenuToggle}
-            className="lg:hidden p-2 rounded-lg text-gray-700 hover:text-primary-600 hover:bg-primary-50 transition-colors duration-200"
+            className={`lg:hidden p-1.5 rounded-lg transition-all duration-500 ${
+              isScrolled
+                ? 'text-gray-700 hover:text-primary-600 hover:bg-primary-50'
+                : 'text-white hover:text-primary-200 hover:bg-white/20 drop-shadow-lg'
+            }`}
           >
-            {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </motion.button>
         </div>
       </div>

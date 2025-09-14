@@ -119,7 +119,7 @@ const MenuPage: React.FC<MenuPageProps> = ({
         <Header branch={branch} currentPath={`/${branch}/menu`} />
         
         {/* Hero Section */}
-        <section className="pt-20 pb-16 bg-gradient-to-br from-primary-500 to-secondary-500">
+        <section className="pt-14 pb-16 bg-gradient-to-br from-primary-500 to-secondary-500">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <ScrollAnimationSection animation="fadeIn" delay={0.2}>
               <div className="text-center text-white">
