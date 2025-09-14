@@ -116,7 +116,7 @@ const PerformanceOptimizedHero: React.FC<PerformanceOptimizedHeroProps> = ({ bra
   }
 
   return (
-    <div className="relative h-screen overflow-hidden">
+    <div className="relative h-screen overflow-hidden pt-16 sm:pt-20 lg:pt-0">
       {/* Optimized Floating Elements - Much lighter */}
       <OptimizedFloatingElements count={2} className="absolute inset-0 pointer-events-none">
         <div className="w-3 h-3 bg-white/10 rounded-full" />
@@ -146,8 +146,8 @@ const PerformanceOptimizedHero: React.FC<PerformanceOptimizedHeroProps> = ({ bra
 
           {/* Content */}
           <div className="relative z-10 h-full flex items-center">
-            <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 w-full">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-center">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
                 {/* Text Content with Glass Effect */}
                 <GlassCard
                   variant="crystal"
@@ -183,7 +183,7 @@ const PerformanceOptimizedHero: React.FC<PerformanceOptimizedHeroProps> = ({ bra
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.6, delay: 0.6 }}
-                      className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 leading-tight bg-gradient-to-r from-white via-yellow-200 to-white bg-clip-text text-transparent"
+                      className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 leading-tight bg-gradient-to-r from-white via-yellow-200 to-white bg-clip-text text-transparent"
                       style={{
                         textShadow: '0 0 30px rgba(255, 255, 255, 0.5)',
                       }}
@@ -195,7 +195,7 @@ const PerformanceOptimizedHero: React.FC<PerformanceOptimizedHeroProps> = ({ bra
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.6, delay: 0.8 }}
-                      className="text-sm sm:text-base md:text-lg lg:text-xl text-white/90 mb-6 sm:mb-8 leading-relaxed max-w-lg"
+                      className="text-base sm:text-lg lg:text-xl text-white/90 mb-6 sm:mb-8 leading-relaxed max-w-lg"
                     >
                       {heroSlides[currentSlide].description}
                     </motion.p>
@@ -210,13 +210,13 @@ const PerformanceOptimizedHero: React.FC<PerformanceOptimizedHeroProps> = ({ bra
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                         href={heroSlides[currentSlide].ctaLink}
-                        className="relative group bg-gradient-to-r from-white to-yellow-100 text-gray-900 px-4 sm:px-6 lg:px-8 py-3 sm:py-4 rounded-full text-sm sm:text-base lg:text-lg font-semibold overflow-hidden"
+                        className="relative group bg-gradient-to-r from-white to-yellow-100 text-gray-900 px-6 sm:px-8 py-3 sm:py-4 rounded-full text-base sm:text-lg font-semibold overflow-hidden text-center"
                         style={{
                           boxShadow: '0 10px 30px rgba(0,0,0,0.2)',
                         }}
                       >
-                        <span className="relative z-10 flex items-center space-x-2">
-                          <Zap className="w-5 h-5" />
+                        <span className="relative z-10 flex items-center justify-center space-x-2">
+                          <Zap className="w-4 h-4 sm:w-5 sm:h-5" />
                           <span>{heroSlides[currentSlide].ctaText}</span>
                         </span>
                       </motion.a>
@@ -227,7 +227,7 @@ const PerformanceOptimizedHero: React.FC<PerformanceOptimizedHeroProps> = ({ bra
                         href={`https://wa.me/6281234567890`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="relative group border-2 border-white/50 text-white px-4 sm:px-6 lg:px-8 py-3 sm:py-4 rounded-full text-sm sm:text-base lg:text-lg font-semibold overflow-hidden backdrop-blur-sm"
+                        className="relative group border-2 border-white/50 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full text-base sm:text-lg font-semibold overflow-hidden backdrop-blur-sm text-center"
                         style={{
                           background: 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)',
                         }}
@@ -243,7 +243,7 @@ const PerformanceOptimizedHero: React.FC<PerformanceOptimizedHeroProps> = ({ bra
                   initial={{ opacity: 0, x: 50 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.8, delay: 0.4 }}
-                  className="relative"
+                  className="relative hidden lg:block"
                 >
                   <motion.div
                     animate={{ y: [0, -10, 0] }}
@@ -304,7 +304,7 @@ const PerformanceOptimizedHero: React.FC<PerformanceOptimizedHeroProps> = ({ bra
             whileHover={{ scale: 1.2 }}
             whileTap={{ scale: 0.8 }}
             onClick={() => setCurrentSlide(index)}
-            className={`w-3 h-3 rounded-full transition-all duration-300 ${
+            className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-300 ${
               index === currentSlide ? 'bg-white' : 'bg-white/50'
             }`}
           />
