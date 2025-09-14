@@ -145,7 +145,7 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides }) => {
   }
 
   return (
-    <div className="relative h-screen overflow-hidden pt-20 sm:pt-24 lg:pt-0">
+    <div className="relative h-screen overflow-hidden pt-24 sm:pt-28 lg:pt-0">
       {/* Floating Elements Background - Reduced count for performance */}
       <FloatingElements count={3} className="absolute inset-0 pointer-events-none">
         <motion.div
