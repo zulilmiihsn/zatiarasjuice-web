@@ -256,7 +256,14 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides }) => {
                         ]}
                         duration={2000}
                         variant="fade"
-                        className="text-lg font-bold text-white/90"
+                        className="text-lg text-white/90 morphing-text-fredoka"
+                        style={{
+                          fontFamily: "'Fredoka', 'Comic Sans MS', 'Trebuchet MS', cursive, sans-serif",
+                          fontWeight: 500,
+                          fontStyle: 'normal',
+                          fontSize: '1.125rem',
+                          lineHeight: '1.75rem'
+                        }}
                       />
                     </motion.div>
                     
@@ -264,7 +271,7 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides }) => {
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.6, delay: 0.8 }}
-                      className="text-2xl sm:text-3xl font-bold mb-4 leading-tight bg-gradient-to-r from-white via-yellow-200 to-white bg-clip-text text-transparent"
+                      className="text-2xl sm:text-3xl font-bold mb-4 leading-relaxed bg-gradient-to-r from-white via-yellow-200 to-white bg-clip-text text-transparent py-2"
                       style={{
                         textShadow: '0 0 20px rgba(255, 255, 255, 0.5)',
                       }}
@@ -365,7 +372,14 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides }) => {
                         ]}
                         duration={2000}
                         variant="fade"
-                        className="text-2xl sm:text-3xl font-bold text-white/90"
+                        className="text-2xl sm:text-3xl text-white/90 morphing-text-fredoka"
+                        style={{
+                          fontFamily: "'Fredoka', 'Comic Sans MS', 'Trebuchet MS', cursive, sans-serif",
+                          fontWeight: 500,
+                          fontStyle: 'normal',
+                          fontSize: '1.125rem',
+                          lineHeight: '1.75rem'
+                        }}
                       />
                     </motion.div>
                     
@@ -373,7 +387,7 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides }) => {
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.6, delay: 0.6 }}
-                      className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight bg-gradient-to-r from-white via-yellow-200 to-white bg-clip-text text-transparent"
+                      className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-relaxed bg-gradient-to-r from-white via-yellow-200 to-white bg-clip-text text-transparent py-4"
                       style={{
                         textShadow: '0 0 30px rgba(255, 255, 255, 0.5)',
                       }}

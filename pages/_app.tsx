@@ -5,11 +5,7 @@ import '../styles/globals.css';
 
 export default function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
-    // Preload critical fonts
-    const link = document.createElement('link');
-    link.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800;900&display=swap';
-    link.rel = 'stylesheet';
-    document.head.appendChild(link);
+    // Font sudah di-import via globals.css
   }, []);
 
   return (

@@ -1,9 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Vanilla+Extract:wght@400;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Base Font Styles - Modern 2025 */
+* {
+  font-family: var(--font-body);
+}
+
+body {
+  font-family: var(--font-body);
+  font-weight: 500;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: -0.01em;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: 0.03em;
+}
+
+.display-font {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.heading-font {
+  font-family: var(--font-body);
+  font-weight: 400;
+  letter-spacing: 0.03em;
+}
+
+.mono-font {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+/* Plus Jakarta Sans Font Weight Adjustments */
+p, span, div, a, button {
+  font-weight: 500;
+}
+
+.font-medium {
+  font-weight: 600;
+}
+
+.font-semibold {
+  font-weight: 700;
+}
+
+.font-bold {
+  font-weight: 800;
+}
+
+/* Fredoka untuk MorphingText */
+.morphing-text-fredoka {
+  font-family: 'Fredoka', cursive, sans-serif !important;
+  font-weight: 500 !important;
+  font-style: normal !important;
+}
+
+.morphing-text-fredoka span {
+  font-family: 'Fredoka', cursive, sans-serif !important;
+  font-weight: 500 !important;
+  font-style: normal !important;
+}
+
 /* Custom CSS Variables */
 :root {
+  /* Font Families - Optimized */
+  --font-display: 'Vanilla Extract', sans-serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  
   --primary-50: #fdf2f8;
   --primary-100: #fce7f3;
   --primary-200: #fbcfe8;
@@ -49,22 +128,7 @@ html {
   scroll-behavior: smooth;
 }
 
-body {
-  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  line-height: 1.6;
-  color: #1f2937;
-  background-color: #ffffff;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* Typography */
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  font-weight: 600;
-  line-height: 1.2;
-  color: #111827;
-}
+/* Typography base disesuaikan dengan CSS variables di atas */
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
