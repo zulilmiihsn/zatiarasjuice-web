@@ -123,7 +123,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         </motion.button>
 
         {/* Product Image */}
-        <div className="relative h-48 overflow-hidden bg-gradient-to-br from-pink-50 to-pink-100">
+        <div className="relative h-40 overflow-hidden bg-gradient-to-br from-pink-50 to-pink-100">
           {(() => {
             // Simple logic: if gambar is empty/null, use placeholder
             const hasImage = product.gambar && product.gambar.trim().length > 0;
@@ -159,25 +159,24 @@ const ProductCard: React.FC<ProductCardProps> = ({
         </div>
 
         {/* Product Info */}
-        <div className="p-6">
-          {/* Category and Rating - Hidden */}
-          <div className="flex items-center justify-between mb-2">
-            {/* Hidden for now */}
-          </div>
+        <div className="p-4">
+          {/* Category */}
+          {product.category && (
+            <div className="mb-2">
+              <span className="inline-block px-2 py-1 text-xs font-medium text-primary-600 bg-primary-50 rounded-full">
+                {product.category}
+              </span>
+            </div>
+          )}
 
           {/* Product Name */}
-            <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">
+          <h3 className="text-lg font-semibold text-gray-900 mb-1 line-clamp-2">
             {product.name}
           </h3>
 
-          {/* Description */}
-          <p className="text-sm text-gray-600 mb-4 line-clamp-2">
-            {product.description || 'Jus segar berkualitas tinggi'}
-          </p>
-
           {/* Price */}
-          <div className="flex items-center justify-between mb-4">
-            <span className="text-2xl font-bold text-gray-900">
+          <div className="mb-3">
+            <span className="text-xl font-bold text-gray-900">
               {formatPrice(product.price)}
             </span>
           </div>
@@ -190,27 +189,27 @@ const ProductCard: React.FC<ProductCardProps> = ({
                 animate={{ opacity: 1, height: 'auto' }}
                 exit={{ opacity: 0, height: 0 }}
                 transition={{ duration: 0.3 }}
-                className="mb-4"
+                className="mb-3"
               >
-                <div className="flex items-center space-x-3">
-                  <span className="text-sm text-gray-600">Jumlah:</span>
-                  <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-2">
+                  <span className="text-xs text-gray-600">Jumlah:</span>
+                  <div className="flex items-center space-x-1">
                     <motion.button
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
                       onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                      className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors duration-300"
+                      className="w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors duration-300"
                     >
-                      <Minus className="w-4 h-4" />
+                      <Minus className="w-3 h-3" />
                     </motion.button>
-                    <span className="w-8 text-center font-medium">{quantity}</span>
+                    <span className="w-6 text-center text-sm font-medium">{quantity}</span>
                     <motion.button
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
                       onClick={() => setQuantity(quantity + 1)}
-                      className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors duration-300"
+                      className="w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors duration-300"
                     >
-                      <Plus className="w-4 h-4" />
+                      <Plus className="w-3 h-3" />
                     </motion.button>
                   </div>
                 </div>
@@ -225,11 +224,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
             loading={isAddingToCart}
             variant="primary"
             size="sm"
-            className="w-full py-2 px-4 text-sm"
+            className="w-full py-1.5 px-3 text-xs"
           >
             {isAddingToCart ? null : (
-              <span className="flex items-center justify-center space-x-1.5">
-                <Zap className="w-4 h-4" />
+              <span className="flex items-center justify-center space-x-1">
+                <Zap className="w-3 h-3" />
                 <span>Tambah ke Keranjang</span>
               </span>
             )}
@@ -243,7 +242,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 10 }}
                 transition={{ duration: 0.3, delay: 0.1 }}
-                className="mt-3 grid grid-cols-2 gap-2"
+                className="mt-2 grid grid-cols-2 gap-1.5"
               >
                 <motion.a
                   whileHover={{ scale: 1.02 }}
@@ -251,7 +250,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                   href={`https://wa.me/6281234567890?text=Halo, saya ingin memesan ${product.name} sebanyak ${quantity} pcs`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-green-500 text-white py-1.5 px-2 rounded-md text-xs font-medium hover:bg-green-600 transition-colors duration-300 text-center"
+                  className="bg-green-500 text-white py-1 px-2 rounded text-xs font-medium hover:bg-green-600 transition-colors duration-300 text-center"
                 >
                   WhatsApp
                 </motion.a>
@@ -261,7 +260,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                   href="https://gofood.co.id/merchant/zatiaras-juice"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-orange-500 text-white py-1.5 px-2 rounded-md text-xs font-medium hover:bg-orange-600 transition-colors duration-300 text-center"
+                  className="bg-orange-500 text-white py-1 px-2 rounded text-xs font-medium hover:bg-orange-600 transition-colors duration-300 text-center"
                 >
                   GoFood
                 </motion.a>

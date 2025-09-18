@@ -10,10 +10,10 @@ const FontDemoPage: React.FC = () => {
         </header>
 
 
-        {/* Vanilla Extract (sekarang Tailwind font-display) */}
+        {/* Plus Jakarta Sans Display (sekarang Tailwind font-display) */}
         <section className="p-6 rounded-2xl shadow-soft border border-gray-100">
-          <h2 className="text-xl font-semibold mb-2">Vanilla Extract (Display)</h2>
-          <p className="text-sm text-gray-500 mb-4">Sumber: Google Fonts, dipakai untuk display via Tailwind font-display</p>
+          <h2 className="text-xl font-semibold mb-2">Plus Jakarta Sans (Display)</h2>
+          <p className="text-sm text-gray-500 mb-4">Sumber: Google Fonts, dipakai untuk display via Tailwind font-display dengan weight 600</p>
           <div className="text-lg font-display">
             The quick brown fox jumps over the lazy dog — 0123456789
           </div>
