@@ -6,6 +6,7 @@ const nextConfig = {
   images: {
     domains: ['supabase.co', 'images.unsplash.com'],
     formats: ['image/webp', 'image/avif'],
+    dangerouslyAllowSVG: true,
   },
   async rewrites() {
     return [

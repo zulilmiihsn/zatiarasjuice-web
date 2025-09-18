@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { MapPin, Phone, Clock } from 'lucide-react';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -121,8 +122,8 @@ const BranchPage: React.FC<BranchPageProps> = ({
                 transition={{ duration: 0.6, delay: 0.1 }}
                 className="text-center"
               >
-                <div className="w-16 h-16 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-2xl">📍</span>
+                <div className="w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                  <MapPin className="w-10 h-10 text-primary-600" />
                 </div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">Lokasi</h3>
                 <p className="text-gray-600">
@@ -136,8 +137,8 @@ const BranchPage: React.FC<BranchPageProps> = ({
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="text-center"
               >
-                <div className="w-16 h-16 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-2xl">📞</span>
+                <div className="w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                  <Phone className="w-10 h-10 text-primary-600" />
                 </div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">Telepon</h3>
                 <p className="text-gray-600">
@@ -151,8 +152,8 @@ const BranchPage: React.FC<BranchPageProps> = ({
                 transition={{ duration: 0.6, delay: 0.3 }}
                 className="text-center"
               >
-                <div className="w-16 h-16 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-2xl">🕒</span>
+                <div className="w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                  <Clock className="w-10 h-10 text-primary-600" />
                 </div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">Jam Operasional</h3>
                 <p className="text-gray-600">

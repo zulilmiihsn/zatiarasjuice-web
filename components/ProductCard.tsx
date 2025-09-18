@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { Heart, ShoppingCart, Plus, Minus, Star, Sparkles, Zap } from 'lucide-react';
+import { Heart, ShoppingCart, Plus, Minus, Sparkles, Zap, Apple } from 'lucide-react';
 import Image from 'next/image';
 import GlassCard from './GlassCard';
 import NeumorphicButton from './NeumorphicButton';
@@ -11,10 +11,11 @@ interface ProductCardProps {
   product: {
     id: string;
     name: string;
-    description: string;
+    description?: string;
     price: number;
-    category: string;
-    image_url: string;
+    category?: string;
+    image_url?: string;
+    gambar?: string | null;
     is_featured?: boolean;
     rating?: number;
     review_count?: number;
@@ -35,6 +36,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const [isHovered, setIsHovered] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
+  const [imageError, setImageError] = useState(false);
   
   // 3D tilt effect - optimized for performance
   const x = useMotionValue(0);
@@ -64,18 +66,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
     }).format(price);
   };
 
-  const renderStars = (rating: number) => {
-    return Array.from({ length: 5 }, (_, i) => (
-      <Star
-        key={i}
-        className={`w-4 h-4 ${
-          i < Math.floor(rating)
-            ? 'text-yellow-400 fill-current'
-            : 'text-gray-300'
-        }`}
-      />
-    ));
-  };
 
   const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
     // Only update if hovered to save performance
@@ -110,25 +100,13 @@ const ProductCard: React.FC<ProductCardProps> = ({
         rotateY,
         transformStyle: 'preserve-3d',
       }}
-      className={`group relative overflow-hidden ${className}`}
+      className={`group relative ${className}`}
     >
       <GlassCard
         variant="frosted"
-        intensity="high"
+        intensity="low"
         className="h-full"
       >
-        {/* Featured Badge */}
-        {product.is_featured && (
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            className="absolute top-4 left-4 z-10"
-          >
-            <div className="bg-gradient-to-r from-primary-500 to-secondary-500 text-white px-3 py-1 rounded-full text-xs font-semibold">
-              ⭐ Favorit
-            </div>
-          </motion.div>
-        )}
 
         {/* Favorite Button */}
         <motion.button
@@ -145,31 +123,46 @@ const ProductCard: React.FC<ProductCardProps> = ({
         </motion.button>
 
         {/* Product Image */}
-        <div className="relative h-48 overflow-hidden">
-          <Image
-            src={product.image_url || '/images/placeholder-juice.jpg'}
-            alt={product.name}
-            fill
-            className="object-cover transition-transform duration-500 group-hover:scale-110"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+        <div className="relative h-48 overflow-hidden bg-gradient-to-br from-pink-50 to-pink-100">
+          {(() => {
+            // Simple logic: if gambar is empty/null, use placeholder
+            const hasImage = product.gambar && product.gambar.trim().length > 0;
+            const imageSrc = hasImage ? product.gambar : '/images/juice-placeholder.svg';
+            const isPlaceholder = !hasImage || imageSrc.includes('placeholder');
+            
+            return (
+              <>
+                <Image
+                  src={imageSrc}
+                  alt={product.name}
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-110"
+                  onError={() => {
+                    // Force to placeholder on error
+                    const img = document.querySelector(`img[alt="${product.name}"]`) as HTMLImageElement;
+                    if (img) img.src = '/images/juice-placeholder.svg';
+                  }}
+                />
+                {!isPlaceholder && (
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+                )}
+                {isPlaceholder && (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-20 h-20 bg-white/90 rounded-full flex items-center justify-center shadow-lg">
+                      <Apple className="w-12 h-12 text-pink-500" />
+                    </div>
+                  </div>
+                )}
+              </>
+            );
+          })()}
         </div>
 
         {/* Product Info */}
         <div className="p-6">
-          {/* Category */}
+          {/* Category and Rating - Hidden */}
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-medium text-primary-600 bg-primary-50 px-2 py-1 rounded-full">
-              {product.category}
-            </span>
-            {product.rating && (
-              <div className="flex items-center space-x-1">
-                {renderStars(product.rating)}
-                <span className="text-xs text-gray-500 ml-1">
-                  ({product.review_count || 0})
-                </span>
-              </div>
-            )}
+            {/* Hidden for now */}
           </div>
 
           {/* Product Name */}
@@ -179,7 +172,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
           {/* Description */}
           <p className="text-sm text-gray-600 mb-4 line-clamp-2">
-            {product.description}
+            {product.description || 'Jus segar berkualitas tinggi'}
           </p>
 
           {/* Price */}
@@ -231,12 +224,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
             disabled={isAddingToCart}
             loading={isAddingToCart}
             variant="primary"
-            size="md"
-            className="w-full"
+            size="sm"
+            className="w-full py-2 px-4 text-sm"
           >
             {isAddingToCart ? null : (
-              <span className="flex items-center space-x-2">
-                <Zap className="w-5 h-5" />
+              <span className="flex items-center justify-center space-x-1.5">
+                <Zap className="w-4 h-4" />
                 <span>Tambah ke Keranjang</span>
               </span>
             )}
@@ -258,7 +251,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                   href={`https://wa.me/6281234567890?text=Halo, saya ingin memesan ${product.name} sebanyak ${quantity} pcs`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-green-500 text-white py-2 px-3 rounded-lg text-sm font-medium hover:bg-green-600 transition-colors duration-300 text-center"
+                  className="bg-green-500 text-white py-1.5 px-2 rounded-md text-xs font-medium hover:bg-green-600 transition-colors duration-300 text-center"
                 >
                   WhatsApp
                 </motion.a>
@@ -268,7 +261,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                   href="https://gofood.co.id/merchant/zatiaras-juice"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-orange-500 text-white py-2 px-3 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors duration-300 text-center"
+                  className="bg-orange-500 text-white py-1.5 px-2 rounded-md text-xs font-medium hover:bg-orange-600 transition-colors duration-300 text-center"
                 >
                   GoFood
                 </motion.a>

@@ -19,24 +19,29 @@ export type Branch = 'berau' | 'samarinda';
 export interface Product {
   id: string;
   name: string;
-  description: string;
+  kategori_id: string | null;
   price: number;
-  category: string;
-  image_url: string;
-  is_available: boolean;
-  is_featured: boolean;
-  created_at: string;
-  updated_at: string;
+  gambar: string | null;
+  created_at: string | null;
+  tipe: string | null;
+  ekstra_ids: string[] | null;
+  // Computed fields
+  category?: string;
+  description?: string;
+  image_url?: string;
+  is_featured?: boolean;
+  rating?: number;
+  review_count?: number;
 }
 
 // Interface untuk Kategori
 export interface Category {
   id: string;
   name: string;
-  description: string;
-  image_url: string;
-  sort_order: number;
-  is_active: boolean;
+  description?: string;
+  image_url?: string;
+  sort_order?: number;
+  is_active?: boolean;
 }
 
 // Interface untuk Cabang
@@ -66,8 +71,13 @@ export const getProducts = async (branch: Branch): Promise<Product[]> => {
   const supabase = createSupabaseClient(branch);
   const { data, error } = await supabase
     .from('produk')
-    .select('*')
-    .eq('is_available', true)
+    .select(`
+      *,
+      kategori: kategori_id (
+        id,
+        name
+      )
+    `)
     .order('created_at', { ascending: false });
 
   if (error) {
@@ -75,7 +85,18 @@ export const getProducts = async (branch: Branch): Promise<Product[]> => {
     return [];
   }
 
-  return data || [];
+  // Transform data to match expected interface
+  const transformedData = (data || []).map((product: any) => ({
+    ...product,
+    category: product.kategori?.name || 'Lainnya',
+    description: product.tipe || 'Jus segar berkualitas tinggi',
+    // Keep original gambar field, let ProductCard handle fallback
+    is_featured: product.tipe === 'premium' || product.tipe === 'favorit',
+    rating: 4.5, // Default rating
+    review_count: Math.floor(Math.random() * 50) + 10, // Random review count
+  }));
+
+  return transformedData;
 };
 
 // Function untuk mendapatkan produk berdasarkan kategori
@@ -86,9 +107,14 @@ export const getProductsByCategory = async (
   const supabase = createSupabaseClient(branch);
   const { data, error } = await supabase
     .from('produk')
-    .select('*')
-    .eq('category', category)
-    .eq('is_available', true)
+    .select(`
+      *,
+      kategori: kategori_id (
+        id,
+        name
+      )
+    `)
+    .eq('kategori.name', category)
     .order('created_at', { ascending: false });
 
   if (error) {
@@ -96,7 +122,18 @@ export const getProductsByCategory = async (
     return [];
   }
 
-  return data || [];
+  // Transform data to match expected interface
+  const transformedData = (data || []).map((product: any) => ({
+    ...product,
+    category: product.kategori?.name || 'Lainnya',
+    description: product.tipe || 'Jus segar berkualitas tinggi',
+    // Keep original gambar field, let ProductCard handle fallback
+    is_featured: product.tipe === 'premium' || product.tipe === 'favorit',
+    rating: 4.5, // Default rating
+    review_count: Math.floor(Math.random() * 50) + 10, // Random review count
+  }));
+
+  return transformedData;
 };
 
 // Function untuk mendapatkan semua kategori
@@ -105,15 +142,23 @@ export const getCategories = async (branch: Branch): Promise<Category[]> => {
   const { data, error } = await supabase
     .from('kategori')
     .select('*')
-    .eq('is_active', true)
-    .order('sort_order', { ascending: true });
+    .order('name', { ascending: true });
 
   if (error) {
     console.error('Error fetching categories:', error);
     return [];
   }
 
-  return data || [];
+  // Transform data to match expected interface
+  const transformedData = (data || []).map((category: any) => ({
+    ...category,
+    description: category.description || `Koleksi ${category.name} segar`,
+    image_url: category.image_url || '/images/juice-placeholder.svg',
+    sort_order: category.sort_order || 0,
+    is_active: category.is_active !== false, // Default to true
+  }));
+
+  return transformedData;
 };
 
 // Function untuk mendapatkan info cabang
@@ -122,7 +167,6 @@ export const getBranchInfo = async (branch: Branch): Promise<BranchInfo | null> 
   const { data, error } = await supabase
     .from('cabang')
     .select('*')
-    .eq('is_active', true)
     .single();
 
   if (error) {

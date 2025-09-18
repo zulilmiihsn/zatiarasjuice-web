@@ -2,12 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Search, Filter, Star, Clock, MapPin, Phone, Heart, ShoppingCart, Plus, Minus } from 'lucide-react';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import ProductCard from '../../components/ProductCard';
-import MenuFilter from '../../components/MenuFilter';
-import ScrollAnimationSection from '../../components/ScrollAnimationSection';
 import { getProducts, getCategories, getBranchInfo, createSupabaseClient } from '../../lib/supabase';
 import { getBranchSEOData, getMenuStructuredData } from '../../lib/seo';
 import { Branch, Product, Category } from '../../lib/supabase';
@@ -32,8 +31,10 @@ const MenuPage: React.FC<MenuPageProps> = ({
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
   const [favorites, setFavorites] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [showFilters, setShowFilters] = useState(false);
+  const [sortBy, setSortBy] = useState<'name' | 'price' | 'popular'>('name');
 
-  // Filter products based on category and search
+  // Filter and sort products
   useEffect(() => {
     let filtered = products;
 
@@ -46,12 +47,25 @@ const MenuPage: React.FC<MenuPageProps> = ({
     if (searchQuery) {
       filtered = filtered.filter(product => 
         product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        product.description.toLowerCase().includes(searchQuery.toLowerCase())
+        product.description?.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
 
+    // Sort products
+    filtered.sort((a, b) => {
+      switch (sortBy) {
+        case 'price':
+          return a.price - b.price;
+        case 'popular':
+          return (b.rating || 0) - (a.rating || 0);
+        case 'name':
+        default:
+          return a.name.localeCompare(b.name);
+      }
+    });
+
     setFilteredProducts(filtered);
-  }, [selectedCategory, searchQuery, products]);
+  }, [selectedCategory, searchQuery, products, sortBy]);
 
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);
@@ -66,7 +80,6 @@ const MenuPage: React.FC<MenuPageProps> = ({
   };
 
   const handleAddToCart = async (product: any) => {
-    // Implementasi add to cart logic
     console.log('Adding to cart:', product);
   };
 
@@ -115,51 +128,97 @@ const MenuPage: React.FC<MenuPageProps> = ({
         />
       </Head>
 
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
         <Header branch={branch} currentPath={`/${branch}/menu`} />
         
-        {/* Hero Section */}
-        <section className="pt-14 pb-16 bg-gradient-to-br from-primary-500 to-secondary-500">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <ScrollAnimationSection animation="fadeIn" delay={0.2}>
-              <div className="text-center text-white">
-                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4">
-                  Menu Zatiaras Juice
-                </h1>
-                <p className="text-xl sm:text-2xl text-white/90 mb-8 max-w-3xl mx-auto">
-                  Nikmati kesegaran jus alpukat dan aneka jus buah segar berkualitas tinggi
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <motion.a
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    href={`https://wa.me/${branchInfo?.whatsapp?.replace(/\D/g, '') || '6281234567890'}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="bg-white text-gray-900 px-8 py-4 rounded-full text-lg font-semibold hover:shadow-strong transition-all duration-300"
-                  >
-                    Order via WhatsApp
-                  </motion.a>
-                  <motion.a
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    href="https://gofood.co.id/merchant/zatiaras-juice"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="border-2 border-white text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white hover:text-gray-900 transition-all duration-300"
-                  >
-                    Order via GoFood
-                  </motion.a>
-                </div>
+        {/* Digital Menu Header */}
+        <section className="pt-20 pb-12 bg-gradient-to-r from-primary-500 via-pink-500 to-secondary-500 relative overflow-hidden">
+          {/* Animated Background Elements */}
+          <div className="absolute inset-0">
+            <div className="absolute top-10 left-10 w-20 h-20 bg-white/10 rounded-full animate-pulse"></div>
+            <div className="absolute top-20 right-20 w-16 h-16 bg-white/5 rounded-full animate-bounce"></div>
+            <div className="absolute bottom-10 left-1/4 w-12 h-12 bg-white/10 rounded-full animate-pulse"></div>
+            <div className="absolute bottom-20 right-1/3 w-8 h-8 bg-white/5 rounded-full animate-bounce"></div>
+          </div>
+          
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="text-center text-white"
+            >
+              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-white to-yellow-200 bg-clip-text text-transparent">
+                Menu Digital
+              </h1>
+              <p className="text-xl sm:text-2xl text-white/90 mb-8 max-w-3xl mx-auto font-light">
+                Nikmati kesegaran jus alpukat dan aneka jus buah segar berkualitas tinggi
+              </p>
+              
+              {/* Quick Stats */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-8">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                  className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20"
+                >
+                  <div className="text-3xl font-bold mb-2">{products.length}+</div>
+                  <div className="text-white/80">Menu Tersedia</div>
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.3 }}
+                  className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20"
+                >
+                  <div className="text-3xl font-bold mb-2">{categories.length}</div>
+                  <div className="text-white/80">Kategori</div>
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.4 }}
+                  className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20"
+                >
+                  <div className="text-3xl font-bold mb-2">100%</div>
+                  <div className="text-white/80">Alami</div>
+                </motion.div>
               </div>
-            </ScrollAnimationSection>
+
+              {/* Quick Order Buttons */}
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <motion.a
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  href={`https://wa.me/${branchInfo?.whatsapp?.replace(/\D/g, '') || '6281234567890'}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-white text-gray-900 px-8 py-4 rounded-full text-lg font-semibold hover:shadow-2xl transition-all duration-300 flex items-center justify-center gap-2"
+                >
+                  <Phone className="w-5 h-5" />
+                  Order via WhatsApp
+                </motion.a>
+                <motion.a
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  href="https://gofood.co.id/merchant/zatiaras-juice"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="border-2 border-white text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white hover:text-gray-900 transition-all duration-300 flex items-center justify-center gap-2"
+                >
+                  <MapPin className="w-5 h-5" />
+                  Order via GoFood
+                </motion.a>
+              </div>
+            </motion.div>
           </div>
         </section>
 
-        {/* Search & Filter Section */}
-        <section className="py-8 bg-white border-b border-gray-200">
+        {/* Search & Filter Bar */}
+        <section className="py-6 bg-white/80 backdrop-blur-sm border-b border-gray-200 sticky top-16 z-40">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col lg:flex-row gap-6">
+            <div className="flex flex-col lg:flex-row gap-4">
               {/* Search Bar */}
               <div className="flex-1">
                 <div className="relative">
@@ -168,23 +227,44 @@ const MenuPage: React.FC<MenuPageProps> = ({
                     placeholder="Cari menu favorit Anda..."
                     value={searchQuery}
                     onChange={handleSearch}
-                    className="w-full px-4 py-3 pl-12 pr-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300"
+                    className="w-full px-4 py-3 pl-12 pr-4 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300 bg-white/90 backdrop-blur-sm"
                   />
-                  <div className="absolute left-4 top-1/2 transform -translate-y-1/2">
-                    <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
-                  </div>
+                  <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                 </div>
               </div>
 
-              {/* Category Filter */}
-              <div className="lg:w-80">
-                <MenuFilter
-                  categories={categoriesWithCount}
-                  selectedCategory={selectedCategory}
-                  onCategoryChange={handleCategoryChange}
-                />
+              {/* Filter & Sort Controls */}
+              <div className="flex gap-3">
+                {/* Category Filter */}
+                <div className="relative">
+                  <select
+                    value={selectedCategory}
+                    onChange={(e) => handleCategoryChange(e.target.value)}
+                    className="appearance-none bg-white/90 backdrop-blur-sm border border-gray-300 rounded-2xl px-4 py-3 pr-8 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300 min-w-[150px]"
+                  >
+                    <option value="all">Semua Kategori</option>
+                    {categoriesWithCount.map((category) => (
+                      <option key={category.id} value={category.name}>
+                        {category.name} ({category.count})
+                      </option>
+                    ))}
+                  </select>
+                  <Filter className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+                </div>
+
+                {/* Sort Options */}
+                <div className="relative">
+                  <select
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value as 'name' | 'price' | 'popular')}
+                    className="appearance-none bg-white/90 backdrop-blur-sm border border-gray-300 rounded-2xl px-4 py-3 pr-8 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300 min-w-[120px]"
+                  >
+                    <option value="name">Nama A-Z</option>
+                    <option value="price">Harga</option>
+                    <option value="popular">Populer</option>
+                  </select>
+                  <Star className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+                </div>
               </div>
             </div>
           </div>
@@ -192,25 +272,30 @@ const MenuPage: React.FC<MenuPageProps> = ({
 
         {/* Featured Products Section */}
         {featuredProducts.length > 0 && (
-          <section className="py-16 bg-gray-50">
+          <section className="py-16 bg-gradient-to-r from-pink-50 to-purple-50">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <ScrollAnimationSection animation="fadeIn" delay={0.2}>
-                <div className="text-center mb-12">
-                  <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
-                    Menu Favorit
-                  </h2>
-                  <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                    Pilihan terbaik dari menu Zatiaras Juice yang paling diminati
-                  </p>
-                </div>
-              </ScrollAnimationSection>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="text-center mb-12"
+              >
+                <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
+                  ⭐ Menu Favorit
+                </h2>
+                <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                  Pilihan terbaik dari menu Zatiaras Juice yang paling diminati
+                </p>
+              </motion.div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-4">
                 {featuredProducts.map((product, index) => (
-                  <ScrollAnimationSection
+                  <motion.div
                     key={product.id}
-                    animation="slideUp"
-                    delay={index * 0.1}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: index * 0.1 }}
+                    whileHover={{ y: -5 }}
                   >
                     <ProductCard 
                       product={product} 
@@ -218,7 +303,7 @@ const MenuPage: React.FC<MenuPageProps> = ({
                       onToggleFavorite={handleToggleFavorite}
                       isFavorite={favorites.includes(product.id)}
                     />
-                  </ScrollAnimationSection>
+                  </motion.div>
                 ))}
               </div>
             </div>
@@ -228,46 +313,63 @@ const MenuPage: React.FC<MenuPageProps> = ({
         {/* All Products Section */}
         <section className="py-16 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <ScrollAnimationSection animation="fadeIn" delay={0.2}>
-              <div className="text-center mb-12">
-                <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
-                  Semua Menu
-                </h2>
-                <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                  Koleksi lengkap menu Zatiaras Juice untuk memenuhi selera Anda
-                </p>
-              </div>
-            </ScrollAnimationSection>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="text-center mb-12"
+            >
+              <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
+                🍹 Semua Menu
+              </h2>
+              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                Koleksi lengkap menu Zatiaras Juice untuk memenuhi selera Anda
+              </p>
+            </motion.div>
 
-            {filteredProducts.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {filteredProducts.map((product, index) => (
-                  <ScrollAnimationSection
-                    key={product.id}
-                    animation="slideUp"
-                    delay={index * 0.1}
-                  >
-                    <ProductCard 
-                      product={product} 
-                      onAddToCart={handleAddToCart}
-                      onToggleFavorite={handleToggleFavorite}
-                      isFavorite={favorites.includes(product.id)}
-                    />
-                  </ScrollAnimationSection>
-                ))}
-              </div>
-            ) : (
-              <ScrollAnimationSection animation="fadeIn">
-                <div className="text-center py-12">
-                  <div className="w-24 h-24 mx-auto mb-6 bg-gray-100 rounded-full flex items-center justify-center">
-                    <svg className="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
+            <AnimatePresence mode="wait">
+              {filteredProducts.length > 0 ? (
+                <motion.div
+                  key="products"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-4"
+                >
+                  {filteredProducts.map((product, index) => (
+                    <motion.div
+                      key={product.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: index * 0.05 }}
+                      whileHover={{ y: -5 }}
+                    >
+                      <ProductCard 
+                        product={product} 
+                        onAddToCart={handleAddToCart}
+                        onToggleFavorite={handleToggleFavorite}
+                        isFavorite={favorites.includes(product.id)}
+                      />
+                    </motion.div>
+                  ))}
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="empty"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="text-center py-16"
+                >
+                  <div className="w-32 h-32 mx-auto mb-8 bg-gradient-to-br from-pink-100 to-purple-100 rounded-full flex items-center justify-center">
+                    <Search className="w-16 h-16 text-pink-500" />
                   </div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-4">
                     Tidak ada produk ditemukan
                   </h3>
-                  <p className="text-gray-600 mb-6">
+                  <p className="text-gray-600 mb-8 text-lg">
                     Coba ubah kata kunci pencarian atau pilih kategori lain
                   </p>
                   <motion.button
@@ -277,35 +379,46 @@ const MenuPage: React.FC<MenuPageProps> = ({
                       setSearchQuery('');
                       setSelectedCategory('all');
                     }}
-                    className="bg-primary-500 text-white px-6 py-3 rounded-lg font-semibold hover:shadow-glow transition-all duration-300"
+                    className="bg-gradient-to-r from-primary-500 to-secondary-500 text-white px-8 py-4 rounded-2xl text-lg font-semibold hover:shadow-xl transition-all duration-300"
                   >
                     Reset Filter
                   </motion.button>
-                </div>
-              </ScrollAnimationSection>
-            )}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </section>
 
         {/* CTA Section */}
-        <section className="py-20 bg-gradient-to-r from-primary-500 to-secondary-500">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <ScrollAnimationSection animation="fadeIn" delay={0.2}>
-              <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
+        <section className="py-20 bg-gradient-to-r from-primary-500 via-pink-500 to-secondary-500 relative overflow-hidden">
+          <div className="absolute inset-0">
+            <div className="absolute top-10 left-10 w-32 h-32 bg-white/5 rounded-full animate-pulse"></div>
+            <div className="absolute top-20 right-20 w-24 h-24 bg-white/10 rounded-full animate-bounce"></div>
+            <div className="absolute bottom-10 left-1/4 w-20 h-20 bg-white/5 rounded-full animate-pulse"></div>
+          </div>
+          
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              <h2 className="text-4xl sm:text-5xl font-bold text-white mb-6">
                 Siap Memesan?
               </h2>
-              <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+              <p className="text-xl text-white/90 mb-10 max-w-2xl mx-auto">
                 Order sekarang dan nikmati kesegaran jus buah segar langsung di rumah Anda
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <div className="flex flex-col sm:flex-row gap-6 justify-center">
                 <motion.a
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   href={`https://wa.me/${branchInfo?.whatsapp?.replace(/\D/g, '') || '6281234567890'}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-white text-gray-900 px-8 py-4 rounded-full text-lg font-semibold hover:shadow-strong transition-all duration-300"
+                  className="bg-white text-gray-900 px-10 py-5 rounded-2xl text-xl font-bold hover:shadow-2xl transition-all duration-300 flex items-center justify-center gap-3"
                 >
+                  <Phone className="w-6 h-6" />
                   Order via WhatsApp
                 </motion.a>
                 <motion.a
@@ -314,12 +427,13 @@ const MenuPage: React.FC<MenuPageProps> = ({
                   href="https://gofood.co.id/merchant/zatiaras-juice"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="border-2 border-white text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white hover:text-gray-900 transition-all duration-300"
+                  className="border-2 border-white text-white px-10 py-5 rounded-2xl text-xl font-bold hover:bg-white hover:text-gray-900 transition-all duration-300 flex items-center justify-center gap-3"
                 >
+                  <MapPin className="w-6 h-6" />
                   Order via GoFood
                 </motion.a>
               </div>
-            </ScrollAnimationSection>
+            </motion.div>
           </div>
         </section>
 

@@ -47,18 +47,17 @@ const GlassCard: React.FC<GlassCardProps> = ({
       whileHover={hover ? { 
         scale: 1.02,
         y: -5,
-        boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+        boxShadow: '0 8px 25px rgba(0, 0, 0, 0.12), 0 3px 6px rgba(0, 0, 0, 0.08)',
       } : {}}
       whileTap={hover ? { scale: 0.98 } : {}}
       className={`
         rounded-2xl p-6 transition-all duration-300
         ${getVariantStyles()}
-        ${getIntensityStyles()}
         ${className}
       `}
       style={{
         background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)',
-        boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
+        boxShadow: '0 4px 15px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.06)',
       }}
     >
       {children}
