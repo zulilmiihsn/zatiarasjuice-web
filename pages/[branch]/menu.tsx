@@ -155,34 +155,37 @@ const MenuPage: React.FC<MenuPageProps> = ({
           </div>
         </section>
 
-        {/* Menu Navigation - Digital Menu Style */}
-        <section className="py-6 bg-gray-50 border-b border-gray-200">
+        {/* Menu Navigation - Clean & Organized */}
+        <section className="py-4 bg-white border-b border-gray-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
-              {/* Search Bar - Menu Focused */}
-              <div className="relative flex-1 max-w-md">
+            {/* Search Bar - Full Width */}
+            <div className="mb-4">
+              <div className="relative max-w-md mx-auto">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                 <input
                   type="text"
                   placeholder="Cari menu favorit..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 bg-white"
+                  className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 bg-white text-sm"
                 />
               </div>
+            </div>
 
-              {/* Category Filter - Menu Categories */}
-              <div className="flex flex-wrap gap-2">
+            {/* Filter Controls - Organized Row */}
+            <div className="flex flex-col sm:flex-row gap-3 items-center justify-between">
+              {/* Category Filter */}
+              <div className="flex flex-wrap gap-2 justify-center sm:justify-start">
                 {categoryOptions.map((category) => (
                   <motion.button
                     key={category.value}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => handleCategoryChange(category.value)}
-                    className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
+                    className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 ${
                       selectedCategory === category.value
-                        ? 'bg-primary-500 text-white shadow-lg'
-                        : 'bg-white text-gray-700 hover:bg-primary-50 border border-gray-200'
+                        ? 'bg-primary-500 text-white shadow-sm'
+                        : 'bg-gray-100 text-gray-700 hover:bg-primary-50'
                     }`}
                   >
                     {category.label}
@@ -190,52 +193,55 @@ const MenuPage: React.FC<MenuPageProps> = ({
                 ))}
               </div>
 
-              {/* View Mode Toggle */}
-              <div className="flex items-center gap-2">
-                <span className="text-sm font-medium text-gray-600">Tampilan:</span>
-                <div className="flex bg-gray-100 rounded-xl p-1">
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    onClick={() => setViewMode('list')}
-                    className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold transition-all duration-200 ${
-                      viewMode === 'list'
-                        ? 'bg-white text-primary-600 shadow-sm'
-                        : 'text-gray-600 hover:text-gray-800'
-                    }`}
-                  >
-                    <List className="w-4 h-4" />
-                    <span className="hidden sm:inline">List</span>
-                  </motion.button>
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    onClick={() => setViewMode('grid')}
-                    className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold transition-all duration-200 ${
-                      viewMode === 'grid'
-                        ? 'bg-white text-primary-600 shadow-sm'
-                        : 'text-gray-600 hover:text-gray-800'
-                    }`}
-                  >
-                    <Grid3X3 className="w-4 h-4" />
-                    <span className="hidden sm:inline">Grid</span>
-                  </motion.button>
+              {/* Controls Group */}
+              <div className="flex items-center gap-3">
+                {/* View Mode Toggle */}
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-medium text-gray-500 hidden sm:inline">Tampilan:</span>
+                  <div className="flex bg-gray-100 rounded-lg p-0.5">
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => setViewMode('list')}
+                      className={`flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium transition-all duration-200 ${
+                        viewMode === 'list'
+                          ? 'bg-white text-primary-600 shadow-sm'
+                          : 'text-gray-600 hover:text-gray-800'
+                      }`}
+                    >
+                      <List className="w-3 h-3" />
+                      <span className="hidden sm:inline">List</span>
+                    </motion.button>
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => setViewMode('grid')}
+                      className={`flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium transition-all duration-200 ${
+                        viewMode === 'grid'
+                          ? 'bg-white text-primary-600 shadow-sm'
+                          : 'text-gray-600 hover:text-gray-800'
+                      }`}
+                    >
+                      <Grid3X3 className="w-3 h-3" />
+                      <span className="hidden sm:inline">Grid</span>
+                    </motion.button>
+                  </div>
                 </div>
-              </div>
 
-              {/* Sort Dropdown - Menu Sorting */}
-              <div className="relative">
-                <select
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value as 'name' | 'price' | 'popular')}
-                  className="appearance-none bg-white border-2 border-gray-200 rounded-xl px-4 py-3 pr-8 text-sm font-semibold focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200"
-                >
-                  <option value="name">Urutkan: Nama</option>
-                  <option value="price">Urutkan: Harga</option>
-                  <option value="popular">Urutkan: Populer</option>
-                </select>
-                <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                  <Filter className="w-4 h-4 text-gray-400" />
+                {/* Sort Dropdown */}
+                <div className="relative">
+                  <select
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value as 'name' | 'price' | 'popular')}
+                    className="appearance-none bg-white border border-gray-300 rounded-lg px-3 py-1.5 pr-6 text-xs font-medium focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200"
+                  >
+                    <option value="name">Nama</option>
+                    <option value="price">Harga</option>
+                    <option value="popular">Populer</option>
+                  </select>
+                  <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                    <Filter className="w-3 h-3 text-gray-400" />
+                  </div>
                 </div>
               </div>
             </div>
