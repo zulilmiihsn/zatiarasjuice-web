@@ -37,7 +37,7 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
   const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [1, 0.8, 0]);
   const scale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
-  
+
   // Different parallax speeds for layered effect
   const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
   const glassmorphismY = useTransform(scrollYProgress, [0, 1], ["0%", "-20%"]);
@@ -110,16 +110,16 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
     const handleMouseMove = (e: MouseEvent) => {
       if (!ticking) {
         requestAnimationFrame(() => {
-          if (heroRef.current) {
-            const rect = heroRef.current.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
-            
+      if (heroRef.current) {
+        const rect = heroRef.current.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        
             const mouseXValue = (e.clientX - centerX) / 15; // Reduced sensitivity
             const mouseYValue = (e.clientY - centerY) / 15;
-            
-            mouseX.set(mouseXValue);
-            mouseY.set(mouseYValue);
+        
+        mouseX.set(mouseXValue);
+        mouseY.set(mouseYValue);
           }
           ticking = false;
         });

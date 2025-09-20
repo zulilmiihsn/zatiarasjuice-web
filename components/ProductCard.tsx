@@ -70,7 +70,7 @@ const ProductCard: React.FC<ProductCardProps> = memo(({
       }}
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
-      className={`group relative bg-white rounded-3xl border border-gray-100 shadow-luxury hover:shadow-premium transition-all duration-500 overflow-hidden max-w-full perspective-3d ${className}`}
+      className={`group relative bg-white rounded-2xl sm:rounded-3xl border border-gray-100 shadow-luxury hover:shadow-premium transition-all duration-500 overflow-hidden max-w-full perspective-3d ${className}`}
       style={{ transformStyle: 'preserve-3d' }}
     >
 
@@ -138,12 +138,12 @@ const ProductCard: React.FC<ProductCardProps> = memo(({
       </div>
 
       {/* Product Info */}
-      <div className="p-2 sm:p-4 max-w-full">
+      <div className="p-3 sm:p-4 max-w-full">
         {/* Category Tag */}
         {product.category && (
           <div className="mb-2 sm:mb-3">
             <motion.span 
-              className="inline-block px-3 py-1.5 text-xs font-bold text-primary-600 bg-gradient-to-r from-primary-50 to-pinky-50 rounded-full border border-primary-200 shadow-soft"
+              className="inline-block px-2 py-1 sm:px-3 sm:py-1.5 text-xs font-bold text-primary-600 bg-gradient-to-r from-primary-50 to-pinky-50 rounded-lg sm:rounded-full border border-primary-200 shadow-soft"
               whileHover={{ 
                 scale: 1.05,
                 boxShadow: '0 4px 12px rgba(255, 110, 199, 0.3)'
@@ -166,9 +166,9 @@ const ProductCard: React.FC<ProductCardProps> = memo(({
         </motion.h3>
 
         {/* Price */}
-        <div className="mb-2 sm:mb-4 max-w-full">
+        <div className="mb-3 sm:mb-4 max-w-full">
           {product.is_minuman ? (
-            <div className="space-y-0.5 sm:space-y-1 max-w-full">
+            <div className="space-y-1 sm:space-y-1 max-w-full">
               <div className="flex items-center justify-between max-w-full">
                 <span className="text-xs sm:text-sm text-gray-600 truncate">Regular:</span>
                 <span className="text-sm sm:text-xl font-bold text-primary-600 truncate">
@@ -199,7 +199,7 @@ const ProductCard: React.FC<ProductCardProps> = memo(({
           whileTap={{ scale: 0.95 }}
           onClick={handleAddToCart}
           disabled={isAddingToCart}
-          className="w-full max-w-full bg-gradient-to-r from-primary-500 to-pinky-500 text-white py-3 sm:py-4 rounded-2xl font-bold text-xs sm:text-sm hover:from-pink-500 hover:to-purple-500 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 sm:gap-3 shadow-glow-primary hover:shadow-glow-pinky relative overflow-hidden group"
+          className="w-full max-w-full bg-gradient-to-r from-primary-500 to-pinky-500 text-white py-2.5 sm:py-4 rounded-xl sm:rounded-2xl font-bold text-xs sm:text-sm hover:from-pink-500 hover:to-purple-500 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-1.5 sm:gap-3 shadow-glow-primary hover:shadow-glow-pinky relative overflow-hidden group"
         >
           <motion.div
             className="absolute inset-0 bg-gradient-to-r from-pink-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
@@ -208,11 +208,11 @@ const ProductCard: React.FC<ProductCardProps> = memo(({
           {isAddingToCart ? (
             <>
               <motion.div 
-                className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin relative z-10" 
+                className="w-4 h-4 sm:w-5 sm:h-5 border-2 border-white border-t-transparent rounded-full animate-spin relative z-10" 
                 animate={{ rotate: 360 }}
                 transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
               />
-              <span className="relative z-10">Menambahkan...</span>
+              <span className="relative z-10 text-xs sm:text-sm">Menambahkan...</span>
             </>
           ) : (
             <>
@@ -227,15 +227,15 @@ const ProductCard: React.FC<ProductCardProps> = memo(({
                   ease: 'easeInOut'
                 }}
               >
-                <ShoppingCart className="w-5 h-5" />
+                <ShoppingCart className="w-4 h-4 sm:w-5 sm:h-5" />
               </motion.div>
-              <span className="relative z-10">Tambah ke Keranjang</span>
+              <span className="relative z-10 text-xs sm:text-sm">Tambah ke Keranjang</span>
             </>
           )}
         </motion.button>
 
         {/* Quick Order Buttons */}
-        <div className="mt-3 sm:mt-4 grid grid-cols-2 gap-2 sm:gap-3 max-w-full">
+        <div className="mt-2 sm:mt-4 grid grid-cols-2 gap-1.5 sm:gap-3 max-w-full">
           <motion.a
             whileHover={{ 
               scale: 1.05, 
@@ -246,15 +246,15 @@ const ProductCard: React.FC<ProductCardProps> = memo(({
             href={`https://wa.me/6281234567890?text=Halo, saya ingin order ${product.name}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-gradient-to-r from-emerald-500 to-secondary-500 text-white py-2 sm:py-3 px-3 sm:px-4 rounded-2xl text-xs font-bold hover:from-green-500 hover:to-emerald-600 transition-all duration-300 text-center max-w-full truncate shadow-glow-secondary hover:shadow-glow-green relative overflow-hidden group"
+            className="bg-gradient-to-r from-emerald-500 to-secondary-500 text-white py-2 sm:py-3 px-2 sm:px-4 rounded-lg sm:rounded-2xl text-xs font-bold hover:from-green-500 hover:to-emerald-600 transition-all duration-300 text-center max-w-full truncate shadow-glow-secondary hover:shadow-glow-green relative overflow-hidden group"
           >
             <motion.div
               className="absolute inset-0 bg-gradient-to-r from-green-500 to-emerald-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
               initial={false}
             />
             <span className="relative z-10 flex items-center justify-center gap-1">
-              <span className="text-sm">💬</span>
-              <span>WhatsApp</span>
+              <span className="text-xs sm:text-sm">💬</span>
+              <span className="text-xs sm:text-sm">WhatsApp</span>
             </span>
           </motion.a>
           <motion.a
@@ -267,15 +267,15 @@ const ProductCard: React.FC<ProductCardProps> = memo(({
             href="https://gofood.co.id/merchant/zatiaras-juice"
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-gradient-to-r from-gold-500 to-accent-500 text-white py-2 sm:py-3 px-3 sm:px-4 rounded-2xl text-xs font-bold hover:from-orange-500 hover:to-gold-600 transition-all duration-300 text-center max-w-full truncate shadow-glow-gold hover:shadow-glow-orange relative overflow-hidden group"
+            className="bg-gradient-to-r from-gold-500 to-accent-500 text-white py-2 sm:py-3 px-2 sm:px-4 rounded-lg sm:rounded-2xl text-xs font-bold hover:from-orange-500 hover:to-gold-600 transition-all duration-300 text-center max-w-full truncate shadow-glow-gold hover:shadow-glow-orange relative overflow-hidden group"
           >
             <motion.div
               className="absolute inset-0 bg-gradient-to-r from-orange-500 to-gold-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
               initial={false}
             />
             <span className="relative z-10 flex items-center justify-center gap-1">
-              <span className="text-sm">🚚</span>
-              <span>GoFood</span>
+              <span className="text-xs sm:text-sm">🚚</span>
+              <span className="text-xs sm:text-sm">GoFood</span>
             </span>
           </motion.a>
         </div>

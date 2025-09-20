@@ -214,10 +214,10 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                   rotateY: 5,
                   boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)'
                 }}
-                className="card-premium group perspective-3d"
+                className="card-premium group perspective-3d rounded-[2rem]"
                 style={{ transformStyle: 'preserve-3d' }}
               >
-                <div className="h-56 bg-gradient-to-br from-primary-500 via-pinky-500 to-cute-500 relative overflow-hidden">
+                <div className="h-56 bg-gradient-to-br from-primary-500 via-pinky-500 to-cute-500 relative overflow-hidden rounded-t-[2rem]">
                   {/* Animated Background Elements */}
                   <div className="absolute inset-0">
                     <motion.div
@@ -346,10 +346,10 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                   rotateY: 5,
                   boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)'
                 }}
-                className="card-premium group perspective-3d"
+                className="card-premium group perspective-3d rounded-[2rem]"
                 style={{ transformStyle: 'preserve-3d' }}
               >
-                <div className="h-56 bg-gradient-to-br from-pinky-500 via-pinky-600 to-pinky-700 relative overflow-hidden">
+                <div className="h-56 bg-gradient-to-br from-pinky-500 via-pinky-600 to-pinky-700 relative overflow-hidden rounded-t-[2rem]">
                   {/* Animated Background Elements */}
                   <div className="absolute inset-0">
                     <motion.div

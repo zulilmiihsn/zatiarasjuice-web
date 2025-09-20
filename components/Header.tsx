@@ -27,8 +27,8 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
   }, []);
 
   const navigationItems = [
-    { name: 'Beranda', href: branch ? `/${branch}` : '/' },
     { name: 'Menu', href: branch ? `/${branch}/menu` : '/menu' },
+    { name: 'Beranda', href: branch ? `/${branch}` : '/' },
     { name: 'Kontak', href: branch ? `/${branch}/contact` : '/contact' },
   ];
 
@@ -125,26 +125,94 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
                   href={item.href}
                   className={`px-6 py-3 rounded-2xl text-sm font-bold transition-all duration-300 relative overflow-hidden group ${
                     currentPath === item.href
-                      ? 'text-white bg-gradient-to-r from-primary-500 to-pinky-500 shadow-glow-primary'
+                      ? isScrolled
+                        ? 'text-white bg-gradient-to-r from-primary-500 to-pinky-500 shadow-glow-primary'
+                        : 'text-white bg-white/20 backdrop-blur-xl border border-white/30 shadow-glass'
                       : isScrolled
                       ? 'text-gray-700 hover:text-primary-600 hover:bg-gradient-to-r hover:from-primary-50 hover:to-pinky-50 hover:shadow-elegant'
                       : 'text-white hover:text-primary-200 hover:bg-white/20 hover:backdrop-blur-sm'
                   }`}
                 >
+                  {/* Ripple Effect */}
+                  <motion.div
+                    className="absolute inset-0 rounded-2xl"
+                    whileHover={{
+                      scale: [1, 1.2, 1],
+                      opacity: [0, 0.3, 0],
+                    }}
+                    transition={{
+                      duration: 0.6,
+                      ease: "easeInOut"
+                    }}
+                    style={{
+                      background: currentPath === item.href 
+                        ? isScrolled
+                          ? 'radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%)'
+                          : 'radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 70%)'
+                        : isScrolled
+                        ? 'radial-gradient(circle, rgba(255,110,199,0.2) 0%, transparent 70%)'
+                        : 'radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%)'
+                    }}
+                  />
+                  
+                  {/* Glow Effect */}
+                  <motion.div
+                    className="absolute inset-0 rounded-2xl"
+                    whileHover={{
+                      boxShadow: currentPath === item.href
+                        ? isScrolled
+                          ? '0 0 20px rgba(255, 110, 199, 0.4), 0 0 40px rgba(255, 110, 199, 0.2)'
+                          : '0 0 20px rgba(255, 255, 255, 0.4), 0 0 40px rgba(255, 255, 255, 0.2)'
+                        : isScrolled
+                        ? '0 0 15px rgba(255, 110, 199, 0.3), 0 0 30px rgba(255, 110, 199, 0.1)'
+                        : '0 0 15px rgba(255, 255, 255, 0.3), 0 0 30px rgba(255, 255, 255, 0.1)'
+                    }}
+                    transition={{ duration: 0.3 }}
+                  />
+                  
                   <motion.span
                     className="relative z-10"
                     whileHover={{ 
-                      textShadow: '0 0 10px rgba(255, 255, 255, 0.5)'
+                      textShadow: currentPath === item.href
+                        ? isScrolled
+                          ? '0 0 10px rgba(255, 255, 255, 0.8)'
+                          : '0 0 12px rgba(255, 255, 255, 0.9)'
+                        : isScrolled
+                        ? '0 0 8px rgba(255, 110, 199, 0.6)'
+                        : '0 0 8px rgba(255, 255, 255, 0.6)'
                     }}
-                  >
-                    {item.name}
+                >
+                  {item.name}
                   </motion.span>
+                  
+                  {/* Active State Overlay */}
                   {currentPath === item.href && (
                     <motion.div
-                      className="absolute inset-0 bg-gradient-to-r from-pink-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                      className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl ${
+                        isScrolled
+                          ? 'bg-gradient-to-r from-pink-500 to-purple-500'
+                          : 'bg-white/30 backdrop-blur-xl'
+                      }`}
                       initial={false}
                     />
                   )}
+                  
+                  {/* Floating Particles Effect */}
+                  <motion.div
+                    className="absolute inset-0 rounded-2xl overflow-hidden"
+                    whileHover={{
+                      background: [
+                        'radial-gradient(circle at 20% 20%, rgba(255,255,255,0.1) 0%, transparent 50%)',
+                        'radial-gradient(circle at 80% 80%, rgba(255,255,255,0.1) 0%, transparent 50%)',
+                        'radial-gradient(circle at 20% 20%, rgba(255,255,255,0.1) 0%, transparent 50%)'
+                      ]
+                    }}
+                    transition={{
+                      duration: 2,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }}
+                  />
                 </Link>
               </motion.div>
             ))}
@@ -175,25 +243,66 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
               href={`https://wa.me/${branch ? branchInfo[branch].phone.replace(/\D/g, '') : '6281234567890'}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-8 py-4 rounded-2xl text-sm font-bold transition-all duration-300 flex items-center gap-3 bg-gradient-to-r from-primary-500 to-pinky-500 text-white hover:from-pink-500 hover:to-purple-500 shadow-glow-primary hover:shadow-glow-pinky relative overflow-hidden group"
+              className={`px-6 py-3 rounded-2xl text-sm font-bold transition-all duration-300 flex items-center gap-2 relative overflow-hidden group ${
+                isScrolled
+                  ? 'bg-gradient-to-r from-primary-500 to-pinky-500 text-white hover:from-pink-500 hover:to-purple-500 shadow-glow-primary hover:shadow-glow-pinky'
+                  : 'bg-white/20 backdrop-blur-xl border border-white/30 text-white hover:bg-white/30 hover:backdrop-blur-2xl shadow-glass hover:shadow-glass-strong'
+              }`}
             >
+              {/* Ripple Effect */}
               <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-pink-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                className="absolute inset-0 rounded-2xl"
+                whileHover={{
+                  scale: [1, 1.3, 1],
+                  opacity: [0, 0.4, 0],
+                }}
+                transition={{
+                  duration: 0.8,
+                  ease: "easeInOut"
+                }}
+                style={{
+                  background: isScrolled
+                    ? 'radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 70%)'
+                    : 'radial-gradient(circle, rgba(255,255,255,0.5) 0%, transparent 70%)'
+                }}
+              />
+              
+              {/* Shimmer Effect */}
+              <motion.div
+                className="absolute inset-0 rounded-2xl"
+                whileHover={{
+                  background: isScrolled
+                    ? [
+                        'linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)',
+                        'linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent)',
+                        'linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)'
+                      ]
+                    : [
+                        'linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)',
+                        'linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent)',
+                        'linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)'
+                      ],
+                  backgroundPosition: ['-100%', '100%', '-100%']
+                }}
+                transition={{
+                  duration: 1.5,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+                style={{
+                  backgroundSize: '200% 100%'
+                }}
+              />
+              
+              <motion.div
+                className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl ${
+                  isScrolled
+                    ? 'bg-gradient-to-r from-pink-500 to-purple-500'
+                    : 'bg-white/30 backdrop-blur-xl'
+                }`}
                 initial={false}
               />
-              <motion.span 
-                className="relative z-10 text-2xl"
-                animate={{ 
-                  rotate: [0, 10, -10, 0],
-                }}
-                transition={{ 
-                  duration: 2,
-                  repeat: Infinity,
-                  ease: 'easeInOut'
-                }}
-              >
-                🍹
-              </motion.span>
+              
               <span className="relative z-10">Order Now</span>
             </motion.a>
           </div>
@@ -203,13 +312,33 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={handleMenuToggle}
-            className={`lg:hidden p-1.5 rounded-lg transition-all duration-500 ${
+            className={`lg:hidden p-1.5 rounded-2xl transition-all duration-500 relative overflow-hidden group ${
               isScrolled
                 ? 'text-gray-700 hover:text-primary-600 hover:bg-primary-50'
                 : 'text-white hover:text-primary-200 hover:bg-white/20 drop-shadow-lg'
             }`}
           >
+            {/* Ripple Effect for Mobile Button */}
+            <motion.div
+              className="absolute inset-0 rounded-2xl"
+              whileHover={{
+                scale: [1, 1.2, 1],
+                opacity: [0, 0.3, 0],
+              }}
+              transition={{
+                duration: 0.6,
+                ease: "easeInOut"
+              }}
+              style={{
+                background: isScrolled
+                  ? 'radial-gradient(circle, rgba(255,110,199,0.2) 0%, transparent 70%)'
+                  : 'radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%)'
+              }}
+            />
+            
+            <span className="relative z-10">
             {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </span>
           </motion.button>
         </div>
       </div>
@@ -232,16 +361,35 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.1 }}
                 >
-                  <button
+                  <motion.button
+                    whileHover={{ scale: 1.02, x: 4 }}
+                    whileTap={{ scale: 0.98 }}
                     onClick={() => handleNavigation(item.href)}
-                    className={`w-full text-left px-3 py-2 rounded-lg text-base font-medium transition-colors duration-200 ${
+                    className={`w-full text-left px-3 py-2 rounded-2xl text-base font-medium transition-all duration-300 relative overflow-hidden group ${
                       currentPath === item.href
                         ? 'text-primary-600 bg-primary-50'
                         : 'text-gray-700 hover:text-primary-600 hover:bg-primary-50'
                     }`}
                   >
-                    {item.name}
-                  </button>
+                    {/* Ripple Effect for Mobile Menu Items */}
+                    <motion.div
+                      className="absolute inset-0 rounded-2xl"
+                      whileHover={{
+                        scale: [1, 1.1, 1],
+                        opacity: [0, 0.2, 0],
+                      }}
+                      transition={{
+                        duration: 0.5,
+                        ease: "easeInOut"
+                      }}
+                      style={{
+                        background: currentPath === item.href
+                          ? 'radial-gradient(circle, rgba(255,110,199,0.2) 0%, transparent 70%)'
+                          : 'radial-gradient(circle, rgba(255,110,199,0.1) 0%, transparent 70%)'
+                      }}
+                    />
+                    <span className="relative z-10">{item.name}</span>
+                  </motion.button>
                 </motion.div>
               ))}
               
@@ -269,14 +417,53 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
                 transition={{ delay: 0.3 }}
                 className="pt-4"
               >
-                <a
+                <motion.a
+                  whileHover={{ scale: 1.02, y: -2 }}
+                  whileTap={{ scale: 0.98 }}
                   href={`https://wa.me/${branch ? branchInfo[branch].phone.replace(/\D/g, '') : '6281234567890'}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full bg-gradient-to-r from-primary-500 to-primary-600 text-white px-6 py-3 rounded-xl text-center font-bold hover:shadow-glow transition-all duration-300 block"
+                  className="w-full bg-gradient-to-r from-primary-500 to-primary-600 text-white px-6 py-3 rounded-2xl text-center font-bold hover:shadow-glow transition-all duration-300 block relative overflow-hidden group"
                 >
-                  Order via WhatsApp
-                </a>
+                  {/* Ripple Effect for Mobile CTA */}
+                  <motion.div
+                    className="absolute inset-0 rounded-2xl"
+                    whileHover={{
+                      scale: [1, 1.2, 1],
+                      opacity: [0, 0.3, 0],
+                    }}
+                    transition={{
+                      duration: 0.6,
+                      ease: "easeInOut"
+                    }}
+                    style={{
+                      background: 'radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%)'
+                    }}
+                  />
+                  
+                  {/* Shimmer Effect for Mobile CTA */}
+                  <motion.div
+                    className="absolute inset-0 rounded-2xl"
+                    whileHover={{
+                      background: [
+                        'linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)',
+                        'linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)',
+                        'linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)'
+                      ],
+                      backgroundPosition: ['-100%', '100%', '-100%']
+                    }}
+                    transition={{
+                      duration: 1.2,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }}
+                    style={{
+                      backgroundSize: '200% 100%'
+                    }}
+                  />
+                  
+                  <span className="relative z-10">Order via WhatsApp</span>
+                </motion.a>
               </motion.div>
             </div>
           </motion.div>

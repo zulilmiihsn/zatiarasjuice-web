@@ -257,11 +257,11 @@ const MenuPage: React.FC<MenuPageProps> = ({
           </div>
         </section>
 
-        {/* Menu Navigation - Mobile Compact */}
+        {/* Menu Navigation - Responsive Layout */}
         <section className="py-2 sm:py-3 md:py-4 bg-white border-b border-gray-200 overflow-x-hidden">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 max-w-full">
-            {/* Search Bar - Mobile Compact */}
-            <div className="mb-2 sm:mb-3 md:mb-4">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Search Bar - Centered */}
+            <div className="mb-2 sm:mb-4 md:mb-6">
               <div className="relative max-w-sm sm:max-w-md mx-auto">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 sm:w-5 sm:h-5" />
                 <input
@@ -274,18 +274,18 @@ const MenuPage: React.FC<MenuPageProps> = ({
               </div>
             </div>
 
-            {/* Filter Controls - Mobile Compact */}
-            <div className="space-y-2 sm:space-y-3 md:space-y-0">
-              {/* Category Filter - Mobile Scroll */}
-              <div className="overflow-x-auto pb-1 sm:pb-2 md:pb-0 -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-hide">
-                <div className="flex gap-1 sm:gap-1.5 md:gap-2 min-w-max sm:flex-wrap sm:justify-start sm:min-w-0">
+            {/* Filter Controls - Responsive Layout */}
+            <div className="space-y-2 sm:space-y-4 md:space-y-6">
+              {/* Category Filter - Horizontal Scroll on Mobile, Wrap on Desktop */}
+              <div className="overflow-x-auto pb-1 md:pb-0 -mx-4 px-4 md:mx-0 md:px-0 scrollbar-hide">
+                <div className="flex gap-2 md:gap-3 min-w-max md:flex-wrap md:justify-center md:min-w-0">
                   {categoryOptions.map((category) => (
                     <motion.button
                       key={category.value}
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => handleCategoryChange(category.value)}
-                      className={`px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-xs font-medium transition-all duration-200 whitespace-nowrap flex-shrink-0 ${
+                      className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 whitespace-nowrap flex-shrink-0 ${
                         selectedCategory === category.value
                           ? 'bg-primary-500 text-white shadow-sm'
                           : 'bg-gray-100 text-gray-700 hover:bg-primary-50'
@@ -297,54 +297,104 @@ const MenuPage: React.FC<MenuPageProps> = ({
                 </div>
               </div>
 
-              {/* Controls Group - Mobile Compact */}
-              <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 md:gap-3 sm:items-center sm:justify-between w-full">
-                {/* View Mode Toggle - Mobile Compact */}
-                <div className="flex items-center justify-center sm:justify-start gap-1.5 sm:gap-2 w-full sm:w-auto">
-                  <span className="text-xs font-medium text-gray-500 whitespace-nowrap">Tampilan:</span>
-                  <div className="flex bg-gray-100 rounded-lg p-0.5">
+              {/* Controls Group - Desktop Layout */}
+              <div className="hidden md:flex items-center justify-center gap-8">
+                {/* View Mode Toggle */}
+                <div className="flex items-center gap-3">
+                  <span className="text-sm font-medium text-gray-500">Tampilan:</span>
+                  <div className="flex bg-gray-100 rounded-lg p-1">
                     <motion.button
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => setViewMode('list')}
-                      className={`flex items-center gap-1 px-1.5 sm:px-2 py-1 rounded-md text-xs font-medium transition-all duration-200 ${
+                      className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
                         viewMode === 'list'
                           ? 'bg-white text-primary-600 shadow-sm'
                           : 'text-gray-600 hover:text-gray-800'
                       }`}
                     >
-                      <List className="w-3 h-3 flex-shrink-0" />
-                      <span className="hidden xs:inline">List</span>
+                      <List className="w-4 h-4" />
+                      <span>List</span>
                     </motion.button>
                     <motion.button
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => setViewMode('grid')}
-                      className={`flex items-center gap-1 px-1.5 sm:px-2 py-1 rounded-md text-xs font-medium transition-all duration-200 ${
+                      className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
                         viewMode === 'grid'
                           ? 'bg-white text-primary-600 shadow-sm'
                           : 'text-gray-600 hover:text-gray-800'
                       }`}
                     >
-                      <Grid3X3 className="w-3 h-3 flex-shrink-0" />
-                      <span className="hidden xs:inline">Grid</span>
+                      <Grid3X3 className="w-4 h-4" />
+                      <span>Grid</span>
                     </motion.button>
                   </div>
                 </div>
 
-                {/* Sort Dropdown - Mobile Compact */}
-                <div className="relative flex justify-center sm:justify-end w-full sm:w-auto">
+                {/* Sort Dropdown */}
+                <div className="relative">
                   <select
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value as 'name' | 'price' | 'popular')}
-                    className="appearance-none bg-white border border-gray-300 rounded-lg px-2 sm:px-3 py-1 sm:py-1.5 pr-6 text-xs font-medium focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 w-full sm:w-auto sm:min-w-[120px] max-w-[200px] sm:max-w-none"
+                    className="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2 pr-8 text-sm font-medium focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 min-w-[140px]"
                   >
                     <option value="name">Nama</option>
                     <option value="price">Harga</option>
                     <option value="popular">Populer</option>
                   </select>
-                  <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                    <Filter className="w-3 h-3 text-gray-400" />
+                  <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                    <Filter className="w-4 h-4 text-gray-400" />
+                  </div>
+                </div>
+              </div>
+
+              {/* Mobile Controls - Stacked Layout */}
+              <div className="md:hidden space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium text-gray-500">Tampilan:</span>
+                  <div className="flex bg-gray-100 rounded-lg p-1">
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => setViewMode('list')}
+                      className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+                        viewMode === 'list'
+                          ? 'bg-white text-primary-600 shadow-sm'
+                          : 'text-gray-600 hover:text-gray-800'
+                      }`}
+                    >
+                      <List className="w-4 h-4" />
+                      <span>List</span>
+                    </motion.button>
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => setViewMode('grid')}
+                      className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+                        viewMode === 'grid'
+                          ? 'bg-white text-primary-600 shadow-sm'
+                          : 'text-gray-600 hover:text-gray-800'
+                      }`}
+                    >
+                      <Grid3X3 className="w-4 h-4" />
+                      <span>Grid</span>
+                    </motion.button>
+                  </div>
+                </div>
+                
+                <div className="relative">
+                  <select
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value as 'name' | 'price' | 'popular')}
+                    className="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2 pr-8 text-sm font-medium focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 w-full"
+                  >
+                    <option value="name">Nama</option>
+                    <option value="price">Harga</option>
+                    <option value="popular">Populer</option>
+                  </select>
+                  <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                    <Filter className="w-4 h-4 text-gray-400" />
                   </div>
                 </div>
               </div>
@@ -353,7 +403,7 @@ const MenuPage: React.FC<MenuPageProps> = ({
         </section>
 
         {/* Menu Display - Premium Interactive Layout */}
-        <section className="py-8 sm:py-12 md:py-16 bg-gradient-to-br from-white via-gray-50 to-white relative overflow-hidden">
+        <section className="py-2 sm:py-4 md:py-6 bg-gradient-to-br from-white via-gray-50 to-white relative overflow-hidden">
           {/* Animated Background Elements */}
           <div className="absolute inset-0">
             {/* Main Gradient Orbs */}
@@ -454,12 +504,12 @@ const MenuPage: React.FC<MenuPageProps> = ({
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6 }}
-                  className="mb-4 sm:mb-6 md:mb-8"
+                  className="mb-2 sm:mb-4 md:mb-6"
                 >
-                  <h2 className="text-xl sm:text-3xl md:text-4xl font-black text-gray-900 mb-1 sm:mb-2 font-rounded">
+                  <h2 className="text-lg sm:text-2xl md:text-3xl font-black text-gray-900 mb-0.5 sm:mb-1 font-rounded">
                     {selectedCategory === 'all' ? 'Semua Menu' : selectedCategory}
                   </h2>
-                  <p className="text-sm sm:text-base text-gray-600 font-medium">
+                  <p className="text-xs sm:text-sm text-gray-600 font-medium">
                     {filteredProducts.length} menu tersedia
                   </p>
                 </motion.div>
@@ -524,7 +574,7 @@ const MenuPage: React.FC<MenuPageProps> = ({
                                   transition={{ duration: 0.3, delay: categoryIndex * 0.1 }}
                                   className="sticky top-0 bg-white py-2 z-10"
                                 >
-                                  <h3 className="text-sm font-bold text-gray-700 font-display border-b border-gray-200 pb-1">
+                                  <h3 className="text-base font-black text-gray-800 font-display border-b-2 border-primary-200 pb-2" style={{ fontWeight: 900 }}>
                                     {category}
                                   </h3>
                                 </motion.div>
@@ -678,7 +728,7 @@ const MenuPage: React.FC<MenuPageProps> = ({
                                   transition={{ duration: 0.3, delay: categoryIndex * 0.1 }}
                                   className="sticky top-0 bg-white py-2 z-10"
                                 >
-                                  <h3 className="text-lg font-bold text-gray-700 font-display border-b border-gray-200 pb-2">
+                                  <h3 className="text-xl font-black text-gray-800 font-display border-b-2 border-primary-200 pb-3" style={{ fontWeight: 900 }}>
                                     {category}
                                   </h3>
                                 </motion.div>
