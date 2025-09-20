@@ -16,13 +16,13 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const router = useRouter();
 
-  // Handle scroll effect with smooth transition
+  // Simplified scroll effect for performance
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
+      setIsScrolled(window.scrollY > 50);
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -56,18 +56,11 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-[9999] transition-all duration-500 ease-out ${
+      className={`w-full transition-colors duration-300 ${
         isScrolled
-          ? 'bg-white/95 backdrop-blur-xl shadow-luxury border-b border-gray-100'
+          ? 'bg-white/90 shadow-lg border-b border-gray-200'
           : 'bg-transparent'
       }`}
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 9999,
-      }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-12 lg:h-14">
