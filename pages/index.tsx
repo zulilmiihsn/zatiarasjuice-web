@@ -335,20 +335,73 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                 </div>
               </motion.div>
 
-              {/* Samarinda Branch - Clean Design */}
+              {/* Samarinda Branch - Premium Design */}
               <motion.div
                 initial={{ opacity: 0, x: 50 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6 }}
-                whileHover={{ y: -4 }}
-                className="bg-white rounded-2xl shadow-clean hover:shadow-lg transition-all duration-300 overflow-hidden group"
+                transition={{ duration: 0.8 }}
+                whileHover={{ 
+                  y: -8, 
+                  scale: 1.02,
+                  rotateY: 5,
+                  boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)'
+                }}
+                className="card-premium group perspective-3d"
+                style={{ transformStyle: 'preserve-3d' }}
               >
-                <div className="h-48 bg-gradient-to-br from-pinky-500 to-pinky-600 relative overflow-hidden">
+                <div className="h-56 bg-gradient-to-br from-pinky-500 via-pinky-600 to-pinky-700 relative overflow-hidden">
+                  {/* Animated Background Elements */}
+                  <div className="absolute inset-0">
+                    <motion.div
+                      className="absolute top-4 right-4 w-20 h-20 bg-white/20 rounded-full blur-xl"
+                      animate={{
+                        scale: [1, 1.2, 1],
+                        opacity: [0.3, 0.6, 0.3],
+                      }}
+                      transition={{
+                        duration: 3,
+                        repeat: Infinity,
+                        ease: 'easeInOut',
+                      }}
+                    />
+                    <motion.div
+                      className="absolute bottom-4 left-4 w-16 h-16 bg-white/30 rounded-full blur-lg"
+                      animate={{
+                        scale: [1.2, 1, 1.2],
+                        opacity: [0.4, 0.7, 0.4],
+                      }}
+                      transition={{
+                        duration: 4,
+                        repeat: Infinity,
+                        ease: 'easeInOut',
+                      }}
+                    />
+                  </div>
+                  
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="text-center">
-                      <h3 className="text-3xl font-black text-white font-rounded">Samarinda</h3>
-                      <p className="text-white/80 mt-2">Cabang Utama</p>
-                    </div>
+                    <motion.div 
+                      className="text-center"
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6 }}
+                    >
+                      <motion.h3 
+                        className="text-4xl font-black text-white font-rounded mb-2"
+                        animate={{ 
+                          textShadow: [
+                            '0 0 10px rgba(255, 255, 255, 0.5)',
+                            '0 0 20px rgba(255, 255, 255, 0.8)',
+                            '0 0 10px rgba(255, 255, 255, 0.5)'
+                          ]
+                        }}
+                        transition={{ 
+                          textShadow: { duration: 2, repeat: Infinity, ease: 'easeInOut' }
+                        }}
+                      >
+                        Samarinda
+                      </motion.h3>
+                      <p className="text-white/90 text-lg font-semibold">Cabang Utama</p>
+                    </motion.div>
                   </div>
                 </div>
                 <div className="p-8">
@@ -382,12 +435,34 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                   </div>
                   
                   <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
+                    whileHover={{ 
+                      scale: 1.05, 
+                      y: -2,
+                      boxShadow: '0 15px 30px rgba(236, 72, 153, 0.4)'
+                    }}
+                    whileTap={{ scale: 0.95 }}
                     onClick={() => handleBranchSelect('samarinda')}
-                    className="w-full bg-pinky-500 text-white py-3 rounded-xl font-bold text-base hover:bg-pinky-600 transition-all duration-200 mt-6"
+                    className="w-full bg-gradient-to-r from-pinky-500 to-pinky-600 text-white py-4 rounded-2xl font-bold text-lg hover:from-pink-500 hover:to-purple-500 transition-all duration-300 mt-8 shadow-glow-primary hover:shadow-glow-pinky relative overflow-hidden group"
                   >
-                    Lihat Menu Samarinda
+                    <motion.div
+                      className="absolute inset-0 bg-gradient-to-r from-pink-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                      initial={false}
+                    />
+                    <span className="relative z-10 flex items-center justify-center gap-2">
+                      <motion.span
+                        animate={{ 
+                          rotate: [0, 10, -10, 0],
+                        }}
+                        transition={{ 
+                          duration: 2,
+                          repeat: Infinity,
+                          ease: 'easeInOut'
+                        }}
+                      >
+                        🍹
+                      </motion.span>
+                      <span>Lihat Menu Samarinda</span>
+                    </span>
                   </motion.button>
                 </div>
               </motion.div>
