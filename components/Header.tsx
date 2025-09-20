@@ -29,7 +29,6 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
   const navigationItems = [
     { name: 'Beranda', href: branch ? `/${branch}` : '/' },
     { name: 'Menu', href: branch ? `/${branch}/menu` : '/menu' },
-    { name: 'Tentang', href: branch ? `/${branch}/about` : '/about' },
     { name: 'Kontak', href: branch ? `/${branch}/contact` : '/contact' },
   ];
 
