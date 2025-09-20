@@ -57,9 +57,9 @@ const Footer: React.FC<FooterProps> = ({ branch }) => {
   ];
 
   return (
-    <footer className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
+    <footer className="bg-gray-900 text-white relative overflow-hidden">
       {/* Main Footer Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Brand Section */}
           <motion.div
@@ -68,29 +68,32 @@ const Footer: React.FC<FooterProps> = ({ branch }) => {
             transition={{ duration: 0.6 }}
             className="lg:col-span-1"
           >
-            <div className="flex items-center space-x-2 mb-4">
-              <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-xl flex items-center justify-center">
-                <span className="text-white font-bold text-lg">Z</span>
-              </div>
+            <div className="flex items-center space-x-3 mb-6">
+              <motion.div 
+                className="w-10 h-10 bg-primary-500 rounded-lg flex items-center justify-center shadow-clean"
+                whileHover={{ scale: 1.05 }}
+              >
+                <span className="text-white font-bold text-lg font-display">Z</span>
+              </motion.div>
               <div>
-                <h3 className="text-xl font-bold text-white">Zatiaras Juice</h3>
-                <p className="text-sm text-gray-400">Jus Alpukat & Buah Segar Nomor 1</p>
+                <h3 className="text-xl font-bold text-white font-display">Zatiaras Juice</h3>
+                <p className="text-sm text-gray-300 font-medium">Jus Alpukat & Buah Segar Nomor 1</p>
               </div>
             </div>
             <p className="text-gray-300 text-sm leading-relaxed mb-6">
               Nikmati kesegaran jus alpukat dan aneka jus buah segar berkualitas tinggi. 
               Dibuat dengan cinta dan bahan-bahan terbaik untuk kesehatan Anda.
             </p>
-            <div className="flex space-x-4">
+            <div className="flex space-x-3">
               {socialLinks.map((social) => (
                 <motion.a
                   key={social.name}
-                  whileHover={{ scale: 1.1, y: -2 }}
+                  whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 bg-gray-700 rounded-lg flex items-center justify-center hover:bg-primary-500 transition-colors duration-300"
+                  className="w-10 h-10 bg-gray-700 rounded-lg flex items-center justify-center hover:bg-primary-500 transition-all duration-200"
                 >
                   <social.icon className="w-5 h-5" />
                 </motion.a>
@@ -104,15 +107,15 @@ const Footer: React.FC<FooterProps> = ({ branch }) => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            <h4 className="text-lg font-semibold mb-4 text-white">Menu Cepat</h4>
-            <ul className="space-y-3">
+            <h4 className="text-xl font-bold mb-6 text-white font-display">🚀 Menu Cepat</h4>
+            <ul className="space-y-4">
               {quickLinks.map((link) => (
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-gray-300 hover:text-primary-400 transition-colors duration-300 text-sm"
+                    className="text-gray-300 hover:text-primary-400 transition-colors duration-300 text-sm font-medium hover:translate-x-2 inline-block"
                   >
-                    {link.name}
+                    ✨ {link.name}
                   </Link>
                 </li>
               ))}
@@ -125,8 +128,8 @@ const Footer: React.FC<FooterProps> = ({ branch }) => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <h4 className="text-lg font-semibold mb-4 text-white">
-              {currentBranch ? `Cabang ${currentBranch.name}` : 'Lokasi Kami'}
+            <h4 className="text-xl font-bold mb-6 text-white font-display">
+              {currentBranch ? `🏪 Cabang ${currentBranch.name}` : '📍 Lokasi Kami'}
             </h4>
             <div className="space-y-3">
               <div className="flex items-start space-x-3">
@@ -161,19 +164,24 @@ const Footer: React.FC<FooterProps> = ({ branch }) => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            <h4 className="text-lg font-semibold mb-4 text-white">Order Online</h4>
-            <div className="space-y-3">
+            <h4 className="text-xl font-bold mb-6 text-white font-display">🛒 Order Online</h4>
+            <div className="space-y-4">
               {deliveryPartners.map((partner) => (
                 <motion.a
                   key={partner.name}
-                  whileHover={{ scale: 1.05, x: 5 }}
+                  whileHover={{ scale: 1.05, x: 5, y: -2 }}
                   whileTap={{ scale: 0.95 }}
                   href={partner.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block bg-gray-700 hover:bg-primary-500 rounded-lg px-4 py-2 text-sm font-medium transition-all duration-300"
+                  className="block bg-gradient-to-r from-gray-700 to-gray-600 hover:from-primary-500 hover:to-cute-500 rounded-2xl px-6 py-3 text-sm font-bold transition-all duration-300 shadow-cute hover:shadow-elegant"
                 >
-                  {partner.name}
+                  <span className="flex items-center gap-2">
+                    <span className="text-lg">
+                      {partner.name === 'WhatsApp' ? '💬' : partner.name === 'GoFood' ? '🚚' : '🍽️'}
+                    </span>
+                    <span>{partner.name}</span>
+                  </span>
                 </motion.a>
               ))}
             </div>
@@ -186,21 +194,26 @@ const Footer: React.FC<FooterProps> = ({ branch }) => {
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ duration: 0.6 }}
-        className="border-t border-gray-700"
+        className="border-t border-gray-700 relative z-10"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
-            <div className="flex items-center space-x-2 text-sm text-gray-400">
+            <div className="flex items-center space-x-2 text-sm text-gray-300 font-medium">
               <span>© 2025 Zatiaras Juice. Dibuat dengan</span>
-              <Heart className="w-4 h-4 text-primary-400 fill-current" />
-              <span>di Kalimantan Timur</span>
+              <motion.div
+                animate={{ scale: [1, 1.2, 1] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                <Heart className="w-5 h-5 text-primary-400 fill-current" />
+              </motion.div>
+              <span>di Kalimantan Timur ✨</span>
             </div>
-            <div className="flex items-center space-x-6 text-sm text-gray-400">
-              <Link href="/privacy" className="hover:text-primary-400 transition-colors duration-300">
-                Kebijakan Privasi
+            <div className="flex items-center space-x-6 text-sm text-gray-300">
+              <Link href="/privacy" className="hover:text-primary-400 transition-colors duration-300 font-medium">
+                🔒 Kebijakan Privasi
               </Link>
-              <Link href="/terms" className="hover:text-primary-400 transition-colors duration-300">
-                Syarat & Ketentuan
+              <Link href="/terms" className="hover:text-primary-400 transition-colors duration-300 font-medium">
+                📋 Syarat & Ketentuan
               </Link>
             </div>
           </div>

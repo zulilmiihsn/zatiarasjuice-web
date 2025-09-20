@@ -1,86 +1,36 @@
-@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap');
+/* Font imports moved to _app.tsx for consistency */
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Base Font Styles - Modern 2025 */
-* {
-  font-family: var(--font-body);
-}
+/* Import Typography Utilities */
+@import './typography.css';
 
+/* Clean Typography Base - 2024 */
 body {
-  font-family: var(--font-body);
-  font-weight: 500;
+  font-family: 'Nunito Sans', system-ui, sans-serif;
+  font-weight: 400;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   letter-spacing: -0.01em;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-display);
-  font-weight: 600;
-  line-height: 1.1;
-  letter-spacing: 0.03em;
+/* Let Tailwind handle font families and weights */
+
+/* Font Rounded - M PLUS Rounded 1c */
+.font-rounded {
+  font-family: 'M PLUS Rounded 1c', 'Nunito Sans', system-ui, sans-serif !important;
 }
 
-.display-font {
-  font-family: var(--font-display);
-  font-weight: 600;
-  letter-spacing: 0.04em;
-}
-
-.heading-font {
-  font-family: var(--font-body);
-  font-weight: 400;
-  letter-spacing: 0.03em;
-}
-
-.mono-font {
-  font-family: var(--font-mono);
-  font-weight: 500;
-  letter-spacing: -0.01em;
-}
-
-/* Plus Jakarta Sans Font Weight Adjustments */
-p, span, div, a, button {
-  font-weight: 500;
-}
-
-.font-medium {
-  font-weight: 600;
-}
-
-.font-semibold {
-  font-weight: 700;
-}
-
-.font-bold {
-  font-weight: 800;
-}
-
-/* Fredoka untuk MorphingText */
-.morphing-text-fredoka {
-  font-family: 'Fredoka', cursive, sans-serif !important;
-  font-weight: 500 !important;
-  font-style: normal !important;
-}
-
-.morphing-text-fredoka span {
-  font-family: 'Fredoka', cursive, sans-serif !important;
-  font-weight: 500 !important;
-  font-style: normal !important;
-}
 
 /* Custom CSS Variables */
 :root {
-  /* Font Families - Optimized */
-  --font-display: 'Plus Jakarta Sans', sans-serif;
-  --font-body: 'Plus Jakarta Sans', sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  /* Font Families - Consistent with Tailwind */
+  --font-display: 'Quicksand', 'Nunito Sans', system-ui, sans-serif;
+  --font-body: 'Nunito Sans', system-ui, sans-serif;
+  --font-rounded: 'M PLUS Rounded 1c', 'Nunito Sans', system-ui, sans-serif;
   
   --primary-50: #fdf2f8;
   --primary-100: #fce7f3;
@@ -186,9 +136,6 @@ html {
     @apply card hover:-translate-y-2 hover:scale-105;
   }
 
-  .gradient-text {
-    @apply bg-gradient-to-r from-primary-500 to-secondary-500 bg-clip-text text-transparent;
-  }
 
   .gradient-bg {
     @apply bg-gradient-to-br from-primary-500 to-secondary-500;
@@ -215,15 +162,6 @@ html {
     box-shadow: inset 8px 8px 16px #d1d9e6, inset -8px -8px 16px #ffffff;
   }
 
-  .floating-animation {
-    animation: floating 3s ease-in-out infinite;
-    will-change: transform;
-  }
-
-  .floating-animation-optimized {
-    animation: floating-optimized 4s ease-in-out infinite;
-    will-change: transform;
-  }
 
   .glow-effect {
     box-shadow: 0 0 20px rgba(255, 110, 199, 0.3), 0 0 40px rgba(255, 110, 199, 0.2), 0 0 60px rgba(255, 110, 199, 0.1);
@@ -346,23 +284,6 @@ html {
   }
 }
 
-@keyframes floating {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-20px);
-  }
-}
-
-@keyframes floating-optimized {
-  0%, 100% {
-    transform: translateY(0px) scale(1);
-  }
-  50% {
-    transform: translateY(calc(var(--amplitude, -10px))) scale(1.05);
-  }
-}
 
 @keyframes gradientShift {
   0% {
@@ -394,101 +315,11 @@ html {
   }
 }
 
-/* Utility Classes */
-.animate-fade-in-up {
-  animation: fadeInUp 0.6s ease-out;
-}
+/* Utility Classes - Only keeping used ones */
 
-.animate-fade-in-left {
-  animation: fadeInLeft 0.6s ease-out;
-}
 
-.animate-fade-in-right {
-  animation: fadeInRight 0.6s ease-out;
-}
 
-.animate-scale-in {
-  animation: scaleIn 0.4s ease-out;
-}
 
-.animate-bounce-in {
-  animation: bounceIn 0.6s ease-out;
-}
-
-.animate-pulse {
-  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-.animate-shimmer {
-  animation: shimmer 2s infinite;
-  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-  background-size: 200px 100%;
-}
-
-/* Loading States */
-.loading-skeleton {
-  @apply animate-pulse bg-gray-200 rounded;
-}
-
-.loading-shimmer {
-  @apply animate-shimmer bg-gray-200 rounded;
-}
-
-/* Responsive Design */
-@media (max-width: 640px) {
-  .container {
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
-}
-
-@media (max-width: 768px) {
-  .grid-responsive {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (min-width: 769px) {
-  .grid-responsive {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 1024px) {
-  .grid-responsive {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-/* Print Styles */
-@media print {
-  * {
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
-  }
-  
-  .no-print {
-    display: none !important;
-  }
-}
-
-/* Dark Mode Support */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text-primary: #f9fafb;
-    --text-secondary: #d1d5db;
-    --bg-primary: #111827;
-    --bg-secondary: #1f2937;
-  }
-}
-
-/* High Contrast Mode */
-@media (prefers-contrast: high) {
-  :root {
-    --primary-500: #000000;
-    --secondary-500: #000000;
-  }
-}
 
 /* Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
@@ -502,59 +333,5 @@ html {
   }
 }
 
-/* Custom Properties for JavaScript */
-:root {
-  --header-height: 4rem;
-  --footer-height: auto;
-  --content-max-width: 80rem;
-}
 
-/* Accessibility */
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
 
-/* Focus Visible */
-.focus-visible:focus {
-  outline: 2px solid var(--primary-500);
-  outline-offset: 2px;
-}
-
-/* Skip Link */
-.skip-link {
-  position: absolute;
-  top: -40px;
-  left: 6px;
-  background: var(--primary-500);
-  color: white;
-  padding: 8px;
-  text-decoration: none;
-  z-index: 1000;
-}
-
-.skip-link:focus {
-  top: 6px;
-}
-
-/* Custom Properties for Theme */
-[data-theme="light"] {
-  --bg-primary: #ffffff;
-  --bg-secondary: #f9fafb;
-  --text-primary: #111827;
-  --text-secondary: #6b7280;
-}
-
-[data-theme="dark"] {
-  --bg-primary: #111827;
-  --bg-secondary: #1f2937;
-  --text-primary: #f9fafb;
-  --text-secondary: #d1d5db;
-}

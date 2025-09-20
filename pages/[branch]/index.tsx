@@ -2,15 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { MapPin, Phone, Clock } from 'lucide-react';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
-import HeroBanner from '../../components/HeroBanner';
-import ProductCard from '../../components/ProductCard';
-import { getProducts, getCategories, getBranchInfo, createSupabaseClient } from '../../lib/supabase';
+import HeroTrendy from '../../components/HeroTrendy';
+import ProductCardMinimal from '../../components/ProductCardMinimal';
 import { getBranchSEOData, getMenuStructuredData } from '../../lib/seo';
-import { Branch, Product, Category } from '../../lib/supabase';
+import type { Branch, Product, Category } from '../../lib/supabase';
 
 interface BranchPageProps {
   branch: Branch;
@@ -27,7 +25,6 @@ const BranchPage: React.FC<BranchPageProps> = ({
   branchInfo, 
   seoData 
 }) => {
-  const router = useRouter();
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
   const [favorites, setFavorites] = useState<string[]>([]);
@@ -52,13 +49,12 @@ const BranchPage: React.FC<BranchPageProps> = ({
     );
   };
 
-  const handleAddToCart = async (product: any) => {
-    // Implementasi add to cart logic
-    console.log('Adding to cart:', product);
+  const handleAddToCart = (product: any) => {
+    // Add to cart logic here
+    console.log('Added to cart:', product);
   };
 
-  const featuredProducts = products.filter(product => product.is_featured);
-  const categoryNames = categories.map(cat => cat.name);
+  const featuredProducts = products.filter(product => product.is_featured).slice(0, 6);
 
   return (
     <>
@@ -86,32 +82,153 @@ const BranchPage: React.FC<BranchPageProps> = ({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(seoData.structuredData) }}
         />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(getMenuStructuredData(branch, products)) }}
-        />
       </Head>
 
-      <div className="min-h-screen bg-gray-50">
-        <Header branch={branch} />
+      <div className="min-h-screen bg-white">
+        <Header branch={branch} currentPath={`/${branch}`} />
         
-        {/* Hero Section */}
-        <HeroBanner branch={branch} />
+        {/* Hero Section - Trendy 2024 dengan Parallax */}
+        <HeroTrendy branch={branch} />
+        
+        {/* Branch Info Section - Modern & Trendy */}
+        <section className="py-20 bg-gradient-to-br from-gray-50 via-white to-gray-50 relative overflow-hidden">
+          {/* Animated Background Elements */}
+          <div className="absolute inset-0">
+            <motion.div
+              className="absolute top-20 left-20 w-32 h-32 bg-gradient-to-r from-pink-500/20 to-purple-500/20 rounded-full blur-2xl"
+              animate={{
+                scale: [1, 1.2, 1],
+                opacity: [0.3, 0.6, 0.3],
+              }}
+              transition={{
+                duration: 6,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
+            />
+            <motion.div
+              className="absolute bottom-20 right-20 w-40 h-40 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 rounded-full blur-2xl"
+              animate={{
+                scale: [1.2, 1, 1.2],
+                opacity: [0.4, 0.7, 0.4],
+              }}
+              transition={{
+                duration: 8,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
+            />
+          </div>
 
-        {/* Branch Info Section */}
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="text-center"
+            >
+              <h1 className="text-display-xl text-gray-900 mb-6 font-bold">
+                Zatiaras Juice {branch.charAt(0).toUpperCase() + branch.slice(1)}
+              </h1>
+              <p className="text-body-xl text-gray-600 max-w-3xl mx-auto mb-8">
+                {branchInfo?.description || `Nikmati kesegaran jus alpukat dan aneka jus buah segar di cabang ${branch} ✨`}
+              </p>
+              
+              {/* Quick Stats dengan Glassmorphism */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-8">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                  whileHover={{ y: -5, scale: 1.02 }}
+                  className="backdrop-blur-xl bg-white/70 rounded-2xl p-8 shadow-xl border border-white/20"
+                >
+                  <div className="text-4xl font-bold text-primary-500 mb-2 font-display">{products.length}+</div>
+                  <div className="text-gray-600 font-medium">Menu Tersedia</div>
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.3 }}
+                  whileHover={{ y: -5, scale: 1.02 }}
+                  className="backdrop-blur-xl bg-white/70 rounded-2xl p-8 shadow-xl border border-white/20"
+                >
+                  <div className="text-4xl font-bold text-pinky-500 mb-2 font-display">4.9</div>
+                  <div className="text-gray-600 font-medium">Rating Pelanggan</div>
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.4 }}
+                  whileHover={{ y: -5, scale: 1.02 }}
+                  className="backdrop-blur-xl bg-white/70 rounded-2xl p-8 shadow-xl border border-white/20"
+                >
+                  <div className="text-4xl font-bold text-cute-500 mb-2 font-display">100%</div>
+                  <div className="text-gray-600 font-medium">Alami & Segar</div>
+                </motion.div>
+              </div>
+
+              {/* Quick Order Buttons dengan Modern Design */}
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <motion.a
+                  whileHover={{ 
+                    scale: 1.05,
+                    boxShadow: '0 20px 40px rgba(255, 105, 180, 0.3)',
+                  }}
+                  whileTap={{ scale: 0.95 }}
+                  href={`https://wa.me/${branchInfo?.whatsapp?.replace(/\D/g, '') || '6281234567890'}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group relative bg-gradient-to-r from-primary-500 to-pinky-500 text-white px-8 py-4 rounded-2xl text-lg font-bold overflow-hidden shadow-xl"
+                >
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-pink-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    initial={false}
+                  />
+                  <span className="relative z-10 flex items-center justify-center gap-2">
+                    <span className="text-2xl">💬</span>
+                    <span>Order via WhatsApp</span>
+                  </span>
+                </motion.a>
+                <motion.a
+                  whileHover={{ 
+                    scale: 1.05,
+                    boxShadow: '0 20px 40px rgba(255, 255, 255, 0.3)',
+                  }}
+                  whileTap={{ scale: 0.95 }}
+                  href="https://gofood.co.id/merchant/zatiaras-juice"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group relative border-2 border-primary-500 text-primary-500 px-8 py-4 rounded-2xl text-lg font-bold overflow-hidden backdrop-blur-sm"
+                >
+                  <motion.div
+                    className="absolute inset-0 bg-primary-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    initial={false}
+                  />
+                  <span className="relative z-10 flex items-center justify-center gap-2 group-hover:text-white">
+                    <span className="text-2xl">🚚</span>
+                    <span>Order via GoFood</span>
+                  </span>
+                </motion.a>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* Branch Info Section - Clean & Professional */}
         <section className="py-16 bg-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               className="text-center mb-12"
             >
-              <h2 className="text-4xl font-bold text-gray-900 mb-4">
-                Zatiaras Juice {branch.charAt(0).toUpperCase() + branch.slice(1)}
+              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4 font-display">
+                Informasi Cabang
               </h2>
-              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                {branchInfo?.description || `Nikmati kesegaran jus alpukat dan aneka jus buah segar di cabang ${branch}`}
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto font-medium">
+                Informasi lengkap tentang cabang {branch.charAt(0).toUpperCase() + branch.slice(1)}
               </p>
             </motion.div>
 
@@ -120,13 +237,14 @@ const BranchPage: React.FC<BranchPageProps> = ({
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.1 }}
-                className="text-center"
+                whileHover={{ y: -4 }}
+                className="text-center bg-gray-50 rounded-lg p-8 hover:shadow-medium transition-all duration-300"
               >
-                <div className="w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                  <MapPin className="w-10 h-10 text-primary-600" />
+                <div className="w-16 h-16 bg-primary-100 rounded-lg flex items-center justify-center mx-auto mb-6">
+                  <MapPin className="w-8 h-8 text-primary-600" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">Lokasi</h3>
-                <p className="text-gray-600">
+                <h3 className="text-xl font-bold text-gray-900 mb-4 font-display">Lokasi</h3>
+                <p className="text-gray-600 font-medium leading-relaxed">
                   {branchInfo?.address || `Jl. Contoh No. 123, ${branch.charAt(0).toUpperCase() + branch.slice(1)}`}
                 </p>
               </motion.div>
@@ -135,13 +253,14 @@ const BranchPage: React.FC<BranchPageProps> = ({
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
-                className="text-center"
+                whileHover={{ y: -4 }}
+                className="text-center bg-gray-50 rounded-lg p-8 hover:shadow-medium transition-all duration-300"
               >
-                <div className="w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                  <Phone className="w-10 h-10 text-primary-600" />
+                <div className="w-16 h-16 bg-pinky-100 rounded-lg flex items-center justify-center mx-auto mb-6">
+                  <Phone className="w-8 h-8 text-pinky-600" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">Telepon</h3>
-                <p className="text-gray-600">
+                <h3 className="text-xl font-bold text-gray-900 mb-4 font-display">Telepon</h3>
+                <p className="text-gray-600 font-medium">
                   {branchInfo?.phone || '+62812-3456-7890'}
                 </p>
               </motion.div>
@@ -150,13 +269,14 @@ const BranchPage: React.FC<BranchPageProps> = ({
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
-                className="text-center"
+                whileHover={{ y: -4 }}
+                className="text-center bg-gray-50 rounded-lg p-8 hover:shadow-medium transition-all duration-300"
               >
-                <div className="w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                  <Clock className="w-10 h-10 text-primary-600" />
+                <div className="w-16 h-16 bg-cute-100 rounded-lg flex items-center justify-center mx-auto mb-6">
+                  <Clock className="w-8 h-8 text-cute-600" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">Jam Operasional</h3>
-                <p className="text-gray-600">
+                <h3 className="text-xl font-bold text-gray-900 mb-4 font-display">Jam Operasional</h3>
+                <p className="text-gray-600 font-medium">
                   {branchInfo?.hours || '08:00 - 22:00 WITA'}
                 </p>
               </motion.div>
@@ -164,25 +284,25 @@ const BranchPage: React.FC<BranchPageProps> = ({
           </div>
         </section>
 
-        {/* Featured Products Section */}
+        {/* Featured Products Section - Clean & Cute */}
         {featuredProducts.length > 0 && (
-          <section className="py-20 bg-gray-50">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <section className="py-16 bg-gray-50">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
-                className="text-center mb-16"
+                className="text-center mb-12"
               >
-                <h2 className="text-4xl font-bold text-gray-900 mb-4">
+                <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4 font-display">
                   Menu Favorit
                 </h2>
-                <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                <p className="text-lg text-gray-600 max-w-2xl mx-auto font-medium">
                   Pilihan terbaik dari menu Zatiaras Juice yang paling diminati
                 </p>
               </motion.div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {featuredProducts.map((product, index) => (
                   <motion.div
                     key={product.id}
@@ -190,7 +310,7 @@ const BranchPage: React.FC<BranchPageProps> = ({
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: index * 0.1 }}
                   >
-                    <ProductCard 
+                    <ProductCardMinimal 
                       product={product} 
                       onAddToCart={handleAddToCart}
                       onToggleFavorite={handleToggleFavorite}
@@ -199,133 +319,26 @@ const BranchPage: React.FC<BranchPageProps> = ({
                   </motion.div>
                 ))}
               </div>
-            </div>
-          </section>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                className="text-center mt-12"
+              >
+                <motion.a
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  href={`/${branch}/menu`}
+                  className="inline-flex items-center gap-2 bg-primary-500 text-white px-8 py-4 rounded-lg text-lg font-medium hover:bg-primary-600 transition-all duration-200"
+                >
+                  <span>🍹</span>
+                  <span>Lihat Semua Menu</span>
+                </motion.a>
+            </motion.div>
+          </div>
+        </section>
         )}
-
-        {/* Category Filter Section */}
-        <section className="py-20 bg-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="text-center mb-12"
-            >
-              <h2 className="text-4xl font-bold text-gray-900 mb-4">
-                Menu Lengkap
-              </h2>
-              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                Pilih kategori favorit Anda dan nikmati kesegaran jus buah segar
-              </p>
-            </motion.div>
-
-            {/* Category Filter */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="flex flex-wrap justify-center gap-4 mb-12"
-            >
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => handleCategoryChange('all')}
-                className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
-                  selectedCategory === 'all'
-                    ? 'bg-primary-500 text-white shadow-glow'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
-              >
-                    Semua
-                  </motion.button>
-              {categoryNames.map((category) => (
-                <motion.button
-                  key={category}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => handleCategoryChange(category)}
-                  className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
-                    selectedCategory === category
-                      ? 'bg-primary-500 text-white shadow-glow'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                  }`}
-                >
-                  {category}
-                </motion.button>
-              ))}
-            </motion.div>
-
-            {/* Products Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filteredProducts.map((product, index) => (
-                <motion.div
-                  key={product.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                >
-                  <ProductCard 
-                    product={product} 
-                    onAddToCart={handleAddToCart}
-                    onToggleFavorite={handleToggleFavorite}
-                    isFavorite={favorites.includes(product.id)}
-                  />
-                </motion.div>
-              ))}
-            </div>
-
-            {filteredProducts.length === 0 && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="text-center py-12"
-              >
-                <p className="text-gray-500 text-lg">Tidak ada produk dalam kategori ini</p>
-              </motion.div>
-            )}
-          </div>
-        </section>
-
-        {/* CTA Section */}
-        <section className="py-20 bg-gradient-to-r from-primary-500 to-secondary-500">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              <h2 className="text-4xl font-bold text-white mb-4">
-                Siap Memesan?
-              </h2>
-              <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-                Order sekarang dan nikmati kesegaran jus buah segar langsung di rumah Anda
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <motion.a
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  href={`https://wa.me/${branchInfo?.whatsapp?.replace(/\D/g, '') || '6281234567890'}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-white text-gray-900 px-8 py-4 rounded-full text-lg font-semibold hover:shadow-strong transition-all duration-300"
-                >
-                  Order via WhatsApp
-                </motion.a>
-                <motion.a
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  href="https://gofood.co.id/merchant/zatiaras-juice"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="border-2 border-white text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white hover:text-gray-900 transition-all duration-300"
-                >
-                  Order via GoFood
-                </motion.a>
-              </div>
-            </motion.div>
-          </div>
-        </section>
 
         <Footer branch={branch} />
       </div>
@@ -334,13 +347,11 @@ const BranchPage: React.FC<BranchPageProps> = ({
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = [
-    { params: { branch: 'berau' } },
-    { params: { branch: 'samarinda' } },
-  ];
-
   return {
-    paths,
+    paths: [
+      { params: { branch: 'berau' } },
+      { params: { branch: 'samarinda' } },
+    ],
     fallback: false,
   };
 };
@@ -348,97 +359,59 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const branch = params?.branch as Branch;
 
-  if (!branch || !['berau', 'samarinda'].includes(branch)) {
-    return {
-      notFound: true,
-    };
-  }
-
-  try {
-    // Fetch data from Supabase
-    const [products, categories, branchInfo] = await Promise.all([
-      getProducts(branch),
-      getCategories(branch),
-      getBranchInfo(branch),
-    ]);
-
-    const seoData = getBranchSEOData(branch);
-
-    return {
-      props: {
-        branch,
-        products,
-        categories,
-        branchInfo,
-        seoData,
-      },
-      revalidate: 3600, // Revalidate every hour
-    };
-  } catch (error) {
-    console.error('Error fetching data:', error);
-    
-    // Return mock data if Supabase is not available
-    const mockProducts: Product[] = [
+  // Mock data untuk sementara
+  const mockProducts = [
       {
         id: '1',
-        name: 'Jus Alpukat Premium',
-        description: 'Jus alpukat segar dengan susu dan gula aren',
-        price: 25000,
-        category: 'Alpukat',
-        image_url: '/images/jus-alpukat.jpg',
-        is_available: true,
+      name: 'Jus Alpukat Segar',
+      description: 'Jus alpukat segar dengan kualitas terbaik',
+      price: 15000,
+      category: 'Jus Alpukat',
+      image_url: '/images/avocado-juice.jpg',
+      gambar: '/images/avocado-juice.jpg',
         is_featured: true,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
+      rating: 4.8,
+      review_count: 120
       },
       {
         id: '2',
-        name: 'Jus Mangga Segar',
-        description: 'Jus mangga manis dengan es batu',
-        price: 20000,
-        category: 'Mangga',
-        image_url: '/images/jus-mangga.jpg',
-        is_available: true,
+      name: 'Jus Jeruk Manis',
+      description: 'Jus jeruk segar tanpa pengawet',
+      price: 12000,
+      category: 'Jus Buah',
+      image_url: '/images/orange-juice.jpg',
+      gambar: '/images/orange-juice.jpg',
         is_featured: true,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      },
-    ];
-
-    const mockCategories: Category[] = [
-      {
-        id: '1',
-        name: 'Alpukat',
-        description: 'Jus alpukat segar dan berkualitas',
-        image_url: '/images/category-alpukat.jpg',
-        sort_order: 1,
-        is_active: true,
-      },
-      {
-        id: '2',
-        name: 'Mangga',
+      rating: 4.6,
+      review_count: 95
+    },
+    {
+      id: '3',
+      name: 'Jus Mangga Segar',
         description: 'Jus mangga manis dan segar',
-        image_url: '/images/category-mangga.jpg',
-        sort_order: 2,
-        is_active: true,
-      },
+      price: 13000,
+      category: 'Jus Buah',
+      image_url: '/images/mango-juice.jpg',
+      gambar: '/images/mango-juice.jpg',
+      is_featured: true,
+      rating: 4.7,
+      review_count: 88
+    }
+  ];
+
+  const mockCategories = [
+    { id: '1', name: 'Jus Alpukat' },
+    { id: '2', name: 'Jus Buah' },
+    { id: '3', name: 'Jus Sayur' }
     ];
 
     const mockBranchInfo = {
-      id: branch,
-      name: `Zatiaras Juice ${branch.charAt(0).toUpperCase() + branch.slice(1)}`,
-      address: branch === 'berau' 
-        ? 'Jl. Ahmad Yani No. 123, Berau, Kalimantan Timur'
-        : 'Jl. Sudirman No. 456, Samarinda, Kalimantan Timur',
-      phone: branch === 'berau' ? '+62812-3456-7890' : '+62812-3456-7891',
-      whatsapp: branch === 'berau' ? '+62812-3456-7890' : '+62812-3456-7891',
-      latitude: branch === 'berau' ? -2.1872 : -0.5021,
-      longitude: branch === 'berau' ? 117.3703 : 117.1536,
-      is_active: true,
-      delivery_radius: 10,
-    };
-
-    const seoData = getBranchSEOData(branch);
+    name: branch.charAt(0).toUpperCase() + branch.slice(1),
+    address: `Jl. Contoh No. 123, ${branch.charAt(0).toUpperCase() + branch.slice(1)}`,
+    phone: '+62812-3456-7890',
+    whatsapp: '+62812-3456-7890',
+    hours: '08:00 - 22:00 WITA'
+  };
 
     return {
       props: {
@@ -446,11 +419,10 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         products: mockProducts,
         categories: mockCategories,
         branchInfo: mockBranchInfo,
-        seoData,
+      seoData: getBranchSEOData(branch),
       },
       revalidate: 3600,
     };
-  }
 };
 
 export default BranchPage;

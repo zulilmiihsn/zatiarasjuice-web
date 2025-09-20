@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Filter, Star, Clock, MapPin, Phone, Heart, ShoppingCart, Plus, Minus } from 'lucide-react';
+import { Search, Filter } from 'lucide-react';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
-import ProductCard from '../../components/ProductCard';
-import { getProducts, getCategories, getBranchInfo, createSupabaseClient } from '../../lib/supabase';
+import HeroTrendy from '../../components/HeroTrendy';
+import ProductCardMinimal from '../../components/ProductCardMinimal';
 import { getBranchSEOData, getMenuStructuredData } from '../../lib/seo';
-import { Branch, Product, Category } from '../../lib/supabase';
+import type { Branch, Product, Category } from '../../lib/supabase';
 
 interface MenuPageProps {
   branch: Branch;
@@ -26,7 +25,6 @@ const MenuPage: React.FC<MenuPageProps> = ({
   branchInfo, 
   seoData 
 }) => {
-  const router = useRouter();
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
   const [favorites, setFavorites] = useState<string[]>([]);
@@ -54,18 +52,19 @@ const MenuPage: React.FC<MenuPageProps> = ({
     // Sort products
     filtered.sort((a, b) => {
       switch (sortBy) {
+        case 'name':
+          return a.name.localeCompare(b.name);
         case 'price':
           return a.price - b.price;
         case 'popular':
           return (b.rating || 0) - (a.rating || 0);
-        case 'name':
         default:
-          return a.name.localeCompare(b.name);
+          return 0;
       }
     });
 
     setFilteredProducts(filtered);
-  }, [selectedCategory, searchQuery, products, sortBy]);
+  }, [selectedCategory, searchQuery, sortBy, products]);
 
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);
@@ -79,22 +78,15 @@ const MenuPage: React.FC<MenuPageProps> = ({
     );
   };
 
-  const handleAddToCart = async (product: any) => {
-    console.log('Adding to cart:', product);
+  const handleAddToCart = (product: any) => {
+    // Add to cart logic here
+    console.log('Added to cart:', product);
   };
 
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(e.target.value);
-  };
-
-  // Prepare categories for filter
-  const categoriesWithCount = categories.map(category => ({
-    id: category.name,
-    name: category.name,
-    count: products.filter(product => product.category === category.name).length,
-  }));
-
-  const featuredProducts = products.filter(product => product.is_featured);
+  const categoryOptions = [
+    { value: 'all', label: 'Semua Menu' },
+    ...categories.map(cat => ({ value: cat.name, label: cat.name }))
+  ];
 
   return (
     <>
@@ -122,36 +114,27 @@ const MenuPage: React.FC<MenuPageProps> = ({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(seoData.structuredData) }}
         />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(getMenuStructuredData(branch, products)) }}
-        />
       </Head>
 
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+      <div className="min-h-screen bg-white">
         <Header branch={branch} currentPath={`/${branch}/menu`} />
         
-        {/* Digital Menu Header */}
-        <section className="pt-20 pb-12 bg-gradient-to-r from-primary-500 via-pink-500 to-secondary-500 relative overflow-hidden">
-          {/* Animated Background Elements */}
-          <div className="absolute inset-0">
-            <div className="absolute top-10 left-10 w-20 h-20 bg-white/10 rounded-full animate-pulse"></div>
-            <div className="absolute top-20 right-20 w-16 h-16 bg-white/5 rounded-full animate-bounce"></div>
-            <div className="absolute bottom-10 left-1/4 w-12 h-12 bg-white/10 rounded-full animate-pulse"></div>
-            <div className="absolute bottom-20 right-1/3 w-8 h-8 bg-white/5 rounded-full animate-bounce"></div>
-          </div>
-          
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* Hero Section - Trendy 2024 dengan Parallax */}
+        <HeroTrendy branch={branch} />
+        
+        {/* Search & Filter Section - Modern & Trendy */}
+        <section className="py-12 bg-gradient-to-br from-gray-50 via-white to-gray-50 relative overflow-hidden">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="text-center text-white"
+              className="text-center"
             >
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-white to-yellow-200 bg-clip-text text-transparent">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 font-display">
                 Menu Digital
               </h1>
-              <p className="text-xl sm:text-2xl text-white/90 mb-8 max-w-3xl mx-auto font-light">
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto font-medium leading-relaxed mb-8">
                 Nikmati kesegaran jus alpukat dan aneka jus buah segar berkualitas tinggi
               </p>
               
@@ -161,191 +144,144 @@ const MenuPage: React.FC<MenuPageProps> = ({
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.2 }}
-                  className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20"
+                  className="bg-white rounded-lg p-6 shadow-clean"
                 >
-                  <div className="text-3xl font-bold mb-2">{products.length}+</div>
-                  <div className="text-white/80">Menu Tersedia</div>
+                  <div className="text-3xl font-bold text-primary-500 mb-2 font-display">{products.length}+</div>
+                  <div className="text-gray-600 font-medium">Menu Tersedia</div>
                 </motion.div>
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.3 }}
-                  className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20"
+                  className="bg-white rounded-lg p-6 shadow-clean"
                 >
-                  <div className="text-3xl font-bold mb-2">{categories.length}</div>
-                  <div className="text-white/80">Kategori</div>
+                  <div className="text-3xl font-bold text-pinky-500 mb-2 font-display">4.9</div>
+                  <div className="text-gray-600 font-medium">Rating Pelanggan</div>
                 </motion.div>
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.4 }}
-                  className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20"
+                  className="bg-white rounded-lg p-6 shadow-clean"
                 >
-                  <div className="text-3xl font-bold mb-2">100%</div>
-                  <div className="text-white/80">Alami</div>
+                  <div className="text-3xl font-bold text-cute-500 mb-2 font-display">100%</div>
+                  <div className="text-gray-600 font-medium">Alami & Segar</div>
                 </motion.div>
               </div>
 
               {/* Quick Order Buttons */}
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <motion.a
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                   href={`https://wa.me/${branchInfo?.whatsapp?.replace(/\D/g, '') || '6281234567890'}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-white text-gray-900 px-8 py-4 rounded-full text-lg font-semibold hover:shadow-2xl transition-all duration-300 flex items-center justify-center gap-2"
+                  className="bg-primary-500 text-white px-8 py-4 rounded-lg text-lg font-medium hover:bg-primary-600 transition-all duration-200 flex items-center justify-center gap-2"
                 >
-                  <Phone className="w-5 h-5" />
-                  Order via WhatsApp
+                  <span>💬</span>
+                  <span>Order via WhatsApp</span>
                 </motion.a>
                 <motion.a
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                   href="https://gofood.co.id/merchant/zatiaras-juice"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="border-2 border-white text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white hover:text-gray-900 transition-all duration-300 flex items-center justify-center gap-2"
+                  className="border-2 border-primary-500 text-primary-500 px-8 py-4 rounded-lg text-lg font-medium hover:bg-primary-500 hover:text-white transition-all duration-200 flex items-center justify-center gap-2"
                 >
-                  <MapPin className="w-5 h-5" />
-                  Order via GoFood
+                  <span>🚚</span>
+                  <span>Order via GoFood</span>
                 </motion.a>
               </div>
             </motion.div>
           </div>
         </section>
 
-        {/* Search & Filter Bar */}
-        <section className="py-6 bg-white/80 backdrop-blur-sm border-b border-gray-200 sticky top-16 z-40">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col lg:flex-row gap-4">
+        {/* Search & Filter Section - Clean & Functional */}
+        <section className="py-8 bg-white border-b border-gray-100">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col lg:flex-row gap-6 items-center justify-between">
               {/* Search Bar */}
-              <div className="flex-1">
-                <div className="relative">
+              <div className="relative flex-1 max-w-md">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                   <input
                     type="text"
                     placeholder="Cari menu favorit Anda..."
                     value={searchQuery}
-                    onChange={handleSearch}
-                    className="w-full px-4 py-3 pl-12 pr-4 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300 bg-white/90 backdrop-blur-sm"
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200"
                   />
-                  <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-                </div>
               </div>
 
-              {/* Filter & Sort Controls */}
-              <div className="flex gap-3">
                 {/* Category Filter */}
-                <div className="relative">
-                  <select
-                    value={selectedCategory}
-                    onChange={(e) => handleCategoryChange(e.target.value)}
-                    className="appearance-none bg-white/90 backdrop-blur-sm border border-gray-300 rounded-2xl px-4 py-3 pr-8 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300 min-w-[150px]"
+              <div className="flex flex-wrap gap-2">
+                {categoryOptions.map((category) => (
+                  <motion.button
+                    key={category.value}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => handleCategoryChange(category.value)}
+                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                      selectedCategory === category.value
+                        ? 'bg-primary-500 text-white'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
                   >
-                    <option value="all">Semua Kategori</option>
-                    {categoriesWithCount.map((category) => (
-                      <option key={category.id} value={category.name}>
-                        {category.name} ({category.count})
-                      </option>
-                    ))}
-                  </select>
-                  <Filter className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+                    {category.label}
+                  </motion.button>
+                ))}
                 </div>
 
-                {/* Sort Options */}
+              {/* Sort Dropdown */}
                 <div className="relative">
                   <select
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value as 'name' | 'price' | 'popular')}
-                    className="appearance-none bg-white/90 backdrop-blur-sm border border-gray-300 rounded-2xl px-4 py-3 pr-8 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300 min-w-[120px]"
-                  >
-                    <option value="name">Nama A-Z</option>
-                    <option value="price">Harga</option>
-                    <option value="popular">Populer</option>
+                  className="appearance-none bg-white border border-gray-200 rounded-lg px-4 py-3 pr-8 text-sm font-medium focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200"
+                >
+                  <option value="name">Urutkan: Nama</option>
+                  <option value="price">Urutkan: Harga</option>
+                  <option value="popular">Urutkan: Populer</option>
                   </select>
-                  <Star className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+                <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                  <Filter className="w-4 h-4 text-gray-400" />
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Featured Products Section */}
-        {featuredProducts.length > 0 && (
-          <section className="py-16 bg-gradient-to-r from-pink-50 to-purple-50">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Products Grid - Clean & Organized */}
+        <section className="py-12 bg-white">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            {filteredProducts.length > 0 ? (
+              <>
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                  animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
-                className="text-center mb-12"
+                  className="mb-8"
               >
-                <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
-                  ⭐ Menu Favorit
+                  <h2 className="text-2xl font-bold text-gray-900 mb-2 font-display">
+                    {selectedCategory === 'all' ? 'Semua Menu' : selectedCategory}
                 </h2>
-                <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                  Pilihan terbaik dari menu Zatiaras Juice yang paling diminati
+                  <p className="text-gray-600">
+                    {filteredProducts.length} menu tersedia
                 </p>
               </motion.div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-4">
-                {featuredProducts.map((product, index) => (
-                  <motion.div
-                    key={product.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: index * 0.1 }}
-                    whileHover={{ y: -5 }}
-                  >
-                    <ProductCard 
-                      product={product} 
-                      onAddToCart={handleAddToCart}
-                      onToggleFavorite={handleToggleFavorite}
-                      isFavorite={favorites.includes(product.id)}
-                    />
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-          </section>
-        )}
-
-        {/* All Products Section */}
-        <section className="py-16 bg-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="text-center mb-12"
-            >
-              <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
-                🍹 Semua Menu
-              </h2>
-              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                Koleksi lengkap menu Zatiaras Juice untuk memenuhi selera Anda
-              </p>
-            </motion.div>
-
-            <AnimatePresence mode="wait">
-              {filteredProducts.length > 0 ? (
-                <motion.div
-                  key="products"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-4"
-                >
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  <AnimatePresence>
                   {filteredProducts.map((product, index) => (
                     <motion.div
                       key={product.id}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.6, delay: index * 0.05 }}
-                      whileHover={{ y: -5 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.4, delay: index * 0.05 }}
                     >
-                      <ProductCard 
+                        <ProductCardMinimal 
                         product={product} 
                         onAddToCart={handleAddToCart}
                         onToggleFavorite={handleToggleFavorite}
@@ -353,87 +289,38 @@ const MenuPage: React.FC<MenuPageProps> = ({
                       />
                     </motion.div>
                   ))}
-                </motion.div>
+                  </AnimatePresence>
+                </div>
+              </>
               ) : (
                 <motion.div
-                  key="empty"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.3 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
                   className="text-center py-16"
                 >
-                  <div className="w-32 h-32 mx-auto mb-8 bg-gradient-to-br from-pink-100 to-purple-100 rounded-full flex items-center justify-center">
-                    <Search className="w-16 h-16 text-pink-500" />
+                <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Search className="w-12 h-12 text-gray-400" />
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                    Tidak ada produk ditemukan
+                <h3 className="text-xl font-bold text-gray-900 mb-4 font-display">
+                  Menu tidak ditemukan
                   </h3>
-                  <p className="text-gray-600 mb-8 text-lg">
-                    Coba ubah kata kunci pencarian atau pilih kategori lain
+                <p className="text-gray-600 mb-6">
+                  Coba gunakan kata kunci yang berbeda atau pilih kategori lain
                   </p>
                   <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                     onClick={() => {
                       setSearchQuery('');
                       setSelectedCategory('all');
                     }}
-                    className="bg-gradient-to-r from-primary-500 to-secondary-500 text-white px-8 py-4 rounded-2xl text-lg font-semibold hover:shadow-xl transition-all duration-300"
+                  className="bg-primary-500 text-white px-6 py-3 rounded-lg font-medium hover:bg-primary-600 transition-all duration-200"
                   >
                     Reset Filter
                   </motion.button>
                 </motion.div>
               )}
-            </AnimatePresence>
-          </div>
-        </section>
-
-        {/* CTA Section */}
-        <section className="py-20 bg-gradient-to-r from-primary-500 via-pink-500 to-secondary-500 relative overflow-hidden">
-          <div className="absolute inset-0">
-            <div className="absolute top-10 left-10 w-32 h-32 bg-white/5 rounded-full animate-pulse"></div>
-            <div className="absolute top-20 right-20 w-24 h-24 bg-white/10 rounded-full animate-bounce"></div>
-            <div className="absolute bottom-10 left-1/4 w-20 h-20 bg-white/5 rounded-full animate-pulse"></div>
-          </div>
-          
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              <h2 className="text-4xl sm:text-5xl font-bold text-white mb-6">
-                Siap Memesan?
-              </h2>
-              <p className="text-xl text-white/90 mb-10 max-w-2xl mx-auto">
-                Order sekarang dan nikmati kesegaran jus buah segar langsung di rumah Anda
-              </p>
-              <div className="flex flex-col sm:flex-row gap-6 justify-center">
-                <motion.a
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  href={`https://wa.me/${branchInfo?.whatsapp?.replace(/\D/g, '') || '6281234567890'}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-white text-gray-900 px-10 py-5 rounded-2xl text-xl font-bold hover:shadow-2xl transition-all duration-300 flex items-center justify-center gap-3"
-                >
-                  <Phone className="w-6 h-6" />
-                  Order via WhatsApp
-                </motion.a>
-                <motion.a
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  href="https://gofood.co.id/merchant/zatiaras-juice"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="border-2 border-white text-white px-10 py-5 rounded-2xl text-xl font-bold hover:bg-white hover:text-gray-900 transition-all duration-300 flex items-center justify-center gap-3"
-                >
-                  <MapPin className="w-6 h-6" />
-                  Order via GoFood
-                </motion.a>
-              </div>
-            </motion.div>
           </div>
         </section>
 
@@ -444,13 +331,11 @@ const MenuPage: React.FC<MenuPageProps> = ({
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = [
-    { params: { branch: 'berau' } },
-    { params: { branch: 'samarinda' } },
-  ];
-
   return {
-    paths,
+    paths: [
+      { params: { branch: 'berau' } },
+      { params: { branch: 'samarinda' } },
+    ],
     fallback: false,
   };
 };
@@ -458,117 +343,59 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const branch = params?.branch as Branch;
 
-  if (!branch || !['berau', 'samarinda'].includes(branch)) {
-    return {
-      notFound: true,
-    };
-  }
-
-  try {
-    // Fetch data from Supabase
-    const [products, categories, branchInfo] = await Promise.all([
-      getProducts(branch),
-      getCategories(branch),
-      getBranchInfo(branch),
-    ]);
-
-    const seoData = getBranchSEOData(branch);
-
-    return {
-      props: {
-        branch,
-        products,
-        categories,
-        branchInfo,
-        seoData,
-      },
-      revalidate: 3600, // Revalidate every hour
-    };
-  } catch (error) {
-    console.error('Error fetching data:', error);
-    
-    // Return mock data if Supabase is not available
-    const mockProducts: Product[] = [
+  // Mock data untuk sementara
+  const mockProducts = [
       {
         id: '1',
-        name: 'Jus Alpukat Premium',
-        description: 'Jus alpukat segar dengan susu dan gula aren',
-        price: 25000,
-        category: 'Alpukat',
-        image_url: '/images/jus-alpukat.jpg',
-        is_available: true,
+      name: 'Jus Alpukat Segar',
+      description: 'Jus alpukat segar dengan kualitas terbaik',
+      price: 15000,
+      category: 'Jus Alpukat',
+      image_url: '/images/avocado-juice.jpg',
+      gambar: '/images/avocado-juice.jpg',
         is_featured: true,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
+      rating: 4.8,
+      review_count: 120
       },
       {
         id: '2',
-        name: 'Jus Mangga Segar',
-        description: 'Jus mangga manis dengan es batu',
-        price: 20000,
-        category: 'Mangga',
-        image_url: '/images/jus-mangga.jpg',
-        is_available: true,
+      name: 'Jus Jeruk Manis',
+      description: 'Jus jeruk segar tanpa pengawet',
+      price: 12000,
+      category: 'Jus Buah',
+      image_url: '/images/orange-juice.jpg',
+      gambar: '/images/orange-juice.jpg',
         is_featured: true,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
+      rating: 4.6,
+      review_count: 95
       },
       {
         id: '3',
-        name: 'Jus Jeruk Peras',
-        description: 'Jus jeruk peras segar tanpa pengawet',
-        price: 18000,
-        category: 'Jeruk',
-        image_url: '/images/jus-jeruk.jpg',
-        is_available: true,
-        is_featured: false,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      },
-    ];
+      name: 'Jus Mangga Segar',
+      description: 'Jus mangga manis dan segar',
+      price: 13000,
+      category: 'Jus Buah',
+      image_url: '/images/mango-juice.jpg',
+      gambar: '/images/mango-juice.jpg',
+      is_featured: true,
+      rating: 4.7,
+      review_count: 88
+    }
+  ];
 
-    const mockCategories: Category[] = [
-      {
-        id: '1',
-        name: 'Alpukat',
-        description: 'Jus alpukat segar dan berkualitas',
-        image_url: '/images/category-alpukat.jpg',
-        sort_order: 1,
-        is_active: true,
-      },
-      {
-        id: '2',
-        name: 'Mangga',
-        description: 'Jus mangga manis dan segar',
-        image_url: '/images/category-mangga.jpg',
-        sort_order: 2,
-        is_active: true,
-      },
-      {
-        id: '3',
-        name: 'Jeruk',
-        description: 'Jus jeruk peras segar',
-        image_url: '/images/category-jeruk.jpg',
-        sort_order: 3,
-        is_active: true,
-      },
+  const mockCategories = [
+    { id: '1', name: 'Jus Alpukat' },
+    { id: '2', name: 'Jus Buah' },
+    { id: '3', name: 'Jus Sayur' }
     ];
 
     const mockBranchInfo = {
-      id: branch,
-      name: `Zatiaras Juice ${branch.charAt(0).toUpperCase() + branch.slice(1)}`,
-      address: branch === 'berau' 
-        ? 'Jl. Ahmad Yani No. 123, Berau, Kalimantan Timur'
-        : 'Jl. Sudirman No. 456, Samarinda, Kalimantan Timur',
-      phone: branch === 'berau' ? '+62812-3456-7890' : '+62812-3456-7891',
-      whatsapp: branch === 'berau' ? '+62812-3456-7890' : '+62812-3456-7891',
-      latitude: branch === 'berau' ? -2.1872 : -0.5021,
-      longitude: branch === 'berau' ? 117.3703 : 117.1536,
-      is_active: true,
-      delivery_radius: 10,
-    };
-
-    const seoData = getBranchSEOData(branch);
+    name: branch.charAt(0).toUpperCase() + branch.slice(1),
+    address: `Jl. Contoh No. 123, ${branch.charAt(0).toUpperCase() + branch.slice(1)}`,
+    phone: '+62812-3456-7890',
+    whatsapp: '+62812-3456-7890',
+    hours: '08:00 - 22:00 WITA'
+  };
 
     return {
       props: {
@@ -576,11 +403,10 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         products: mockProducts,
         categories: mockCategories,
         branchInfo: mockBranchInfo,
-        seoData,
+      seoData: getBranchSEOData(branch),
       },
       revalidate: 3600,
     };
-  }
 };
 
 export default MenuPage;

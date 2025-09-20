@@ -1,0 +1,13 @@
+/* Typography Utilities - Clean & Consistent 2024 */
+
+/* Only keeping classes that are actually used in the codebase */
+
+/* Focus States */
+.text-focus {
+  @apply focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
+}
+
+/* Selection Styles */
+.text-selection {
+  @apply selection:bg-primary-200 selection:text-primary-900;
+}
