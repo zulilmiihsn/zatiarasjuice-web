@@ -84,9 +84,41 @@ const MenuPage: React.FC<MenuPageProps> = ({
     console.log('Added to cart:', product);
   };
 
+  // Define category priority order for filter buttons
+  const categoryPriority = [
+    'Jus Buah & Sayur',
+    'Rekomendasi Mix Jus',
+    'Kocok',
+    'Baby',
+    'Non-Jus',
+    'Teh',
+    'Cemilan'
+  ];
+
+  // Sort categories by priority, then alphabetically for others
+  const sortedCategories = categories.sort((a, b) => {
+    const aIndex = categoryPriority.indexOf(a.name);
+    const bIndex = categoryPriority.indexOf(b.name);
+    
+    // If both categories are in priority list, sort by priority
+    if (aIndex !== -1 && bIndex !== -1) {
+      return aIndex - bIndex;
+    }
+    // If only a is in priority list, a comes first
+    if (aIndex !== -1) {
+      return -1;
+    }
+    // If only b is in priority list, b comes first
+    if (bIndex !== -1) {
+      return 1;
+    }
+    // If neither is in priority list, sort alphabetically
+    return a.name.localeCompare(b.name);
+  });
+
   const categoryOptions = [
     { value: 'all', label: 'Semua Menu' },
-    ...categories.map(cat => ({ value: cat.name, label: cat.name }))
+    ...sortedCategories.map(cat => ({ value: cat.name, label: cat.name }))
   ];
 
   return (
