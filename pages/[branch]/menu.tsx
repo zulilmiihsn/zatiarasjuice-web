@@ -169,18 +169,18 @@ const MenuPage: React.FC<MenuPageProps> = ({
               </p>
               
               {/* Menu Stats - Responsive */}
-              <div className="flex flex-wrap justify-center items-center gap-4 sm:gap-6 md:gap-8 text-xs sm:text-sm text-gray-500">
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 bg-primary-500 rounded-full"></span>
-                  <span>{products.length} Menu</span>
+              <div className="flex flex-wrap justify-center items-center gap-2 sm:gap-4 md:gap-6 lg:gap-8 text-xs sm:text-sm text-gray-500 px-2 sm:px-0">
+                <div className="flex items-center gap-1 sm:gap-2">
+                  <span className="w-2 h-2 bg-primary-500 rounded-full flex-shrink-0"></span>
+                  <span className="whitespace-nowrap">{products.length} Menu</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 bg-pinky-500 rounded-full"></span>
-                  <span>Rating 4.9/5</span>
+                <div className="flex items-center gap-1 sm:gap-2">
+                  <span className="w-2 h-2 bg-pinky-500 rounded-full flex-shrink-0"></span>
+                  <span className="whitespace-nowrap">Rating 4.9/5</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 bg-cute-500 rounded-full"></span>
-                  <span>100% Alami</span>
+                <div className="flex items-center gap-1 sm:gap-2">
+                  <span className="w-2 h-2 bg-cute-500 rounded-full flex-shrink-0"></span>
+                  <span className="whitespace-nowrap">100% Alami</span>
                 </div>
               </div>
             </motion.div>
@@ -207,8 +207,8 @@ const MenuPage: React.FC<MenuPageProps> = ({
             {/* Filter Controls - Mobile Optimized */}
             <div className="space-y-3 sm:space-y-0">
               {/* Category Filter - Mobile Scroll */}
-              <div className="overflow-x-auto pb-2 sm:pb-0 -mx-4 px-4 sm:mx-0 sm:px-0">
-                <div className="flex gap-2 min-w-max sm:flex-wrap sm:justify-start sm:min-w-0">
+              <div className="overflow-x-auto pb-2 sm:pb-0 -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-hide">
+                <div className="flex gap-1.5 sm:gap-2 min-w-max sm:flex-wrap sm:justify-start sm:min-w-0">
                   {categoryOptions.map((category) => (
                     <motion.button
                       key={category.value}
@@ -228,10 +228,10 @@ const MenuPage: React.FC<MenuPageProps> = ({
               </div>
 
               {/* Controls Group - Mobile Stack */}
-              <div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
+              <div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between w-full">
                 {/* View Mode Toggle */}
-                <div className="flex items-center justify-center sm:justify-start gap-2">
-                  <span className="text-xs font-medium text-gray-500">Tampilan:</span>
+                <div className="flex items-center justify-center sm:justify-start gap-2 w-full sm:w-auto">
+                  <span className="text-xs font-medium text-gray-500 whitespace-nowrap">Tampilan:</span>
                   <div className="flex bg-gray-100 rounded-lg p-0.5">
                     <motion.button
                       whileHover={{ scale: 1.02 }}
@@ -243,7 +243,7 @@ const MenuPage: React.FC<MenuPageProps> = ({
                           : 'text-gray-600 hover:text-gray-800'
                       }`}
                     >
-                      <List className="w-3 h-3" />
+                      <List className="w-3 h-3 flex-shrink-0" />
                       <span className="hidden xs:inline">List</span>
                     </motion.button>
                     <motion.button
@@ -256,18 +256,18 @@ const MenuPage: React.FC<MenuPageProps> = ({
                           : 'text-gray-600 hover:text-gray-800'
                       }`}
                     >
-                      <Grid3X3 className="w-3 h-3" />
+                      <Grid3X3 className="w-3 h-3 flex-shrink-0" />
                       <span className="hidden xs:inline">Grid</span>
                     </motion.button>
                   </div>
                 </div>
 
                 {/* Sort Dropdown */}
-                <div className="relative flex justify-center sm:justify-end">
+                <div className="relative flex justify-center sm:justify-end w-full sm:w-auto">
                   <select
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value as 'name' | 'price' | 'popular')}
-                    className="appearance-none bg-white border border-gray-300 rounded-lg px-3 py-1.5 pr-6 text-xs font-medium focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 w-full sm:w-auto sm:min-w-[120px]"
+                    className="appearance-none bg-white border border-gray-300 rounded-lg px-3 py-1.5 pr-6 text-xs font-medium focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 w-full sm:w-auto sm:min-w-[120px] max-w-[200px] sm:max-w-none"
                   >
                     <option value="name">Nama</option>
                     <option value="price">Harga</option>
