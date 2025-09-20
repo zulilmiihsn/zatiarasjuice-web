@@ -63,9 +63,54 @@ const Footer: React.FC<FooterProps> = ({ branch }) => {
   ];
 
   return (
-    <footer className="bg-gray-900 text-white relative overflow-hidden">
+    <footer className="bg-gradient-to-br from-gray-900 via-luxury-900 to-gray-800 text-white relative overflow-hidden">
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0">
+        <motion.div
+          className="absolute top-20 left-20 w-64 h-64 bg-gradient-to-r from-primary-500/20 to-pinky-500/20 rounded-full blur-3xl"
+          animate={{
+            scale: [1, 1.2, 1],
+            opacity: [0.2, 0.4, 0.2],
+            x: [0, 30, 0],
+            y: [0, -20, 0],
+          }}
+          transition={{
+            duration: 10,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          }}
+        />
+        <motion.div
+          className="absolute bottom-20 right-20 w-80 h-80 bg-gradient-to-r from-emerald-500/20 to-secondary-500/20 rounded-full blur-3xl"
+          animate={{
+            scale: [1.2, 1, 1.2],
+            opacity: [0.3, 0.5, 0.3],
+            x: [0, -25, 0],
+            y: [0, 25, 0],
+          }}
+          transition={{
+            duration: 12,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          }}
+        />
+        <motion.div
+          className="absolute top-1/2 left-1/2 w-48 h-48 bg-gradient-to-r from-gold-500/15 to-accent-500/15 rounded-full blur-2xl"
+          animate={{
+            scale: [1, 1.3, 1],
+            opacity: [0.1, 0.3, 0.1],
+            rotate: [0, 180, 360],
+          }}
+          transition={{
+            duration: 15,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          }}
+        />
+      </div>
+
       {/* Main Footer Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Brand Section */}
           <motion.div
@@ -74,34 +119,66 @@ const Footer: React.FC<FooterProps> = ({ branch }) => {
             transition={{ duration: 0.6 }}
             className="lg:col-span-1"
           >
-            <div className="flex items-center space-x-3 mb-6">
+            <div className="flex items-center space-x-4 mb-8">
               <motion.div 
-                className="w-10 h-10 bg-primary-500 rounded-lg flex items-center justify-center shadow-clean"
-                whileHover={{ scale: 1.05 }}
+                className="w-14 h-14 bg-gradient-to-br from-primary-500 to-pinky-500 rounded-2xl flex items-center justify-center shadow-glow-primary"
+                whileHover={{ 
+                  scale: 1.1, 
+                  rotate: 360,
+                  boxShadow: '0 0 30px rgba(255, 110, 199, 0.6)'
+                }}
+                animate={{ 
+                  boxShadow: [
+                    '0 0 20px rgba(255, 110, 199, 0.4)',
+                    '0 0 30px rgba(255, 110, 199, 0.6)',
+                    '0 0 20px rgba(255, 110, 199, 0.4)'
+                  ]
+                }}
+                transition={{ 
+                  boxShadow: { duration: 2, repeat: Infinity, ease: 'easeInOut' }
+                }}
               >
-                <span className="text-white font-bold text-lg font-display">Z</span>
+                <motion.span 
+                  className="text-white font-black text-xl font-display"
+                  animate={{ 
+                    textShadow: [
+                      '0 0 10px rgba(255, 255, 255, 0.5)',
+                      '0 0 20px rgba(255, 255, 255, 0.8)',
+                      '0 0 10px rgba(255, 255, 255, 0.5)'
+                    ]
+                  }}
+                  transition={{ 
+                    textShadow: { duration: 2, repeat: Infinity, ease: 'easeInOut' }
+                  }}
+                >
+                  Z
+                </motion.span>
               </motion.div>
               <div>
-                <h3 className="text-xl font-bold text-white font-display">Zatiaras Juice</h3>
-                <p className="text-sm text-gray-300 font-medium">Jus Alpukat & Buah Segar Nomor 1</p>
+                <h3 className="text-2xl font-black text-white font-display text-premium">Zatiaras Juice</h3>
+                <p className="text-base text-gray-300 font-semibold">Jus Alpukat & Buah Segar Nomor 1</p>
               </div>
             </div>
             <p className="text-gray-300 text-sm leading-relaxed mb-6">
               Nikmati kesegaran jus alpukat dan aneka jus buah segar berkualitas tinggi. 
               Dibuat dengan cinta dan bahan-bahan terbaik untuk kesehatan Anda.
             </p>
-            <div className="flex space-x-3">
+            <div className="flex space-x-4">
               {socialLinks.map((social) => (
                 <motion.a
                   key={social.name}
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.95 }}
+                  whileHover={{ 
+                    scale: 1.15, 
+                    rotate: 5,
+                    boxShadow: '0 10px 25px rgba(255, 110, 199, 0.4)'
+                  }}
+                  whileTap={{ scale: 0.9 }}
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 bg-gray-700 rounded-lg flex items-center justify-center hover:bg-primary-500 transition-all duration-200"
+                  className="w-12 h-12 bg-gradient-to-br from-gray-700 to-gray-600 rounded-2xl flex items-center justify-center hover:from-primary-500 hover:to-pinky-500 transition-all duration-300 shadow-elegant hover:shadow-glow-primary"
                 >
-                  <social.icon className="w-5 h-5" />
+                  <social.icon className="w-6 h-6" />
                 </motion.a>
               ))}
             </div>

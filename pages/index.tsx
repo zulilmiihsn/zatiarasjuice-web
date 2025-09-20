@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, lazy, Suspense } from 'react';
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -10,6 +10,9 @@ import ProductCard from '../components/ProductCard';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { getUserLocationWithFallback } from '../lib/geolocation';
 import { getBranchSEOData } from '../lib/seo';
+
+// Lazy load heavy components
+const LazyProductCard = lazy(() => import('../components/ProductCard'));
 
 interface HomePageProps {
   featuredProducts: any[];
@@ -97,39 +100,176 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
           onBranchSelect={handleBranchSelect}
         />
 
-        {/* Branch Selection Section - Clean & Elegant */}
-        <section className="py-20 bg-gradient-to-br from-gray-50 to-white">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Branch Selection Section - Premium & Elegant */}
+        <section className="py-24 bg-gradient-to-br from-gray-50 via-white to-gray-50 relative overflow-hidden">
+          {/* Animated Background Elements */}
+          <div className="absolute inset-0">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              className="absolute top-20 left-20 w-40 h-40 bg-gradient-to-r from-primary-500/20 to-pinky-500/20 rounded-full blur-3xl"
+              animate={{
+                scale: [1, 1.2, 1],
+                opacity: [0.3, 0.6, 0.3],
+                x: [0, 50, 0],
+                y: [0, -30, 0],
+              }}
+              transition={{
+                duration: 8,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
+            />
+            <motion.div
+              className="absolute bottom-20 right-20 w-48 h-48 bg-gradient-to-r from-emerald-500/20 to-secondary-500/20 rounded-full blur-3xl"
+              animate={{
+                scale: [1.2, 1, 1.2],
+                opacity: [0.4, 0.7, 0.4],
+                x: [0, -40, 0],
+                y: [0, 40, 0],
+              }}
+              transition={{
+                duration: 10,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
+            />
+            <motion.div
+              className="absolute top-1/2 left-1/2 w-32 h-32 bg-gradient-to-r from-gold-500/20 to-accent-500/20 rounded-full blur-2xl"
+              animate={{
+                scale: [1, 1.3, 1],
+                opacity: [0.2, 0.5, 0.2],
+                rotate: [0, 180, 360],
+              }}
+              transition={{
+                duration: 12,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
+            />
+          </div>
+
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="text-center mb-16"
+              transition={{ duration: 0.8 }}
+              className="text-center mb-20"
             >
-              <h2 className="text-3xl sm:text-4xl font-black text-gray-900 mb-6 font-rounded">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="inline-block mb-6"
+              >
+                <span className="text-6xl">🍹</span>
+              </motion.div>
+              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-gray-900 mb-8 font-rounded text-premium">
                 Jus Terenak di Berau & Samarinda
               </h2>
-              <p className="text-lg text-gray-600 max-w-3xl mx-auto font-medium leading-relaxed">
+              <p className="text-xl text-gray-600 max-w-4xl mx-auto font-medium leading-relaxed mb-8">
                 Lebih dari 500+ pelanggan puas setiap bulan. Rating 4.9/5 dari 150+ review. 
-                <span className="text-primary-600 font-semibold"> Garansi uang kembali jika tidak puas!</span>
+                <span className="text-primary-600 font-bold text-luxury"> Garansi uang kembali jika tidak puas!</span>
               </p>
+              
+              {/* Premium Stats */}
+              <div className="flex flex-wrap justify-center gap-8 mb-12">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.3 }}
+                  className="text-center"
+                >
+                  <div className="text-4xl font-black text-primary-500 mb-2 font-display">500+</div>
+                  <div className="text-gray-600 font-semibold">Pelanggan Puas</div>
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.4 }}
+                  className="text-center"
+                >
+                  <div className="text-4xl font-black text-pinky-500 mb-2 font-display">4.9/5</div>
+                  <div className="text-gray-600 font-semibold">Rating</div>
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.5 }}
+                  className="text-center"
+                >
+                  <div className="text-4xl font-black text-emerald-500 mb-2 font-display">100%</div>
+                  <div className="text-gray-600 font-semibold">Alami</div>
+                </motion.div>
+              </div>
             </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {/* Berau Branch - Clean Design */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+              {/* Berau Branch - Premium Design */}
               <motion.div
                 initial={{ opacity: 0, x: -50 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6 }}
-                whileHover={{ y: -4 }}
-                className="bg-white rounded-2xl shadow-clean hover:shadow-lg transition-all duration-300 overflow-hidden group"
+                transition={{ duration: 0.8 }}
+                whileHover={{ 
+                  y: -8, 
+                  scale: 1.02,
+                  rotateY: 5,
+                  boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)'
+                }}
+                className="card-premium group perspective-3d"
+                style={{ transformStyle: 'preserve-3d' }}
               >
-                <div className="h-48 bg-gradient-to-br from-primary-500 to-primary-600 relative overflow-hidden">
+                <div className="h-56 bg-gradient-to-br from-primary-500 via-pinky-500 to-cute-500 relative overflow-hidden">
+                  {/* Animated Background Elements */}
+                  <div className="absolute inset-0">
+                    <motion.div
+                      className="absolute top-4 right-4 w-20 h-20 bg-white/20 rounded-full blur-xl"
+                      animate={{
+                        scale: [1, 1.2, 1],
+                        opacity: [0.3, 0.6, 0.3],
+                      }}
+                      transition={{
+                        duration: 3,
+                        repeat: Infinity,
+                        ease: 'easeInOut',
+                      }}
+                    />
+                    <motion.div
+                      className="absolute bottom-4 left-4 w-16 h-16 bg-white/30 rounded-full blur-lg"
+                      animate={{
+                        scale: [1.2, 1, 1.2],
+                        opacity: [0.4, 0.7, 0.4],
+                      }}
+                      transition={{
+                        duration: 4,
+                        repeat: Infinity,
+                        ease: 'easeInOut',
+                      }}
+                    />
+                  </div>
+                  
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="text-center">
-                      <h3 className="text-3xl font-black text-white font-rounded">Berau</h3>
-                      <p className="text-white/80 mt-2">Cabang Utama</p>
-                    </div>
+                    <motion.div 
+                      className="text-center"
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6 }}
+                    >
+                      <motion.h3 
+                        className="text-4xl font-black text-white font-rounded mb-2"
+                        animate={{ 
+                          textShadow: [
+                            '0 0 10px rgba(255, 255, 255, 0.5)',
+                            '0 0 20px rgba(255, 255, 255, 0.8)',
+                            '0 0 10px rgba(255, 255, 255, 0.5)'
+                          ]
+                        }}
+                        transition={{ 
+                          textShadow: { duration: 2, repeat: Infinity, ease: 'easeInOut' }
+                        }}
+                      >
+                        Berau
+                      </motion.h3>
+                      <p className="text-white/90 text-lg font-semibold">Cabang Utama</p>
+                    </motion.div>
                   </div>
                 </div>
                 <div className="p-8">
@@ -163,12 +303,34 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                   </div>
                   
                   <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
+                    whileHover={{ 
+                      scale: 1.05, 
+                      y: -2,
+                      boxShadow: '0 15px 30px rgba(255, 110, 199, 0.4)'
+                    }}
+                    whileTap={{ scale: 0.95 }}
                     onClick={() => handleBranchSelect('berau')}
-                    className="w-full bg-primary-500 text-white py-3 rounded-xl font-bold text-base hover:bg-primary-600 transition-all duration-200 mt-6"
+                    className="w-full bg-gradient-to-r from-primary-500 to-pinky-500 text-white py-4 rounded-2xl font-bold text-lg hover:from-pink-500 hover:to-purple-500 transition-all duration-300 mt-8 shadow-glow-primary hover:shadow-glow-pinky relative overflow-hidden group"
                   >
-                    Lihat Menu Berau
+                    <motion.div
+                      className="absolute inset-0 bg-gradient-to-r from-pink-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                      initial={false}
+                    />
+                    <span className="relative z-10 flex items-center justify-center gap-2">
+                      <motion.span
+                        animate={{ 
+                          rotate: [0, 10, -10, 0],
+                        }}
+                        transition={{ 
+                          duration: 2,
+                          repeat: Infinity,
+                          ease: 'easeInOut'
+                        }}
+                      >
+                        🍹
+                      </motion.span>
+                      <span>Lihat Menu Berau</span>
+                    </span>
                   </motion.button>
                 </div>
               </motion.div>
@@ -233,35 +395,165 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
           </div>
         </section>
 
-        {/* Why Choose Us Section - Clean & Elegant */}
-        <section className="py-20 bg-white">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Why Choose Us Section - Premium & Elegant */}
+        <section className="py-24 bg-gradient-to-br from-white via-gray-50 to-white relative overflow-hidden">
+          {/* Animated Background Elements */}
+          <div className="absolute inset-0">
+            {/* Main Gradient Orbs */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-primary-500/15 to-pinky-500/15 rounded-full blur-3xl"
+              animate={{
+                scale: [1, 1.3, 1],
+                opacity: [0.2, 0.4, 0.2],
+                x: [0, 30, 0],
+                y: [0, -20, 0],
+              }}
+              transition={{
+                duration: 10,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
+            />
+            <motion.div
+              className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-r from-emerald-500/15 to-secondary-500/15 rounded-full blur-3xl"
+              animate={{
+                scale: [1.2, 1, 1.2],
+                opacity: [0.3, 0.5, 0.3],
+                x: [0, -25, 0],
+                y: [0, 25, 0],
+              }}
+              transition={{
+                duration: 12,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
+            />
+            
+            {/* Floating Geometric Shapes */}
+            {[...Array(8)].map((_, i) => (
+              <motion.div
+                key={i}
+                className="absolute"
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                }}
+                animate={{
+                  x: [0, Math.random() * 100 - 50],
+                  y: [0, Math.random() * 100 - 50],
+                  rotate: [0, 360],
+                  scale: [0.8, 1.2, 0.8],
+                  opacity: [0.1, 0.3, 0.1],
+                }}
+                transition={{
+                  duration: 15 + Math.random() * 10,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                }}
+              >
+                <div className={`w-${20 + Math.random() * 30} h-${20 + Math.random() * 30} bg-gradient-to-r from-primary-500/10 to-pinky-500/10 rounded-2xl blur-sm`} />
+              </motion.div>
+            ))}
+            
+            {/* Pattern Overlay */}
+            <div className="absolute inset-0 opacity-5">
+              <div className="absolute inset-0" style={{
+                backgroundImage: `radial-gradient(circle at 25% 25%, #FF6EC7 2px, transparent 2px),
+                                 radial-gradient(circle at 75% 75%, #22c55e 2px, transparent 2px),
+                                 radial-gradient(circle at 50% 50%, #f59e0b 1px, transparent 1px)`,
+                backgroundSize: '60px 60px, 80px 80px, 40px 40px',
+                backgroundPosition: '0 0, 30px 30px, 15px 15px'
+              }} />
+            </div>
+            
+            {/* Gradient Lines */}
+            <motion.div
+              className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary-500/30 to-transparent"
+              animate={{
+                x: ['-100%', '100%'],
+              }}
+              transition={{
+                duration: 8,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
+            />
+            <motion.div
+              className="absolute bottom-0 right-0 w-full h-1 bg-gradient-to-l from-transparent via-pinky-500/30 to-transparent"
+              animate={{
+                x: ['100%', '-100%'],
+              }}
+              transition={{
+                duration: 10,
+                repeat: Infinity,
+                ease: 'easeInOut',
+                delay: 2,
+              }}
+            />
+          </div>
+
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="text-center mb-16"
+              transition={{ duration: 0.8 }}
+              className="text-center mb-20"
             >
-              <h2 className="text-3xl sm:text-4xl font-black text-gray-900 mb-6 font-rounded">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="inline-block mb-8"
+              >
+                <span className="text-8xl">✨</span>
+              </motion.div>
+              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-gray-900 mb-8 font-rounded text-premium">
                 Mengapa Zatiaras Juice adalah Pilihan Terbaik?
               </h2>
-              <p className="text-lg text-gray-600 max-w-3xl mx-auto font-medium leading-relaxed">
+              <p className="text-xl text-gray-600 max-w-4xl mx-auto font-medium leading-relaxed">
                 Inilah alasan mengapa pelanggan memilih Zatiaras Juice sebagai tempat jus terenak di Berau & Samarinda
               </p>
             </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-                className="text-center bg-gradient-to-br from-gray-50 to-white rounded-2xl p-8 shadow-clean hover:shadow-lg transition-all duration-300"
+                transition={{ duration: 0.8, delay: 0.1 }}
+                whileHover={{ 
+                  y: -8, 
+                  scale: 1.02,
+                  rotateY: 5,
+                  boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)'
+                }}
+                className="text-center card-premium group perspective-3d"
+                style={{ transformStyle: 'preserve-3d' }}
               >
-                <div className="w-16 h-16 bg-primary-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                  <span className="text-3xl">⭐</span>
-                </div>
-                <h3 className="text-xl font-black text-gray-900 mb-4 font-rounded">Rating 4.9/5</h3>
-                <p className="text-gray-600 font-medium leading-relaxed">
+                <motion.div 
+                  className="w-20 h-20 bg-gradient-to-br from-primary-100 to-pinky-100 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-glow-primary"
+                  whileHover={{ 
+                    scale: 1.1, 
+                    rotate: 360,
+                    boxShadow: '0 0 30px rgba(255, 110, 199, 0.6)'
+                  }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <motion.span 
+                    className="text-4xl"
+                    animate={{ 
+                      scale: [1, 1.2, 1],
+                    }}
+                    transition={{ 
+                      duration: 2,
+                      repeat: Infinity,
+                      ease: 'easeInOut'
+                    }}
+                  >
+                    ⭐
+                  </motion.span>
+                </motion.div>
+                <h3 className="text-2xl font-black text-gray-900 mb-6 font-rounded text-premium">Rating 4.9/5</h3>
+                <p className="text-gray-600 font-medium leading-relaxed text-lg">
                   Lebih dari 150+ review positif dari pelanggan yang puas dengan kualitas dan rasa jus kami
                 </p>
               </motion.div>
@@ -299,10 +591,101 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
           </div>
         </section>
 
-        {/* Featured Products Section - Clean & Elegant */}
+        {/* Featured Products Section - Premium & Interactive */}
         {featuredProducts.length > 0 && (
-          <section className="py-20 bg-gradient-to-br from-gray-50 to-white">
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <section className="py-24 bg-gradient-to-br from-gray-50 via-white to-gray-50 relative overflow-hidden">
+            {/* Animated Background Elements */}
+            <div className="absolute inset-0">
+              {/* Main Gradient Orbs */}
+              <motion.div
+                className="absolute top-1/3 left-1/3 w-80 h-80 bg-gradient-to-r from-emerald-500/20 to-secondary-500/20 rounded-full blur-3xl"
+                animate={{
+                  scale: [1, 1.2, 1],
+                  opacity: [0.3, 0.6, 0.3],
+                  x: [0, 40, 0],
+                  y: [0, -30, 0],
+                }}
+                transition={{
+                  duration: 12,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                }}
+              />
+              <motion.div
+                className="absolute bottom-1/3 right-1/3 w-96 h-96 bg-gradient-to-r from-gold-500/20 to-accent-500/20 rounded-full blur-3xl"
+                animate={{
+                  scale: [1.2, 1, 1.2],
+                  opacity: [0.4, 0.7, 0.4],
+                  x: [0, -35, 0],
+                  y: [0, 35, 0],
+                }}
+                transition={{
+                  duration: 14,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                }}
+              />
+              
+              {/* Floating Juice Icons */}
+              {['🍹', '🥤', '🍓', '🥭', '🍊', '🍇'].map((icon, i) => (
+                <motion.div
+                  key={i}
+                  className="absolute text-4xl opacity-20"
+                  style={{
+                    left: `${Math.random() * 100}%`,
+                    top: `${Math.random() * 100}%`,
+                  }}
+                  animate={{
+                    y: [0, -20, 0],
+                    rotate: [0, 10, -10, 0],
+                    scale: [0.8, 1.1, 0.8],
+                  }}
+                  transition={{
+                    duration: 6 + Math.random() * 4,
+                    repeat: Infinity,
+                    ease: 'easeInOut',
+                    delay: i * 0.5,
+                  }}
+                >
+                  {icon}
+                </motion.div>
+              ))}
+              
+              {/* Geometric Pattern */}
+              <div className="absolute inset-0 opacity-10">
+                <div className="absolute inset-0" style={{
+                  backgroundImage: `linear-gradient(45deg, #FF6EC7 1px, transparent 1px),
+                                   linear-gradient(-45deg, #22c55e 1px, transparent 1px),
+                                   linear-gradient(90deg, #f59e0b 1px, transparent 1px)`,
+                  backgroundSize: '40px 40px, 60px 60px, 80px 80px',
+                  backgroundPosition: '0 0, 20px 20px, 40px 40px'
+                }} />
+              </div>
+              
+              {/* Animated Dots */}
+              {[...Array(12)].map((_, i) => (
+                <motion.div
+                  key={i}
+                  className="absolute w-2 h-2 bg-primary-500/30 rounded-full"
+                  style={{
+                    left: `${Math.random() * 100}%`,
+                    top: `${Math.random() * 100}%`,
+                  }}
+                  animate={{
+                    scale: [0, 1, 0],
+                    opacity: [0, 1, 0],
+                  }}
+                  transition={{
+                    duration: 3 + Math.random() * 2,
+                    repeat: Infinity,
+                    ease: 'easeInOut',
+                    delay: i * 0.3,
+                  }}
+                />
+              ))}
+            </div>
+
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -333,9 +716,128 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
           </section>
         )}
 
-        {/* Testimoni Section - Clean & Elegant */}
-        <section className="py-20 bg-gradient-to-br from-primary-50 to-pinky-50">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Testimoni Section - Premium & Interactive */}
+        <section className="py-24 bg-gradient-to-br from-primary-50 via-pinky-50 to-cute-50 relative overflow-hidden">
+          {/* Animated Background Elements */}
+          <div className="absolute inset-0">
+            {/* Main Gradient Orbs */}
+            <motion.div
+              className="absolute top-1/4 right-1/4 w-96 h-96 bg-gradient-to-r from-primary-500/20 to-pinky-500/20 rounded-full blur-3xl"
+              animate={{
+                scale: [1, 1.3, 1],
+                opacity: [0.3, 0.6, 0.3],
+                x: [0, -40, 0],
+                y: [0, 30, 0],
+              }}
+              transition={{
+                duration: 11,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
+            />
+            <motion.div
+              className="absolute bottom-1/4 left-1/4 w-80 h-80 bg-gradient-to-r from-cute-500/20 to-violet-500/20 rounded-full blur-3xl"
+              animate={{
+                scale: [1.2, 1, 1.2],
+                opacity: [0.4, 0.7, 0.4],
+                x: [0, 35, 0],
+                y: [0, -25, 0],
+              }}
+              transition={{
+                duration: 13,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
+            />
+            
+            {/* Floating Quote Icons */}
+            {[...Array(6)].map((_, i) => (
+              <motion.div
+                key={i}
+                className="absolute text-6xl opacity-10"
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                }}
+                animate={{
+                  y: [0, -30, 0],
+                  rotate: [0, 5, -5, 0],
+                  scale: [0.7, 1, 0.7],
+                }}
+                transition={{
+                  duration: 8 + Math.random() * 4,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                  delay: i * 0.8,
+                }}
+              >
+                "
+              </motion.div>
+            ))}
+            
+            {/* Heart Pattern */}
+            <div className="absolute inset-0 opacity-5">
+              <div className="absolute inset-0" style={{
+                backgroundImage: `radial-gradient(circle at 20% 20%, #FF6EC7 3px, transparent 3px),
+                                 radial-gradient(circle at 80% 80%, #ec4899 2px, transparent 2px),
+                                 radial-gradient(circle at 50% 50%, #d946ef 1px, transparent 1px)`,
+                backgroundSize: '100px 100px, 120px 120px, 80px 80px',
+                backgroundPosition: '0 0, 50px 50px, 25px 25px'
+              }} />
+            </div>
+            
+            {/* Floating Stars */}
+            {[...Array(15)].map((_, i) => (
+              <motion.div
+                key={i}
+                className="absolute text-2xl opacity-20"
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                }}
+                animate={{
+                  y: [0, -15, 0],
+                  rotate: [0, 180, 360],
+                  scale: [0.5, 1, 0.5],
+                }}
+                transition={{
+                  duration: 4 + Math.random() * 3,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                  delay: i * 0.2,
+                }}
+              >
+                ⭐
+              </motion.div>
+            ))}
+            
+            {/* Animated Lines */}
+            <motion.div
+              className="absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary-500/30 to-transparent"
+              animate={{
+                x: ['-100%', '100%'],
+              }}
+              transition={{
+                duration: 6,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
+            />
+            <motion.div
+              className="absolute top-1/3 right-0 w-px h-1/3 bg-gradient-to-b from-transparent via-pinky-500/30 to-transparent"
+              animate={{
+                y: ['-100%', '100%'],
+              }}
+              transition={{
+                duration: 8,
+                repeat: Infinity,
+                ease: 'easeInOut',
+                delay: 1,
+              }}
+            />
+          </div>
+
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}

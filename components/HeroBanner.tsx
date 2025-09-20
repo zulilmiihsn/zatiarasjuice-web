@@ -33,16 +33,28 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
     offset: ["start start", "end start"]
   });
 
-  // Parallax transforms
+  // Parallax transforms - Enhanced for better visual effect
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
   const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [1, 0.8, 0]);
   const scale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
+  
+  // Different parallax speeds for layered effect
+  const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+  const glassmorphismY = useTransform(scrollYProgress, [0, 1], ["0%", "-20%"]);
+  const imageY = useTransform(scrollYProgress, [0, 1], ["0%", "40%"]);
+  const floatingElementsY = useTransform(scrollYProgress, [0, 1], ["0%", "60%"]);
+  
+  // Rotation effects for dynamic parallax
+  const backgroundRotate = useTransform(scrollYProgress, [0, 1], [0, 5]);
+  const glassmorphismRotate = useTransform(scrollYProgress, [0, 1], [0, -3]);
+  const imageRotate = useTransform(scrollYProgress, [0, 1], [0, 2]);
+  const floatingElementsRotate = useTransform(scrollYProgress, [0, 1], [0, 10]);
 
-  // Mouse parallax
+  // Mouse parallax - Optimized for performance
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
-  const rotateX = useSpring(useTransform(mouseY, [-300, 300], [10, -10]), { stiffness: 150, damping: 30 });
-  const rotateY = useSpring(useTransform(mouseX, [-300, 300], [-10, 10]), { stiffness: 150, damping: 30 });
+  const rotateX = useSpring(useTransform(mouseY, [-300, 300], [5, -5]), { stiffness: 100, damping: 20 });
+  const rotateY = useSpring(useTransform(mouseX, [-300, 300], [-5, 5]), { stiffness: 100, damping: 20 });
 
   // Default slides dengan value proposition yang kuat dan dinamis berdasarkan cabang
   const defaultSlides: HeroSlide[] = [
@@ -91,24 +103,31 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
     return () => clearInterval(interval);
   }, [isPlaying, heroSlides.length]);
 
-  // Mouse tracking untuk 3D effect
+  // Mouse tracking untuk 3D effect - Optimized with throttling
   useEffect(() => {
+    let ticking = false;
+    
     const handleMouseMove = (e: MouseEvent) => {
-      if (heroRef.current) {
-        const rect = heroRef.current.getBoundingClientRect();
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
-        
-        const mouseXValue = (e.clientX - centerX) / 10;
-        const mouseYValue = (e.clientY - centerY) / 10;
-        
-        mouseX.set(mouseXValue);
-        mouseY.set(mouseYValue);
-        setMousePosition({ x: mouseXValue, y: mouseYValue });
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          if (heroRef.current) {
+            const rect = heroRef.current.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            
+            const mouseXValue = (e.clientX - centerX) / 15; // Reduced sensitivity
+            const mouseYValue = (e.clientY - centerY) / 15;
+            
+            mouseX.set(mouseXValue);
+            mouseY.set(mouseYValue);
+          }
+          ticking = false;
+        });
+        ticking = true;
       }
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, [mouseX, mouseY]);
 
@@ -132,64 +151,115 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
         perspective: '1000px',
       }}
     >
-      {/* Animated Background dengan Glassmorphism */}
+      {/* Animated Background dengan Enhanced Parallax */}
       <motion.div 
         className="absolute inset-0"
-        style={{ y, scale }}
+        style={{ y: backgroundY, scale, rotate: backgroundRotate }}
       >
         <div className={`absolute inset-0 bg-gradient-to-br ${heroSlides[currentSlide].gradient} opacity-90`}>
           <div className="absolute inset-0 bg-black/20" />
         </div>
         
-        {/* Floating Geometric Shapes - Trendy 2024 */}
-        <div className="absolute inset-0 overflow-hidden">
+        {/* Floating Premium Shapes - Optimized for Performance */}
+        <motion.div 
+          className="absolute inset-0 overflow-hidden"
+          style={{ y: floatingElementsY }}
+        >
           {[...Array(8)].map((_, i) => (
             <motion.div
               key={i}
               className="absolute"
               style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
+                left: `${(i * 12.5) % 100}%`,
+                top: `${(i * 15) % 100}%`,
               }}
               animate={{
-                x: [0, Math.random() * 100 - 50],
-                y: [0, Math.random() * 100 - 50],
-                rotate: [0, 360],
+                x: [0, 30, 0],
+                y: [0, 20, 0],
+                rotate: [0, 180, 360],
                 scale: [1, 1.2, 1],
+                opacity: [0.3, 0.6, 0.3],
               }}
               transition={{
-                duration: 8 + Math.random() * 4,
+                duration: 8 + i * 2,
                 repeat: Infinity,
                 ease: 'easeInOut',
               }}
             >
-              <div className={`w-${8 + Math.random() * 16} h-${8 + Math.random() * 16} bg-white/10 rounded-full blur-sm`} />
+              <div className={`w-16 h-16 bg-gradient-to-r from-white/20 to-white/5 rounded-full blur-lg`} />
             </motion.div>
           ))}
-        </div>
+          
+          {/* Premium Geometric Shapes - Optimized */}
+          {[...Array(4)].map((_, i) => (
+            <motion.div
+              key={`geo-${i}`}
+              className="absolute"
+              style={{
+                left: `${(i * 25) % 100}%`,
+                top: `${(i * 30) % 100}%`,
+                y: floatingElementsY,
+                rotate: floatingElementsRotate
+              }}
+              animate={{
+                x: [0, 20, 0],
+                y: [0, 15, 0],
+                rotate: [0, 90, 180],
+                scale: [0.8, 1.1, 0.8],
+              }}
+              transition={{
+                duration: 10 + i * 3,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
+            >
+              <div className={`w-20 h-20 bg-gradient-to-r from-primary-500/20 to-pinky-500/20 rounded-2xl blur-md`} />
+            </motion.div>
+          ))}
+        </motion.div>
 
-        {/* Gradient Orbs */}
+        {/* Premium Gradient Orbs dengan Enhanced Parallax */}
         <div className="absolute inset-0">
           <motion.div
-            className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-pink-500/30 to-purple-500/30 rounded-full blur-3xl"
+            className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-gradient-to-r from-pink-500/40 to-purple-500/40 rounded-full blur-3xl"
+            style={{ y: floatingElementsY, rotate: floatingElementsRotate }}
             animate={{
-              scale: [1, 1.2, 1],
-              opacity: [0.3, 0.6, 0.3],
+              scale: [1, 1.3, 1],
+              opacity: [0.3, 0.7, 0.3],
+              x: [0, 50, 0],
+              y: [0, -30, 0],
             }}
             transition={{
-              duration: 6,
+              duration: 8,
               repeat: Infinity,
               ease: 'easeInOut',
             }}
           />
           <motion.div
-            className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-r from-cyan-500/30 to-blue-500/30 rounded-full blur-3xl"
+            className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-gradient-to-r from-cyan-500/40 to-blue-500/40 rounded-full blur-3xl"
+            style={{ y: floatingElementsY, rotate: floatingElementsRotate }}
             animate={{
               scale: [1.2, 1, 1.2],
-              opacity: [0.4, 0.7, 0.4],
+              opacity: [0.4, 0.8, 0.4],
+              x: [0, -40, 0],
+              y: [0, 40, 0],
             }}
             transition={{
-              duration: 8,
+              duration: 10,
+              repeat: Infinity,
+              ease: 'easeInOut',
+            }}
+          />
+          <motion.div
+            className="absolute top-1/2 left-1/2 w-[300px] h-[300px] bg-gradient-to-r from-gold-500/30 to-accent-500/30 rounded-full blur-2xl"
+            style={{ y: floatingElementsY, rotate: floatingElementsRotate }}
+            animate={{
+              scale: [1, 1.4, 1],
+              opacity: [0.2, 0.6, 0.2],
+              rotate: [0, 180, 360],
+            }}
+            transition={{
+              duration: 12,
               repeat: Infinity,
               ease: 'easeInOut',
             }}
@@ -207,15 +277,26 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
         }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-          {/* Text Content dengan Glassmorphism */}
+          {/* Text Content dengan Enhanced Glassmorphism Parallax */}
           <motion.div
             initial={{ opacity: 0, x: -100 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             className="relative z-10"
+            style={{ 
+              y: glassmorphismY, 
+              rotate: glassmorphismRotate,
+              transformStyle: 'preserve-3d'
+            }}
           >
-            {/* Glassmorphism Card - Mobile Optimized */}
-            <div className="backdrop-blur-xl bg-white/10 rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 border border-white/20 shadow-2xl min-h-[400px] sm:min-h-[450px] lg:min-h-[500px] flex flex-col">
+            {/* Glassmorphism Card - Enhanced with Parallax */}
+            <motion.div 
+              className="backdrop-blur-xl bg-white/10 rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 border border-white/20 shadow-2xl min-h-[400px] sm:min-h-[450px] lg:min-h-[500px] flex flex-col"
+              style={{
+                transform: 'translateZ(20px)',
+                boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.1)'
+              }}
+            >
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -337,10 +418,10 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
                   </motion.div>
                 </div>
               </motion.div>
-            </div>
+            </motion.div>
           </motion.div>
 
-          {/* Image Content dengan 3D Effect */}
+          {/* Image Content dengan Enhanced 3D Parallax */}
           <motion.div
             initial={{ opacity: 0, x: 100 }}
             animate={{ opacity: 1, x: 0 }}
@@ -348,31 +429,38 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
             className="relative"
             style={{
               transformStyle: 'preserve-3d',
+              y: imageY,
+              rotate: imageRotate
             }}
           >
-            {/* 3D Image Container */}
+            {/* 3D Image Container dengan Parallax */}
             <motion.div
               className="relative h-64 sm:h-80 md:h-96 lg:h-[500px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl"
               style={{
                 rotateY: useTransform(mouseX, [-300, 300], [-5, 5]),
                 rotateX: useTransform(mouseY, [-300, 300], [5, -5]),
+                transform: 'translateZ(30px)',
+                boxShadow: '0 30px 60px -12px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1)'
               }}
             >
               <Image
                 src={heroSlides[currentSlide].image}
                 alt={heroSlides[currentSlide].title}
                 fill
-                className="object-cover transition-transform duration-700"
+                className="object-cover transition-transform duration-500"
                 priority
+                quality={85}
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
               
               {/* Gradient Overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
             </motion.div>
 
-            {/* Floating Background Elements */}
+            {/* Floating Background Elements dengan Parallax */}
             <motion.div
               className="absolute -top-4 -left-4 w-24 h-24 bg-gradient-to-r from-pink-500/30 to-purple-500/30 rounded-full blur-xl"
+              style={{ y: floatingElementsY, rotate: floatingElementsRotate }}
               animate={{
                 scale: [1, 1.2, 1],
                 opacity: [0.3, 0.6, 0.3],
@@ -385,6 +473,7 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
             />
             <motion.div
               className="absolute -bottom-4 -right-4 w-32 h-32 bg-gradient-to-r from-cyan-500/30 to-blue-500/30 rounded-full blur-xl"
+              style={{ y: floatingElementsY, rotate: floatingElementsRotate }}
               animate={{
                 scale: [1.2, 1, 1.2],
                 opacity: [0.4, 0.7, 0.4],

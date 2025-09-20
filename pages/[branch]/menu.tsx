@@ -152,9 +152,77 @@ const MenuPage: React.FC<MenuPageProps> = ({
       <div className="min-h-screen bg-white overflow-x-hidden">
         <Header branch={branch} currentPath={`/${branch}/menu`} />
         
-        {/* Menu Header - Digital Menu Style - Mobile Compact */}
-        <section className="pt-16 pb-4 sm:pb-8 md:pb-12 bg-white border-b-2 border-gray-100 overflow-x-hidden">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 max-w-full">
+        {/* Menu Header - Premium Digital Menu Style */}
+        <section className="pt-16 pb-4 sm:pb-8 md:pb-12 bg-gradient-to-br from-white via-gray-50 to-white border-b-2 border-gray-100 relative overflow-hidden">
+          {/* Animated Background Elements */}
+          <div className="absolute inset-0">
+            {/* Main Gradient Orbs */}
+            <motion.div
+              className="absolute top-10 right-10 w-64 h-64 bg-gradient-to-r from-primary-500/20 to-pinky-500/20 rounded-full blur-3xl"
+              animate={{
+                scale: [1, 1.2, 1],
+                opacity: [0.2, 0.4, 0.2],
+                x: [0, 20, 0],
+                y: [0, -15, 0],
+              }}
+              transition={{
+                duration: 8,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
+            />
+            <motion.div
+              className="absolute bottom-10 left-10 w-80 h-80 bg-gradient-to-r from-emerald-500/20 to-secondary-500/20 rounded-full blur-3xl"
+              animate={{
+                scale: [1.2, 1, 1.2],
+                opacity: [0.3, 0.5, 0.3],
+                x: [0, -20, 0],
+                y: [0, 15, 0],
+              }}
+              transition={{
+                duration: 10,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
+            />
+            
+            {/* Floating Menu Icons */}
+            {['🍹', '🥤', '🍓', '🥭', '🍊', '🍇', '🥑', '🍌'].map((icon, i) => (
+              <motion.div
+                key={i}
+                className="absolute text-2xl opacity-10"
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                }}
+                animate={{
+                  y: [0, -20, 0],
+                  rotate: [0, 10, -10, 0],
+                  scale: [0.7, 1.1, 0.7],
+                }}
+                transition={{
+                  duration: 6 + Math.random() * 2,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                  delay: i * 0.3,
+                }}
+              >
+                {icon}
+              </motion.div>
+            ))}
+            
+            {/* Subtle Pattern */}
+            <div className="absolute inset-0 opacity-5">
+              <div className="absolute inset-0" style={{
+                backgroundImage: `radial-gradient(circle at 30% 30%, #FF6EC7 1px, transparent 1px),
+                                 radial-gradient(circle at 70% 70%, #22c55e 1px, transparent 1px)`,
+                backgroundSize: '60px 60px, 80px 80px',
+                backgroundPosition: '0 0, 30px 30px'
+              }} />
+            </div>
+          </div>
+
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 max-w-full relative z-10">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -284,9 +352,101 @@ const MenuPage: React.FC<MenuPageProps> = ({
           </div>
         </section>
 
-        {/* Menu Display - List or Grid Layout */}
-        <section className="py-4 sm:py-6 md:py-8 bg-white overflow-x-hidden">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 max-w-full">
+        {/* Menu Display - Premium Interactive Layout */}
+        <section className="py-8 sm:py-12 md:py-16 bg-gradient-to-br from-white via-gray-50 to-white relative overflow-hidden">
+          {/* Animated Background Elements */}
+          <div className="absolute inset-0">
+            {/* Main Gradient Orbs */}
+            <motion.div
+              className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-primary-500/15 to-pinky-500/15 rounded-full blur-3xl"
+              animate={{
+                scale: [1, 1.2, 1],
+                opacity: [0.2, 0.4, 0.2],
+                x: [0, 30, 0],
+                y: [0, -20, 0],
+              }}
+              transition={{
+                duration: 12,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
+            />
+            <motion.div
+              className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-r from-emerald-500/15 to-secondary-500/15 rounded-full blur-3xl"
+              animate={{
+                scale: [1.2, 1, 1.2],
+                opacity: [0.3, 0.5, 0.3],
+                x: [0, -25, 0],
+                y: [0, 25, 0],
+              }}
+              transition={{
+                duration: 14,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
+            />
+            
+            {/* Floating Food Icons */}
+            {['🍹', '🥤', '🍓', '🥭', '🍊', '🍇', '🥑', '🍌', '🍎', '🍑', '🥝', '🍍'].map((icon, i) => (
+              <motion.div
+                key={i}
+                className="absolute text-3xl opacity-8"
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                }}
+                animate={{
+                  y: [0, -30, 0],
+                  rotate: [0, 15, -15, 0],
+                  scale: [0.6, 1.2, 0.6],
+                }}
+                transition={{
+                  duration: 8 + Math.random() * 4,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                  delay: i * 0.4,
+                }}
+              >
+                {icon}
+              </motion.div>
+            ))}
+            
+            {/* Subtle Grid Pattern */}
+            <div className="absolute inset-0 opacity-5">
+              <div className="absolute inset-0" style={{
+                backgroundImage: `linear-gradient(45deg, #FF6EC7 1px, transparent 1px),
+                                 linear-gradient(-45deg, #22c55e 1px, transparent 1px)`,
+                backgroundSize: '40px 40px',
+                backgroundPosition: '0 0, 20px 20px'
+              }} />
+            </div>
+            
+            {/* Animated Particles */}
+            {[...Array(25)].map((_, i) => (
+              <motion.div
+                key={i}
+                className="absolute w-1 h-1 bg-gradient-to-r from-primary-500/30 to-pinky-500/30 rounded-full"
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                }}
+                animate={{
+                  y: [0, -50, 0],
+                  x: [0, Math.random() * 20 - 10, 0],
+                  scale: [0, 1, 0],
+                  opacity: [0, 1, 0],
+                }}
+                transition={{
+                  duration: 4 + Math.random() * 3,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                  delay: i * 0.2,
+                }}
+              />
+            ))}
+          </div>
+
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 max-w-full relative z-10">
             {filteredProducts.length > 0 ? (
               <>
                 {/* Menu Section Header - Mobile Compact */}

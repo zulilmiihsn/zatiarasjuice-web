@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, memo, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { ShoppingCart, Plus, Minus, Apple } from 'lucide-react';
 import Image from 'next/image';
@@ -26,7 +26,7 @@ interface ProductCardProps {
   className?: string;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({
+const ProductCard: React.FC<ProductCardProps> = memo(({
   product,
   onAddToCart,
   className = '',
@@ -36,13 +36,13 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const [isAddingToCart, setIsAddingToCart] = useState(false);
   const [imageError, setImageError] = useState(false);
 
-  const handleAddToCart = async () => {
+  const handleAddToCart = useCallback(async () => {
     if (onAddToCart) {
       setIsAddingToCart(true);
       await onAddToCart({ ...product, quantity });
       setIsAddingToCart(false);
     }
-  };
+  }, [onAddToCart, product, quantity]);
 
 
   const formatPrice = (price: number) => {
@@ -54,7 +54,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   };
 
   const hasImage = product.gambar && product.gambar.trim().length > 0;
-  const imageSrc = hasImage ? product.gambar : '/images/juice-placeholder.svg';
+  const imageSrc = hasImage ? product.gambar! : '/images/juice-placeholder.svg';
   const isPlaceholder = !hasImage || imageSrc.includes('placeholder');
 
   return (
@@ -62,14 +62,20 @@ const ProductCard: React.FC<ProductCardProps> = ({
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
-      whileHover={{ y: -4 }}
+      whileHover={{ 
+        y: -8, 
+        scale: 1.02,
+        rotateY: 5,
+        boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)'
+      }}
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
-      className={`group relative bg-white rounded-lg border border-gray-100 shadow-clean hover:shadow-medium transition-all duration-300 overflow-hidden max-w-full ${className}`}
+      className={`group relative bg-white rounded-3xl border border-gray-100 shadow-luxury hover:shadow-premium transition-all duration-500 overflow-hidden max-w-full perspective-3d ${className}`}
+      style={{ transformStyle: 'preserve-3d' }}
     >
 
       {/* Product Image */}
-      <div className="relative h-32 sm:h-48 overflow-hidden bg-gray-50">
+      <div className="relative h-32 sm:h-48 overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
         {(() => {
           return (
             <>
@@ -77,23 +83,52 @@ const ProductCard: React.FC<ProductCardProps> = ({
                 src={imageSrc}
                 alt={product.name}
                 fill
-                className="object-cover transition-transform duration-300 group-hover:scale-105"
+                className="object-cover transition-all duration-500 group-hover:scale-110 group-hover:rotate-2"
                 onError={() => setImageError(true)}
               />
+              {/* Gradient Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              
+              {/* Shimmer Effect */}
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100"
+                animate={{
+                  x: ['-100%', '100%'],
+                }}
+                transition={{
+                  duration: 1.5,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                  delay: 0.5
+                }}
+              />
+              
               {isPlaceholder && (
                 <div className="absolute inset-0 flex items-center justify-center">
                   <motion.div 
-                    className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center"
+                    className="w-20 h-20 bg-gradient-to-br from-primary-100 to-pinky-100 rounded-full flex items-center justify-center shadow-glow-primary"
                     animate={{ 
-                      scale: [1, 1.05, 1],
+                      scale: [1, 1.1, 1],
+                      rotate: [0, 5, -5, 0],
                     }}
                     transition={{ 
-                      duration: 2,
+                      duration: 3,
                       repeat: Infinity,
                       ease: 'easeInOut'
                     }}
                   >
-                    <Apple className="w-8 h-8 text-primary-500" />
+                    <motion.div
+                      animate={{ 
+                        rotate: [0, 360],
+                      }}
+                      transition={{ 
+                        duration: 4,
+                        repeat: Infinity,
+                        ease: 'linear'
+                      }}
+                    >
+                      <Apple className="w-10 h-10 text-primary-500" />
+                    </motion.div>
                   </motion.div>
                 </div>
               )}
@@ -106,17 +141,29 @@ const ProductCard: React.FC<ProductCardProps> = ({
       <div className="p-2 sm:p-4 max-w-full">
         {/* Category Tag */}
         {product.category && (
-          <div className="mb-1 sm:mb-2">
-            <span className="inline-block px-1.5 sm:px-2 py-0.5 sm:py-1 text-xs font-medium text-primary-600 bg-primary-50 rounded-full">
+          <div className="mb-2 sm:mb-3">
+            <motion.span 
+              className="inline-block px-3 py-1.5 text-xs font-bold text-primary-600 bg-gradient-to-r from-primary-50 to-pinky-50 rounded-full border border-primary-200 shadow-soft"
+              whileHover={{ 
+                scale: 1.05,
+                boxShadow: '0 4px 12px rgba(255, 110, 199, 0.3)'
+              }}
+            >
               {product.category}
-            </span>
+            </motion.span>
           </div>
         )}
 
         {/* Product Name */}
-        <h3 className="text-sm sm:text-lg font-bold text-gray-900 mb-1 sm:mb-2 line-clamp-2 font-display max-w-full truncate">
+        <motion.h3 
+          className="text-sm sm:text-lg font-black text-gray-900 mb-2 sm:mb-3 line-clamp-2 font-display max-w-full truncate"
+          whileHover={{ 
+            color: '#FF6EC7',
+            textShadow: '0 0 10px rgba(255, 110, 199, 0.3)'
+          }}
+        >
           {product.name}
-        </h3>
+        </motion.h3>
 
         {/* Price */}
         <div className="mb-2 sm:mb-4 max-w-full">
@@ -144,51 +191,99 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
         {/* Add to Cart Button */}
         <motion.button
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
+          whileHover={{ 
+            scale: 1.05, 
+            y: -2,
+            boxShadow: '0 10px 25px rgba(255, 110, 199, 0.4)'
+          }}
+          whileTap={{ scale: 0.95 }}
           onClick={handleAddToCart}
           disabled={isAddingToCart}
-          className="w-full max-w-full bg-primary-500 text-white py-2 sm:py-3 rounded-lg sm:rounded-xl font-bold text-xs sm:text-sm hover:bg-primary-600 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-1 sm:gap-2"
+          className="w-full max-w-full bg-gradient-to-r from-primary-500 to-pinky-500 text-white py-3 sm:py-4 rounded-2xl font-bold text-xs sm:text-sm hover:from-pink-500 hover:to-purple-500 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 sm:gap-3 shadow-glow-primary hover:shadow-glow-pinky relative overflow-hidden group"
         >
+          <motion.div
+            className="absolute inset-0 bg-gradient-to-r from-pink-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            initial={false}
+          />
           {isAddingToCart ? (
             <>
-              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-              Menambahkan...
+              <motion.div 
+                className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin relative z-10" 
+                animate={{ rotate: 360 }}
+                transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+              />
+              <span className="relative z-10">Menambahkan...</span>
             </>
           ) : (
             <>
-              <ShoppingCart className="w-4 h-4" />
-              Tambah ke Keranjang
+              <motion.div
+                className="relative z-10"
+                animate={{ 
+                  rotate: [0, 10, -10, 0],
+                }}
+                transition={{ 
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: 'easeInOut'
+                }}
+              >
+                <ShoppingCart className="w-5 h-5" />
+              </motion.div>
+              <span className="relative z-10">Tambah ke Keranjang</span>
             </>
           )}
         </motion.button>
 
         {/* Quick Order Buttons */}
-        <div className="mt-2 sm:mt-3 grid grid-cols-2 gap-1 sm:gap-2 max-w-full">
+        <div className="mt-3 sm:mt-4 grid grid-cols-2 gap-2 sm:gap-3 max-w-full">
           <motion.a
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
+            whileHover={{ 
+              scale: 1.05, 
+              y: -2,
+              boxShadow: '0 8px 20px rgba(34, 197, 94, 0.4)'
+            }}
+            whileTap={{ scale: 0.95 }}
             href={`https://wa.me/6281234567890?text=Halo, saya ingin order ${product.name}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-green-500 text-white py-1.5 sm:py-2 px-2 sm:px-3 rounded-lg sm:rounded-xl text-xs font-bold hover:bg-green-600 transition-all duration-200 text-center max-w-full truncate"
+            className="bg-gradient-to-r from-emerald-500 to-secondary-500 text-white py-2 sm:py-3 px-3 sm:px-4 rounded-2xl text-xs font-bold hover:from-green-500 hover:to-emerald-600 transition-all duration-300 text-center max-w-full truncate shadow-glow-secondary hover:shadow-glow-green relative overflow-hidden group"
           >
-            WhatsApp
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-r from-green-500 to-emerald-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              initial={false}
+            />
+            <span className="relative z-10 flex items-center justify-center gap-1">
+              <span className="text-sm">💬</span>
+              <span>WhatsApp</span>
+            </span>
           </motion.a>
           <motion.a
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
+            whileHover={{ 
+              scale: 1.05, 
+              y: -2,
+              boxShadow: '0 8px 20px rgba(245, 158, 11, 0.4)'
+            }}
+            whileTap={{ scale: 0.95 }}
             href="https://gofood.co.id/merchant/zatiaras-juice"
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-orange-500 text-white py-1.5 sm:py-2 px-2 sm:px-3 rounded-lg sm:rounded-xl text-xs font-bold hover:bg-orange-600 transition-all duration-200 text-center max-w-full truncate"
+            className="bg-gradient-to-r from-gold-500 to-accent-500 text-white py-2 sm:py-3 px-3 sm:px-4 rounded-2xl text-xs font-bold hover:from-orange-500 hover:to-gold-600 transition-all duration-300 text-center max-w-full truncate shadow-glow-gold hover:shadow-glow-orange relative overflow-hidden group"
           >
-            GoFood
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-r from-orange-500 to-gold-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              initial={false}
+            />
+            <span className="relative z-10 flex items-center justify-center gap-1">
+              <span className="text-sm">🚚</span>
+              <span>GoFood</span>
+            </span>
           </motion.a>
         </div>
       </div>
     </motion.div>
   );
-};
+});
+
+ProductCard.displayName = 'ProductCard';
 
 export default ProductCard;

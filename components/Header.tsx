@@ -59,9 +59,9 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6, ease: 'easeOut' }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-out ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out ${
         isScrolled
-          ? 'bg-white shadow-lg'
+          ? 'bg-white/95 backdrop-blur-xl shadow-luxury border-b border-gray-100'
           : 'bg-transparent'
       }`}
     >
@@ -69,40 +69,82 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
         <div className="flex items-center justify-between h-12 lg:h-14">
           {/* Logo */}
           <motion.div
-            whileHover={{ scale: 1.05 }}
+            whileHover={{ scale: 1.05, rotate: 5 }}
             whileTap={{ scale: 0.95 }}
             className="flex-shrink-0"
           >
             <Link href={branch ? `/${branch}` : '/'} className="flex items-center">
               <motion.div 
-                className="w-10 h-10 bg-primary-500 rounded-lg flex items-center justify-center shadow-clean"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                className="w-12 h-12 bg-gradient-to-br from-primary-500 to-pinky-500 rounded-2xl flex items-center justify-center shadow-glow-primary hover:shadow-glow-pinky transition-all duration-300"
+                whileHover={{ 
+                  scale: 1.1, 
+                  rotate: 360,
+                  boxShadow: '0 0 30px rgba(255, 110, 199, 0.6), 0 0 60px rgba(255, 110, 199, 0.3)'
+                }}
+                whileTap={{ scale: 0.9 }}
+                animate={{ 
+                  boxShadow: [
+                    '0 0 20px rgba(255, 110, 199, 0.4)',
+                    '0 0 30px rgba(255, 110, 199, 0.6)',
+                    '0 0 20px rgba(255, 110, 199, 0.4)'
+                  ]
+                }}
+                transition={{ 
+                  boxShadow: { duration: 2, repeat: Infinity, ease: 'easeInOut' }
+                }}
               >
-                <span className="text-white font-bold text-lg font-display">Z</span>
+                <motion.span 
+                  className="text-white font-black text-xl font-display"
+                  animate={{ 
+                    textShadow: [
+                      '0 0 10px rgba(255, 255, 255, 0.5)',
+                      '0 0 20px rgba(255, 255, 255, 0.8)',
+                      '0 0 10px rgba(255, 255, 255, 0.5)'
+                    ]
+                  }}
+                  transition={{ 
+                    textShadow: { duration: 2, repeat: Infinity, ease: 'easeInOut' }
+                  }}
+                >
+                  Z
+                </motion.span>
               </motion.div>
             </Link>
           </motion.div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-8">
+          <nav className="hidden lg:flex items-center space-x-6">
             {navigationItems.map((item) => (
               <motion.div
                 key={item.name}
-                whileHover={{ scale: 1.05 }}
+                whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
+                className="relative"
               >
                 <Link
                   href={item.href}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                  className={`px-6 py-3 rounded-2xl text-sm font-bold transition-all duration-300 relative overflow-hidden group ${
                     currentPath === item.href
-                      ? 'text-white bg-primary-500'
+                      ? 'text-white bg-gradient-to-r from-primary-500 to-pinky-500 shadow-glow-primary'
                       : isScrolled
-                      ? 'text-gray-700 hover:text-primary-600 hover:bg-gray-50'
-                      : 'text-white hover:text-primary-200 hover:bg-white/20'
+                      ? 'text-gray-700 hover:text-primary-600 hover:bg-gradient-to-r hover:from-primary-50 hover:to-pinky-50 hover:shadow-elegant'
+                      : 'text-white hover:text-primary-200 hover:bg-white/20 hover:backdrop-blur-sm'
                   }`}
                 >
-                  {item.name}
+                  <motion.span
+                    className="relative z-10"
+                    whileHover={{ 
+                      textShadow: '0 0 10px rgba(255, 255, 255, 0.5)'
+                    }}
+                  >
+                    {item.name}
+                  </motion.span>
+                  {currentPath === item.href && (
+                    <motion.div
+                      className="absolute inset-0 bg-gradient-to-r from-pink-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                      initial={false}
+                    />
+                  )}
                 </Link>
               </motion.div>
             ))}
@@ -124,15 +166,35 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
             )}
             
             <motion.a
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+              whileHover={{ 
+                scale: 1.05, 
+                y: -2,
+                boxShadow: '0 20px 40px rgba(255, 110, 199, 0.3)'
+              }}
+              whileTap={{ scale: 0.95 }}
               href={`https://wa.me/${branch ? branchInfo[branch].phone.replace(/\D/g, '') : '6281234567890'}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-6 py-3 rounded-xl text-sm font-bold transition-all duration-200 flex items-center gap-2 bg-primary-500 text-white hover:bg-primary-600"
+              className="px-8 py-4 rounded-2xl text-sm font-bold transition-all duration-300 flex items-center gap-3 bg-gradient-to-r from-primary-500 to-pinky-500 text-white hover:from-pink-500 hover:to-purple-500 shadow-glow-primary hover:shadow-glow-pinky relative overflow-hidden group"
             >
-              <span>🍹</span>
-              <span>Order Now</span>
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-r from-pink-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                initial={false}
+              />
+              <motion.span 
+                className="relative z-10 text-2xl"
+                animate={{ 
+                  rotate: [0, 10, -10, 0],
+                }}
+                transition={{ 
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: 'easeInOut'
+                }}
+              >
+                🍹
+              </motion.span>
+              <span className="relative z-10">Order Now</span>
             </motion.a>
           </div>
 

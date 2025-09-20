@@ -89,27 +89,18 @@ const BranchPage: React.FC<BranchPageProps> = ({
         {/* Hero Section - Trendy 2024 dengan Parallax */}
         <HeroBanner branch={branch} />
         
-        {/* Branch Info Section - Modern & Trendy */}
-        <section className="py-20 bg-gradient-to-br from-gray-50 via-white to-gray-50 relative overflow-hidden">
+        {/* Branch Info Section - Premium & Interactive */}
+        <section className="py-24 bg-gradient-to-br from-gray-50 via-white to-gray-50 relative overflow-hidden">
           {/* Animated Background Elements */}
           <div className="absolute inset-0">
+            {/* Main Gradient Orbs */}
             <motion.div
-              className="absolute top-20 left-20 w-32 h-32 bg-gradient-to-r from-pink-500/20 to-purple-500/20 rounded-full blur-2xl"
+              className="absolute top-20 left-20 w-64 h-64 bg-gradient-to-r from-pink-500/25 to-purple-500/25 rounded-full blur-3xl"
               animate={{
-                scale: [1, 1.2, 1],
+                scale: [1, 1.3, 1],
                 opacity: [0.3, 0.6, 0.3],
-              }}
-              transition={{
-                duration: 6,
-                repeat: Infinity,
-                ease: 'easeInOut',
-              }}
-            />
-            <motion.div
-              className="absolute bottom-20 right-20 w-40 h-40 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 rounded-full blur-2xl"
-              animate={{
-                scale: [1.2, 1, 1.2],
-                opacity: [0.4, 0.7, 0.4],
+                x: [0, 30, 0],
+                y: [0, -20, 0],
               }}
               transition={{
                 duration: 8,
@@ -117,6 +108,68 @@ const BranchPage: React.FC<BranchPageProps> = ({
                 ease: 'easeInOut',
               }}
             />
+            <motion.div
+              className="absolute bottom-20 right-20 w-80 h-80 bg-gradient-to-r from-cyan-500/25 to-blue-500/25 rounded-full blur-3xl"
+              animate={{
+                scale: [1.2, 1, 1.2],
+                opacity: [0.4, 0.7, 0.4],
+                x: [0, -25, 0],
+                y: [0, 25, 0],
+              }}
+              transition={{
+                duration: 10,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
+            />
+            
+            {/* Floating Juice & Fruit Icons */}
+            {['🍹', '🥤', '🍓', '🥭', '🍊', '🍇', '🥑', '🍌', '🍎', '🍑', '🥝', '🍍'].map((icon, i) => (
+              <motion.div
+                key={i}
+                className="absolute text-3xl opacity-15"
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                }}
+                animate={{
+                  y: [0, -25, 0],
+                  rotate: [0, 15, -15, 0],
+                  scale: [0.8, 1.2, 0.8],
+                }}
+                transition={{
+                  duration: 7 + Math.random() * 3,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                  delay: i * 0.6,
+                }}
+              >
+                {icon}
+              </motion.div>
+            ))}
+            
+            
+            {/* Animated Dots */}
+            {[...Array(20)].map((_, i) => (
+              <motion.div
+                key={i}
+                className="absolute w-1 h-1 bg-primary-500/40 rounded-full"
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                }}
+                animate={{
+                  scale: [0, 1.5, 0],
+                  opacity: [0, 1, 0],
+                }}
+                transition={{
+                  duration: 2 + Math.random() * 2,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                  delay: i * 0.1,
+                }}
+              />
+            ))}
           </div>
 
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
