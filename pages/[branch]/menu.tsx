@@ -119,7 +119,7 @@ const MenuPage: React.FC<MenuPageProps> = ({
         <Header branch={branch} currentPath={`/${branch}/menu`} />
         
         {/* Menu Header - Digital Menu Style */}
-        <section className="py-12 bg-white border-b-2 border-gray-100">
+        <section className="pt-16 pb-12 bg-white border-b-2 border-gray-100">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
