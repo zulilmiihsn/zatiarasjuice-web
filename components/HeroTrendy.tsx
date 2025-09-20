@@ -17,11 +17,12 @@ interface HeroSlide {
 }
 
 interface HeroTrendyProps {
-  branch?: 'berau' | 'samarinda';
+  branch?: 'berau' | 'samarinda' | null;
   slides?: HeroSlide[];
+  onBranchSelect?: (branch: 'berau' | 'samarinda') => void;
 }
 
-const HeroTrendy: React.FC<HeroTrendyProps> = ({ branch, slides }) => {
+const HeroTrendy: React.FC<HeroTrendyProps> = ({ branch, slides, onBranchSelect }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -273,24 +274,45 @@ const HeroTrendy: React.FC<HeroTrendyProps> = ({ branch, slides }) => {
                     transition={{ duration: 0.6, delay: 1.2 }}
                     className="flex flex-col sm:flex-row gap-4"
                   >
-                  <motion.a
-                    whileHover={{ 
-                      scale: 1.05,
-                      boxShadow: '0 20px 40px rgba(255, 255, 255, 0.3)',
-                    }}
-                    whileTap={{ scale: 0.95 }}
-                    href={heroSlides[currentSlide].ctaLink}
-                    className="group relative bg-white text-gray-900 px-4 sm:px-6 lg:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl font-bold text-sm sm:text-base lg:text-lg overflow-hidden"
-                  >
-                    <motion.div
-                      className="absolute inset-0 bg-gradient-to-r from-pink-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                      initial={false}
-                    />
-                    <span className="relative z-10 flex items-center justify-center gap-2">
-                      <span className="text-2xl">🍹</span>
-                      <span>{heroSlides[currentSlide].ctaText}</span>
-                    </span>
-                  </motion.a>
+                  {onBranchSelect && !branch ? (
+                    <motion.button
+                      whileHover={{ 
+                        scale: 1.05,
+                        boxShadow: '0 20px 40px rgba(255, 255, 255, 0.3)',
+                      }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() => onBranchSelect('berau')}
+                      className="group relative bg-white text-gray-900 px-4 sm:px-6 lg:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl font-bold text-sm sm:text-base lg:text-lg overflow-hidden"
+                    >
+                      <motion.div
+                        className="absolute inset-0 bg-gradient-to-r from-pink-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                        initial={false}
+                      />
+                      <span className="relative z-10 flex items-center justify-center gap-2">
+                        <span className="text-2xl">🍹</span>
+                        <span>{heroSlides[currentSlide].ctaText}</span>
+                      </span>
+                    </motion.button>
+                  ) : (
+                    <motion.a
+                      whileHover={{ 
+                        scale: 1.05,
+                        boxShadow: '0 20px 40px rgba(255, 255, 255, 0.3)',
+                      }}
+                      whileTap={{ scale: 0.95 }}
+                      href={heroSlides[currentSlide].ctaLink}
+                      className="group relative bg-white text-gray-900 px-4 sm:px-6 lg:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl font-bold text-sm sm:text-base lg:text-lg overflow-hidden"
+                    >
+                      <motion.div
+                        className="absolute inset-0 bg-gradient-to-r from-pink-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                        initial={false}
+                      />
+                      <span className="relative z-10 flex items-center justify-center gap-2">
+                        <span className="text-2xl">🍹</span>
+                        <span>{heroSlides[currentSlide].ctaText}</span>
+                      </span>
+                    </motion.a>
+                  )}
                   
                   <motion.a
                     whileHover={{ 

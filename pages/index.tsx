@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import HeroTrendy from '../components/HeroTrendy';
 import ProductCardMinimal from '../components/ProductCardMinimal';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { getUserLocationWithFallback } from '../lib/geolocation';
@@ -90,56 +91,11 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
       <div className="min-h-screen bg-white">
         <Header />
 
-        {/* Location Detection Section - Clean & Elegant */}
-        {nearestBranch && (
-          <motion.section
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="bg-gradient-to-r from-primary-500 to-pinky-500 py-16"
-          >
-            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-                className="space-y-6"
-              >
-                <h2 className="text-3xl sm:text-4xl font-bold text-white font-display">
-                  Jus Terenak di Berau & Samarinda
-                </h2>
-                
-                <div className="space-y-3">
-                  <p className="text-lg text-white/90 font-medium">
-                    Cabang terdekat: <span className="font-bold capitalize bg-white/20 px-3 py-1 rounded-full">{nearestBranch}</span>
-                  </p>
-                  <p className="text-base text-white/80 font-medium">
-                    ⭐ Rating 4.9/5 • 🍃 100% Alami • ⚡ Ready 15 menit
-                  </p>
-                </div>
-                
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    onClick={() => handleBranchSelect(nearestBranch as 'berau' | 'samarinda')}
-                    className="bg-white text-gray-900 px-6 py-3 rounded-xl font-semibold text-base hover:shadow-lg transition-all duration-200"
-                  >
-                    Lanjut ke Cabang {nearestBranch?.charAt(0).toUpperCase() + nearestBranch?.slice(1)}
-                  </motion.button>
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    onClick={() => setIsLoading(false)}
-                    className="border-2 border-white text-white px-6 py-3 rounded-xl font-semibold text-base hover:bg-white hover:text-gray-900 transition-all duration-200"
-                  >
-                    Pilih Cabang Lain
-                  </motion.button>
-                </div>
-              </motion.div>
-            </div>
-          </motion.section>
-        )}
+        {/* Hero Section - Interactive & Trendy */}
+        <HeroTrendy 
+          branch={nearestBranch as 'berau' | 'samarinda' | null} 
+          onBranchSelect={handleBranchSelect}
+        />
 
         {/* Branch Selection Section - Clean & Elegant */}
         <section className="py-20 bg-gradient-to-br from-gray-50 to-white">
