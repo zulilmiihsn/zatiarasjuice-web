@@ -106,7 +106,7 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
               transition={{ duration: 0.6 }}
               className="text-center mb-16"
             >
-              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6 font-display">
+              <h2 className="text-3xl sm:text-4xl font-black text-gray-900 mb-6 font-rounded">
                 Jus Terenak di Berau & Samarinda
               </h2>
               <p className="text-lg text-gray-600 max-w-3xl mx-auto font-medium leading-relaxed">
@@ -127,17 +127,17 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                 <div className="h-48 bg-gradient-to-br from-primary-500 to-primary-600 relative overflow-hidden">
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className="text-center">
-                      <h3 className="text-3xl font-bold text-white font-display">Berau</h3>
+                      <h3 className="text-3xl font-black text-white font-rounded">Berau</h3>
                       <p className="text-white/80 mt-2">Cabang Utama</p>
                     </div>
                   </div>
                 </div>
                 <div className="p-8">
                   <div className="space-y-4">
-                    <h3 className="text-2xl font-bold text-gray-900 font-display">Zatiaras Juice Berau</h3>
+                    <h3 className="text-2xl font-black text-gray-900 font-rounded">Zatiaras Juice Berau</h3>
                     <p className="text-gray-600 text-sm leading-relaxed">
-                      Jl. Ahmad Yani No. 123, Berau, Kalimantan Timur
-                    </p>
+                    Jl. Ahmad Yani No. 123, Berau, Kalimantan Timur
+                  </p>
                     
                     {/* Trust Indicators - Simplified */}
                     <div className="flex items-center gap-4 text-sm text-gray-600">
@@ -154,11 +154,11 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                     
                     <div className="space-y-2 text-sm text-gray-500">
                       <p className="flex items-center gap-2">
-                        <span>📞</span> +62812-3456-7890
-                      </p>
+                      <span>📞</span> +62812-3456-7890
+                    </p>
                       <p className="flex items-center gap-2">
-                        <span>🕒</span> 08:00 - 22:00 WITA
-                      </p>
+                      <span>🕒</span> 08:00 - 22:00 WITA
+                    </p>
                     </div>
                   </div>
                   
@@ -184,17 +184,17 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                 <div className="h-48 bg-gradient-to-br from-pinky-500 to-pinky-600 relative overflow-hidden">
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className="text-center">
-                      <h3 className="text-3xl font-bold text-white font-display">Samarinda</h3>
+                      <h3 className="text-3xl font-black text-white font-rounded">Samarinda</h3>
                       <p className="text-white/80 mt-2">Cabang Utama</p>
                     </div>
                   </div>
                 </div>
                 <div className="p-8">
                   <div className="space-y-4">
-                    <h3 className="text-2xl font-bold text-gray-900 font-display">Zatiaras Juice Samarinda</h3>
+                    <h3 className="text-2xl font-black text-gray-900 font-rounded">Zatiaras Juice Samarinda</h3>
                     <p className="text-gray-600 text-sm leading-relaxed">
-                      Jl. Sudirman No. 456, Samarinda, Kalimantan Timur
-                    </p>
+                    Jl. Sudirman No. 456, Samarinda, Kalimantan Timur
+                  </p>
                     
                     {/* Trust Indicators - Simplified */}
                     <div className="flex items-center gap-4 text-sm text-gray-600">
@@ -211,11 +211,11 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                     
                     <div className="space-y-2 text-sm text-gray-500">
                       <p className="flex items-center gap-2">
-                        <span>📞</span> +62812-3456-7891
-                      </p>
+                      <span>📞</span> +62812-3456-7891
+                    </p>
                       <p className="flex items-center gap-2">
-                        <span>🕒</span> 08:00 - 22:00 WITA
-                      </p>
+                      <span>🕒</span> 08:00 - 22:00 WITA
+                    </p>
                     </div>
                   </div>
                   
@@ -260,7 +260,7 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                 <div className="w-16 h-16 bg-primary-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
                   <span className="text-3xl">⭐</span>
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-4 font-display">Rating 4.9/5</h3>
+                <h3 className="text-xl font-black text-gray-900 mb-4 font-rounded">Rating 4.9/5</h3>
                 <p className="text-gray-600 font-medium leading-relaxed">
                   Lebih dari 150+ review positif dari pelanggan yang puas dengan kualitas dan rasa jus kami
                 </p>
@@ -275,7 +275,7 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                 <div className="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
                   <span className="text-3xl">🍃</span>
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-4 font-display">100% Alami</h3>
+                <h3 className="text-xl font-black text-gray-900 mb-4 font-rounded">100% Alami</h3>
                 <p className="text-gray-600 font-medium leading-relaxed">
                   Dibuat dari buah segar pilihan, tanpa pengawet, tanpa pewarna buatan, dan tanpa pemanis sintetis
                 </p>
@@ -290,7 +290,7 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                 <div className="w-16 h-16 bg-yellow-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
                   <span className="text-3xl">💯</span>
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-4 font-display">Garansi Uang Kembali</h3>
+                <h3 className="text-xl font-black text-gray-900 mb-4 font-rounded">Garansi Uang Kembali</h3>
                 <p className="text-gray-600 font-medium leading-relaxed">
                   Tidak puas dengan jus kami? Kami berikan garansi uang kembali 100% tanpa syarat
                 </p>
@@ -309,7 +309,7 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                 transition={{ duration: 0.6 }}
                 className="text-center mb-16"
               >
-                <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6 font-display">
+                <h2 className="text-3xl sm:text-4xl font-black text-gray-900 mb-6 font-rounded">
                   Menu Terlaris & Terfavorit
                 </h2>
                 <p className="text-lg text-gray-600 max-w-3xl mx-auto font-medium leading-relaxed">
@@ -342,7 +342,7 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
               transition={{ duration: 0.6 }}
               className="text-center mb-16"
             >
-              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6 font-display">
+              <h2 className="text-3xl sm:text-4xl font-black text-gray-900 mb-6 font-rounded">
                 Kata Mereka Tentang Zatiaras Juice
               </h2>
               <p className="text-lg text-gray-600 max-w-3xl mx-auto font-medium leading-relaxed">
