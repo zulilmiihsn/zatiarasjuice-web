@@ -164,25 +164,27 @@ const MenuPage: React.FC<MenuPageProps> = ({
               <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-2 sm:mb-3 md:mb-4 font-rounded">
                 Menu {branch.charAt(0).toUpperCase() + branch.slice(1)}
               </h1>
-              <p className="text-sm sm:text-base md:text-lg text-gray-600 max-w-2xl mx-auto font-medium leading-relaxed mb-2 sm:mb-4 md:mb-6 px-4 sm:px-0">
+              
+              {/* Description - Hidden on Mobile */}
+              <p className="hidden sm:block text-base md:text-lg text-gray-600 max-w-2xl mx-auto font-medium leading-relaxed mb-4 md:mb-6">
                 Jelajahi koleksi lengkap jus segar dan minuman sehat kami
               </p>
               
-                {/* Menu Stats - Mobile Compact */}
-                <div className="flex flex-wrap justify-center items-center gap-1.5 sm:gap-4 md:gap-6 lg:gap-8 text-xs sm:text-sm text-gray-500 px-2 sm:px-0">
-                  <div className="flex items-center gap-1 sm:gap-2">
-                    <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-primary-500 rounded-full flex-shrink-0"></span>
-                    <span className="whitespace-nowrap text-xs sm:text-sm">{products.length} Menu</span>
-                  </div>
-                  <div className="flex items-center gap-1 sm:gap-2">
-                    <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-pinky-500 rounded-full flex-shrink-0"></span>
-                    <span className="whitespace-nowrap text-xs sm:text-sm">Rating 4.9/5</span>
-                  </div>
-                  <div className="flex items-center gap-1 sm:gap-2">
-                    <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-cute-500 rounded-full flex-shrink-0"></span>
-                    <span className="whitespace-nowrap text-xs sm:text-sm">100% Alami</span>
-                  </div>
+              {/* Menu Stats - Hidden on Mobile */}
+              <div className="hidden sm:flex flex-wrap justify-center items-center gap-4 md:gap-6 lg:gap-8 text-sm text-gray-500">
+                <div className="flex items-center gap-2">
+                  <span className="w-2 h-2 bg-primary-500 rounded-full flex-shrink-0"></span>
+                  <span className="whitespace-nowrap">{products.length} Menu</span>
                 </div>
+                <div className="flex items-center gap-2">
+                  <span className="w-2 h-2 bg-pinky-500 rounded-full flex-shrink-0"></span>
+                  <span className="whitespace-nowrap">Rating 4.9/5</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="w-2 h-2 bg-cute-500 rounded-full flex-shrink-0"></span>
+                  <span className="whitespace-nowrap">100% Alami</span>
+                </div>
+              </div>
             </motion.div>
           </div>
         </section>
