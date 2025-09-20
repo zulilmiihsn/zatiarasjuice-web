@@ -310,14 +310,11 @@ const MenuPage: React.FC<MenuPageProps> = ({
                                     className="bg-white rounded-lg border border-gray-200 hover:border-primary-200 hover:shadow-sm transition-all duration-200 px-3 py-2"
                                   >
                                     <div className="flex items-center justify-between">
-                                      {/* Product Name & Category */}
-                                      <div className="flex-1 flex items-center gap-3">
+                                      {/* Product Name */}
+                                      <div className="flex-1">
                                         <h3 className="text-sm font-semibold text-gray-900 font-display truncate">
                                           {product.name}
                                         </h3>
-                                        <span className="px-2 py-0.5 bg-primary-100 text-primary-600 rounded-full text-xs font-medium flex-shrink-0">
-                                          {product.category || 'Lainnya'}
-                                        </span>
                                       </div>
                                       
                                       {/* Price */}
@@ -347,14 +344,11 @@ const MenuPage: React.FC<MenuPageProps> = ({
                                 className="bg-white rounded-lg border border-gray-200 hover:border-primary-200 hover:shadow-sm transition-all duration-200 px-3 py-2"
                               >
                                 <div className="flex items-center justify-between">
-                                  {/* Product Name & Category */}
-                                  <div className="flex-1 flex items-center gap-3">
+                                  {/* Product Name */}
+                                  <div className="flex-1">
                                     <h3 className="text-sm font-semibold text-gray-900 font-display truncate">
                                       {product.name}
                                     </h3>
-                                    <span className="px-2 py-0.5 bg-primary-100 text-primary-600 rounded-full text-xs font-medium flex-shrink-0">
-                                      {product.category || 'Lainnya'}
-                                    </span>
                                   </div>
                                   
                                   {/* Price */}
