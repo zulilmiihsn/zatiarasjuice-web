@@ -55,15 +55,19 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
   };
 
   return (
-    <motion.header
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.6, ease: 'easeOut' }}
+    <header
       className={`fixed top-0 left-0 right-0 z-[9999] transition-all duration-500 ease-out ${
         isScrolled
           ? 'bg-white/95 backdrop-blur-xl shadow-luxury border-b border-gray-100'
           : 'bg-transparent'
       }`}
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 9999,
+      }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-12 lg:h-14">
@@ -469,7 +473,7 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.header>
+    </header>
   );
 };
 
