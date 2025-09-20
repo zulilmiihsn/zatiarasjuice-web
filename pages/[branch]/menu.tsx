@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Filter } from 'lucide-react';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
-import HeroTrendy from '../../components/HeroTrendy';
 import ProductCardMinimal from '../../components/ProductCardMinimal';
 import { getBranchSEOData, getMenuStructuredData } from '../../lib/seo';
 import type { Branch, Product, Category } from '../../lib/supabase';
@@ -119,58 +118,40 @@ const MenuPage: React.FC<MenuPageProps> = ({
       <div className="min-h-screen bg-white">
         <Header branch={branch} currentPath={`/${branch}/menu`} />
         
-        {/* Hero Section - Trendy 2024 dengan Parallax */}
-        <HeroTrendy branch={branch} />
-        
-        {/* Search & Filter Section - Modern & Trendy */}
-        <section className="py-12 bg-gradient-to-br from-gray-50 via-white to-gray-50 relative overflow-hidden">
+        {/* Page Header - Simple & Clean */}
+        <section className="py-16 bg-gradient-to-br from-gray-50 to-white">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
+              transition={{ duration: 0.6 }}
               className="text-center"
             >
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 font-display">
-                Menu Digital
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 font-display">
+                Menu {branch.charAt(0).toUpperCase() + branch.slice(1)}
               </h1>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto font-medium leading-relaxed mb-8">
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto font-medium leading-relaxed mb-8">
                 Nikmati kesegaran jus alpukat dan aneka jus buah segar berkualitas tinggi
               </p>
               
               {/* Quick Stats */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-8">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.2 }}
-                  className="bg-white rounded-lg p-6 shadow-clean"
-                >
-                  <div className="text-3xl font-bold text-primary-500 mb-2 font-display">{products.length}+</div>
-                  <div className="text-gray-600 font-medium">Menu Tersedia</div>
-                </motion.div>
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.3 }}
-                  className="bg-white rounded-lg p-6 shadow-clean"
-                >
-                  <div className="text-3xl font-bold text-pinky-500 mb-2 font-display">4.9</div>
-                  <div className="text-gray-600 font-medium">Rating Pelanggan</div>
-                </motion.div>
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.4 }}
-                  className="bg-white rounded-lg p-6 shadow-clean"
-                >
-                  <div className="text-3xl font-bold text-cute-500 mb-2 font-display">100%</div>
-                  <div className="text-gray-600 font-medium">Alami & Segar</div>
-                </motion.div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-2xl mx-auto mb-8">
+                <div className="bg-white rounded-lg p-4 shadow-clean">
+                  <div className="text-2xl font-bold text-primary-500 mb-1 font-display">{products.length}+</div>
+                  <div className="text-sm text-gray-600 font-medium">Menu Tersedia</div>
+                </div>
+                <div className="bg-white rounded-lg p-4 shadow-clean">
+                  <div className="text-2xl font-bold text-pinky-500 mb-1 font-display">4.9</div>
+                  <div className="text-sm text-gray-600 font-medium">Rating Pelanggan</div>
+                </div>
+                <div className="bg-white rounded-lg p-4 shadow-clean">
+                  <div className="text-2xl font-bold text-cute-500 mb-1 font-display">100%</div>
+                  <div className="text-sm text-gray-600 font-medium">Alami & Segar</div>
+                </div>
               </div>
 
               {/* Quick Order Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
                 <motion.a
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
