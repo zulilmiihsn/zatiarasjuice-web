@@ -69,7 +69,7 @@ const BranchPage: React.FC<BranchPageProps> = ({
         />
       </Head>
 
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen">
         <Header branch={branch} currentPath={`/${branch}`} />
         
         {/* Hero Section - Trendy 2024 dengan Parallax */}

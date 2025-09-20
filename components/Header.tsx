@@ -289,7 +289,7 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="lg:hidden bg-white border-t border-gray-200 shadow-strong"
+            className="lg:hidden bg-white/10 backdrop-blur-xl border-t border-white/20 shadow-strong"
           >
             <div className="px-4 py-6 space-y-4">
               {navigationItems.map((item) => (

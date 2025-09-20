@@ -89,7 +89,7 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
         />
       </Head>
 
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen">
         <Header />
 
         {/* Hero Section - Interactive & Trendy */}
