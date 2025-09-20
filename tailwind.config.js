@@ -7,6 +7,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      screens: {
+        'xs': '475px',
+      },
       colors: {
         // Brand Colors - Pinky Theme untuk Zatiaras Juice
         primary: {

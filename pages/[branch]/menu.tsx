@@ -153,7 +153,7 @@ const MenuPage: React.FC<MenuPageProps> = ({
         <Header branch={branch} currentPath={`/${branch}/menu`} />
         
         {/* Menu Header - Digital Menu Style */}
-        <section className="pt-16 pb-12 bg-white border-b-2 border-gray-100">
+        <section className="pt-16 pb-8 sm:pb-12 bg-white border-b-2 border-gray-100">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -161,18 +161,18 @@ const MenuPage: React.FC<MenuPageProps> = ({
               transition={{ duration: 0.6 }}
               className="text-center"
             >
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-gray-900 mb-4 font-rounded">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-3 sm:mb-4 font-rounded">
                 Menu {branch.charAt(0).toUpperCase() + branch.slice(1)}
               </h1>
-              <p className="text-lg text-gray-600 max-w-2xl mx-auto font-medium leading-relaxed mb-6">
+              <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto font-medium leading-relaxed mb-4 sm:mb-6 px-4 sm:px-0">
                 Jelajahi koleksi lengkap jus segar dan minuman sehat kami
               </p>
               
-              {/* Menu Stats - Minimal */}
-              <div className="flex justify-center items-center gap-8 text-sm text-gray-500">
+              {/* Menu Stats - Responsive */}
+              <div className="flex flex-wrap justify-center items-center gap-4 sm:gap-6 md:gap-8 text-xs sm:text-sm text-gray-500">
                 <div className="flex items-center gap-2">
                   <span className="w-2 h-2 bg-primary-500 rounded-full"></span>
-                  <span>{products.length} Menu Tersedia</span>
+                  <span>{products.length} Menu</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="w-2 h-2 bg-pinky-500 rounded-full"></span>
@@ -188,48 +188,50 @@ const MenuPage: React.FC<MenuPageProps> = ({
         </section>
 
         {/* Menu Navigation - Clean & Organized */}
-        <section className="py-4 bg-white border-b border-gray-200">
+        <section className="py-3 sm:py-4 bg-white border-b border-gray-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            {/* Search Bar - Full Width */}
-            <div className="mb-4">
-              <div className="relative max-w-md mx-auto">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+            {/* Search Bar - Responsive */}
+            <div className="mb-3 sm:mb-4">
+              <div className="relative max-w-sm sm:max-w-md mx-auto">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 sm:w-5 sm:h-5" />
                 <input
                   type="text"
                   placeholder="Cari menu favorit..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 bg-white text-sm"
+                  className="w-full pl-9 sm:pl-10 pr-4 py-2 sm:py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 bg-white text-sm"
                 />
               </div>
             </div>
 
-            {/* Filter Controls - Organized Row */}
-            <div className="flex flex-col sm:flex-row gap-3 items-center justify-between">
-              {/* Category Filter */}
-              <div className="flex flex-wrap gap-2 justify-center sm:justify-start">
-                {categoryOptions.map((category) => (
-                  <motion.button
-                    key={category.value}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    onClick={() => handleCategoryChange(category.value)}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 ${
-                      selectedCategory === category.value
-                        ? 'bg-primary-500 text-white shadow-sm'
-                        : 'bg-gray-100 text-gray-700 hover:bg-primary-50'
-                    }`}
-                  >
-                    {category.label}
-                  </motion.button>
-                ))}
+            {/* Filter Controls - Mobile Optimized */}
+            <div className="space-y-3 sm:space-y-0">
+              {/* Category Filter - Mobile Scroll */}
+              <div className="overflow-x-auto pb-2 sm:pb-0">
+                <div className="flex gap-2 min-w-max sm:flex-wrap sm:justify-start sm:min-w-0">
+                  {categoryOptions.map((category) => (
+                    <motion.button
+                      key={category.value}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => handleCategoryChange(category.value)}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 whitespace-nowrap ${
+                        selectedCategory === category.value
+                          ? 'bg-primary-500 text-white shadow-sm'
+                          : 'bg-gray-100 text-gray-700 hover:bg-primary-50'
+                      }`}
+                    >
+                      {category.label}
+                    </motion.button>
+                  ))}
+                </div>
               </div>
 
-              {/* Controls Group */}
-              <div className="flex items-center gap-3">
+              {/* Controls Group - Mobile Stack */}
+              <div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
                 {/* View Mode Toggle */}
-                <div className="flex items-center gap-2">
-                  <span className="text-xs font-medium text-gray-500 hidden sm:inline">Tampilan:</span>
+                <div className="flex items-center justify-center sm:justify-start gap-2">
+                  <span className="text-xs font-medium text-gray-500">Tampilan:</span>
                   <div className="flex bg-gray-100 rounded-lg p-0.5">
                     <motion.button
                       whileHover={{ scale: 1.02 }}
@@ -242,7 +244,7 @@ const MenuPage: React.FC<MenuPageProps> = ({
                       }`}
                     >
                       <List className="w-3 h-3" />
-                      <span className="hidden sm:inline">List</span>
+                      <span className="hidden xs:inline">List</span>
                     </motion.button>
                     <motion.button
                       whileHover={{ scale: 1.02 }}
@@ -255,17 +257,17 @@ const MenuPage: React.FC<MenuPageProps> = ({
                       }`}
                     >
                       <Grid3X3 className="w-3 h-3" />
-                      <span className="hidden sm:inline">Grid</span>
+                      <span className="hidden xs:inline">Grid</span>
                     </motion.button>
                   </div>
                 </div>
 
                 {/* Sort Dropdown */}
-                <div className="relative">
+                <div className="relative flex justify-center sm:justify-end">
                   <select
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value as 'name' | 'price' | 'popular')}
-                    className="appearance-none bg-white border border-gray-300 rounded-lg px-3 py-1.5 pr-6 text-xs font-medium focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200"
+                    className="appearance-none bg-white border border-gray-300 rounded-lg px-3 py-1.5 pr-6 text-xs font-medium focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 min-w-[120px]"
                   >
                     <option value="name">Nama</option>
                     <option value="price">Harga</option>
@@ -365,7 +367,7 @@ const MenuPage: React.FC<MenuPageProps> = ({
                                   </h3>
                                 </motion.div>
                                 
-                                {/* Products in Category */}
+                                {/* Products in Category - Mobile Optimized */}
                                 {products.map((product, index) => (
                                   <motion.div
                                     key={product.id}
@@ -373,21 +375,21 @@ const MenuPage: React.FC<MenuPageProps> = ({
                                     animate={{ opacity: 1, x: 0 }}
                                     exit={{ opacity: 0, x: 20 }}
                                     transition={{ duration: 0.3, delay: (categoryIndex * 0.1) + (index * 0.02) }}
-                                    className="bg-white rounded-lg border border-gray-200 hover:border-primary-200 hover:shadow-sm transition-all duration-200 px-3 py-2"
+                                    className="bg-white rounded-lg border border-gray-200 hover:border-primary-200 hover:shadow-sm transition-all duration-200 px-3 py-2.5 sm:py-2"
                                   >
-                                    <div className="flex items-center justify-between">
+                                    <div className="flex items-center justify-between gap-2">
                                       {/* Product Name */}
-                                      <div className="flex-1">
+                                      <div className="flex-1 min-w-0">
                                         <h3 className="text-sm font-semibold text-gray-900 font-display truncate">
                                           {product.name}
                                         </h3>
                                       </div>
                                       
-                                      {/* Price */}
-                                      <div className="text-right flex-shrink-0 ml-2">
+                                      {/* Price - Mobile Responsive */}
+                                      <div className="text-right flex-shrink-0">
                                         {product.is_minuman ? (
                                           <div className="text-right">
-                                            <div className="text-sm font-bold text-primary-600 font-display">
+                                            <div className="text-xs sm:text-sm font-bold text-primary-600 font-display">
                                               Regular: Rp {(product.price_regular || product.price).toLocaleString('id-ID')}
                                             </div>
                                             <div className="text-xs text-gray-600">
@@ -395,7 +397,7 @@ const MenuPage: React.FC<MenuPageProps> = ({
                                             </div>
                                           </div>
                                         ) : (
-                                          <div className="text-sm font-bold text-primary-600 font-display">
+                                          <div className="text-xs sm:text-sm font-bold text-primary-600 font-display">
                                             Rp {product.price.toLocaleString('id-ID')}
                                           </div>
                                         )}
@@ -421,19 +423,19 @@ const MenuPage: React.FC<MenuPageProps> = ({
                                 transition={{ duration: 0.3, delay: index * 0.02 }}
                                 className="bg-white rounded-lg border border-gray-200 hover:border-primary-200 hover:shadow-sm transition-all duration-200 px-3 py-2"
                               >
-                                <div className="flex items-center justify-between">
+                                <div className="flex items-center justify-between gap-2">
                                   {/* Product Name */}
-                                  <div className="flex-1">
+                                  <div className="flex-1 min-w-0">
                                     <h3 className="text-sm font-semibold text-gray-900 font-display truncate">
                                       {product.name}
                                     </h3>
                                   </div>
                                   
-                                  {/* Price */}
-                                  <div className="text-right flex-shrink-0 ml-2">
+                                  {/* Price - Mobile Responsive */}
+                                  <div className="text-right flex-shrink-0">
                                     {product.is_minuman ? (
                                       <div className="text-right">
-                                        <div className="text-sm font-bold text-primary-600 font-display">
+                                        <div className="text-xs sm:text-sm font-bold text-primary-600 font-display">
                                           Regular: Rp {(product.price_regular || product.price).toLocaleString('id-ID')}
                                         </div>
                                         <div className="text-xs text-gray-600">
@@ -441,7 +443,7 @@ const MenuPage: React.FC<MenuPageProps> = ({
                                         </div>
                                       </div>
                                     ) : (
-                                      <div className="text-sm font-bold text-primary-600 font-display">
+                                      <div className="text-xs sm:text-sm font-bold text-primary-600 font-display">
                                         Rp {product.price.toLocaleString('id-ID')}
                                       </div>
                                     )}
@@ -519,8 +521,8 @@ const MenuPage: React.FC<MenuPageProps> = ({
                                   </h3>
                                 </motion.div>
                                 
-                                {/* Products Grid in Category */}
-                                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+                                {/* Products Grid in Category - Responsive */}
+                                <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
                                   {products.map((product, index) => (
                                     <motion.div
                                       key={product.id}
