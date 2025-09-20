@@ -59,7 +59,7 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6, ease: 'easeOut' }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out ${
+      className={`fixed top-0 left-0 right-0 z-[9999] transition-all duration-500 ease-out ${
         isScrolled
           ? 'bg-white/95 backdrop-blur-xl shadow-luxury border-b border-gray-100'
           : 'bg-transparent'

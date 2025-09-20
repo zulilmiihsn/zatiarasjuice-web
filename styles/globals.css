@@ -18,7 +18,7 @@ body {
   overflow-x: hidden;
   text-rendering: optimizeSpeed; /* Changed from optimizeLegibility for speed */
   -webkit-text-size-adjust: 100%;
-  contain: layout style paint; /* CSS containment for performance */
+  /* Removed contain from body to prevent fixed positioning issues */
   content-visibility: auto; /* Defer rendering until needed */
 }
 
