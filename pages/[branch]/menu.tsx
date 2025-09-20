@@ -283,9 +283,42 @@ const MenuPage: React.FC<MenuPageProps> = ({
                           return acc;
                         }, {} as Record<string, Product[]>);
 
+                        // Define category priority order
+                        const categoryPriority = [
+                          'Jus Buah',
+                          'Jus Sayur', 
+                          'Rekomendasi Mix Jus',
+                          'Kocok',
+                          'Baby',
+                          'Non-Jus'
+                        ];
+
+                        // Sort categories by priority, then alphabetically for others
+                        const sortedCategories = Object.keys(groupedProducts).sort((a, b) => {
+                          const aIndex = categoryPriority.indexOf(a);
+                          const bIndex = categoryPriority.indexOf(b);
+                          
+                          // If both categories are in priority list, sort by priority
+                          if (aIndex !== -1 && bIndex !== -1) {
+                            return aIndex - bIndex;
+                          }
+                          // If only a is in priority list, a comes first
+                          if (aIndex !== -1) {
+                            return -1;
+                          }
+                          // If only b is in priority list, b comes first
+                          if (bIndex !== -1) {
+                            return 1;
+                          }
+                          // If neither is in priority list, sort alphabetically
+                          return a.localeCompare(b);
+                        });
+
                         return (
                           <AnimatePresence>
-                            {Object.entries(groupedProducts).map(([category, products], categoryIndex) => (
+                            {sortedCategories.map((category, categoryIndex) => {
+                              const products = groupedProducts[category];
+                              return (
                               <div key={category} className="space-y-1">
                                 {/* Category Subtitle */}
                                 <motion.div
@@ -327,7 +360,8 @@ const MenuPage: React.FC<MenuPageProps> = ({
                                   </motion.div>
                                 ))}
                               </div>
-                            ))}
+                            );
+                            })}
                           </AnimatePresence>
                         );
                       } else {
@@ -380,9 +414,42 @@ const MenuPage: React.FC<MenuPageProps> = ({
                           return acc;
                         }, {} as Record<string, Product[]>);
 
+                        // Define category priority order
+                        const categoryPriority = [
+                          'Jus Buah',
+                          'Jus Sayur', 
+                          'Rekomendasi Mix Jus',
+                          'Kocok',
+                          'Baby',
+                          'Non-Jus'
+                        ];
+
+                        // Sort categories by priority, then alphabetically for others
+                        const sortedCategories = Object.keys(groupedProducts).sort((a, b) => {
+                          const aIndex = categoryPriority.indexOf(a);
+                          const bIndex = categoryPriority.indexOf(b);
+                          
+                          // If both categories are in priority list, sort by priority
+                          if (aIndex !== -1 && bIndex !== -1) {
+                            return aIndex - bIndex;
+                          }
+                          // If only a is in priority list, a comes first
+                          if (aIndex !== -1) {
+                            return -1;
+                          }
+                          // If only b is in priority list, b comes first
+                          if (bIndex !== -1) {
+                            return 1;
+                          }
+                          // If neither is in priority list, sort alphabetically
+                          return a.localeCompare(b);
+                        });
+
                         return (
                           <AnimatePresence>
-                            {Object.entries(groupedProducts).map(([category, products], categoryIndex) => (
+                            {sortedCategories.map((category, categoryIndex) => {
+                              const products = groupedProducts[category];
+                              return (
                               <div key={category} className="space-y-4">
                                 {/* Category Subtitle */}
                                 <motion.div
@@ -417,7 +484,8 @@ const MenuPage: React.FC<MenuPageProps> = ({
                                   ))}
                                 </div>
                               </div>
-                            ))}
+                            );
+                            })}
                           </AnimatePresence>
                         );
                       } else {
