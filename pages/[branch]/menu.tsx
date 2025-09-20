@@ -262,9 +262,9 @@ const MenuPage: React.FC<MenuPageProps> = ({
                   </p>
                 </motion.div>
 
-                {/* List View - Simple */}
+                {/* List View - Compact */}
                 {viewMode === 'list' ? (
-                  <div className="space-y-2">
+                  <div className="space-y-1">
                     <AnimatePresence>
                       {filteredProducts.map((product, index) => (
                         <motion.div
@@ -272,23 +272,23 @@ const MenuPage: React.FC<MenuPageProps> = ({
                           initial={{ opacity: 0, x: -20 }}
                           animate={{ opacity: 1, x: 0 }}
                           exit={{ opacity: 0, x: 20 }}
-                          transition={{ duration: 0.4, delay: index * 0.05 }}
-                          className="bg-white rounded-xl border border-gray-200 hover:border-primary-200 hover:shadow-md transition-all duration-200 p-4"
+                          transition={{ duration: 0.3, delay: index * 0.02 }}
+                          className="bg-white rounded-lg border border-gray-200 hover:border-primary-200 hover:shadow-sm transition-all duration-200 px-3 py-2"
                         >
                           <div className="flex items-center justify-between">
-                            {/* Product Name */}
-                            <div className="flex-1">
-                              <h3 className="text-lg font-semibold text-gray-900 font-display">
+                            {/* Product Name & Category */}
+                            <div className="flex-1 flex items-center gap-3">
+                              <h3 className="text-sm font-semibold text-gray-900 font-display truncate">
                                 {product.name}
                               </h3>
-                              <span className="px-2 py-1 bg-primary-100 text-primary-600 rounded-full text-xs font-medium">
+                              <span className="px-2 py-0.5 bg-primary-100 text-primary-600 rounded-full text-xs font-medium flex-shrink-0">
                                 {product.category || 'Lainnya'}
                               </span>
                             </div>
                             
                             {/* Price */}
-                            <div className="text-right">
-                              <div className="text-xl font-bold text-primary-600 font-display">
+                            <div className="text-right flex-shrink-0 ml-2">
+                              <div className="text-sm font-bold text-primary-600 font-display">
                                 Rp {product.price.toLocaleString('id-ID')}
                               </div>
                             </div>
