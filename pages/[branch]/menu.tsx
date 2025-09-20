@@ -373,26 +373,86 @@ const MenuPage: React.FC<MenuPageProps> = ({
                   </div>
                 ) : (
                   /* Grid View - 4 columns desktop, 3 tablet, 2 mobile */
-                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-                    <AnimatePresence>
-                      {filteredProducts.map((product, index) => (
-                        <motion.div
-                          key={product.id}
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -20 }}
-                          transition={{ duration: 0.4, delay: index * 0.05 }}
-                          className="w-full"
-                        >
-                          <ProductCardMinimal 
-                            product={product} 
-                            onAddToCart={handleAddToCart}
-                            onToggleFavorite={handleToggleFavorite}
-                            isFavorite={favorites.includes(product.id)}
-                          />
-                        </motion.div>
-                      ))}
-                    </AnimatePresence>
+                  <div className="space-y-6">
+                    {(() => {
+                      // Group products by category if not sorting by price and no specific category filter
+                      if (sortBy !== 'price' && selectedCategory === 'all') {
+                        const groupedProducts = filteredProducts.reduce((acc, product) => {
+                          const category = product.category || 'Lainnya';
+                          if (!acc[category]) {
+                            acc[category] = [];
+                          }
+                          acc[category].push(product);
+                          return acc;
+                        }, {} as Record<string, Product[]>);
+
+                        return (
+                          <AnimatePresence>
+                            {Object.entries(groupedProducts).map(([category, products], categoryIndex) => (
+                              <div key={category} className="space-y-4">
+                                {/* Category Subtitle */}
+                                <motion.div
+                                  initial={{ opacity: 0, y: -10 }}
+                                  animate={{ opacity: 1, y: 0 }}
+                                  transition={{ duration: 0.3, delay: categoryIndex * 0.1 }}
+                                  className="sticky top-0 bg-white py-2 z-10"
+                                >
+                                  <h3 className="text-lg font-bold text-gray-700 font-display border-b border-gray-200 pb-2">
+                                    {category}
+                                  </h3>
+                                </motion.div>
+                                
+                                {/* Products Grid in Category */}
+                                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+                                  {products.map((product, index) => (
+                                    <motion.div
+                                      key={product.id}
+                                      initial={{ opacity: 0, y: 20 }}
+                                      animate={{ opacity: 1, y: 0 }}
+                                      exit={{ opacity: 0, y: -20 }}
+                                      transition={{ duration: 0.4, delay: (categoryIndex * 0.1) + (index * 0.05) }}
+                                      className="w-full"
+                                    >
+                                      <ProductCardMinimal 
+                                        product={product} 
+                                        onAddToCart={handleAddToCart}
+                                        onToggleFavorite={handleToggleFavorite}
+                                        isFavorite={favorites.includes(product.id)}
+                                      />
+                                    </motion.div>
+                                  ))}
+                                </div>
+                              </div>
+                            ))}
+                          </AnimatePresence>
+                        );
+                      } else {
+                        // Show all products without grouping (price sort or specific category filter)
+                        return (
+                          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+                            <AnimatePresence>
+                              {filteredProducts.map((product, index) => (
+                                <motion.div
+                                  key={product.id}
+                                  initial={{ opacity: 0, y: 20 }}
+                                  animate={{ opacity: 1, y: 0 }}
+                                  exit={{ opacity: 0, y: -20 }}
+                                  transition={{ duration: 0.4, delay: index * 0.05 }}
+                                  className="w-full"
+                                >
+                                  <ProductCardMinimal 
+                                    product={product} 
+                                    onAddToCart={handleAddToCart}
+                                    onToggleFavorite={handleToggleFavorite}
+                                    isFavorite={favorites.includes(product.id)}
+                                  />
+                                </motion.div>
+                              ))}
+                            </AnimatePresence>
+                          </div>
+                        );
+                      }
+                    })()}
                   </div>
                 )}
               </>
