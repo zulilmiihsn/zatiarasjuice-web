@@ -271,37 +271,105 @@ const MenuPage: React.FC<MenuPageProps> = ({
                 {/* List View - Compact */}
                 {viewMode === 'list' ? (
                   <div className="space-y-1">
-                    <AnimatePresence>
-                      {filteredProducts.map((product, index) => (
-                        <motion.div
-                          key={product.id}
-                          initial={{ opacity: 0, x: -20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          exit={{ opacity: 0, x: 20 }}
-                          transition={{ duration: 0.3, delay: index * 0.02 }}
-                          className="bg-white rounded-lg border border-gray-200 hover:border-primary-200 hover:shadow-sm transition-all duration-200 px-3 py-2"
-                        >
-                          <div className="flex items-center justify-between">
-                            {/* Product Name & Category */}
-                            <div className="flex-1 flex items-center gap-3">
-                              <h3 className="text-sm font-semibold text-gray-900 font-display truncate">
-                                {product.name}
-                              </h3>
-                              <span className="px-2 py-0.5 bg-primary-100 text-primary-600 rounded-full text-xs font-medium flex-shrink-0">
-                                {product.category || 'Lainnya'}
-                              </span>
-                            </div>
-                            
-                            {/* Price */}
-                            <div className="text-right flex-shrink-0 ml-2">
-                              <div className="text-sm font-bold text-primary-600 font-display">
-                                Rp {product.price.toLocaleString('id-ID')}
+                    {(() => {
+                      // Group products by category if not sorting by price and no specific category filter
+                      if (sortBy !== 'price' && selectedCategory === 'all') {
+                        const groupedProducts = filteredProducts.reduce((acc, product) => {
+                          const category = product.category || 'Lainnya';
+                          if (!acc[category]) {
+                            acc[category] = [];
+                          }
+                          acc[category].push(product);
+                          return acc;
+                        }, {} as Record<string, Product[]>);
+
+                        return (
+                          <AnimatePresence>
+                            {Object.entries(groupedProducts).map(([category, products], categoryIndex) => (
+                              <div key={category} className="space-y-1">
+                                {/* Category Subtitle */}
+                                <motion.div
+                                  initial={{ opacity: 0, y: -10 }}
+                                  animate={{ opacity: 1, y: 0 }}
+                                  transition={{ duration: 0.3, delay: categoryIndex * 0.1 }}
+                                  className="sticky top-0 bg-white py-2 z-10"
+                                >
+                                  <h3 className="text-sm font-bold text-gray-700 font-display border-b border-gray-200 pb-1">
+                                    {category}
+                                  </h3>
+                                </motion.div>
+                                
+                                {/* Products in Category */}
+                                {products.map((product, index) => (
+                                  <motion.div
+                                    key={product.id}
+                                    initial={{ opacity: 0, x: -20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    exit={{ opacity: 0, x: 20 }}
+                                    transition={{ duration: 0.3, delay: (categoryIndex * 0.1) + (index * 0.02) }}
+                                    className="bg-white rounded-lg border border-gray-200 hover:border-primary-200 hover:shadow-sm transition-all duration-200 px-3 py-2"
+                                  >
+                                    <div className="flex items-center justify-between">
+                                      {/* Product Name & Category */}
+                                      <div className="flex-1 flex items-center gap-3">
+                                        <h3 className="text-sm font-semibold text-gray-900 font-display truncate">
+                                          {product.name}
+                                        </h3>
+                                        <span className="px-2 py-0.5 bg-primary-100 text-primary-600 rounded-full text-xs font-medium flex-shrink-0">
+                                          {product.category || 'Lainnya'}
+                                        </span>
+                                      </div>
+                                      
+                                      {/* Price */}
+                                      <div className="text-right flex-shrink-0 ml-2">
+                                        <div className="text-sm font-bold text-primary-600 font-display">
+                                          Rp {product.price.toLocaleString('id-ID')}
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </motion.div>
+                                ))}
                               </div>
-                            </div>
-                          </div>
-                        </motion.div>
-                      ))}
-                    </AnimatePresence>
+                            ))}
+                          </AnimatePresence>
+                        );
+                      } else {
+                        // Show all products without grouping (price sort or specific category filter)
+                        return (
+                          <AnimatePresence>
+                            {filteredProducts.map((product, index) => (
+                              <motion.div
+                                key={product.id}
+                                initial={{ opacity: 0, x: -20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: 20 }}
+                                transition={{ duration: 0.3, delay: index * 0.02 }}
+                                className="bg-white rounded-lg border border-gray-200 hover:border-primary-200 hover:shadow-sm transition-all duration-200 px-3 py-2"
+                              >
+                                <div className="flex items-center justify-between">
+                                  {/* Product Name & Category */}
+                                  <div className="flex-1 flex items-center gap-3">
+                                    <h3 className="text-sm font-semibold text-gray-900 font-display truncate">
+                                      {product.name}
+                                    </h3>
+                                    <span className="px-2 py-0.5 bg-primary-100 text-primary-600 rounded-full text-xs font-medium flex-shrink-0">
+                                      {product.category || 'Lainnya'}
+                                    </span>
+                                  </div>
+                                  
+                                  {/* Price */}
+                                  <div className="text-right flex-shrink-0 ml-2">
+                                    <div className="text-sm font-bold text-primary-600 font-display">
+                                      Rp {product.price.toLocaleString('id-ID')}
+                                    </div>
+                                  </div>
+                                </div>
+                              </motion.div>
+                            ))}
+                          </AnimatePresence>
+                        );
+                      }
+                    })()}
                   </div>
                 ) : (
                   /* Grid View - 4 columns desktop, 3 tablet, 2 mobile */
