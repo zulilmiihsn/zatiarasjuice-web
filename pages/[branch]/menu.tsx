@@ -387,10 +387,10 @@ const MenuPage: React.FC<MenuPageProps> = ({
                                       <div className="text-right flex-shrink-0 ml-2">
                                         {product.is_minuman ? (
                                           <div className="text-right">
-                                            <div className="text-xs text-gray-600">
+                                            <div className="text-sm font-bold text-primary-600 font-display">
                                               Regular: Rp {(product.price_regular || product.price).toLocaleString('id-ID')}
                                             </div>
-                                            <div className="text-sm font-bold text-primary-600 font-display">
+                                            <div className="text-xs text-gray-600">
                                               Large: Rp {(product.price_large || product.price).toLocaleString('id-ID')}
                                             </div>
                                           </div>
@@ -433,10 +433,10 @@ const MenuPage: React.FC<MenuPageProps> = ({
                                   <div className="text-right flex-shrink-0 ml-2">
                                     {product.is_minuman ? (
                                       <div className="text-right">
-                                        <div className="text-xs text-gray-600">
+                                        <div className="text-sm font-bold text-primary-600 font-display">
                                           Regular: Rp {(product.price_regular || product.price).toLocaleString('id-ID')}
                                         </div>
-                                        <div className="text-sm font-bold text-primary-600 font-display">
+                                        <div className="text-xs text-gray-600">
                                           Large: Rp {(product.price_large || product.price).toLocaleString('id-ID')}
                                         </div>
                                       </div>

@@ -124,13 +124,13 @@ const ProductCardMinimal: React.FC<ProductCardProps> = ({
             <div className="space-y-1">
               <div className="flex items-center justify-between">
                 <span className="text-sm text-gray-600">Regular:</span>
-                <span className="text-lg font-bold text-gray-900">
+                <span className="text-xl font-bold text-primary-600">
                   {formatPrice(product.price_regular || product.price)}
                 </span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm text-gray-600">Large:</span>
-                <span className="text-lg font-bold text-primary-600">
+                <span className="text-sm font-semibold text-gray-700">
                   {formatPrice(product.price_large || product.price)}
                 </span>
               </div>
