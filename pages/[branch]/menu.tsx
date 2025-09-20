@@ -369,7 +369,7 @@ const MenuPage: React.FC<MenuPageProps> = ({
                     </motion.button>
                   </div>
                 </div>
-                
+
                 <div className="relative">
                   <select
                     value={sortBy}

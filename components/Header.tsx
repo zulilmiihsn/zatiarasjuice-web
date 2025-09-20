@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -13,18 +13,9 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
   const router = useRouter();
 
-  // Simplified scroll effect for performance
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  // Removed scroll effect for better performance - navbar stays transparent
 
   const navigationItems = [
     { name: 'Menu', href: branch ? `/${branch}/menu` : '/menu' },
@@ -55,13 +46,7 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
   };
 
   return (
-    <header
-      className={`w-full transition-colors duration-300 ${
-        isScrolled
-          ? 'bg-white/90 shadow-lg border-b border-gray-200'
-          : 'bg-transparent'
-      }`}
-    >
+    <header className="w-full bg-transparent">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-12 lg:h-14">
           {/* Logo */}
@@ -122,11 +107,7 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
                   href={item.href}
                   className={`px-6 py-3 rounded-2xl text-sm font-bold transition-all duration-300 relative overflow-hidden group ${
                     currentPath === item.href
-                      ? isScrolled
-                        ? 'text-white bg-gradient-to-r from-primary-500 to-pinky-500 shadow-glow-primary'
-                        : 'text-white bg-white/20 backdrop-blur-xl border border-white/30 shadow-glass'
-                      : isScrolled
-                      ? 'text-gray-700 hover:text-primary-600 hover:bg-gradient-to-r hover:from-primary-50 hover:to-pinky-50 hover:shadow-elegant'
+                      ? 'text-white bg-white/20 backdrop-blur-xl border border-white/30 shadow-glass'
                       : 'text-white hover:text-primary-200 hover:bg-white/20 hover:backdrop-blur-sm'
                   }`}
                 >
@@ -143,11 +124,7 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
                     }}
                     style={{
                       background: currentPath === item.href 
-                        ? isScrolled
-                          ? 'radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%)'
-                          : 'radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 70%)'
-                        : isScrolled
-                        ? 'radial-gradient(circle, rgba(255,110,199,0.2) 0%, transparent 70%)'
+                        ? 'radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 70%)'
                         : 'radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%)'
                     }}
                   />
@@ -157,11 +134,7 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
                     className="absolute inset-0 rounded-2xl"
                     whileHover={{
                       boxShadow: currentPath === item.href
-                        ? isScrolled
-                          ? '0 0 20px rgba(255, 110, 199, 0.4), 0 0 40px rgba(255, 110, 199, 0.2)'
-                          : '0 0 20px rgba(255, 255, 255, 0.4), 0 0 40px rgba(255, 255, 255, 0.2)'
-                        : isScrolled
-                        ? '0 0 15px rgba(255, 110, 199, 0.3), 0 0 30px rgba(255, 110, 199, 0.1)'
+                        ? '0 0 20px rgba(255, 255, 255, 0.4), 0 0 40px rgba(255, 255, 255, 0.2)'
                         : '0 0 15px rgba(255, 255, 255, 0.3), 0 0 30px rgba(255, 255, 255, 0.1)'
                     }}
                     transition={{ duration: 0.3 }}
@@ -171,11 +144,7 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
                     className="relative z-10"
                     whileHover={{ 
                       textShadow: currentPath === item.href
-                        ? isScrolled
-                          ? '0 0 10px rgba(255, 255, 255, 0.8)'
-                          : '0 0 12px rgba(255, 255, 255, 0.9)'
-                        : isScrolled
-                        ? '0 0 8px rgba(255, 110, 199, 0.6)'
+                        ? '0 0 12px rgba(255, 255, 255, 0.9)'
                         : '0 0 8px rgba(255, 255, 255, 0.6)'
                     }}
                 >
@@ -185,11 +154,7 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
                   {/* Active State Overlay */}
                   {currentPath === item.href && (
                     <motion.div
-                      className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl ${
-                        isScrolled
-                          ? 'bg-gradient-to-r from-pink-500 to-purple-500'
-                          : 'bg-white/30 backdrop-blur-xl'
-                      }`}
+                      className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl bg-white/30 backdrop-blur-xl"
                       initial={false}
                     />
                   )}
@@ -221,9 +186,7 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className={`flex items-center space-x-2 text-sm transition-colors duration-500 ${
-                  isScrolled ? 'text-gray-600' : 'text-white drop-shadow-md'
-                }`}
+                className="flex items-center space-x-2 text-sm transition-colors duration-500 text-white drop-shadow-md"
               >
                 <MapPin className="w-4 h-4" />
                 <span>{branchInfo[branch].name}</span>
@@ -240,11 +203,7 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
               href={`https://wa.me/${branch ? branchInfo[branch].phone.replace(/\D/g, '') : '6281234567890'}`}
               target="_blank"
               rel="noopener noreferrer"
-              className={`px-6 py-3 rounded-2xl text-sm font-bold transition-all duration-300 flex items-center gap-2 relative overflow-hidden group ${
-                isScrolled
-                  ? 'bg-gradient-to-r from-primary-500 to-pinky-500 text-white hover:from-pink-500 hover:to-purple-500 shadow-glow-primary hover:shadow-glow-pinky'
-                  : 'bg-white/20 backdrop-blur-xl border border-white/30 text-white hover:bg-white/30 hover:backdrop-blur-2xl shadow-glass hover:shadow-glass-strong'
-              }`}
+              className="px-6 py-3 rounded-2xl text-sm font-bold transition-all duration-300 flex items-center gap-2 relative overflow-hidden group bg-white/20 backdrop-blur-xl border border-white/30 text-white hover:bg-white/30 hover:backdrop-blur-2xl shadow-glass hover:shadow-glass-strong"
             >
               {/* Ripple Effect */}
               <motion.div
@@ -258,9 +217,7 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
                   ease: "easeInOut"
                 }}
                 style={{
-                  background: isScrolled
-                    ? 'radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 70%)'
-                    : 'radial-gradient(circle, rgba(255,255,255,0.5) 0%, transparent 70%)'
+                  background: 'radial-gradient(circle, rgba(255,255,255,0.5) 0%, transparent 70%)'
                 }}
               />
               
@@ -268,17 +225,11 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
               <motion.div
                 className="absolute inset-0 rounded-2xl"
                 whileHover={{
-                  background: isScrolled
-                    ? [
-                        'linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)',
-                        'linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent)',
-                        'linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)'
-                      ]
-                    : [
-                        'linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)',
-                        'linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent)',
-                        'linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)'
-                      ],
+                  background: [
+                    'linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)',
+                    'linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent)',
+                    'linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)'
+                  ],
                   backgroundPosition: ['-100%', '100%', '-100%']
                 }}
                 transition={{
@@ -292,11 +243,7 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
               />
               
               <motion.div
-                className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl ${
-                  isScrolled
-                    ? 'bg-gradient-to-r from-pink-500 to-purple-500'
-                    : 'bg-white/30 backdrop-blur-xl'
-                }`}
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl bg-white/30 backdrop-blur-xl"
                 initial={false}
               />
               
@@ -309,11 +256,7 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={handleMenuToggle}
-            className={`lg:hidden p-1.5 rounded-2xl transition-all duration-500 relative overflow-hidden group ${
-              isScrolled
-                ? 'text-gray-700 hover:text-primary-600 hover:bg-primary-50'
-                : 'text-white hover:text-primary-200 hover:bg-white/20 drop-shadow-lg'
-            }`}
+            className="lg:hidden p-1.5 rounded-2xl transition-all duration-500 relative overflow-hidden group text-white hover:text-primary-200 hover:bg-white/20 drop-shadow-lg"
           >
             {/* Ripple Effect for Mobile Button */}
             <motion.div
@@ -327,9 +270,7 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
                 ease: "easeInOut"
               }}
               style={{
-                background: isScrolled
-                  ? 'radial-gradient(circle, rgba(255,110,199,0.2) 0%, transparent 70%)'
-                  : 'radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%)'
+                background: 'radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%)'
               }}
             />
             
@@ -364,8 +305,8 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
                     onClick={() => handleNavigation(item.href)}
                     className={`w-full text-left px-3 py-2 rounded-2xl text-base font-medium transition-all duration-300 relative overflow-hidden group ${
                       currentPath === item.href
-                        ? 'text-primary-600 bg-primary-50'
-                        : 'text-gray-700 hover:text-primary-600 hover:bg-primary-50'
+                        ? 'text-white bg-white/20 backdrop-blur-xl'
+                        : 'text-white hover:text-primary-200 hover:bg-white/20'
                     }`}
                   >
                     {/* Ripple Effect for Mobile Menu Items */}
@@ -381,8 +322,8 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
                       }}
                       style={{
                         background: currentPath === item.href
-                          ? 'radial-gradient(circle, rgba(255,110,199,0.2) 0%, transparent 70%)'
-                          : 'radial-gradient(circle, rgba(255,110,199,0.1) 0%, transparent 70%)'
+                          ? 'radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%)'
+                          : 'radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%)'
                       }}
                     />
                     <span className="relative z-10">{item.name}</span>
@@ -420,7 +361,7 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
                   href={`https://wa.me/${branch ? branchInfo[branch].phone.replace(/\D/g, '') : '6281234567890'}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full bg-gradient-to-r from-primary-500 to-primary-600 text-white px-6 py-3 rounded-2xl text-center font-bold hover:shadow-glow transition-all duration-300 block relative overflow-hidden group"
+                  className="w-full bg-white/20 backdrop-blur-xl border border-white/30 text-white px-6 py-3 rounded-2xl text-center font-bold hover:bg-white/30 hover:backdrop-blur-2xl shadow-glass hover:shadow-glass-strong transition-all duration-300 block relative overflow-hidden group"
                 >
                   {/* Ripple Effect for Mobile CTA */}
                   <motion.div

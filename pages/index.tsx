@@ -782,7 +782,7 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                     transition={{ duration: 0.6 }}
                   >
                     <Suspense fallback={<div className="h-64 bg-gray-100 rounded-2xl animate-pulse" />}>
-                      <ProductCard product={product} />
+                    <ProductCard product={product} />
                     </Suspense>
                   </motion.div>
                 ))}

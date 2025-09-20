@@ -120,18 +120,18 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
       if (now - lastTime >= throttleDelay) {
         if (!ticking) {
           requestAnimationFrame(() => {
-            if (heroRef.current) {
-              const rect = heroRef.current.getBoundingClientRect();
-              const centerX = rect.left + rect.width / 2;
-              const centerY = rect.top + rect.height / 2;
-              
+      if (heroRef.current) {
+        const rect = heroRef.current.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        
               // Ultra smooth mouse tracking with reduced sensitivity
               const mouseXValue = (e.clientX - centerX) / 30; // Further reduced for smoothness
               const mouseYValue = (e.clientY - centerY) / 30;
-              
+        
               // Use direct value setting for better performance
-              mouseX.set(mouseXValue);
-              mouseY.set(mouseYValue);
+        mouseX.set(mouseXValue);
+        mouseY.set(mouseYValue);
             }
             ticking = false;
             lastTime = now;
@@ -146,7 +146,7 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
         window.matchMedia('(prefers-reduced-motion: no-preference)').matches &&
         !window.matchMedia('(hover: none)').matches) {
       window.addEventListener('mousemove', handleMouseMove, { passive: true });
-      return () => window.removeEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
     }
   }, [mouseX, mouseY]);
 
