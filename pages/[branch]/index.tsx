@@ -178,7 +178,7 @@ const BranchPage: React.FC<BranchPageProps> = ({
                   href={`https://wa.me/${branchInfo?.whatsapp?.replace(/\D/g, '') || '6281234567890'}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group relative bg-gradient-to-r from-primary-500 to-pinky-500 text-white px-6 py-3 rounded-xl text-base font-semibold overflow-hidden shadow-lg"
+                  className="group relative bg-gradient-to-r from-primary-500 to-pinky-500 text-white px-6 py-3 rounded-xl text-base font-bold overflow-hidden shadow-lg"
                 >
                   <motion.div
                     className="absolute inset-0 bg-gradient-to-r from-pink-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
@@ -198,7 +198,7 @@ const BranchPage: React.FC<BranchPageProps> = ({
                   href="https://gofood.co.id/merchant/zatiaras-juice"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group relative border-2 border-primary-500 text-primary-500 px-6 py-3 rounded-xl text-base font-semibold overflow-hidden backdrop-blur-sm"
+                  className="group relative border-2 border-primary-500 text-primary-500 px-6 py-3 rounded-xl text-base font-bold overflow-hidden backdrop-blur-sm"
                 >
                   <motion.div
                     className="absolute inset-0 bg-primary-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
@@ -327,7 +327,7 @@ const BranchPage: React.FC<BranchPageProps> = ({
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   href={`/${branch}/menu`}
-                  className="inline-flex items-center gap-2 bg-primary-500 text-white px-8 py-4 rounded-lg text-lg font-medium hover:bg-primary-600 transition-all duration-200"
+                  className="inline-flex items-center gap-2 bg-primary-500 text-white px-8 py-4 rounded-lg text-lg font-bold hover:bg-primary-600 transition-all duration-200"
                 >
                   <span>🍹</span>
                   <span>Lihat Semua Menu</span>

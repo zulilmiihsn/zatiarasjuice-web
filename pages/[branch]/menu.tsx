@@ -571,7 +571,7 @@ const MenuPage: React.FC<MenuPageProps> = ({
                     setSearchQuery('');
                     setSelectedCategory('all');
                   }}
-                  className="bg-primary-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-primary-600 transition-all duration-200"
+                  className="bg-primary-500 text-white px-6 py-3 rounded-xl font-bold hover:bg-primary-600 transition-all duration-200"
                 >
                   Reset Filter
                 </motion.button>

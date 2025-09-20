@@ -130,7 +130,7 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
               href={`https://wa.me/${branch ? branchInfo[branch].phone.replace(/\D/g, '') : '6281234567890'}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-200 flex items-center gap-2 bg-primary-500 text-white hover:bg-primary-600"
+              className="px-6 py-3 rounded-xl text-sm font-bold transition-all duration-200 flex items-center gap-2 bg-primary-500 text-white hover:bg-primary-600"
             >
               <span>🍹</span>
               <span>Order Now</span>
@@ -212,7 +212,7 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
                   href={`https://wa.me/${branch ? branchInfo[branch].phone.replace(/\D/g, '') : '6281234567890'}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full bg-gradient-to-r from-primary-500 to-primary-600 text-white px-6 py-3 rounded-xl text-center font-semibold hover:shadow-glow transition-all duration-300 block"
+                  className="w-full bg-gradient-to-r from-primary-500 to-primary-600 text-white px-6 py-3 rounded-xl text-center font-bold hover:shadow-glow transition-all duration-300 block"
                 >
                   Order via WhatsApp
                 </a>

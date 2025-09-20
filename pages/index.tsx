@@ -166,7 +166,7 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => handleBranchSelect('berau')}
-                    className="w-full bg-primary-500 text-white py-3 rounded-xl font-semibold text-base hover:bg-primary-600 transition-all duration-200 mt-6"
+                    className="w-full bg-primary-500 text-white py-3 rounded-xl font-bold text-base hover:bg-primary-600 transition-all duration-200 mt-6"
                   >
                     Lihat Menu Berau
                   </motion.button>
@@ -223,7 +223,7 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => handleBranchSelect('samarinda')}
-                    className="w-full bg-pinky-500 text-white py-3 rounded-xl font-semibold text-base hover:bg-pinky-600 transition-all duration-200 mt-6"
+                    className="w-full bg-pinky-500 text-white py-3 rounded-xl font-bold text-base hover:bg-pinky-600 transition-all duration-200 mt-6"
                   >
                     Lihat Menu Samarinda
                   </motion.button>
