@@ -8,6 +8,7 @@ import Footer from '../../components/Footer';
 import HeroTrendy from '../../components/HeroTrendy';
 import ProductCardMinimal from '../../components/ProductCardMinimal';
 import { getBranchSEOData, getMenuStructuredData } from '../../lib/seo';
+import { getProducts, getCategories, getBranchInfo } from '../../lib/supabase';
 import type { Branch, Product, Category } from '../../lib/supabase';
 
 interface BranchPageProps {
@@ -27,7 +28,6 @@ const BranchPage: React.FC<BranchPageProps> = ({
 }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
-  const [favorites, setFavorites] = useState<string[]>([]);
 
   useEffect(() => {
     if (selectedCategory === 'all') {
@@ -41,20 +41,19 @@ const BranchPage: React.FC<BranchPageProps> = ({
     setSelectedCategory(category);
   };
 
-  const handleToggleFavorite = (productId: string) => {
-    setFavorites(prev => 
-      prev.includes(productId) 
-        ? prev.filter(id => id !== productId)
-        : [...prev, productId]
-    );
-  };
 
   const handleAddToCart = (product: any) => {
     // Add to cart logic here
     console.log('Added to cart:', product);
   };
 
-  const featuredProducts = products.filter(product => product.is_featured).slice(0, 6);
+  // Featured products berdasarkan nama spesifik
+  const featuredProductNames = ['Jus Alpukat', 'Jus Mangga', 'Alpukat Kocok'];
+  const featuredProducts = featuredProductNames
+    .map(name => products.find(product => 
+      product.name.toLowerCase().includes(name.toLowerCase())
+    ))
+    .filter(Boolean) as Product[];
 
   return (
     <>
@@ -313,8 +312,6 @@ const BranchPage: React.FC<BranchPageProps> = ({
                     <ProductCardMinimal 
                       product={product} 
                       onAddToCart={handleAddToCart}
-                      onToggleFavorite={handleToggleFavorite}
-                      isFavorite={favorites.includes(product.id)}
                     />
                   </motion.div>
                 ))}
@@ -359,70 +356,92 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const branch = params?.branch as Branch;
 
-  // Mock data untuk sementara
-  const mockProducts = [
-      {
-        id: '1',
-      name: 'Jus Alpukat Segar',
-      description: 'Jus alpukat segar dengan kualitas terbaik',
-      price: 15000,
-      category: 'Jus Alpukat',
-      image_url: '/images/avocado-juice.jpg',
-      gambar: '/images/avocado-juice.jpg',
-        is_featured: true,
-      rating: 4.8,
-      review_count: 120
-      },
-      {
-        id: '2',
-      name: 'Jus Jeruk Manis',
-      description: 'Jus jeruk segar tanpa pengawet',
-      price: 12000,
-      category: 'Jus Buah',
-      image_url: '/images/orange-juice.jpg',
-      gambar: '/images/orange-juice.jpg',
-        is_featured: true,
-      rating: 4.6,
-      review_count: 95
-    },
-    {
-      id: '3',
-      name: 'Jus Mangga Segar',
-        description: 'Jus mangga manis dan segar',
-      price: 13000,
-      category: 'Jus Buah',
-      image_url: '/images/mango-juice.jpg',
-      gambar: '/images/mango-juice.jpg',
-      is_featured: true,
-      rating: 4.7,
-      review_count: 88
-    }
-  ];
-
-  const mockCategories = [
-    { id: '1', name: 'Jus Alpukat' },
-    { id: '2', name: 'Jus Buah' },
-    { id: '3', name: 'Jus Sayur' }
-    ];
-
-    const mockBranchInfo = {
-    name: branch.charAt(0).toUpperCase() + branch.slice(1),
-    address: `Jl. Contoh No. 123, ${branch.charAt(0).toUpperCase() + branch.slice(1)}`,
-    phone: '+62812-3456-7890',
-    whatsapp: '+62812-3456-7890',
-    hours: '08:00 - 22:00 WITA'
-  };
+  try {
+    // Fetch data from Supabase
+    const [products, categories, branchInfo] = await Promise.all([
+      getProducts(branch),
+      getCategories(branch),
+      getBranchInfo(branch)
+    ]);
 
     return {
       props: {
         branch,
-        products: mockProducts,
-        categories: mockCategories,
-        branchInfo: mockBranchInfo,
-      seoData: getBranchSEOData(branch),
+        products,
+        categories,
+        branchInfo,
+        seoData: getBranchSEOData(branch),
       },
-      revalidate: 3600,
+      revalidate: 60, // Revalidate every minute
     };
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    
+    // Fallback data jika Supabase error
+    const fallbackProducts = [
+      {
+        id: '1',
+        name: 'Jus Alpukat Segar',
+        description: 'Jus alpukat segar dengan kualitas terbaik',
+        price: 15000,
+        category: 'Jus Alpukat',
+        image_url: '/images/avocado-juice.jpg',
+        gambar: '/images/avocado-juice.jpg',
+        is_featured: true,
+        rating: 4.8,
+        review_count: 120
+      },
+      {
+        id: '2',
+        name: 'Jus Mangga Segar',
+        description: 'Jus mangga manis dan segar',
+        price: 13000,
+        category: 'Jus Buah',
+        image_url: '/images/mango-juice.jpg',
+        gambar: '/images/mango-juice.jpg',
+        is_featured: true,
+        rating: 4.7,
+        review_count: 88
+      },
+      {
+        id: '3',
+        name: 'Alpukat Kocok',
+        description: 'Alpukat kocok dengan susu segar',
+        price: 18000,
+        category: 'Kocok',
+        image_url: '/images/avocado-shake.jpg',
+        gambar: '/images/avocado-shake.jpg',
+        is_featured: true,
+        rating: 4.9,
+        review_count: 150
+      }
+    ];
+
+    const fallbackCategories = [
+      { id: '1', name: 'Jus Alpukat' },
+      { id: '2', name: 'Jus Buah' },
+      { id: '3', name: 'Kocok' }
+    ];
+
+    const fallbackBranchInfo = {
+      name: branch.charAt(0).toUpperCase() + branch.slice(1),
+      address: `Jl. Contoh No. 123, ${branch.charAt(0).toUpperCase() + branch.slice(1)}`,
+      phone: '+62812-3456-7890',
+      whatsapp: '+62812-3456-7890',
+      hours: '08:00 - 22:00 WITA'
+    };
+
+    return {
+      props: {
+        branch,
+        products: fallbackProducts,
+        categories: fallbackCategories,
+        branchInfo: fallbackBranchInfo,
+        seoData: getBranchSEOData(branch),
+      },
+      revalidate: 60,
+    };
+  }
 };
 
 export default BranchPage;
