@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import Head from 'next/head';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Filter } from 'lucide-react';
+import { Search, Filter, Grid3X3, List } from 'lucide-react';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import ProductCardMinimal from '../../components/ProductCardMinimal';
@@ -31,6 +31,7 @@ const MenuPage: React.FC<MenuPageProps> = ({
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [showFilters, setShowFilters] = useState(false);
   const [sortBy, setSortBy] = useState<'name' | 'price' | 'popular'>('name');
+  const [viewMode, setViewMode] = useState<'list' | 'grid'>('list');
 
   // Filter and sort products
   useEffect(() => {
@@ -189,6 +190,39 @@ const MenuPage: React.FC<MenuPageProps> = ({
                 ))}
               </div>
 
+              {/* View Mode Toggle */}
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-medium text-gray-600">Tampilan:</span>
+                <div className="flex bg-gray-100 rounded-xl p-1">
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => setViewMode('list')}
+                    className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold transition-all duration-200 ${
+                      viewMode === 'list'
+                        ? 'bg-white text-primary-600 shadow-sm'
+                        : 'text-gray-600 hover:text-gray-800'
+                    }`}
+                  >
+                    <List className="w-4 h-4" />
+                    <span className="hidden sm:inline">List</span>
+                  </motion.button>
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => setViewMode('grid')}
+                    className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold transition-all duration-200 ${
+                      viewMode === 'grid'
+                        ? 'bg-white text-primary-600 shadow-sm'
+                        : 'text-gray-600 hover:text-gray-800'
+                    }`}
+                  >
+                    <Grid3X3 className="w-4 h-4" />
+                    <span className="hidden sm:inline">Grid</span>
+                  </motion.button>
+                </div>
+              </div>
+
               {/* Sort Dropdown - Menu Sorting */}
               <div className="relative">
                 <select
@@ -208,7 +242,7 @@ const MenuPage: React.FC<MenuPageProps> = ({
           </div>
         </section>
 
-        {/* Menu Grid - Digital Menu Layout */}
+        {/* Menu Display - List or Grid Layout */}
         <section className="py-8 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {filteredProducts.length > 0 ? (
@@ -228,28 +262,133 @@ const MenuPage: React.FC<MenuPageProps> = ({
                   </p>
                 </motion.div>
 
-                {/* Menu Grid - 4 columns desktop, 3 tablet, 2 mobile */}
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-                  <AnimatePresence>
-                    {filteredProducts.map((product, index) => (
-                      <motion.div
-                        key={product.id}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        transition={{ duration: 0.4, delay: index * 0.05 }}
-                        className="w-full"
-                      >
-                        <ProductCardMinimal 
-                          product={product} 
-                          onAddToCart={handleAddToCart}
-                          onToggleFavorite={handleToggleFavorite}
-                          isFavorite={favorites.includes(product.id)}
-                        />
-                      </motion.div>
-                    ))}
-                  </AnimatePresence>
-                </div>
+                {/* List View */}
+                {viewMode === 'list' ? (
+                  <div className="space-y-4">
+                    <AnimatePresence>
+                      {filteredProducts.map((product, index) => (
+                        <motion.div
+                          key={product.id}
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          exit={{ opacity: 0, x: 20 }}
+                          transition={{ duration: 0.4, delay: index * 0.05 }}
+                          className="bg-white rounded-2xl border border-gray-200 hover:border-primary-200 hover:shadow-lg transition-all duration-300 overflow-hidden"
+                        >
+                          <div className="flex flex-col sm:flex-row">
+                            {/* Product Image */}
+                            <div className="w-full sm:w-48 h-48 sm:h-32 bg-gray-100 flex-shrink-0">
+                              <img
+                                src={product.gambar || product.image_url || '/images/juice-placeholder.svg'}
+                                alt={product.name}
+                                className="w-full h-full object-cover"
+                                onError={(e) => {
+                                  e.currentTarget.src = '/images/juice-placeholder.svg';
+                                }}
+                              />
+                            </div>
+                            
+                            {/* Product Info */}
+                            <div className="flex-1 p-4 sm:p-6">
+                              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                                <div className="flex-1">
+                                  <h3 className="text-xl font-bold text-gray-900 mb-2 font-display">
+                                    {product.name}
+                                  </h3>
+                                  <p className="text-gray-600 text-sm mb-3 line-clamp-2">
+                                    {product.description || 'Jus segar berkualitas tinggi'}
+                                  </p>
+                                  <div className="flex items-center gap-4 text-sm text-gray-500">
+                                    <span className="flex items-center gap-1">
+                                      <span className="text-yellow-500">⭐</span>
+                                      <span className="font-semibold">{product.rating || 4.5}</span>
+                                      <span>({product.review_count || 0} review)</span>
+                                    </span>
+                                    <span className="px-2 py-1 bg-primary-100 text-primary-600 rounded-full text-xs font-semibold">
+                                      {product.category || 'Lainnya'}
+                                    </span>
+                                  </div>
+                                </div>
+                                
+                                {/* Price and Actions */}
+                                <div className="flex flex-col sm:items-end gap-3">
+                                  <div className="text-right">
+                                    <div className="text-2xl font-bold text-primary-600 font-display">
+                                      Rp {product.price.toLocaleString('id-ID')}
+                                    </div>
+                                  </div>
+                                  
+                                  {/* Action Buttons */}
+                                  <div className="flex gap-2">
+                                    <motion.button
+                                      whileHover={{ scale: 1.02 }}
+                                      whileTap={{ scale: 0.98 }}
+                                      onClick={() => handleToggleFavorite(product.id)}
+                                      className={`p-2 rounded-xl transition-all duration-200 ${
+                                        favorites.includes(product.id)
+                                          ? 'bg-red-100 text-red-500'
+                                          : 'bg-gray-100 text-gray-400 hover:bg-red-100 hover:text-red-500'
+                                      }`}
+                                    >
+                                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
+                                      </svg>
+                                    </motion.button>
+                                    
+                                    <motion.button
+                                      whileHover={{ scale: 1.02 }}
+                                      whileTap={{ scale: 0.98 }}
+                                      onClick={() => handleAddToCart(product)}
+                                      className="bg-primary-500 text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-primary-600 transition-all duration-200 flex items-center gap-2"
+                                    >
+                                      <span>🛒</span>
+                                      <span>Add to Cart</span>
+                                    </motion.button>
+                                    
+                                    <motion.a
+                                      whileHover={{ scale: 1.02 }}
+                                      whileTap={{ scale: 0.98 }}
+                                      href={`https://wa.me/${branchInfo?.whatsapp?.replace(/\D/g, '') || '6281234567890'}?text=Halo, saya ingin order ${product.name}`}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="bg-green-500 text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-green-600 transition-all duration-200 flex items-center gap-2"
+                                    >
+                                      <span>💬</span>
+                                      <span>WhatsApp</span>
+                                    </motion.a>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </motion.div>
+                      ))}
+                    </AnimatePresence>
+                  </div>
+                ) : (
+                  /* Grid View - 4 columns desktop, 3 tablet, 2 mobile */
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+                    <AnimatePresence>
+                      {filteredProducts.map((product, index) => (
+                        <motion.div
+                          key={product.id}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -20 }}
+                          transition={{ duration: 0.4, delay: index * 0.05 }}
+                          className="w-full"
+                        >
+                          <ProductCardMinimal 
+                            product={product} 
+                            onAddToCart={handleAddToCart}
+                            onToggleFavorite={handleToggleFavorite}
+                            isFavorite={favorites.includes(product.id)}
+                          />
+                        </motion.div>
+                      ))}
+                    </AnimatePresence>
+                  </div>
+                )}
               </>
             ) : (
               <motion.div
