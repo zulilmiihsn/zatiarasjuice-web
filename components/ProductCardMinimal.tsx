@@ -65,7 +65,7 @@ const ProductCardMinimal: React.FC<ProductCardProps> = ({
       whileHover={{ y: -4 }}
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
-      className={`group relative bg-white rounded-lg border border-gray-100 shadow-clean hover:shadow-medium transition-all duration-300 overflow-hidden ${className}`}
+      className={`group relative bg-white rounded-lg border border-gray-100 shadow-clean hover:shadow-medium transition-all duration-300 overflow-hidden max-w-full ${className}`}
     >
 
       {/* Product Image */}
@@ -103,7 +103,7 @@ const ProductCardMinimal: React.FC<ProductCardProps> = ({
       </div>
 
       {/* Product Info */}
-      <div className="p-4">
+      <div className="p-4 max-w-full">
         {/* Category Tag */}
         {product.category && (
           <div className="mb-2">
@@ -114,29 +114,29 @@ const ProductCardMinimal: React.FC<ProductCardProps> = ({
         )}
 
         {/* Product Name */}
-        <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2 font-display">
+        <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2 font-display max-w-full truncate">
           {product.name}
         </h3>
 
         {/* Price */}
-        <div className="mb-4">
+        <div className="mb-4 max-w-full">
           {product.is_minuman ? (
-            <div className="space-y-1">
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600">Regular:</span>
-                <span className="text-xl font-bold text-primary-600">
+            <div className="space-y-1 max-w-full">
+              <div className="flex items-center justify-between max-w-full">
+                <span className="text-sm text-gray-600 truncate">Regular:</span>
+                <span className="text-xl font-bold text-primary-600 truncate">
                   {formatPrice(product.price_regular || product.price)}
                 </span>
               </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600">Large:</span>
-                <span className="text-sm font-semibold text-gray-700">
+              <div className="flex items-center justify-between max-w-full">
+                <span className="text-sm text-gray-600 truncate">Large:</span>
+                <span className="text-sm font-semibold text-gray-700 truncate">
                   {formatPrice(product.price_large || product.price)}
                 </span>
               </div>
             </div>
           ) : (
-            <span className="text-xl font-bold text-gray-900">
+            <span className="text-xl font-bold text-gray-900 max-w-full truncate block">
               {formatPrice(product.price)}
             </span>
           )}
@@ -148,7 +148,7 @@ const ProductCardMinimal: React.FC<ProductCardProps> = ({
           whileTap={{ scale: 0.98 }}
           onClick={handleAddToCart}
           disabled={isAddingToCart}
-          className="w-full bg-primary-500 text-white py-3 rounded-xl font-bold text-sm hover:bg-primary-600 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          className="w-full max-w-full bg-primary-500 text-white py-3 rounded-xl font-bold text-sm hover:bg-primary-600 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
         >
           {isAddingToCart ? (
             <>
@@ -164,14 +164,14 @@ const ProductCardMinimal: React.FC<ProductCardProps> = ({
         </motion.button>
 
         {/* Quick Order Buttons */}
-        <div className="mt-3 grid grid-cols-2 gap-2">
+        <div className="mt-3 grid grid-cols-2 gap-2 max-w-full">
           <motion.a
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             href={`https://wa.me/6281234567890?text=Halo, saya ingin order ${product.name}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-green-500 text-white py-2 px-3 rounded-xl text-xs font-bold hover:bg-green-600 transition-all duration-200 text-center"
+            className="bg-green-500 text-white py-2 px-3 rounded-xl text-xs font-bold hover:bg-green-600 transition-all duration-200 text-center max-w-full truncate"
           >
             WhatsApp
           </motion.a>
@@ -181,7 +181,7 @@ const ProductCardMinimal: React.FC<ProductCardProps> = ({
             href="https://gofood.co.id/merchant/zatiaras-juice"
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-orange-500 text-white py-2 px-3 rounded-xl text-xs font-bold hover:bg-orange-600 transition-all duration-200 text-center"
+            className="bg-orange-500 text-white py-2 px-3 rounded-xl text-xs font-bold hover:bg-orange-600 transition-all duration-200 text-center max-w-full truncate"
           >
             GoFood
           </motion.a>

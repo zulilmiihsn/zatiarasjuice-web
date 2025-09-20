@@ -154,7 +154,7 @@ const MenuPage: React.FC<MenuPageProps> = ({
         
         {/* Menu Header - Digital Menu Style */}
         <section className="pt-16 pb-8 sm:pb-12 bg-white border-b-2 border-gray-100 overflow-x-hidden">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 max-w-full">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -189,7 +189,7 @@ const MenuPage: React.FC<MenuPageProps> = ({
 
         {/* Menu Navigation - Clean & Organized */}
         <section className="py-3 sm:py-4 bg-white border-b border-gray-200 overflow-x-hidden">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 max-w-full">
             {/* Search Bar - Responsive */}
             <div className="mb-3 sm:mb-4">
               <div className="relative max-w-sm sm:max-w-md mx-auto">
@@ -284,7 +284,7 @@ const MenuPage: React.FC<MenuPageProps> = ({
 
         {/* Menu Display - List or Grid Layout */}
         <section className="py-8 bg-white overflow-x-hidden">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 max-w-full">
             {filteredProducts.length > 0 ? (
               <>
                 {/* Menu Section Header */}
@@ -547,7 +547,7 @@ const MenuPage: React.FC<MenuPageProps> = ({
                       } else {
                         // Show all products without grouping (price sort or specific category filter)
                         return (
-                          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+                          <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 w-full">
                             <AnimatePresence>
                               {filteredProducts.map((product, index) => (
                                 <motion.div
