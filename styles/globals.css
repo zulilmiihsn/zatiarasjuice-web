@@ -79,22 +79,19 @@ html {
 
 /* Typography base disesuaikan dengan CSS variables di atas */
 
-/* Custom Scrollbar */
+/* Hide Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  display: none;
 }
 
-::-webkit-scrollbar-track {
-  background: #f1f5f9;
+/* For Firefox */
+html {
+  scrollbar-width: none;
 }
 
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, var(--primary-500), var(--secondary-500));
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, var(--primary-600), var(--secondary-600));
+/* For IE and Edge */
+body {
+  -ms-overflow-style: none;
 }
 
 /* Selection */
