@@ -2,7 +2,7 @@
 
 import React, { useState, memo, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { ShoppingCart, Plus, Minus, Apple } from 'lucide-react';
+import { ShoppingCart, Apple } from 'lucide-react';
 import Image from 'next/image';
 
 interface ProductCardProps {
@@ -31,18 +31,15 @@ const ProductCard: React.FC<ProductCardProps> = memo(({
   onAddToCart,
   className = '',
 }) => {
-  const [isHovered, setIsHovered] = useState(false);
-  const [quantity, setQuantity] = useState(1);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
-  const [imageError, setImageError] = useState(false);
 
   const handleAddToCart = useCallback(async () => {
     if (onAddToCart) {
       setIsAddingToCart(true);
-      await onAddToCart({ ...product, quantity });
+      await onAddToCart({ ...product, quantity: 1 });
       setIsAddingToCart(false);
     }
-  }, [onAddToCart, product, quantity]);
+  }, [onAddToCart, product]);
 
 
   const formatPrice = (price: number) => {
@@ -68,10 +65,12 @@ const ProductCard: React.FC<ProductCardProps> = memo(({
         rotateY: 5,
         boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)'
       }}
-      onHoverStart={() => setIsHovered(true)}
-      onHoverEnd={() => setIsHovered(false)}
-      className={`group relative bg-white rounded-2xl sm:rounded-3xl border border-gray-100 shadow-luxury hover:shadow-premium transition-all duration-500 overflow-hidden max-w-full perspective-3d ${className}`}
-      style={{ transformStyle: 'preserve-3d' }}
+      className={`group relative bg-white rounded-2xl sm:rounded-3xl border border-gray-100 shadow-luxury hover:shadow-premium transition-all duration-500 overflow-hidden max-w-full perspective-3d silky-smooth fps-60 perf-container ${className}`}
+      style={{ 
+        transformStyle: 'preserve-3d',
+        willChange: 'transform, opacity',
+        contain: 'layout style paint'
+      }}
     >
 
       {/* Product Image */}
@@ -83,8 +82,11 @@ const ProductCard: React.FC<ProductCardProps> = memo(({
                 src={imageSrc}
                 alt={product.name}
                 fill
-                className="object-cover transition-all duration-500 group-hover:scale-110 group-hover:rotate-2"
-                onError={() => setImageError(true)}
+                className="object-cover transition-all duration-500 group-hover:scale-110 group-hover:rotate-2 img-optimized silky-smooth"
+                onError={() => {}}
+                priority={false}
+                loading="lazy"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
               {/* Gradient Overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />

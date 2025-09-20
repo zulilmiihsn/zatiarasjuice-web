@@ -6,13 +6,11 @@ import { motion } from 'framer-motion';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import HeroBanner from '../components/HeroBanner';
-import ProductCard from '../components/ProductCard';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { getUserLocationWithFallback } from '../lib/geolocation';
-import { getBranchSEOData } from '../lib/seo';
 
 // Lazy load heavy components
-const LazyProductCard = lazy(() => import('../components/ProductCard'));
+const ProductCard = lazy(() => import('../components/ProductCard'));
 
 interface HomePageProps {
   featuredProducts: any[];
@@ -37,7 +35,7 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
           }, 3000);
         }
       } catch (error) {
-        console.error('Error detecting location:', error);
+        // Error handling - could be logged to analytics service
       } finally {
         setIsLoading(false);
       }
@@ -776,14 +774,16 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
               </motion.div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {featuredProducts.map((product, index) => (
+                {featuredProducts.map((product) => (
                   <motion.div
                     key={product.id}
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: index * 0.1 }}
+                    transition={{ duration: 0.6 }}
                   >
-                    <ProductCard product={product} />
+                    <Suspense fallback={<div className="h-64 bg-gray-100 rounded-2xl animate-pulse" />}>
+                      <ProductCard product={product} />
+                    </Suspense>
                   </motion.div>
                 ))}
               </div>
@@ -1120,7 +1120,7 @@ export const getStaticProps: GetStaticProps = async () => {
       hasOfferCatalog: {
         '@type': 'OfferCatalog',
         name: 'Menu Zatiaras Juice',
-        itemListElement: featuredProducts.map((product, index) => ({
+        itemListElement: featuredProducts.map((product) => ({
           '@type': 'Offer',
           itemOffered: {
             '@type': 'Product',

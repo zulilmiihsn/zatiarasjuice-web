@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform, useSpring, useMotionValue } from 'framer-motion';
-import { ChevronLeft, ChevronRight, Play, Pause, Sparkles, Zap, Heart, Star } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Play, Pause, Sparkles } from 'lucide-react';
 import Image from 'next/image';
 
 interface HeroSlide {
@@ -25,7 +25,6 @@ interface HeroBannerProps {
 const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const heroRef = useRef<HTMLDivElement>(null);
   
   const { scrollYProgress } = useScroll({
@@ -33,28 +32,34 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
     offset: ["start start", "end start"]
   });
 
-  // Parallax transforms - Enhanced for better visual effect
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [1, 0.8, 0]);
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
+  // ULTRA PERFORMANCE PARALLAX TRANSFORMS - 60FPS OPTIMIZED
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.05]); // Reduced scale for smoother performance
 
-  // Different parallax speeds for layered effect
-  const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-  const glassmorphismY = useTransform(scrollYProgress, [0, 1], ["0%", "-20%"]);
-  const imageY = useTransform(scrollYProgress, [0, 1], ["0%", "40%"]);
-  const floatingElementsY = useTransform(scrollYProgress, [0, 1], ["0%", "60%"]);
+  // Optimized parallax speeds with better performance curves
+  const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "25%"], { clamp: true });
+  const glassmorphismY = useTransform(scrollYProgress, [0, 1], ["0%", "-15%"], { clamp: true });
+  const imageY = useTransform(scrollYProgress, [0, 1], ["0%", "35%"], { clamp: true });
+  const floatingElementsY = useTransform(scrollYProgress, [0, 1], ["0%", "50%"], { clamp: true });
   
-  // Rotation effects for dynamic parallax
-  const backgroundRotate = useTransform(scrollYProgress, [0, 1], [0, 5]);
-  const glassmorphismRotate = useTransform(scrollYProgress, [0, 1], [0, -3]);
-  const imageRotate = useTransform(scrollYProgress, [0, 1], [0, 2]);
-  const floatingElementsRotate = useTransform(scrollYProgress, [0, 1], [0, 10]);
+  // Reduced rotation effects for smoother performance
+  const backgroundRotate = useTransform(scrollYProgress, [0, 1], [0, 3], { clamp: true });
+  const glassmorphismRotate = useTransform(scrollYProgress, [0, 1], [0, -2], { clamp: true });
+  const imageRotate = useTransform(scrollYProgress, [0, 1], [0, 1.5], { clamp: true });
+  const floatingElementsRotate = useTransform(scrollYProgress, [0, 1], [0, 6], { clamp: true });
 
-  // Mouse parallax - Optimized for performance
+  // Ultra optimized mouse parallax with better spring config
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
-  const rotateX = useSpring(useTransform(mouseY, [-300, 300], [5, -5]), { stiffness: 100, damping: 20 });
-  const rotateY = useSpring(useTransform(mouseX, [-300, 300], [-5, 5]), { stiffness: 100, damping: 20 });
+  const rotateX = useSpring(useTransform(mouseY, [-200, 200], [3, -3], { clamp: true }), { 
+    stiffness: 150, 
+    damping: 25,
+    mass: 0.8
+  });
+  const rotateY = useSpring(useTransform(mouseX, [-200, 200], [-3, 3], { clamp: true }), { 
+    stiffness: 150, 
+    damping: 25,
+    mass: 0.8
+  });
 
   // Default slides dengan value proposition yang kuat dan dinamis berdasarkan cabang
   const defaultSlides: HeroSlide[] = [
@@ -103,32 +108,46 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
     return () => clearInterval(interval);
   }, [isPlaying, heroSlides.length]);
 
-  // Mouse tracking untuk 3D effect - Optimized with throttling
+  // ULTRA PERFORMANCE MOUSE TRACKING - 60FPS OPTIMIZED
   useEffect(() => {
     let ticking = false;
+    let lastTime = 0;
+    const throttleDelay = 16; // ~60fps
     
     const handleMouseMove = (e: MouseEvent) => {
-      if (!ticking) {
-        requestAnimationFrame(() => {
-      if (heroRef.current) {
-        const rect = heroRef.current.getBoundingClientRect();
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
-        
-            const mouseXValue = (e.clientX - centerX) / 15; // Reduced sensitivity
-            const mouseYValue = (e.clientY - centerY) / 15;
-        
-        mouseX.set(mouseXValue);
-        mouseY.set(mouseYValue);
-          }
-          ticking = false;
-        });
-        ticking = true;
+      const now = performance.now();
+      
+      if (now - lastTime >= throttleDelay) {
+        if (!ticking) {
+          requestAnimationFrame(() => {
+            if (heroRef.current) {
+              const rect = heroRef.current.getBoundingClientRect();
+              const centerX = rect.left + rect.width / 2;
+              const centerY = rect.top + rect.height / 2;
+              
+              // Ultra smooth mouse tracking with reduced sensitivity
+              const mouseXValue = (e.clientX - centerX) / 30; // Further reduced for smoothness
+              const mouseYValue = (e.clientY - centerY) / 30;
+              
+              // Use direct value setting for better performance
+              mouseX.set(mouseXValue);
+              mouseY.set(mouseYValue);
+            }
+            ticking = false;
+            lastTime = now;
+          });
+          ticking = true;
+        }
       }
     };
 
-    window.addEventListener('mousemove', handleMouseMove, { passive: true });
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    // Only add listener if user prefers motion and device supports it
+    if (typeof window !== 'undefined' && 
+        window.matchMedia('(prefers-reduced-motion: no-preference)').matches &&
+        !window.matchMedia('(hover: none)').matches) {
+      window.addEventListener('mousemove', handleMouseMove, { passive: true });
+      return () => window.removeEventListener('mousemove', handleMouseMove);
+    }
   }, [mouseX, mouseY]);
 
   const nextSlide = () => {
@@ -153,8 +172,14 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
     >
       {/* Animated Background dengan Enhanced Parallax */}
       <motion.div 
-        className="absolute inset-0"
-        style={{ y: backgroundY, scale, rotate: backgroundRotate }}
+        className="absolute inset-0 silky-smooth fps-60"
+        style={{ 
+          y: backgroundY, 
+          scale, 
+          rotate: backgroundRotate,
+          willChange: 'transform',
+          contain: 'layout style paint'
+        }}
       >
         <div className={`absolute inset-0 bg-gradient-to-br ${heroSlides[currentSlide].gradient} opacity-90`}>
           <div className="absolute inset-0 bg-black/20" />
@@ -162,55 +187,67 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
         
         {/* Floating Premium Shapes - Optimized for Performance */}
         <motion.div 
-          className="absolute inset-0 overflow-hidden"
-          style={{ y: floatingElementsY }}
+          className="absolute inset-0 overflow-hidden silky-smooth fps-60"
+          style={{ 
+            y: floatingElementsY,
+            willChange: 'transform',
+            contain: 'layout style paint'
+          }}
         >
-          {[...Array(8)].map((_, i) => (
+          {[...Array(6)].map((_, i) => ( // Reduced from 8 to 6 for better performance
             <motion.div
               key={i}
-              className="absolute"
+              className="absolute silky-smooth fps-60"
               style={{
-                left: `${(i * 12.5) % 100}%`,
-                top: `${(i * 15) % 100}%`,
+                left: `${(i * 16.67) % 100}%`, // Adjusted for 6 elements
+                top: `${(i * 20) % 100}%`, // Adjusted for 6 elements
+                willChange: 'transform, opacity',
+                contain: 'layout style paint',
+                transform: 'translateZ(0)', // Force GPU acceleration
               }}
               animate={{
-                x: [0, 30, 0],
-                y: [0, 20, 0],
-                rotate: [0, 180, 360],
-                scale: [1, 1.2, 1],
-                opacity: [0.3, 0.6, 0.3],
+                x: [0, 20, 0], // Reduced movement for smoother performance
+                y: [0, 15, 0], // Reduced movement for smoother performance
+                rotate: [0, 120, 240, 360], // Smoother rotation
+                scale: [1, 1.1, 1], // Reduced scale for smoother performance
+                opacity: [0.2, 0.5, 0.2], // Reduced opacity for smoother performance
               }}
               transition={{
-                duration: 8 + i * 2,
+                duration: 10 + i * 1.5, // Longer duration for smoother animation
                 repeat: Infinity,
-                ease: 'easeInOut',
+                ease: 'linear', // Linear easing for smoother performance
+                repeatType: 'loop',
               }}
             >
               <div className={`w-16 h-16 bg-gradient-to-r from-white/20 to-white/5 rounded-full blur-lg`} />
             </motion.div>
           ))}
           
-          {/* Premium Geometric Shapes - Optimized */}
-          {[...Array(4)].map((_, i) => (
+          {/* ULTRA PERFORMANCE Geometric Shapes - 60FPS Optimized */}
+          {[...Array(3)].map((_, i) => ( // Reduced from 4 to 3 for better performance
             <motion.div
               key={`geo-${i}`}
-              className="absolute"
+              className="absolute silky-smooth fps-60"
               style={{
-                left: `${(i * 25) % 100}%`,
-                top: `${(i * 30) % 100}%`,
+                left: `${(i * 33.33) % 100}%`, // Adjusted for 3 elements
+                top: `${(i * 40) % 100}%`, // Adjusted for 3 elements
                 y: floatingElementsY,
-                rotate: floatingElementsRotate
+                rotate: floatingElementsRotate,
+                willChange: 'transform',
+                contain: 'layout style paint',
+                transform: 'translateZ(0)', // Force GPU acceleration
               }}
               animate={{
-                x: [0, 20, 0],
-                y: [0, 15, 0],
-                rotate: [0, 90, 180],
-                scale: [0.8, 1.1, 0.8],
+                x: [0, 15, 0], // Reduced movement for smoother performance
+                y: [0, 10, 0], // Reduced movement for smoother performance
+                rotate: [0, 60, 120, 180], // Smoother rotation
+                scale: [0.9, 1.05, 0.9], // Reduced scale for smoother performance
               }}
               transition={{
-                duration: 10 + i * 3,
+                duration: 12 + i * 2, // Longer duration for smoother animation
                 repeat: Infinity,
-                ease: 'easeInOut',
+                ease: 'linear', // Linear easing for smoother performance
+                repeatType: 'loop',
               }}
             >
               <div className={`w-20 h-20 bg-gradient-to-r from-primary-500/20 to-pinky-500/20 rounded-2xl blur-md`} />
@@ -218,62 +255,86 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
           ))}
         </motion.div>
 
-        {/* Premium Gradient Orbs dengan Enhanced Parallax */}
+        {/* ULTRA PERFORMANCE Gradient Orbs - 60FPS Optimized */}
         <div className="absolute inset-0">
           <motion.div
-            className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-gradient-to-r from-pink-500/40 to-purple-500/40 rounded-full blur-3xl"
-            style={{ y: floatingElementsY, rotate: floatingElementsRotate }}
+            className="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-gradient-to-r from-pink-500/30 to-purple-500/30 rounded-full blur-3xl silky-smooth fps-60"
+            style={{ 
+              y: floatingElementsY, 
+              rotate: floatingElementsRotate,
+              willChange: 'transform, opacity',
+              contain: 'layout style paint',
+              transform: 'translateZ(0)',
+            }}
             animate={{
-              scale: [1, 1.3, 1],
-              opacity: [0.3, 0.7, 0.3],
-              x: [0, 50, 0],
-              y: [0, -30, 0],
+              scale: [1, 1.2, 1], // Reduced scale for smoother performance
+              opacity: [0.2, 0.5, 0.2], // Reduced opacity for smoother performance
+              x: [0, 30, 0], // Reduced movement for smoother performance
+              y: [0, -20, 0], // Reduced movement for smoother performance
             }}
             transition={{
-              duration: 8,
+              duration: 12, // Longer duration for smoother animation
               repeat: Infinity,
-              ease: 'easeInOut',
+              ease: 'linear', // Linear easing for smoother performance
+              repeatType: 'loop',
             }}
           />
           <motion.div
-            className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-gradient-to-r from-cyan-500/40 to-blue-500/40 rounded-full blur-3xl"
-            style={{ y: floatingElementsY, rotate: floatingElementsRotate }}
+            className="absolute bottom-1/4 right-1/4 w-[350px] h-[350px] bg-gradient-to-r from-cyan-500/30 to-blue-500/30 rounded-full blur-3xl silky-smooth fps-60"
+            style={{ 
+              y: floatingElementsY, 
+              rotate: floatingElementsRotate,
+              willChange: 'transform, opacity',
+              contain: 'layout style paint',
+              transform: 'translateZ(0)',
+            }}
             animate={{
-              scale: [1.2, 1, 1.2],
-              opacity: [0.4, 0.8, 0.4],
-              x: [0, -40, 0],
-              y: [0, 40, 0],
+              scale: [1.1, 1, 1.1], // Reduced scale for smoother performance
+              opacity: [0.3, 0.6, 0.3], // Reduced opacity for smoother performance
+              x: [0, -25, 0], // Reduced movement for smoother performance
+              y: [0, 25, 0], // Reduced movement for smoother performance
             }}
             transition={{
-              duration: 10,
+              duration: 14, // Longer duration for smoother animation
               repeat: Infinity,
-              ease: 'easeInOut',
+              ease: 'linear', // Linear easing for smoother performance
+              repeatType: 'loop',
             }}
           />
           <motion.div
-            className="absolute top-1/2 left-1/2 w-[300px] h-[300px] bg-gradient-to-r from-gold-500/30 to-accent-500/30 rounded-full blur-2xl"
-            style={{ y: floatingElementsY, rotate: floatingElementsRotate }}
+            className="absolute top-1/2 left-1/2 w-[250px] h-[250px] bg-gradient-to-r from-gold-500/25 to-accent-500/25 rounded-full blur-2xl silky-smooth fps-60"
+            style={{ 
+              y: floatingElementsY, 
+              rotate: floatingElementsRotate,
+              willChange: 'transform, opacity',
+              contain: 'layout style paint',
+              transform: 'translateZ(0)',
+            }}
             animate={{
-              scale: [1, 1.4, 1],
-              opacity: [0.2, 0.6, 0.2],
-              rotate: [0, 180, 360],
+              scale: [1, 1.15, 1], // Reduced scale for smoother performance
+              opacity: [0.2, 0.5, 0.2], // Reduced opacity for smoother performance
+              rotate: [0, 120, 240, 360], // Smoother rotation
             }}
             transition={{
-              duration: 12,
+              duration: 16, // Longer duration for smoother animation
               repeat: Infinity,
-              ease: 'easeInOut',
+              ease: 'linear', // Linear easing for smoother performance
+              repeatType: 'loop',
             }}
           />
         </div>
       </motion.div>
 
-      {/* Main Content dengan 3D Transform */}
+      {/* ULTRA PERFORMANCE Main Content dengan 3D Transform - 60FPS Optimized */}
       <motion.div
-        className="relative h-full flex items-center justify-center"
+        className="relative h-full flex items-center justify-center silky-smooth fps-60"
         style={{
           rotateX,
           rotateY,
           transformStyle: 'preserve-3d',
+          willChange: 'transform',
+          contain: 'layout style paint',
+          transform: 'translateZ(0)',
         }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">

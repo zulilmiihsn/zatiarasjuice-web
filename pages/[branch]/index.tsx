@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { MapPin, Phone, Clock } from 'lucide-react';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import Head from 'next/head';
@@ -22,29 +22,15 @@ interface BranchPageProps {
 const BranchPage: React.FC<BranchPageProps> = ({ 
   branch, 
   products, 
-  categories, 
-  branchInfo, 
   seoData 
 }) => {
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
-  const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
-
-  useEffect(() => {
-    if (selectedCategory === 'all') {
-      setFilteredProducts(products);
-    } else {
-      setFilteredProducts(products.filter(product => product.category === selectedCategory));
-    }
-  }, [selectedCategory, products]);
-
-  const handleCategoryChange = (category: string) => {
-    setSelectedCategory(category);
-  };
 
 
-  const handleAddToCart = (product: any) => {
+
+
+  const handleAddToCart = () => {
     // Add to cart logic here
-    console.log('Added to cart:', product);
+    // Product added to cart
   };
 
   // Featured products berdasarkan nama spesifik
@@ -183,7 +169,7 @@ const BranchPage: React.FC<BranchPageProps> = ({
                 Zatiaras Juice {branch.charAt(0).toUpperCase() + branch.slice(1)}
               </h1>
               <p className="text-body-xl text-gray-600 max-w-3xl mx-auto mb-8">
-                {branchInfo?.description || `Nikmati kesegaran jus alpukat dan aneka jus buah segar di cabang ${branch} ✨`}
+                {`Nikmati kesegaran jus alpukat dan aneka jus buah segar di cabang ${branch} ✨`}
               </p>
               
               {/* Quick Stats dengan Glassmorphism */}
@@ -228,7 +214,7 @@ const BranchPage: React.FC<BranchPageProps> = ({
                     boxShadow: '0 20px 40px rgba(255, 105, 180, 0.3)',
                   }}
                   whileTap={{ scale: 0.95 }}
-                  href={`https://wa.me/${branchInfo?.whatsapp?.replace(/\D/g, '') || '6281234567890'}`}
+                  href="https://wa.me/6281234567890"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group relative bg-gradient-to-r from-primary-500 to-pinky-500 text-white px-6 py-3 rounded-xl text-base font-bold overflow-hidden shadow-lg"
@@ -297,7 +283,7 @@ const BranchPage: React.FC<BranchPageProps> = ({
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-4 font-display">Lokasi</h3>
                 <p className="text-gray-600 font-medium leading-relaxed">
-                  {branchInfo?.address || `Jl. Contoh No. 123, ${branch.charAt(0).toUpperCase() + branch.slice(1)}`}
+                  {`Jl. Contoh No. 123, ${branch.charAt(0).toUpperCase() + branch.slice(1)}`}
                 </p>
               </motion.div>
 
@@ -313,7 +299,7 @@ const BranchPage: React.FC<BranchPageProps> = ({
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-4 font-display">Telepon</h3>
                 <p className="text-gray-600 font-medium">
-                  {branchInfo?.phone || '+62812-3456-7890'}
+                  +62812-3456-7890
                 </p>
               </motion.div>
 
@@ -329,7 +315,7 @@ const BranchPage: React.FC<BranchPageProps> = ({
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-4 font-display">Jam Operasional</h3>
                 <p className="text-gray-600 font-medium">
-                  {branchInfo?.hours || '08:00 - 22:00 WITA'}
+                  08:00 - 22:00 WITA
                 </p>
               </motion.div>
             </div>
@@ -428,7 +414,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       revalidate: 60, // Revalidate every minute
     };
   } catch (error) {
-    console.error('Error fetching data:', error);
+    // Error fetching data
     
     // Fallback data jika Supabase error
     const fallbackProducts = [

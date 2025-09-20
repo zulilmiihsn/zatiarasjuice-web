@@ -22,14 +22,11 @@ const MenuPage: React.FC<MenuPageProps> = ({
   branch, 
   products, 
   categories, 
-  branchInfo, 
   seoData 
 }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
-  const [favorites, setFavorites] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [showFilters, setShowFilters] = useState(false);
   const [sortBy, setSortBy] = useState<'name' | 'price' | 'popular'>('name');
   const [viewMode, setViewMode] = useState<'list' | 'grid'>('list');
 
@@ -67,21 +64,11 @@ const MenuPage: React.FC<MenuPageProps> = ({
     setFilteredProducts(filtered);
   }, [selectedCategory, searchQuery, sortBy, products]);
 
-  const handleCategoryChange = (category: string) => {
-    setSelectedCategory(category);
-  };
 
-  const handleToggleFavorite = (productId: string) => {
-    setFavorites(prev => 
-      prev.includes(productId) 
-        ? prev.filter(id => id !== productId)
-        : [...prev, productId]
-    );
-  };
 
-  const handleAddToCart = (product: any) => {
+  const handleAddToCart = () => {
     // Add to cart logic here
-    console.log('Added to cart:', product);
+    // Product added to cart
   };
 
   // Define category priority order for filter buttons
@@ -284,7 +271,7 @@ const MenuPage: React.FC<MenuPageProps> = ({
                       key={category.value}
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
-                      onClick={() => handleCategoryChange(category.value)}
+                      onClick={() => setSelectedCategory(category.value)}
                       className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 whitespace-nowrap flex-shrink-0 ${
                         selectedCategory === category.value
                           ? 'bg-primary-500 text-white shadow-sm'
@@ -897,7 +884,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       revalidate: 60, // Revalidate every minute for fresh data
     };
   } catch (error) {
-    console.error('Error fetching data from Supabase:', error);
+    // Error fetching data from Supabase
     
     // Return fallback data on error
     const fallbackProducts: Product[] = [

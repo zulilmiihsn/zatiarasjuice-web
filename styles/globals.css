@@ -7,7 +7,7 @@
 /* Import Typography Utilities */
 @import './typography.css';
 
-/* Premium Typography Base - 2024 */
+/* Premium Typography Base - 2024 - ULTRA PERFORMANCE */
 body {
   font-family: 'Nunito Sans', system-ui, sans-serif;
   font-weight: 400;
@@ -16,8 +16,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
   letter-spacing: -0.01em;
   overflow-x: hidden;
-  text-rendering: optimizeLegibility;
+  text-rendering: optimizeSpeed; /* Changed from optimizeLegibility for speed */
   -webkit-text-size-adjust: 100%;
+  contain: layout style paint; /* CSS containment for performance */
+  content-visibility: auto; /* Defer rendering until needed */
 }
 
 /* Let Tailwind handle font families and weights */
@@ -136,20 +138,65 @@ body {
     -moz-osx-font-smoothing: grayscale;
   }
   
+  /* ULTRA PERFORMANCE CSS CLASSES */
   .performance-optimized {
     will-change: transform;
     transform: translateZ(0);
     backface-visibility: hidden;
     perspective: 1000px;
+    contain: layout style paint;
+    content-visibility: auto;
   }
   
   .smooth-scroll {
     scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
   }
   
   .gpu-accelerated {
     transform: translateZ(0);
     will-change: transform;
+    backface-visibility: hidden;
+  }
+  
+  /* SILKY SMOOTH ANIMATIONS */
+  .silky-smooth {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+    contain: layout style paint;
+  }
+  
+  /* ULTRA FAST RENDERING */
+  .ultra-fast {
+    contain: strict;
+    content-visibility: auto;
+    contain-intrinsic-size: 0 200px;
+  }
+  
+  /* 60FPS ANIMATIONS */
+  .fps-60 {
+    will-change: transform, opacity;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+  
+  /* PERFORMANCE CONTAINERS */
+  .perf-container {
+    contain: layout style paint;
+    content-visibility: auto;
+    contain-intrinsic-size: 0 300px;
+  }
+  
+  /* OPTIMIZED IMAGES */
+  .img-optimized {
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    image-rendering: optimizeSpeed;
+    image-rendering: -webkit-optimize-contrast;
   }
 }
 
