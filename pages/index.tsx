@@ -242,7 +242,7 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
               transition={{ duration: 0.6 }}
               className="text-center mb-16"
             >
-              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6 font-display">
+              <h2 className="text-3xl sm:text-4xl font-black text-gray-900 mb-6 font-rounded">
                 Mengapa Zatiaras Juice adalah Pilihan Terbaik?
               </h2>
               <p className="text-lg text-gray-600 max-w-3xl mx-auto font-medium leading-relaxed">
