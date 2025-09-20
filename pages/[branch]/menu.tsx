@@ -118,84 +118,58 @@ const MenuPage: React.FC<MenuPageProps> = ({
       <div className="min-h-screen bg-white">
         <Header branch={branch} currentPath={`/${branch}/menu`} />
         
-        {/* Page Header - Simple & Clean */}
-        <section className="py-16 bg-gradient-to-br from-gray-50 to-white">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Menu Header - Digital Menu Style */}
+        <section className="py-12 bg-white border-b-2 border-gray-100">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               className="text-center"
             >
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 font-display">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-gray-900 mb-4 font-rounded">
                 Menu {branch.charAt(0).toUpperCase() + branch.slice(1)}
               </h1>
-              <p className="text-lg text-gray-600 max-w-2xl mx-auto font-medium leading-relaxed mb-8">
-                Nikmati kesegaran jus alpukat dan aneka jus buah segar berkualitas tinggi
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto font-medium leading-relaxed mb-6">
+                Jelajahi koleksi lengkap jus segar dan minuman sehat kami
               </p>
               
-              {/* Quick Stats */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-2xl mx-auto mb-8">
-                <div className="bg-white rounded-lg p-4 shadow-clean">
-                  <div className="text-2xl font-bold text-primary-500 mb-1 font-display">{products.length}+</div>
-                  <div className="text-sm text-gray-600 font-medium">Menu Tersedia</div>
+              {/* Menu Stats - Minimal */}
+              <div className="flex justify-center items-center gap-8 text-sm text-gray-500">
+                <div className="flex items-center gap-2">
+                  <span className="w-2 h-2 bg-primary-500 rounded-full"></span>
+                  <span>{products.length} Menu Tersedia</span>
                 </div>
-                <div className="bg-white rounded-lg p-4 shadow-clean">
-                  <div className="text-2xl font-bold text-pinky-500 mb-1 font-display">4.9</div>
-                  <div className="text-sm text-gray-600 font-medium">Rating Pelanggan</div>
+                <div className="flex items-center gap-2">
+                  <span className="w-2 h-2 bg-pinky-500 rounded-full"></span>
+                  <span>Rating 4.9/5</span>
                 </div>
-                <div className="bg-white rounded-lg p-4 shadow-clean">
-                  <div className="text-2xl font-bold text-cute-500 mb-1 font-display">100%</div>
-                  <div className="text-sm text-gray-600 font-medium">Alami & Segar</div>
+                <div className="flex items-center gap-2">
+                  <span className="w-2 h-2 bg-cute-500 rounded-full"></span>
+                  <span>100% Alami</span>
                 </div>
-              </div>
-
-              {/* Quick Order Buttons */}
-              <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                <motion.a
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  href={`https://wa.me/${branchInfo?.whatsapp?.replace(/\D/g, '') || '6281234567890'}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-primary-500 text-white px-6 py-3 rounded-xl text-base font-semibold hover:bg-primary-600 transition-all duration-200 flex items-center justify-center gap-2"
-                >
-                  <span>💬</span>
-                  <span>Order via WhatsApp</span>
-                </motion.a>
-                <motion.a
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  href="https://gofood.co.id/merchant/zatiaras-juice"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="border-2 border-primary-500 text-primary-500 px-6 py-3 rounded-xl text-base font-semibold hover:bg-primary-500 hover:text-white transition-all duration-200 flex items-center justify-center gap-2"
-                >
-                  <span>🚚</span>
-                  <span>Order via GoFood</span>
-                </motion.a>
               </div>
             </motion.div>
           </div>
         </section>
 
-        {/* Search & Filter Section - Clean & Functional */}
-        <section className="py-8 bg-white border-b border-gray-100">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col lg:flex-row gap-6 items-center justify-between">
-              {/* Search Bar */}
+        {/* Menu Navigation - Digital Menu Style */}
+        <section className="py-6 bg-gray-50 border-b border-gray-200">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
+              {/* Search Bar - Menu Focused */}
               <div className="relative flex-1 max-w-md">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                  <input
-                    type="text"
-                    placeholder="Cari menu favorit Anda..."
-                    value={searchQuery}
+                <input
+                  type="text"
+                  placeholder="Cari menu favorit..."
+                  value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200"
-                  />
+                  className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 bg-white"
+                />
               </div>
 
-                {/* Category Filter */}
+              {/* Category Filter - Menu Categories */}
               <div className="flex flex-wrap gap-2">
                 {categoryOptions.map((category) => (
                   <motion.button
@@ -205,26 +179,26 @@ const MenuPage: React.FC<MenuPageProps> = ({
                     onClick={() => handleCategoryChange(category.value)}
                     className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
                       selectedCategory === category.value
-                        ? 'bg-primary-500 text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        ? 'bg-primary-500 text-white shadow-lg'
+                        : 'bg-white text-gray-700 hover:bg-primary-50 border border-gray-200'
                     }`}
                   >
                     {category.label}
                   </motion.button>
                 ))}
-                </div>
+              </div>
 
-              {/* Sort Dropdown */}
-                <div className="relative">
-                  <select
-                    value={sortBy}
-                    onChange={(e) => setSortBy(e.target.value as 'name' | 'price' | 'popular')}
-                  className="appearance-none bg-white border border-gray-200 rounded-lg px-4 py-3 pr-8 text-sm font-medium focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200"
+              {/* Sort Dropdown - Menu Sorting */}
+              <div className="relative">
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value as 'name' | 'price' | 'popular')}
+                  className="appearance-none bg-white border-2 border-gray-200 rounded-xl px-4 py-3 pr-8 text-sm font-semibold focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200"
                 >
                   <option value="name">Urutkan: Nama</option>
                   <option value="price">Urutkan: Harga</option>
                   <option value="popular">Urutkan: Populer</option>
-                  </select>
+                </select>
                 <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                   <Filter className="w-4 h-4 text-gray-400" />
                 </div>
@@ -233,75 +207,78 @@ const MenuPage: React.FC<MenuPageProps> = ({
           </div>
         </section>
 
-        {/* Products Grid - Clean & Organized */}
-        <section className="py-12 bg-white">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Menu Grid - Digital Menu Layout */}
+        <section className="py-8 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {filteredProducts.length > 0 ? (
               <>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                {/* Menu Section Header */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
+                  transition={{ duration: 0.6 }}
                   className="mb-8"
-              >
-                  <h2 className="text-2xl font-bold text-gray-900 mb-2 font-display">
+                >
+                  <h2 className="text-3xl sm:text-4xl font-black text-gray-900 mb-2 font-rounded">
                     {selectedCategory === 'all' ? 'Semua Menu' : selectedCategory}
-                </h2>
-                  <p className="text-gray-600">
+                  </h2>
+                  <p className="text-gray-600 font-medium">
                     {filteredProducts.length} menu tersedia
-                </p>
-              </motion.div>
+                  </p>
+                </motion.div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {/* Menu Grid - 4 columns desktop, 3 tablet, 2 mobile */}
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
                   <AnimatePresence>
-                  {filteredProducts.map((product, index) => (
-                    <motion.div
-                      key={product.id}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
+                    {filteredProducts.map((product, index) => (
+                      <motion.div
+                        key={product.id}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
                         transition={{ duration: 0.4, delay: index * 0.05 }}
-                    >
+                        className="w-full"
+                      >
                         <ProductCardMinimal 
-                        product={product} 
-                        onAddToCart={handleAddToCart}
-                        onToggleFavorite={handleToggleFavorite}
-                        isFavorite={favorites.includes(product.id)}
-                      />
-                    </motion.div>
-                  ))}
+                          product={product} 
+                          onAddToCart={handleAddToCart}
+                          onToggleFavorite={handleToggleFavorite}
+                          isFavorite={favorites.includes(product.id)}
+                        />
+                      </motion.div>
+                    ))}
                   </AnimatePresence>
                 </div>
               </>
-              ) : (
-                <motion.div
+            ) : (
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
-                  className="text-center py-16"
-                >
+                className="text-center py-16"
+              >
                 <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
                   <Search className="w-12 h-12 text-gray-400" />
-                  </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-4 font-display">
+                </div>
+                <h3 className="text-2xl font-black text-gray-900 mb-4 font-rounded">
                   Menu tidak ditemukan
-                  </h3>
-                <p className="text-gray-600 mb-6">
+                </h3>
+                <p className="text-gray-600 mb-6 font-medium">
                   Coba gunakan kata kunci yang berbeda atau pilih kategori lain
-                  </p>
-                  <motion.button
+                </p>
+                <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                    onClick={() => {
-                      setSearchQuery('');
-                      setSelectedCategory('all');
-                    }}
-                  className="bg-primary-500 text-white px-6 py-3 rounded-lg font-medium hover:bg-primary-600 transition-all duration-200"
-                  >
-                    Reset Filter
-                  </motion.button>
-                </motion.div>
-              )}
+                  onClick={() => {
+                    setSearchQuery('');
+                    setSelectedCategory('all');
+                  }}
+                  className="bg-primary-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-primary-600 transition-all duration-200"
+                >
+                  Reset Filter
+                </motion.button>
+              </motion.div>
+            )}
           </div>
         </section>
 
@@ -324,34 +301,34 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const branch = params?.branch as Branch;
 
-  // Mock data untuk sementara
+  // Mock data untuk sementara - Digital Menu
   const mockProducts = [
-      {
-        id: '1',
+    {
+      id: '1',
       name: 'Jus Alpukat Segar',
       description: 'Jus alpukat segar dengan kualitas terbaik',
       price: 15000,
       category: 'Jus Alpukat',
       image_url: '/images/avocado-juice.jpg',
       gambar: '/images/avocado-juice.jpg',
-        is_featured: true,
+      is_featured: true,
       rating: 4.8,
       review_count: 120
-      },
-      {
-        id: '2',
+    },
+    {
+      id: '2',
       name: 'Jus Jeruk Manis',
       description: 'Jus jeruk segar tanpa pengawet',
       price: 12000,
       category: 'Jus Buah',
       image_url: '/images/orange-juice.jpg',
       gambar: '/images/orange-juice.jpg',
-        is_featured: true,
+      is_featured: true,
       rating: 4.6,
       review_count: 95
-      },
-      {
-        id: '3',
+    },
+    {
+      id: '3',
       name: 'Jus Mangga Segar',
       description: 'Jus mangga manis dan segar',
       price: 13000,
@@ -361,6 +338,114 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       is_featured: true,
       rating: 4.7,
       review_count: 88
+    },
+    {
+      id: '4',
+      name: 'Jus Alpukat Susu',
+      description: 'Jus alpukat dengan susu segar',
+      price: 18000,
+      category: 'Jus Alpukat',
+      image_url: '/images/avocado-milk-juice.jpg',
+      gambar: '/images/avocado-milk-juice.jpg',
+      is_featured: true,
+      rating: 4.9,
+      review_count: 150
+    },
+    {
+      id: '5',
+      name: 'Jus Strawberry',
+      description: 'Jus strawberry segar dan manis',
+      price: 14000,
+      category: 'Jus Buah',
+      image_url: '/images/strawberry-juice.jpg',
+      gambar: '/images/strawberry-juice.jpg',
+      is_featured: false,
+      rating: 4.5,
+      review_count: 75
+    },
+    {
+      id: '6',
+      name: 'Jus Wortel',
+      description: 'Jus wortel segar untuk kesehatan mata',
+      price: 11000,
+      category: 'Jus Sayur',
+      image_url: '/images/carrot-juice.jpg',
+      gambar: '/images/carrot-juice.jpg',
+      is_featured: false,
+      rating: 4.4,
+      review_count: 60
+    },
+    {
+      id: '7',
+      name: 'Jus Alpukat Coklat',
+      description: 'Jus alpukat dengan coklat lezat',
+      price: 20000,
+      category: 'Jus Alpukat',
+      image_url: '/images/avocado-chocolate-juice.jpg',
+      gambar: '/images/avocado-chocolate-juice.jpg',
+      is_featured: true,
+      rating: 4.8,
+      review_count: 110
+    },
+    {
+      id: '8',
+      name: 'Jus Tomat',
+      description: 'Jus tomat segar untuk kesehatan',
+      price: 10000,
+      category: 'Jus Sayur',
+      image_url: '/images/tomato-juice.jpg',
+      gambar: '/images/tomato-juice.jpg',
+      is_featured: false,
+      rating: 4.3,
+      review_count: 45
+    },
+    {
+      id: '9',
+      name: 'Jus Apel',
+      description: 'Jus apel segar dan menyegarkan',
+      price: 13000,
+      category: 'Jus Buah',
+      image_url: '/images/apple-juice.jpg',
+      gambar: '/images/apple-juice.jpg',
+      is_featured: false,
+      rating: 4.6,
+      review_count: 80
+    },
+    {
+      id: '10',
+      name: 'Jus Alpukat Madu',
+      description: 'Jus alpukat dengan madu asli',
+      price: 17000,
+      category: 'Jus Alpukat',
+      image_url: '/images/avocado-honey-juice.jpg',
+      gambar: '/images/avocado-honey-juice.jpg',
+      is_featured: true,
+      rating: 4.9,
+      review_count: 130
+    },
+    {
+      id: '11',
+      name: 'Jus Pisang',
+      description: 'Jus pisang kaya energi',
+      price: 12000,
+      category: 'Jus Buah',
+      image_url: '/images/banana-juice.jpg',
+      gambar: '/images/banana-juice.jpg',
+      is_featured: false,
+      rating: 4.4,
+      review_count: 55
+    },
+    {
+      id: '12',
+      name: 'Jus Bayam',
+      description: 'Jus bayam untuk kesehatan tulang',
+      price: 9000,
+      category: 'Jus Sayur',
+      image_url: '/images/spinach-juice.jpg',
+      gambar: '/images/spinach-juice.jpg',
+      is_featured: false,
+      rating: 4.2,
+      review_count: 40
     }
   ];
 
