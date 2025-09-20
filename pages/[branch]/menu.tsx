@@ -285,12 +285,13 @@ const MenuPage: React.FC<MenuPageProps> = ({
 
                         // Define category priority order
                         const categoryPriority = [
-                          'Jus Buah',
-                          'Jus Sayur', 
+                          'Jus Buah & Sayur',
                           'Rekomendasi Mix Jus',
                           'Kocok',
                           'Baby',
-                          'Non-Jus'
+                          'Non-Jus',
+                          'Teh',
+                          'Cemilan'
                         ];
 
                         // Sort categories by priority, then alphabetically for others
@@ -416,12 +417,13 @@ const MenuPage: React.FC<MenuPageProps> = ({
 
                         // Define category priority order
                         const categoryPriority = [
-                          'Jus Buah',
-                          'Jus Sayur', 
+                          'Jus Buah & Sayur',
                           'Rekomendasi Mix Jus',
                           'Kocok',
                           'Baby',
-                          'Non-Jus'
+                          'Non-Jus',
+                          'Teh',
+                          'Cemilan'
                         ];
 
                         // Sort categories by priority, then alphabetically for others
