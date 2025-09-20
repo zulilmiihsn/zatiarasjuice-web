@@ -7,6 +7,7 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import ProductCardMinimal from '../../components/ProductCardMinimal';
 import { getBranchSEOData, getMenuStructuredData } from '../../lib/seo';
+import { getProducts, getCategories, getBranchInfo } from '../../lib/supabase';
 import type { Branch, Product, Category } from '../../lib/supabase';
 
 interface MenuPageProps {
@@ -301,178 +302,124 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const branch = params?.branch as Branch;
 
-  // Mock data untuk sementara - Digital Menu
-  const mockProducts = [
-    {
-      id: '1',
-      name: 'Jus Alpukat Segar',
-      description: 'Jus alpukat segar dengan kualitas terbaik',
-      price: 15000,
-      category: 'Jus Alpukat',
-      image_url: '/images/avocado-juice.jpg',
-      gambar: '/images/avocado-juice.jpg',
-      is_featured: true,
-      rating: 4.8,
-      review_count: 120
-    },
-    {
-      id: '2',
-      name: 'Jus Jeruk Manis',
-      description: 'Jus jeruk segar tanpa pengawet',
-      price: 12000,
-      category: 'Jus Buah',
-      image_url: '/images/orange-juice.jpg',
-      gambar: '/images/orange-juice.jpg',
-      is_featured: true,
-      rating: 4.6,
-      review_count: 95
-    },
-    {
-      id: '3',
-      name: 'Jus Mangga Segar',
-      description: 'Jus mangga manis dan segar',
-      price: 13000,
-      category: 'Jus Buah',
-      image_url: '/images/mango-juice.jpg',
-      gambar: '/images/mango-juice.jpg',
-      is_featured: true,
-      rating: 4.7,
-      review_count: 88
-    },
-    {
-      id: '4',
-      name: 'Jus Alpukat Susu',
-      description: 'Jus alpukat dengan susu segar',
-      price: 18000,
-      category: 'Jus Alpukat',
-      image_url: '/images/avocado-milk-juice.jpg',
-      gambar: '/images/avocado-milk-juice.jpg',
-      is_featured: true,
-      rating: 4.9,
-      review_count: 150
-    },
-    {
-      id: '5',
-      name: 'Jus Strawberry',
-      description: 'Jus strawberry segar dan manis',
-      price: 14000,
-      category: 'Jus Buah',
-      image_url: '/images/strawberry-juice.jpg',
-      gambar: '/images/strawberry-juice.jpg',
-      is_featured: false,
-      rating: 4.5,
-      review_count: 75
-    },
-    {
-      id: '6',
-      name: 'Jus Wortel',
-      description: 'Jus wortel segar untuk kesehatan mata',
-      price: 11000,
-      category: 'Jus Sayur',
-      image_url: '/images/carrot-juice.jpg',
-      gambar: '/images/carrot-juice.jpg',
-      is_featured: false,
-      rating: 4.4,
-      review_count: 60
-    },
-    {
-      id: '7',
-      name: 'Jus Alpukat Coklat',
-      description: 'Jus alpukat dengan coklat lezat',
-      price: 20000,
-      category: 'Jus Alpukat',
-      image_url: '/images/avocado-chocolate-juice.jpg',
-      gambar: '/images/avocado-chocolate-juice.jpg',
-      is_featured: true,
-      rating: 4.8,
-      review_count: 110
-    },
-    {
-      id: '8',
-      name: 'Jus Tomat',
-      description: 'Jus tomat segar untuk kesehatan',
-      price: 10000,
-      category: 'Jus Sayur',
-      image_url: '/images/tomato-juice.jpg',
-      gambar: '/images/tomato-juice.jpg',
-      is_featured: false,
-      rating: 4.3,
-      review_count: 45
-    },
-    {
-      id: '9',
-      name: 'Jus Apel',
-      description: 'Jus apel segar dan menyegarkan',
-      price: 13000,
-      category: 'Jus Buah',
-      image_url: '/images/apple-juice.jpg',
-      gambar: '/images/apple-juice.jpg',
-      is_featured: false,
-      rating: 4.6,
-      review_count: 80
-    },
-    {
-      id: '10',
-      name: 'Jus Alpukat Madu',
-      description: 'Jus alpukat dengan madu asli',
-      price: 17000,
-      category: 'Jus Alpukat',
-      image_url: '/images/avocado-honey-juice.jpg',
-      gambar: '/images/avocado-honey-juice.jpg',
-      is_featured: true,
-      rating: 4.9,
-      review_count: 130
-    },
-    {
-      id: '11',
-      name: 'Jus Pisang',
-      description: 'Jus pisang kaya energi',
-      price: 12000,
-      category: 'Jus Buah',
-      image_url: '/images/banana-juice.jpg',
-      gambar: '/images/banana-juice.jpg',
-      is_featured: false,
-      rating: 4.4,
-      review_count: 55
-    },
-    {
-      id: '12',
-      name: 'Jus Bayam',
-      description: 'Jus bayam untuk kesehatan tulang',
-      price: 9000,
-      category: 'Jus Sayur',
-      image_url: '/images/spinach-juice.jpg',
-      gambar: '/images/spinach-juice.jpg',
-      is_featured: false,
-      rating: 4.2,
-      review_count: 40
-    }
-  ];
+  try {
+    // Fetch data from Supabase
+    const [products, categories, branchInfo] = await Promise.all([
+      getProducts(branch),
+      getCategories(branch),
+      getBranchInfo(branch)
+    ]);
 
-  const mockCategories = [
-    { id: '1', name: 'Jus Alpukat' },
-    { id: '2', name: 'Jus Buah' },
-    { id: '3', name: 'Jus Sayur' }
+    // Fallback data if Supabase fails
+    const fallbackProducts: Product[] = [
+      {
+        id: 'fallback-1',
+        name: 'Jus Alpukat Segar',
+        kategori_id: null,
+        price: 15000,
+        gambar: '/images/juice-placeholder.svg',
+        created_at: new Date().toISOString(),
+        tipe: 'premium',
+        ekstra_ids: null,
+        category: 'Jus Alpukat',
+        description: 'Jus alpukat segar dengan kualitas terbaik',
+        image_url: '/images/juice-placeholder.svg',
+        is_featured: true,
+        rating: 4.8,
+        review_count: 120
+      }
     ];
 
-    const mockBranchInfo = {
-    name: branch.charAt(0).toUpperCase() + branch.slice(1),
-    address: `Jl. Contoh No. 123, ${branch.charAt(0).toUpperCase() + branch.slice(1)}`,
-    phone: '+62812-3456-7890',
-    whatsapp: '+62812-3456-7890',
-    hours: '08:00 - 22:00 WITA'
-  };
+    const fallbackCategories: Category[] = [
+      { 
+        id: 'fallback-1', 
+        name: 'Jus Alpukat',
+        description: 'Koleksi Jus Alpukat segar',
+        image_url: '/images/juice-placeholder.svg',
+        sort_order: 1,
+        is_active: true
+      }
+    ];
+
+    const fallbackBranchInfo = {
+      id: 'fallback',
+      name: branch.charAt(0).toUpperCase() + branch.slice(1),
+      address: `Jl. Contoh No. 123, ${branch.charAt(0).toUpperCase() + branch.slice(1)}`,
+      phone: '+62812-3456-7890',
+      whatsapp: '+62812-3456-7890',
+      latitude: 0,
+      longitude: 0,
+      is_active: true,
+      delivery_radius: 10
+    };
 
     return {
       props: {
         branch,
-        products: mockProducts,
-        categories: mockCategories,
-        branchInfo: mockBranchInfo,
-      seoData: getBranchSEOData(branch),
+        products: products.length > 0 ? products : fallbackProducts,
+        categories: categories.length > 0 ? categories : fallbackCategories,
+        branchInfo: branchInfo || fallbackBranchInfo,
+        seoData: getBranchSEOData(branch),
       },
-      revalidate: 3600,
+      revalidate: 60, // Revalidate every minute for fresh data
     };
+  } catch (error) {
+    console.error('Error fetching data from Supabase:', error);
+    
+    // Return fallback data on error
+    const fallbackProducts: Product[] = [
+      {
+        id: 'error-1',
+        name: 'Jus Alpukat Segar',
+        kategori_id: null,
+        price: 15000,
+        gambar: '/images/juice-placeholder.svg',
+        created_at: new Date().toISOString(),
+        tipe: 'premium',
+        ekstra_ids: null,
+        category: 'Jus Alpukat',
+        description: 'Jus alpukat segar dengan kualitas terbaik',
+        image_url: '/images/juice-placeholder.svg',
+        is_featured: true,
+        rating: 4.8,
+        review_count: 120
+      }
+    ];
+
+    const fallbackCategories: Category[] = [
+      { 
+        id: 'error-1', 
+        name: 'Jus Alpukat',
+        description: 'Koleksi Jus Alpukat segar',
+        image_url: '/images/juice-placeholder.svg',
+        sort_order: 1,
+        is_active: true
+      }
+    ];
+
+    const fallbackBranchInfo = {
+      id: 'error',
+      name: branch.charAt(0).toUpperCase() + branch.slice(1),
+      address: `Jl. Contoh No. 123, ${branch.charAt(0).toUpperCase() + branch.slice(1)}`,
+      phone: '+62812-3456-7890',
+      whatsapp: '+62812-3456-7890',
+      latitude: 0,
+      longitude: 0,
+      is_active: true,
+      delivery_radius: 10
+    };
+
+    return {
+      props: {
+        branch,
+        products: fallbackProducts,
+        categories: fallbackCategories,
+        branchInfo: fallbackBranchInfo,
+        seoData: getBranchSEOData(branch),
+      },
+      revalidate: 60,
+    };
+  }
 };
 
 export default MenuPage;

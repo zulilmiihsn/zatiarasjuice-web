@@ -55,6 +55,8 @@ export interface BranchInfo {
   longitude: number;
   is_active: boolean;
   delivery_radius: number;
+  // Additional fields for compatibility
+  hours?: string;
 }
 
 // Function untuk membuat Supabase client berdasarkan cabang
