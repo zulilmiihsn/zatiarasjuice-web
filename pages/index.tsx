@@ -123,7 +123,7 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => handleBranchSelect(nearestBranch as 'berau' | 'samarinda')}
-                    className="bg-white text-gray-900 px-8 py-3 rounded-lg font-semibold text-base hover:shadow-lg transition-all duration-200"
+                    className="bg-white text-gray-900 px-6 py-3 rounded-xl font-semibold text-base hover:shadow-lg transition-all duration-200"
                   >
                     Lanjut ke Cabang {nearestBranch?.charAt(0).toUpperCase() + nearestBranch?.slice(1)}
                   </motion.button>
@@ -131,7 +131,7 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => setIsLoading(false)}
-                    className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold text-base hover:bg-white hover:text-gray-900 transition-all duration-200"
+                    className="border-2 border-white text-white px-6 py-3 rounded-xl font-semibold text-base hover:bg-white hover:text-gray-900 transition-all duration-200"
                   >
                     Pilih Cabang Lain
                   </motion.button>
@@ -210,7 +210,7 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => handleBranchSelect('berau')}
-                    className="w-full bg-primary-500 text-white py-4 rounded-xl font-semibold text-base hover:bg-primary-600 transition-all duration-200 mt-6"
+                    className="w-full bg-primary-500 text-white py-3 rounded-xl font-semibold text-base hover:bg-primary-600 transition-all duration-200 mt-6"
                   >
                     Lihat Menu Berau
                   </motion.button>
@@ -267,7 +267,7 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => handleBranchSelect('samarinda')}
-                    className="w-full bg-pinky-500 text-white py-4 rounded-xl font-semibold text-base hover:bg-pinky-600 transition-all duration-200 mt-6"
+                    className="w-full bg-pinky-500 text-white py-3 rounded-xl font-semibold text-base hover:bg-pinky-600 transition-all duration-200 mt-6"
                   >
                     Lihat Menu Samarinda
                   </motion.button>

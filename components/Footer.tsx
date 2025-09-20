@@ -174,7 +174,7 @@ const Footer: React.FC<FooterProps> = ({ branch }) => {
                   href={partner.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block bg-gradient-to-r from-gray-700 to-gray-600 hover:from-primary-500 hover:to-cute-500 rounded-2xl px-6 py-3 text-sm font-bold transition-all duration-300 shadow-cute hover:shadow-elegant"
+                  className="block bg-gradient-to-r from-gray-700 to-gray-600 hover:from-primary-500 hover:to-cute-500 rounded-xl px-6 py-3 text-sm font-semibold transition-all duration-300 shadow-cute hover:shadow-elegant"
                 >
                   <span className="flex items-center gap-2">
                     <span className="text-lg">

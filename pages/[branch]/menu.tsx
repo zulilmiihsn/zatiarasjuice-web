@@ -177,7 +177,7 @@ const MenuPage: React.FC<MenuPageProps> = ({
                   href={`https://wa.me/${branchInfo?.whatsapp?.replace(/\D/g, '') || '6281234567890'}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-primary-500 text-white px-8 py-4 rounded-lg text-lg font-medium hover:bg-primary-600 transition-all duration-200 flex items-center justify-center gap-2"
+                  className="bg-primary-500 text-white px-6 py-3 rounded-xl text-base font-semibold hover:bg-primary-600 transition-all duration-200 flex items-center justify-center gap-2"
                 >
                   <span>💬</span>
                   <span>Order via WhatsApp</span>
@@ -188,7 +188,7 @@ const MenuPage: React.FC<MenuPageProps> = ({
                   href="https://gofood.co.id/merchant/zatiaras-juice"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="border-2 border-primary-500 text-primary-500 px-8 py-4 rounded-lg text-lg font-medium hover:bg-primary-500 hover:text-white transition-all duration-200 flex items-center justify-center gap-2"
+                  className="border-2 border-primary-500 text-primary-500 px-6 py-3 rounded-xl text-base font-semibold hover:bg-primary-500 hover:text-white transition-all duration-200 flex items-center justify-center gap-2"
                 >
                   <span>🚚</span>
                   <span>Order via GoFood</span>
@@ -222,7 +222,7 @@ const MenuPage: React.FC<MenuPageProps> = ({
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => handleCategoryChange(category.value)}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                    className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
                       selectedCategory === category.value
                         ? 'bg-primary-500 text-white'
                         : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
