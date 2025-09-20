@@ -32,6 +32,10 @@ export interface Product {
   is_featured?: boolean;
   rating?: number;
   review_count?: number;
+  // Price variants for minuman
+  price_regular?: number;
+  price_large?: number;
+  is_minuman?: boolean;
 }
 
 // Interface untuk Kategori
@@ -88,15 +92,24 @@ export const getProducts = async (branch: Branch): Promise<Product[]> => {
   }
 
   // Transform data to match expected interface
-  const transformedData = (data || []).map((product: any) => ({
-    ...product,
-    category: product.kategori?.name || 'Lainnya',
-    description: product.tipe || 'Jus segar berkualitas tinggi',
-    // Keep original gambar field, let ProductCard handle fallback
-    is_featured: product.tipe === 'premium' || product.tipe === 'favorit',
-    rating: 4.5, // Default rating
-    review_count: Math.floor(Math.random() * 50) + 10, // Random review count
-  }));
+  const transformedData = (data || []).map((product: any) => {
+    const isMinuman = product.tipe === 'minuman';
+    const basePrice = product.price;
+    
+    return {
+      ...product,
+      category: product.kategori?.name || 'Lainnya',
+      description: product.tipe || 'Jus segar berkualitas tinggi',
+      // Keep original gambar field, let ProductCard handle fallback
+      is_featured: product.tipe === 'premium' || product.tipe === 'favorit',
+      rating: 4.5, // Default rating
+      review_count: Math.floor(Math.random() * 50) + 10, // Random review count
+      // Price variants for minuman
+      is_minuman: isMinuman,
+      price_regular: isMinuman ? basePrice : basePrice,
+      price_large: isMinuman ? basePrice + 3000 : basePrice,
+    };
+  });
 
   return transformedData;
 };
@@ -125,15 +138,24 @@ export const getProductsByCategory = async (
   }
 
   // Transform data to match expected interface
-  const transformedData = (data || []).map((product: any) => ({
-    ...product,
-    category: product.kategori?.name || 'Lainnya',
-    description: product.tipe || 'Jus segar berkualitas tinggi',
-    // Keep original gambar field, let ProductCard handle fallback
-    is_featured: product.tipe === 'premium' || product.tipe === 'favorit',
-    rating: 4.5, // Default rating
-    review_count: Math.floor(Math.random() * 50) + 10, // Random review count
-  }));
+  const transformedData = (data || []).map((product: any) => {
+    const isMinuman = product.tipe === 'minuman';
+    const basePrice = product.price;
+    
+    return {
+      ...product,
+      category: product.kategori?.name || 'Lainnya',
+      description: product.tipe || 'Jus segar berkualitas tinggi',
+      // Keep original gambar field, let ProductCard handle fallback
+      is_featured: product.tipe === 'premium' || product.tipe === 'favorit',
+      rating: 4.5, // Default rating
+      review_count: Math.floor(Math.random() * 50) + 10, // Random review count
+      // Price variants for minuman
+      is_minuman: isMinuman,
+      price_regular: isMinuman ? basePrice : basePrice,
+      price_large: isMinuman ? basePrice + 3000 : basePrice,
+    };
+  });
 
   return transformedData;
 };

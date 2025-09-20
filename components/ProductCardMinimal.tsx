@@ -17,6 +17,10 @@ interface ProductCardProps {
     is_featured?: boolean;
     rating?: number;
     review_count?: number;
+    // Price variants for minuman
+    price_regular?: number;
+    price_large?: number;
+    is_minuman?: boolean;
   };
   onAddToCart?: (product: any) => void;
   className?: string;
@@ -116,9 +120,26 @@ const ProductCardMinimal: React.FC<ProductCardProps> = ({
 
         {/* Price */}
         <div className="mb-4">
-          <span className="text-xl font-bold text-gray-900">
-            {formatPrice(product.price)}
-          </span>
+          {product.is_minuman ? (
+            <div className="space-y-1">
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-gray-600">Regular:</span>
+                <span className="text-lg font-bold text-gray-900">
+                  {formatPrice(product.price_regular || product.price)}
+                </span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-gray-600">Large:</span>
+                <span className="text-lg font-bold text-primary-600">
+                  {formatPrice(product.price_large || product.price)}
+                </span>
+              </div>
+            </div>
+          ) : (
+            <span className="text-xl font-bold text-gray-900">
+              {formatPrice(product.price)}
+            </span>
+          )}
         </div>
 
         {/* Add to Cart Button */}

@@ -385,9 +385,20 @@ const MenuPage: React.FC<MenuPageProps> = ({
                                       
                                       {/* Price */}
                                       <div className="text-right flex-shrink-0 ml-2">
-                                        <div className="text-sm font-bold text-primary-600 font-display">
-                                          Rp {product.price.toLocaleString('id-ID')}
-                                        </div>
+                                        {product.is_minuman ? (
+                                          <div className="text-right">
+                                            <div className="text-xs text-gray-600">
+                                              Regular: Rp {(product.price_regular || product.price).toLocaleString('id-ID')}
+                                            </div>
+                                            <div className="text-sm font-bold text-primary-600 font-display">
+                                              Large: Rp {(product.price_large || product.price).toLocaleString('id-ID')}
+                                            </div>
+                                          </div>
+                                        ) : (
+                                          <div className="text-sm font-bold text-primary-600 font-display">
+                                            Rp {product.price.toLocaleString('id-ID')}
+                                          </div>
+                                        )}
                                       </div>
                                     </div>
                                   </motion.div>
@@ -420,9 +431,20 @@ const MenuPage: React.FC<MenuPageProps> = ({
                                   
                                   {/* Price */}
                                   <div className="text-right flex-shrink-0 ml-2">
-                                    <div className="text-sm font-bold text-primary-600 font-display">
-                                      Rp {product.price.toLocaleString('id-ID')}
-                                    </div>
+                                    {product.is_minuman ? (
+                                      <div className="text-right">
+                                        <div className="text-xs text-gray-600">
+                                          Regular: Rp {(product.price_regular || product.price).toLocaleString('id-ID')}
+                                        </div>
+                                        <div className="text-sm font-bold text-primary-600 font-display">
+                                          Large: Rp {(product.price_large || product.price).toLocaleString('id-ID')}
+                                        </div>
+                                      </div>
+                                    ) : (
+                                      <div className="text-sm font-bold text-primary-600 font-display">
+                                        Rp {product.price.toLocaleString('id-ID')}
+                                      </div>
+                                    )}
                                   </div>
                                 </div>
                               </motion.div>
