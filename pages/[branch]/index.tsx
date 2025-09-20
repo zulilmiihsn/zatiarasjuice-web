@@ -127,7 +127,7 @@ const BranchPage: React.FC<BranchPageProps> = ({
               transition={{ duration: 0.8 }}
               className="text-center"
             >
-              <h1 className="text-display-xl text-gray-900 mb-6 font-bold">
+              <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6 font-display">
                 Zatiaras Juice {branch.charAt(0).toUpperCase() + branch.slice(1)}
               </h1>
               <p className="text-body-xl text-gray-600 max-w-3xl mx-auto mb-8">
