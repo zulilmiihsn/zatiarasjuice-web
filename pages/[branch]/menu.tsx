@@ -152,8 +152,8 @@ const MenuPage: React.FC<MenuPageProps> = ({
       <div className="min-h-screen bg-white overflow-x-hidden">
         <Header branch={branch} currentPath={`/${branch}/menu`} />
         
-        {/* Menu Header - Digital Menu Style */}
-        <section className="pt-16 pb-8 sm:pb-12 bg-white border-b-2 border-gray-100 overflow-x-hidden">
+        {/* Menu Header - Digital Menu Style - Mobile Compact */}
+        <section className="pt-16 pb-4 sm:pb-8 md:pb-12 bg-white border-b-2 border-gray-100 overflow-x-hidden">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 max-w-full">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -161,37 +161,37 @@ const MenuPage: React.FC<MenuPageProps> = ({
               transition={{ duration: 0.6 }}
               className="text-center"
             >
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-3 sm:mb-4 font-rounded">
+              <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-2 sm:mb-3 md:mb-4 font-rounded">
                 Menu {branch.charAt(0).toUpperCase() + branch.slice(1)}
               </h1>
-              <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto font-medium leading-relaxed mb-4 sm:mb-6 px-4 sm:px-0">
+              <p className="text-sm sm:text-base md:text-lg text-gray-600 max-w-2xl mx-auto font-medium leading-relaxed mb-2 sm:mb-4 md:mb-6 px-4 sm:px-0">
                 Jelajahi koleksi lengkap jus segar dan minuman sehat kami
               </p>
               
-                {/* Menu Stats - Responsive */}
-                <div className="flex flex-wrap justify-center items-center gap-2 sm:gap-4 md:gap-6 lg:gap-8 text-xs sm:text-sm text-gray-500 px-2 sm:px-0">
+                {/* Menu Stats - Mobile Compact */}
+                <div className="flex flex-wrap justify-center items-center gap-1.5 sm:gap-4 md:gap-6 lg:gap-8 text-xs sm:text-sm text-gray-500 px-2 sm:px-0">
                   <div className="flex items-center gap-1 sm:gap-2">
-                    <span className="w-2 h-2 bg-primary-500 rounded-full flex-shrink-0"></span>
-                    <span className="whitespace-nowrap">{products.length} Menu</span>
+                    <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-primary-500 rounded-full flex-shrink-0"></span>
+                    <span className="whitespace-nowrap text-xs sm:text-sm">{products.length} Menu</span>
                   </div>
                   <div className="flex items-center gap-1 sm:gap-2">
-                    <span className="w-2 h-2 bg-pinky-500 rounded-full flex-shrink-0"></span>
-                    <span className="whitespace-nowrap">Rating 4.9/5</span>
+                    <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-pinky-500 rounded-full flex-shrink-0"></span>
+                    <span className="whitespace-nowrap text-xs sm:text-sm">Rating 4.9/5</span>
                   </div>
                   <div className="flex items-center gap-1 sm:gap-2">
-                    <span className="w-2 h-2 bg-cute-500 rounded-full flex-shrink-0"></span>
-                    <span className="whitespace-nowrap">100% Alami</span>
+                    <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-cute-500 rounded-full flex-shrink-0"></span>
+                    <span className="whitespace-nowrap text-xs sm:text-sm">100% Alami</span>
                   </div>
                 </div>
             </motion.div>
           </div>
         </section>
 
-        {/* Menu Navigation - Clean & Organized */}
-        <section className="py-3 sm:py-4 bg-white border-b border-gray-200 overflow-x-hidden">
+        {/* Menu Navigation - Mobile Compact */}
+        <section className="py-2 sm:py-3 md:py-4 bg-white border-b border-gray-200 overflow-x-hidden">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 max-w-full">
-            {/* Search Bar - Responsive */}
-            <div className="mb-3 sm:mb-4">
+            {/* Search Bar - Mobile Compact */}
+            <div className="mb-2 sm:mb-3 md:mb-4">
               <div className="relative max-w-sm sm:max-w-md mx-auto">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 sm:w-5 sm:h-5" />
                 <input
@@ -204,18 +204,18 @@ const MenuPage: React.FC<MenuPageProps> = ({
               </div>
             </div>
 
-            {/* Filter Controls - Mobile Optimized */}
-            <div className="space-y-3 sm:space-y-0">
+            {/* Filter Controls - Mobile Compact */}
+            <div className="space-y-2 sm:space-y-3 md:space-y-0">
               {/* Category Filter - Mobile Scroll */}
-              <div className="overflow-x-auto pb-2 sm:pb-0 -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-hide">
-                <div className="flex gap-1.5 sm:gap-2 min-w-max sm:flex-wrap sm:justify-start sm:min-w-0">
+              <div className="overflow-x-auto pb-1 sm:pb-2 md:pb-0 -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-hide">
+                <div className="flex gap-1 sm:gap-1.5 md:gap-2 min-w-max sm:flex-wrap sm:justify-start sm:min-w-0">
                   {categoryOptions.map((category) => (
                     <motion.button
                       key={category.value}
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => handleCategoryChange(category.value)}
-                      className={`px-2 sm:px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 whitespace-nowrap flex-shrink-0 ${
+                      className={`px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-xs font-medium transition-all duration-200 whitespace-nowrap flex-shrink-0 ${
                         selectedCategory === category.value
                           ? 'bg-primary-500 text-white shadow-sm'
                           : 'bg-gray-100 text-gray-700 hover:bg-primary-50'
@@ -227,17 +227,17 @@ const MenuPage: React.FC<MenuPageProps> = ({
                 </div>
               </div>
 
-              {/* Controls Group - Mobile Stack */}
-              <div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between w-full">
-                {/* View Mode Toggle */}
-                <div className="flex items-center justify-center sm:justify-start gap-2 w-full sm:w-auto">
+              {/* Controls Group - Mobile Compact */}
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 md:gap-3 sm:items-center sm:justify-between w-full">
+                {/* View Mode Toggle - Mobile Compact */}
+                <div className="flex items-center justify-center sm:justify-start gap-1.5 sm:gap-2 w-full sm:w-auto">
                   <span className="text-xs font-medium text-gray-500 whitespace-nowrap">Tampilan:</span>
                   <div className="flex bg-gray-100 rounded-lg p-0.5">
                     <motion.button
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => setViewMode('list')}
-                      className={`flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium transition-all duration-200 ${
+                      className={`flex items-center gap-1 px-1.5 sm:px-2 py-1 rounded-md text-xs font-medium transition-all duration-200 ${
                         viewMode === 'list'
                           ? 'bg-white text-primary-600 shadow-sm'
                           : 'text-gray-600 hover:text-gray-800'
@@ -250,7 +250,7 @@ const MenuPage: React.FC<MenuPageProps> = ({
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => setViewMode('grid')}
-                      className={`flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium transition-all duration-200 ${
+                      className={`flex items-center gap-1 px-1.5 sm:px-2 py-1 rounded-md text-xs font-medium transition-all duration-200 ${
                         viewMode === 'grid'
                           ? 'bg-white text-primary-600 shadow-sm'
                           : 'text-gray-600 hover:text-gray-800'
@@ -262,12 +262,12 @@ const MenuPage: React.FC<MenuPageProps> = ({
                   </div>
                 </div>
 
-                {/* Sort Dropdown */}
+                {/* Sort Dropdown - Mobile Compact */}
                 <div className="relative flex justify-center sm:justify-end w-full sm:w-auto">
                   <select
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value as 'name' | 'price' | 'popular')}
-                    className="appearance-none bg-white border border-gray-300 rounded-lg px-3 py-1.5 pr-6 text-xs font-medium focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 w-full sm:w-auto sm:min-w-[120px] max-w-[200px] sm:max-w-none"
+                    className="appearance-none bg-white border border-gray-300 rounded-lg px-2 sm:px-3 py-1 sm:py-1.5 pr-6 text-xs font-medium focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 w-full sm:w-auto sm:min-w-[120px] max-w-[200px] sm:max-w-none"
                   >
                     <option value="name">Nama</option>
                     <option value="price">Harga</option>
@@ -283,21 +283,21 @@ const MenuPage: React.FC<MenuPageProps> = ({
         </section>
 
         {/* Menu Display - List or Grid Layout */}
-        <section className="py-8 bg-white overflow-x-hidden">
+        <section className="py-4 sm:py-6 md:py-8 bg-white overflow-x-hidden">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 max-w-full">
             {filteredProducts.length > 0 ? (
               <>
-                {/* Menu Section Header */}
+                {/* Menu Section Header - Mobile Compact */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6 }}
-                  className="mb-8"
+                  className="mb-4 sm:mb-6 md:mb-8"
                 >
-                  <h2 className="text-3xl sm:text-4xl font-black text-gray-900 mb-2 font-rounded">
+                  <h2 className="text-xl sm:text-3xl md:text-4xl font-black text-gray-900 mb-1 sm:mb-2 font-rounded">
                     {selectedCategory === 'all' ? 'Semua Menu' : selectedCategory}
                   </h2>
-                  <p className="text-gray-600 font-medium">
+                  <p className="text-sm sm:text-base text-gray-600 font-medium">
                     {filteredProducts.length} menu tersedia
                   </p>
                 </motion.div>
