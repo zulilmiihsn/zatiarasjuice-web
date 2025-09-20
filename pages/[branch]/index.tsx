@@ -127,7 +127,7 @@ const BranchPage: React.FC<BranchPageProps> = ({
               transition={{ duration: 0.8 }}
               className="text-center"
             >
-              <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6 font-display">
+              <h1 className="text-3xl sm:text-4xl font-black text-gray-900 mb-6 font-rounded">
                 Zatiaras Juice {branch.charAt(0).toUpperCase() + branch.slice(1)}
               </h1>
               <p className="text-body-xl text-gray-600 max-w-3xl mx-auto mb-8">
@@ -224,7 +224,7 @@ const BranchPage: React.FC<BranchPageProps> = ({
               transition={{ duration: 0.6 }}
               className="text-center mb-12"
             >
-              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4 font-display">
+              <h2 className="text-3xl sm:text-4xl font-black text-gray-900 mb-4 font-rounded">
                 Informasi Cabang
               </h2>
               <p className="text-lg text-gray-600 max-w-2xl mx-auto font-medium">
@@ -294,7 +294,7 @@ const BranchPage: React.FC<BranchPageProps> = ({
                 transition={{ duration: 0.6 }}
                 className="text-center mb-12"
               >
-                <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4 font-display">
+                <h2 className="text-3xl sm:text-4xl font-black text-gray-900 mb-4 font-rounded">
                   Menu Favorit
                 </h2>
                 <p className="text-lg text-gray-600 max-w-2xl mx-auto font-medium">
