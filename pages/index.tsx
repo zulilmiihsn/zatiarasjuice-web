@@ -5,8 +5,8 @@ import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import HeroTrendy from '../components/HeroTrendy';
-import ProductCardMinimal from '../components/ProductCardMinimal';
+import HeroBanner from '../components/HeroBanner';
+import ProductCard from '../components/ProductCard';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { getUserLocationWithFallback } from '../lib/geolocation';
 import { getBranchSEOData } from '../lib/seo';
@@ -92,8 +92,8 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
         <Header />
 
         {/* Hero Section - Interactive & Trendy */}
-        <HeroTrendy 
-          branch={nearestBranch as 'berau' | 'samarinda' | null} 
+        <HeroBanner 
+          branch={nearestBranch as 'berau' | 'samarinda' | null}
           onBranchSelect={handleBranchSelect}
         />
 
@@ -325,7 +325,7 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: index * 0.1 }}
                   >
-                    <ProductCardMinimal product={product} />
+                    <ProductCard product={product} />
                   </motion.div>
                 ))}
               </div>

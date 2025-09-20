@@ -16,13 +16,13 @@ interface HeroSlide {
   gradient: string;
 }
 
-interface HeroTrendyProps {
+interface HeroBannerProps {
   branch?: 'berau' | 'samarinda' | null;
   slides?: HeroSlide[];
   onBranchSelect?: (branch: 'berau' | 'samarinda') => void;
 }
 
-const HeroTrendy: React.FC<HeroTrendyProps> = ({ branch, slides, onBranchSelect }) => {
+const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -464,4 +464,4 @@ const HeroTrendy: React.FC<HeroTrendyProps> = ({ branch, slides, onBranchSelect 
   );
 };
 
-export default HeroTrendy;
+export default HeroBanner;

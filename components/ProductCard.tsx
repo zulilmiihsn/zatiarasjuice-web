@@ -26,7 +26,7 @@ interface ProductCardProps {
   className?: string;
 }
 
-const ProductCardMinimal: React.FC<ProductCardProps> = ({
+const ProductCard: React.FC<ProductCardProps> = ({
   product,
   onAddToCart,
   className = '',
@@ -191,4 +191,4 @@ const ProductCardMinimal: React.FC<ProductCardProps> = ({
   );
 };
 
-export default ProductCardMinimal;
+export default ProductCard;

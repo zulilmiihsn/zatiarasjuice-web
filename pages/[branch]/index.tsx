@@ -5,8 +5,8 @@ import Head from 'next/head';
 import { motion } from 'framer-motion';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
-import HeroTrendy from '../../components/HeroTrendy';
-import ProductCardMinimal from '../../components/ProductCardMinimal';
+import HeroBanner from '../../components/HeroBanner';
+import ProductCard from '../../components/ProductCard';
 import { getBranchSEOData, getMenuStructuredData } from '../../lib/seo';
 import { getProducts, getCategories, getBranchInfo } from '../../lib/supabase';
 import type { Branch, Product, Category } from '../../lib/supabase';
@@ -87,7 +87,7 @@ const BranchPage: React.FC<BranchPageProps> = ({
         <Header branch={branch} currentPath={`/${branch}`} />
         
         {/* Hero Section - Trendy 2024 dengan Parallax */}
-        <HeroTrendy branch={branch} />
+        <HeroBanner branch={branch} />
         
         {/* Branch Info Section - Modern & Trendy */}
         <section className="py-20 bg-gradient-to-br from-gray-50 via-white to-gray-50 relative overflow-hidden">
@@ -309,7 +309,7 @@ const BranchPage: React.FC<BranchPageProps> = ({
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: index * 0.1 }}
                   >
-                    <ProductCardMinimal 
+                    <ProductCard 
                       product={product} 
                       onAddToCart={handleAddToCart}
                     />

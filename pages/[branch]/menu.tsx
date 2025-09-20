@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Filter, Grid3X3, List } from 'lucide-react';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
-import ProductCardMinimal from '../../components/ProductCardMinimal';
+import ProductCard from '../../components/ProductCard';
 import { getBranchSEOData, getMenuStructuredData } from '../../lib/seo';
 import { getProducts, getCategories, getBranchInfo } from '../../lib/supabase';
 import type { Branch, Product, Category } from '../../lib/supabase';
@@ -534,7 +534,7 @@ const MenuPage: React.FC<MenuPageProps> = ({
                                       transition={{ duration: 0.4, delay: (categoryIndex * 0.1) + (index * 0.05) }}
                                       className="w-full"
                                     >
-                                      <ProductCardMinimal 
+                                      <ProductCard 
                                         product={product} 
                                         onAddToCart={handleAddToCart}
                                       />
@@ -560,7 +560,7 @@ const MenuPage: React.FC<MenuPageProps> = ({
                                   transition={{ duration: 0.4, delay: index * 0.05 }}
                                   className="w-full"
                                 >
-                                  <ProductCardMinimal 
+                                  <ProductCard 
                                     product={product} 
                                     onAddToCart={handleAddToCart}
                                   />
