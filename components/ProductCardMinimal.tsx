@@ -69,7 +69,7 @@ const ProductCardMinimal: React.FC<ProductCardProps> = ({
     >
 
       {/* Product Image */}
-      <div className="relative h-48 overflow-hidden bg-gray-50">
+      <div className="relative h-32 sm:h-48 overflow-hidden bg-gray-50">
         {(() => {
           return (
             <>
@@ -103,40 +103,40 @@ const ProductCardMinimal: React.FC<ProductCardProps> = ({
       </div>
 
       {/* Product Info */}
-      <div className="p-4 max-w-full">
+      <div className="p-2 sm:p-4 max-w-full">
         {/* Category Tag */}
         {product.category && (
-          <div className="mb-2">
-            <span className="inline-block px-2 py-1 text-xs font-medium text-primary-600 bg-primary-50 rounded-full">
+          <div className="mb-1 sm:mb-2">
+            <span className="inline-block px-1.5 sm:px-2 py-0.5 sm:py-1 text-xs font-medium text-primary-600 bg-primary-50 rounded-full">
               {product.category}
             </span>
           </div>
         )}
 
         {/* Product Name */}
-        <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2 font-display max-w-full truncate">
+        <h3 className="text-sm sm:text-lg font-bold text-gray-900 mb-1 sm:mb-2 line-clamp-2 font-display max-w-full truncate">
           {product.name}
         </h3>
 
         {/* Price */}
-        <div className="mb-4 max-w-full">
+        <div className="mb-2 sm:mb-4 max-w-full">
           {product.is_minuman ? (
-            <div className="space-y-1 max-w-full">
+            <div className="space-y-0.5 sm:space-y-1 max-w-full">
               <div className="flex items-center justify-between max-w-full">
-                <span className="text-sm text-gray-600 truncate">Regular:</span>
-                <span className="text-xl font-bold text-primary-600 truncate">
+                <span className="text-xs sm:text-sm text-gray-600 truncate">Regular:</span>
+                <span className="text-sm sm:text-xl font-bold text-primary-600 truncate">
                   {formatPrice(product.price_regular || product.price)}
                 </span>
               </div>
               <div className="flex items-center justify-between max-w-full">
-                <span className="text-sm text-gray-600 truncate">Large:</span>
-                <span className="text-sm font-semibold text-gray-700 truncate">
+                <span className="text-xs sm:text-sm text-gray-600 truncate">Large:</span>
+                <span className="text-xs sm:text-sm font-semibold text-gray-700 truncate">
                   {formatPrice(product.price_large || product.price)}
                 </span>
               </div>
             </div>
           ) : (
-            <span className="text-xl font-bold text-gray-900 max-w-full truncate block">
+            <span className="text-sm sm:text-xl font-bold text-gray-900 max-w-full truncate block">
               {formatPrice(product.price)}
             </span>
           )}
@@ -148,7 +148,7 @@ const ProductCardMinimal: React.FC<ProductCardProps> = ({
           whileTap={{ scale: 0.98 }}
           onClick={handleAddToCart}
           disabled={isAddingToCart}
-          className="w-full max-w-full bg-primary-500 text-white py-3 rounded-xl font-bold text-sm hover:bg-primary-600 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          className="w-full max-w-full bg-primary-500 text-white py-2 sm:py-3 rounded-lg sm:rounded-xl font-bold text-xs sm:text-sm hover:bg-primary-600 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-1 sm:gap-2"
         >
           {isAddingToCart ? (
             <>
@@ -164,14 +164,14 @@ const ProductCardMinimal: React.FC<ProductCardProps> = ({
         </motion.button>
 
         {/* Quick Order Buttons */}
-        <div className="mt-3 grid grid-cols-2 gap-2 max-w-full">
+        <div className="mt-2 sm:mt-3 grid grid-cols-2 gap-1 sm:gap-2 max-w-full">
           <motion.a
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             href={`https://wa.me/6281234567890?text=Halo, saya ingin order ${product.name}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-green-500 text-white py-2 px-3 rounded-xl text-xs font-bold hover:bg-green-600 transition-all duration-200 text-center max-w-full truncate"
+            className="bg-green-500 text-white py-1.5 sm:py-2 px-2 sm:px-3 rounded-lg sm:rounded-xl text-xs font-bold hover:bg-green-600 transition-all duration-200 text-center max-w-full truncate"
           >
             WhatsApp
           </motion.a>
@@ -181,7 +181,7 @@ const ProductCardMinimal: React.FC<ProductCardProps> = ({
             href="https://gofood.co.id/merchant/zatiaras-juice"
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-orange-500 text-white py-2 px-3 rounded-xl text-xs font-bold hover:bg-orange-600 transition-all duration-200 text-center max-w-full truncate"
+            className="bg-orange-500 text-white py-1.5 sm:py-2 px-2 sm:px-3 rounded-lg sm:rounded-xl text-xs font-bold hover:bg-orange-600 transition-all duration-200 text-center max-w-full truncate"
           >
             GoFood
           </motion.a>

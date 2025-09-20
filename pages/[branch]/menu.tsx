@@ -522,7 +522,7 @@ const MenuPage: React.FC<MenuPageProps> = ({
                                 </motion.div>
                                 
                                 {/* Products Grid in Category - Responsive */}
-                                <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 w-full">
+                                <div className="grid grid-cols-2 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4 md:gap-6 w-full">
                                   {products.map((product, index) => (
                                     <motion.div
                                       key={product.id}
@@ -547,7 +547,7 @@ const MenuPage: React.FC<MenuPageProps> = ({
                       } else {
                         // Show all products without grouping (price sort or specific category filter)
                         return (
-                          <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 w-full">
+                          <div className="grid grid-cols-2 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4 md:gap-6 w-full">
                             <AnimatePresence>
                               {filteredProducts.map((product, index) => (
                                 <motion.div
