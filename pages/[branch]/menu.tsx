@@ -153,7 +153,7 @@ const MenuPage: React.FC<MenuPageProps> = ({
         <Header branch={branch} currentPath={`/${branch}/menu`} />
         
         {/* Menu Header - Digital Menu Style */}
-        <section className="pt-16 pb-8 sm:pb-12 bg-white border-b-2 border-gray-100">
+        <section className="pt-16 pb-8 sm:pb-12 bg-white border-b-2 border-gray-100 overflow-x-hidden">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -168,21 +168,21 @@ const MenuPage: React.FC<MenuPageProps> = ({
                 Jelajahi koleksi lengkap jus segar dan minuman sehat kami
               </p>
               
-              {/* Menu Stats - Responsive */}
-              <div className="flex flex-wrap justify-center items-center gap-2 sm:gap-4 md:gap-6 lg:gap-8 text-xs sm:text-sm text-gray-500 px-2 sm:px-0">
-                <div className="flex items-center gap-1 sm:gap-2">
-                  <span className="w-2 h-2 bg-primary-500 rounded-full flex-shrink-0"></span>
-                  <span className="whitespace-nowrap">{products.length} Menu</span>
+                {/* Menu Stats - Responsive */}
+                <div className="flex flex-wrap justify-center items-center gap-2 sm:gap-4 md:gap-6 lg:gap-8 text-xs sm:text-sm text-gray-500 px-2 sm:px-0">
+                  <div className="flex items-center gap-1 sm:gap-2">
+                    <span className="w-2 h-2 bg-primary-500 rounded-full flex-shrink-0"></span>
+                    <span className="whitespace-nowrap">{products.length} Menu</span>
+                  </div>
+                  <div className="flex items-center gap-1 sm:gap-2">
+                    <span className="w-2 h-2 bg-pinky-500 rounded-full flex-shrink-0"></span>
+                    <span className="whitespace-nowrap">Rating 4.9/5</span>
+                  </div>
+                  <div className="flex items-center gap-1 sm:gap-2">
+                    <span className="w-2 h-2 bg-cute-500 rounded-full flex-shrink-0"></span>
+                    <span className="whitespace-nowrap">100% Alami</span>
+                  </div>
                 </div>
-                <div className="flex items-center gap-1 sm:gap-2">
-                  <span className="w-2 h-2 bg-pinky-500 rounded-full flex-shrink-0"></span>
-                  <span className="whitespace-nowrap">Rating 4.9/5</span>
-                </div>
-                <div className="flex items-center gap-1 sm:gap-2">
-                  <span className="w-2 h-2 bg-cute-500 rounded-full flex-shrink-0"></span>
-                  <span className="whitespace-nowrap">100% Alami</span>
-                </div>
-              </div>
             </motion.div>
           </div>
         </section>
@@ -192,7 +192,7 @@ const MenuPage: React.FC<MenuPageProps> = ({
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {/* Search Bar - Responsive */}
             <div className="mb-3 sm:mb-4">
-              <div className="relative w-full max-w-sm sm:max-w-md mx-auto">
+              <div className="relative max-w-sm sm:max-w-md mx-auto">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 sm:w-5 sm:h-5" />
                 <input
                   type="text"
@@ -635,19 +635,19 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     const fallbackProducts: Product[] = [
       {
         id: 'fallback-1',
-        name: 'Jus Alpukat Segar',
+      name: 'Jus Alpukat Segar',
         kategori_id: null,
-        price: 15000,
+      price: 15000,
         gambar: '/images/juice-placeholder.svg',
         created_at: new Date().toISOString(),
         tipe: 'premium',
         ekstra_ids: null,
-        category: 'Jus Alpukat',
+      category: 'Jus Alpukat',
         description: 'Jus alpukat segar dengan kualitas terbaik',
         image_url: '/images/juice-placeholder.svg',
         is_featured: true,
-        rating: 4.8,
-        review_count: 120
+      rating: 4.8,
+      review_count: 120
       }
     ];
 
@@ -720,15 +720,15 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
     const fallbackBranchInfo = {
       id: 'error',
-      name: branch.charAt(0).toUpperCase() + branch.slice(1),
-      address: `Jl. Contoh No. 123, ${branch.charAt(0).toUpperCase() + branch.slice(1)}`,
-      phone: '+62812-3456-7890',
-      whatsapp: '+62812-3456-7890',
+    name: branch.charAt(0).toUpperCase() + branch.slice(1),
+    address: `Jl. Contoh No. 123, ${branch.charAt(0).toUpperCase() + branch.slice(1)}`,
+    phone: '+62812-3456-7890',
+    whatsapp: '+62812-3456-7890',
       latitude: 0,
       longitude: 0,
       is_active: true,
       delivery_radius: 10
-    };
+  };
 
     return {
       props: {
@@ -736,7 +736,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         products: fallbackProducts,
         categories: fallbackCategories,
         branchInfo: fallbackBranchInfo,
-        seoData: getBranchSEOData(branch),
+      seoData: getBranchSEOData(branch),
       },
       revalidate: 60,
     };

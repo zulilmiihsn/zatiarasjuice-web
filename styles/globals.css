@@ -75,11 +75,6 @@ body {
 
 html {
   scroll-behavior: smooth;
-  overflow-x: hidden;
-}
-
-body {
-  overflow-x: hidden;
 }
 
 /* Typography base disesuaikan dengan CSS variables di atas */
@@ -99,14 +94,14 @@ body {
   -ms-overflow-style: none;
 }
 
-/* Hide scrollbar for specific elements */
+/* Custom scrollbar hide utility */
 .scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 
 .scrollbar-hide::-webkit-scrollbar {
-  display: none;
+  display: none;  /* Chrome, Safari and Opera */
 }
 
 /* Selection */
