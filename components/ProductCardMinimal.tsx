@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Heart, ShoppingCart, Plus, Minus, Apple } from 'lucide-react';
+import { ShoppingCart, Plus, Minus, Apple } from 'lucide-react';
 import Image from 'next/image';
 
 interface ProductCardProps {
@@ -19,16 +19,12 @@ interface ProductCardProps {
     review_count?: number;
   };
   onAddToCart?: (product: any) => void;
-  onToggleFavorite?: (productId: string) => void;
-  isFavorite?: boolean;
   className?: string;
 }
 
 const ProductCardMinimal: React.FC<ProductCardProps> = ({
   product,
   onAddToCart,
-  onToggleFavorite,
-  isFavorite = false,
   className = '',
 }) => {
   const [isHovered, setIsHovered] = useState(false);
@@ -44,11 +40,6 @@ const ProductCardMinimal: React.FC<ProductCardProps> = ({
     }
   };
 
-  const handleToggleFavorite = () => {
-    if (onToggleFavorite) {
-      onToggleFavorite(product.id);
-    }
-  };
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('id-ID', {
@@ -72,19 +63,6 @@ const ProductCardMinimal: React.FC<ProductCardProps> = ({
       onHoverEnd={() => setIsHovered(false)}
       className={`group relative bg-white rounded-lg border border-gray-100 shadow-clean hover:shadow-medium transition-all duration-300 overflow-hidden ${className}`}
     >
-      {/* Favorite Button */}
-      <motion.button
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
-        onClick={handleToggleFavorite}
-        className="absolute top-3 right-3 z-10 w-8 h-8 bg-white/90 rounded-full flex items-center justify-center hover:bg-white transition-colors duration-200 shadow-minimal"
-      >
-        <Heart
-          className={`w-4 h-4 transition-colors duration-200 ${
-            isFavorite ? 'text-red-500 fill-red-500' : 'text-gray-400'
-          }`}
-        />
-      </motion.button>
 
       {/* Product Image */}
       <div className="relative h-48 overflow-hidden bg-gray-50">

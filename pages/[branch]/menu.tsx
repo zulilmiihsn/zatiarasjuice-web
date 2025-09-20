@@ -511,8 +511,6 @@ const MenuPage: React.FC<MenuPageProps> = ({
                                       <ProductCardMinimal 
                                         product={product} 
                                         onAddToCart={handleAddToCart}
-                                        onToggleFavorite={handleToggleFavorite}
-                                        isFavorite={favorites.includes(product.id)}
                                       />
                                     </motion.div>
                                   ))}
@@ -539,8 +537,6 @@ const MenuPage: React.FC<MenuPageProps> = ({
                                   <ProductCardMinimal 
                                     product={product} 
                                     onAddToCart={handleAddToCart}
-                                    onToggleFavorite={handleToggleFavorite}
-                                    isFavorite={favorites.includes(product.id)}
                                   />
                                 </motion.div>
                               ))}
