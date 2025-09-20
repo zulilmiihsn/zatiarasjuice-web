@@ -149,7 +149,7 @@ const MenuPage: React.FC<MenuPageProps> = ({
         />
       </Head>
 
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-white overflow-x-hidden">
         <Header branch={branch} currentPath={`/${branch}/menu`} />
         
         {/* Menu Header - Digital Menu Style */}
@@ -188,11 +188,11 @@ const MenuPage: React.FC<MenuPageProps> = ({
         </section>
 
         {/* Menu Navigation - Clean & Organized */}
-        <section className="py-3 sm:py-4 bg-white border-b border-gray-200">
+        <section className="py-3 sm:py-4 bg-white border-b border-gray-200 overflow-x-hidden">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {/* Search Bar - Responsive */}
             <div className="mb-3 sm:mb-4">
-              <div className="relative max-w-sm sm:max-w-md mx-auto">
+              <div className="relative w-full max-w-sm sm:max-w-md mx-auto">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 sm:w-5 sm:h-5" />
                 <input
                   type="text"
@@ -207,7 +207,7 @@ const MenuPage: React.FC<MenuPageProps> = ({
             {/* Filter Controls - Mobile Optimized */}
             <div className="space-y-3 sm:space-y-0">
               {/* Category Filter - Mobile Scroll */}
-              <div className="overflow-x-auto pb-2 sm:pb-0">
+              <div className="overflow-x-auto pb-2 sm:pb-0 -mx-4 px-4 sm:mx-0 sm:px-0">
                 <div className="flex gap-2 min-w-max sm:flex-wrap sm:justify-start sm:min-w-0">
                   {categoryOptions.map((category) => (
                     <motion.button
@@ -215,7 +215,7 @@ const MenuPage: React.FC<MenuPageProps> = ({
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => handleCategoryChange(category.value)}
-                      className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 whitespace-nowrap ${
+                      className={`px-2 sm:px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 whitespace-nowrap flex-shrink-0 ${
                         selectedCategory === category.value
                           ? 'bg-primary-500 text-white shadow-sm'
                           : 'bg-gray-100 text-gray-700 hover:bg-primary-50'
@@ -267,7 +267,7 @@ const MenuPage: React.FC<MenuPageProps> = ({
                   <select
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value as 'name' | 'price' | 'popular')}
-                    className="appearance-none bg-white border border-gray-300 rounded-lg px-3 py-1.5 pr-6 text-xs font-medium focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 min-w-[120px]"
+                    className="appearance-none bg-white border border-gray-300 rounded-lg px-3 py-1.5 pr-6 text-xs font-medium focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 w-full sm:w-auto sm:min-w-[120px]"
                   >
                     <option value="name">Nama</option>
                     <option value="price">Harga</option>
@@ -283,7 +283,7 @@ const MenuPage: React.FC<MenuPageProps> = ({
         </section>
 
         {/* Menu Display - List or Grid Layout */}
-        <section className="py-8 bg-white">
+        <section className="py-8 bg-white overflow-x-hidden">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {filteredProducts.length > 0 ? (
               <>
@@ -375,29 +375,29 @@ const MenuPage: React.FC<MenuPageProps> = ({
                                     animate={{ opacity: 1, x: 0 }}
                                     exit={{ opacity: 0, x: 20 }}
                                     transition={{ duration: 0.3, delay: (categoryIndex * 0.1) + (index * 0.02) }}
-                                    className="bg-white rounded-lg border border-gray-200 hover:border-primary-200 hover:shadow-sm transition-all duration-200 px-3 py-2.5 sm:py-2"
+                                    className="bg-white rounded-lg border border-gray-200 hover:border-primary-200 hover:shadow-sm transition-all duration-200 px-3 py-2.5 sm:py-2 w-full"
                                   >
-                                    <div className="flex items-center justify-between gap-2">
+                                    <div className="flex items-center justify-between gap-2 w-full">
                                       {/* Product Name */}
-                                      <div className="flex-1 min-w-0">
+                                      <div className="flex-1 min-w-0 overflow-hidden">
                                         <h3 className="text-sm font-semibold text-gray-900 font-display truncate">
                                           {product.name}
                                         </h3>
                                       </div>
                                       
                                       {/* Price - Mobile Responsive */}
-                                      <div className="text-right flex-shrink-0">
+                                      <div className="text-right flex-shrink-0 max-w-[40%]">
                                         {product.is_minuman ? (
                                           <div className="text-right">
-                                            <div className="text-xs sm:text-sm font-bold text-primary-600 font-display">
+                                            <div className="text-xs sm:text-sm font-bold text-primary-600 font-display truncate">
                                               Regular: Rp {(product.price_regular || product.price).toLocaleString('id-ID')}
                                             </div>
-                                            <div className="text-xs text-gray-600">
+                                            <div className="text-xs text-gray-600 truncate">
                                               Large: Rp {(product.price_large || product.price).toLocaleString('id-ID')}
                                             </div>
                                           </div>
                                         ) : (
-                                          <div className="text-xs sm:text-sm font-bold text-primary-600 font-display">
+                                          <div className="text-xs sm:text-sm font-bold text-primary-600 font-display truncate">
                                             Rp {product.price.toLocaleString('id-ID')}
                                           </div>
                                         )}
@@ -421,29 +421,29 @@ const MenuPage: React.FC<MenuPageProps> = ({
                                 animate={{ opacity: 1, x: 0 }}
                                 exit={{ opacity: 0, x: 20 }}
                                 transition={{ duration: 0.3, delay: index * 0.02 }}
-                                className="bg-white rounded-lg border border-gray-200 hover:border-primary-200 hover:shadow-sm transition-all duration-200 px-3 py-2"
+                                className="bg-white rounded-lg border border-gray-200 hover:border-primary-200 hover:shadow-sm transition-all duration-200 px-3 py-2 w-full"
                               >
-                                <div className="flex items-center justify-between gap-2">
+                                <div className="flex items-center justify-between gap-2 w-full">
                                   {/* Product Name */}
-                                  <div className="flex-1 min-w-0">
+                                  <div className="flex-1 min-w-0 overflow-hidden">
                                     <h3 className="text-sm font-semibold text-gray-900 font-display truncate">
                                       {product.name}
                                     </h3>
                                   </div>
                                   
                                   {/* Price - Mobile Responsive */}
-                                  <div className="text-right flex-shrink-0">
+                                  <div className="text-right flex-shrink-0 max-w-[40%]">
                                     {product.is_minuman ? (
                                       <div className="text-right">
-                                        <div className="text-xs sm:text-sm font-bold text-primary-600 font-display">
+                                        <div className="text-xs sm:text-sm font-bold text-primary-600 font-display truncate">
                                           Regular: Rp {(product.price_regular || product.price).toLocaleString('id-ID')}
                                         </div>
-                                        <div className="text-xs text-gray-600">
+                                        <div className="text-xs text-gray-600 truncate">
                                           Large: Rp {(product.price_large || product.price).toLocaleString('id-ID')}
                                         </div>
                                       </div>
                                     ) : (
-                                      <div className="text-xs sm:text-sm font-bold text-primary-600 font-display">
+                                      <div className="text-xs sm:text-sm font-bold text-primary-600 font-display truncate">
                                         Rp {product.price.toLocaleString('id-ID')}
                                       </div>
                                     )}
@@ -522,7 +522,7 @@ const MenuPage: React.FC<MenuPageProps> = ({
                                 </motion.div>
                                 
                                 {/* Products Grid in Category - Responsive */}
-                                <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
+                                <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 w-full">
                                   {products.map((product, index) => (
                                     <motion.div
                                       key={product.id}
