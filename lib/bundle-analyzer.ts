@@ -16,7 +16,7 @@ export class BundleAnalyzer {
   }
 
   private initializeBundleAnalysis() {
-    if (typeof window === 'undefined') return;
+  if (typeof window === 'undefined') return;
 
     // Analyze bundle on load
     window.addEventListener('load', () => {
@@ -29,7 +29,7 @@ export class BundleAnalyzer {
   }
 
   private analyzeBundleSize() {
-    const scripts = Array.from(document.querySelectorAll('script[src]'));
+  const scripts = Array.from(document.querySelectorAll('script[src]'));
     const nextScripts = scripts.filter(script => 
       script.getAttribute('src')?.includes('_next/static')
     );
@@ -248,7 +248,7 @@ export class BundleAnalyzer {
 // Hook for React components
 export const useBundleAnalyzer = () => {
   const analyzer = BundleAnalyzer.getInstance();
-  
+
   return {
     getBundleMetrics: analyzer.getBundleMetrics.bind(analyzer),
     isBundleOptimized: analyzer.isBundleOptimized.bind(analyzer),

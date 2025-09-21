@@ -1035,42 +1035,8 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  // Mock data untuk featured products dengan value proposition kuat
-  const featuredProducts = [
-    {
-      id: '1',
-      name: 'Jus Alpukat Premium',
-      description: 'Jus alpukat segar dengan susu pilihan dan gula aren asli. Resep rahasia turun temurun yang membuatnya berbeda dari yang lain.',
-      price: 25000,
-      category: 'Alpukat',
-      image_url: '/images/jus-alpukat.jpg',
-      is_featured: true,
-      rating: 4.9,
-      review_count: 150,
-    },
-    {
-      id: '2',
-      name: 'Jus Mangga Segar',
-      description: 'Jus mangga manis dengan es batu. Dibuat dari mangga pilihan yang matang pohon, tanpa pengawet dan 100% alami.',
-      price: 20000,
-      category: 'Mangga',
-      image_url: '/images/jus-mangga.jpg',
-      is_featured: true,
-      rating: 4.8,
-      review_count: 120,
-    },
-    {
-      id: '3',
-      name: 'Jus Jeruk Peras',
-      description: 'Jus jeruk peras segar tanpa pengawet. Diperas langsung di depan Anda, garansi kesegaran maksimal.',
-      price: 18000,
-      category: 'Jeruk',
-      image_url: '/images/jus-jeruk.jpg',
-      is_featured: true,
-      rating: 4.7,
-      review_count: 95,
-    },
-  ];
+  // Featured products will be loaded from database
+  const featuredProducts: any[] = [];
 
   const seoData = {
     title: 'Zatiaras Juice — Jus Terenak & Terbaik di Berau & Samarinda | Rating 4.9/5',

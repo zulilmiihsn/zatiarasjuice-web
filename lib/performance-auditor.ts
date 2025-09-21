@@ -84,7 +84,7 @@ export class PerformanceAuditor {
       
       return auditResult;
     } catch (error) {
-      console.error('Performance audit failed:', error);
+      // Performance audit failed
       return auditResult;
     } finally {
       this.isAuditing = false;

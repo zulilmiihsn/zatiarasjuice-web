@@ -76,13 +76,11 @@ export class PerformanceIntegration {
   }
 
   private setupImageOptimization() {
-    const imageOptimizer = AdvancedImageOptimizer.getInstance();
-    
     // Optimize all images on page load
     window.addEventListener('load', () => {
       const images = document.querySelectorAll('img');
-      images.forEach(img => {
-        // imageOptimizer.optimizeImageElement(img);
+      images.forEach(() => {
+        // Image optimization will be handled by Next.js Image component
       });
     });
   }
@@ -164,7 +162,7 @@ export class PerformanceIntegration {
     const score = monitor.getPerformanceScore();
     
     if (score < 70) {
-      console.warn('Performance score is low:', score);
+      // Performance score is low
       this.triggerPerformanceOptimizations();
     }
   }
@@ -181,7 +179,7 @@ export class PerformanceIntegration {
     // Trigger bundle optimization
     const bundleAnalyzer = BundleAnalyzer.getInstance();
     const recommendations = bundleAnalyzer.getOptimizationRecommendations();
-    console.log('Bundle optimization recommendations:', recommendations);
+    // Bundle optimization recommendations generated
   }
 
   // Public API for components

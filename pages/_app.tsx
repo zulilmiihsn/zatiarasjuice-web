@@ -49,18 +49,10 @@ export default function App({ Component, pageProps }: AppProps) {
         // Start performance auditing
         const auditor = performanceAuditor;
         
-        // Log performance metrics
-        console.log('🚀 Ultra Performance Optimizations Initialized');
-        console.log('📊 Performance Metrics:', optimizer.getPerformanceMetrics());
-        
-        // Run comprehensive audit after 5 seconds
-        setTimeout(async () => {
-          const auditResult = await auditor.performComprehensiveAudit();
-          console.log('📈 Performance Audit Result:', auditResult);
-        }, 5000);
+        // Performance optimizations initialized silently
         
       } catch (error) {
-        console.error('Failed to initialize performance optimizations:', error);
+        // Performance optimization failed silently
       }
     };
 
@@ -105,10 +97,10 @@ export default function App({ Component, pageProps }: AppProps) {
                 window.addEventListener('load', function() {
                   navigator.serviceWorker.register('/sw.js')
                     .then(function(registration) {
-                      console.log('SW registered: ', registration);
+                      // Service worker registered
                     })
                     .catch(function(registrationError) {
-                      console.log('SW registration failed: ', registrationError);
+                      // Service worker registration failed
                     });
                 });
               }

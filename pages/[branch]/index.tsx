@@ -7,7 +7,7 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import HeroBanner from '../../components/HeroBanner';
 import LoadingSpinner from '../../components/LoadingSpinner';
-import { getBranchSEOData, getMenuStructuredData } from '../../lib/seo';
+import { getBranchSEOData } from '../../lib/seo';
 import { getProducts, getCategories, getBranchInfo } from '../../lib/supabase';
 import type { Branch, Product, Category } from '../../lib/supabase';
 

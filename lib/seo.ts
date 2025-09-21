@@ -122,58 +122,6 @@ export const getBranchSEOData = (branch: 'berau' | 'samarinda'): SEOData => {
   };
 };
 
-// Function untuk generate structured data menu
-export const getMenuStructuredData = (
-  branch: 'berau' | 'samarinda',
-  products: any[]
-): any => {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://zatiarasjuice.com';
-  const branchData = getBranchSEOData(branch);
-
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'Menu',
-    name: `Menu Zatiaras Juice ${branchData.openGraph.title.split('—')[0].trim()}`,
-    description: `Menu lengkap Zatiaras Juice ${branchData.openGraph.title.split('—')[0].trim()}`,
-    url: `${baseUrl}/${branch}/menu`,
-    provider: {
-      '@type': 'LocalBusiness',
-      name: `Zatiaras Juice ${branchData.openGraph.title.split('—')[0].trim()}`,
-      url: `${baseUrl}/${branch}`,
-    },
-    hasMenuSection: products.reduce((sections: any[], product: any) => {
-      const existingSection = sections.find(s => s.name === product.category);
-      if (existingSection) {
-        existingSection.hasMenuItem.push({
-          '@type': 'MenuItem',
-          name: product.name,
-          description: product.description,
-          offers: {
-            '@type': 'Offer',
-            price: product.price,
-            priceCurrency: 'IDR',
-          },
-        });
-      } else {
-        sections.push({
-          '@type': 'MenuSection',
-          name: product.category,
-          hasMenuItem: [{
-            '@type': 'MenuItem',
-            name: product.name,
-            description: product.description,
-            offers: {
-              '@type': 'Offer',
-              price: product.price,
-              priceCurrency: 'IDR',
-            },
-          }],
-        });
-      }
-      return sections;
-    }, []),
-  };
-};
 
 // Function untuk generate breadcrumb structured data
 export const getBreadcrumbStructuredData = (items: Array<{name: string, url: string}>): any => {

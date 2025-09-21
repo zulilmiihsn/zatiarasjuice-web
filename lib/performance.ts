@@ -37,7 +37,7 @@ export class PerformanceMonitor {
       observer.observe({ entryTypes: ['largest-contentful-paint', 'first-input', 'layout-shift'] });
       this.observers.push(observer);
     } catch (error) {
-      console.warn('Performance Observer not supported:', error);
+      // Performance Observer not supported
     }
   }
 

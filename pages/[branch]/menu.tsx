@@ -6,7 +6,7 @@ import { Search, Filter, Grid3X3, List } from 'lucide-react';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import LoadingSpinner from '../../components/LoadingSpinner';
-import { getBranchSEOData, getMenuStructuredData } from '../../lib/seo';
+import { getBranchSEOData } from '../../lib/seo';
 import { getProducts, getCategories, getBranchInfo } from '../../lib/supabase';
 import type { Branch, Product, Category } from '../../lib/supabase';
 
