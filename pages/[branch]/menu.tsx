@@ -608,10 +608,10 @@ const MenuPage: React.FC<MenuPageProps> = ({
                                 {products.map((product, index) => (
                                   <motion.div
                                     key={product.id}
-                                    initial={{ opacity: 0, x: -20 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    exit={{ opacity: 0, x: 20 }}
-                                    transition={{ duration: 0.3, delay: (categoryIndex * 0.1) + (index * 0.02) }}
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    exit={{ opacity: 0 }}
+                                    transition={{ duration: 0.2, delay: index * 0.01 }}
                                     className="bg-white rounded-lg border border-pink-200 hover:border-pink-300 hover:shadow-sm transition-all duration-200 px-3 py-2.5 sm:py-2 w-full"
                                   >
                                     <div className="flex items-center justify-between gap-2 w-full">
@@ -652,12 +652,12 @@ const MenuPage: React.FC<MenuPageProps> = ({
                         return (
                           <AnimatePresence>
                             {filteredProducts.map((product, index) => (
-                              <motion.div
-                                key={product.id}
-                                initial={{ opacity: 0, x: -20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                exit={{ opacity: 0, x: 20 }}
-                                transition={{ duration: 0.3, delay: index * 0.02 }}
+                                <motion.div
+                                  key={product.id}
+                                  initial={{ opacity: 0 }}
+                                  animate={{ opacity: 1 }}
+                                  exit={{ opacity: 0 }}
+                                  transition={{ duration: 0.2, delay: index * 0.01 }}
                                 className="bg-white rounded-lg border border-pink-200 hover:border-pink-300 hover:shadow-sm transition-all duration-200 px-3 py-2 w-full"
                               >
                                 <div className="flex items-center justify-between gap-2 w-full">
@@ -763,10 +763,10 @@ const MenuPage: React.FC<MenuPageProps> = ({
                                   {products.map((product, index) => (
                                     <motion.div
                                       key={product.id}
-                                      initial={{ opacity: 0, y: 20 }}
-                                      animate={{ opacity: 1, y: 0 }}
-                                      exit={{ opacity: 0, y: -20 }}
-                                      transition={{ duration: 0.4, delay: (categoryIndex * 0.1) + (index * 0.05) }}
+                                      initial={{ opacity: 0 }}
+                                      animate={{ opacity: 1 }}
+                                      exit={{ opacity: 0 }}
+                                      transition={{ duration: 0.2, delay: index * 0.02 }}
                                       className="w-full"
                                     >
                                       <ProductCard 
@@ -789,10 +789,10 @@ const MenuPage: React.FC<MenuPageProps> = ({
                               {filteredProducts.map((product, index) => (
                                 <motion.div
                                   key={product.id}
-                                  initial={{ opacity: 0, y: 20 }}
-                                  animate={{ opacity: 1, y: 0 }}
-                                  exit={{ opacity: 0, y: -20 }}
-                                  transition={{ duration: 0.4, delay: index * 0.05 }}
+                                  initial={{ opacity: 0 }}
+                                  animate={{ opacity: 1 }}
+                                  exit={{ opacity: 0 }}
+                                  transition={{ duration: 0.2, delay: index * 0.02 }}
                                   className="w-full"
                                 >
                                   <ProductCard 

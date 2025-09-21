@@ -51,6 +51,9 @@ const nextConfig = {
   // Experimental features for performance
   experimental: {
     optimizePackageImports: ['framer-motion', 'lucide-react'],
+    // Enable modern bundling optimizations
+    esmExternals: true,
+    serverComponentsExternalPackages: [],
   },
 
   // Webpack optimizations
@@ -61,14 +64,6 @@ const nextConfig = {
         poll: 1000,
         aggregateTimeout: 300,
       };
-      
-      // Reduce bundle analysis overhead
-      config.optimization = {
-        ...config.optimization,
-        removeAvailableModules: false,
-        removeEmptyChunks: false,
-        splitChunks: false,
-      };
     }
     
     // SVG handling
@@ -77,15 +72,17 @@ const nextConfig = {
       use: ['@svgr/webpack'],
     });
 
-    // Advanced webpack optimizations
+    // Production optimizations
     if (!dev && !isServer) {
       // Enable tree shaking
       config.optimization.usedExports = true;
       config.optimization.sideEffects = false;
       
-      // Optimize chunks
+      // Optimize chunks for better caching
       config.optimization.splitChunks = {
         chunks: 'all',
+        minSize: 20000,
+        maxSize: 244000,
         cacheGroups: {
           default: false,
           vendors: false,
@@ -95,6 +92,22 @@ const nextConfig = {
             name: 'framework',
             test: /(?<!node_modules.*)[\\/]node_modules[\\/](react|react-dom|scheduler|prop-types|use-subscription)[\\/]/,
             priority: 40,
+            enforce: true,
+          },
+          // Framer Motion chunk
+          framerMotion: {
+            chunks: 'all',
+            name: 'framer-motion',
+            test: /[\\/]node_modules[\\/]framer-motion[\\/]/,
+            priority: 35,
+            enforce: true,
+          },
+          // Lucide React chunk
+          lucideReact: {
+            chunks: 'all',
+            name: 'lucide-react',
+            test: /[\\/]node_modules[\\/]lucide-react[\\/]/,
+            priority: 35,
             enforce: true,
           },
           // Common chunk
@@ -118,11 +131,6 @@ const nextConfig = {
         },
       };
     }
-
-    // Optimize bundle size
-    config.resolve.alias = {
-      ...config.resolve.alias,
-    };
 
     return config;
   },

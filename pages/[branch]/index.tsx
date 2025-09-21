@@ -135,15 +135,14 @@ const BranchPage: React.FC<BranchPageProps> = ({
                   top: `${(i * 27.7) % 100}%`,
                 }}
                 animate={{
-                  y: [0, -25, 0],
-                  rotate: [0, 15, -15, 0],
-                  scale: [0.8, 1.2, 0.8],
+                  y: [0, -15, 0],
+                  scale: [0.9, 1.1, 0.9],
                 }}
                 transition={{
-                  duration: 7 + (i % 3) * 1.5,
+                  duration: 8 + (i % 2) * 2,
                   repeat: Infinity,
                   ease: 'easeInOut',
-                  delay: i * 0.6,
+                  delay: i * 0.8,
                 }}
               >
                 <Icon className="w-8 h-8" />
@@ -161,14 +160,14 @@ const BranchPage: React.FC<BranchPageProps> = ({
                   top: `${(i * 13.3) % 100}%`,
                 }}
                 animate={{
-                  scale: [0, 1.5, 0],
-                  opacity: [0, 1, 0],
+                  scale: [0, 1.2, 0],
+                  opacity: [0, 0.8, 0],
                 }}
                 transition={{
-                  duration: 2 + (i % 2) * 1.5,
+                  duration: 3 + (i % 2) * 1,
                   repeat: Infinity,
                   ease: 'easeInOut',
-                  delay: i * 0.1,
+                  delay: i * 0.2,
                 }}
               />
             ))}

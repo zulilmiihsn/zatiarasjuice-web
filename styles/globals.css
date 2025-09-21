@@ -4,6 +4,22 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Font Display Optimization */
+@font-face {
+  font-family: 'Nunito Sans';
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Quicksand';
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'M PLUS Rounded 1c';
+  font-display: swap;
+}
+
 /* Import Typography Utilities */
 @import './typography.css';
 
