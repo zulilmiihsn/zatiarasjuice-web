@@ -139,16 +139,16 @@ const MenuPage: React.FC<MenuPageProps> = ({
         />
       </Head>
 
-      <div className="min-h-screen bg-white overflow-x-hidden">
+      <div className="min-h-screen bg-gradient-to-br from-pink-50 via-rose-50 to-pink-100 overflow-x-hidden">
         <Header branch={branch} currentPath={`/${branch}/menu`} />
         
         {/* Menu Header - Premium Digital Menu Style */}
-        <section className="pt-16 pb-4 sm:pb-8 md:pb-12 bg-gradient-to-br from-white via-gray-50 to-white border-b-2 border-gray-100 relative overflow-hidden">
+        <section className="pt-16 pb-4 sm:pb-8 md:pb-12 bg-gradient-to-br from-pink-100 via-rose-50 to-pink-200 border-b-2 border-pink-200 relative overflow-hidden">
           {/* Animated Background Elements */}
           <div className="absolute inset-0">
             {/* Main Gradient Orbs */}
             <motion.div
-              className="absolute top-10 right-10 w-64 h-64 bg-gradient-to-r from-primary-500/20 to-pinky-500/20 rounded-full blur-3xl"
+              className="absolute top-10 right-10 w-64 h-64 bg-gradient-to-r from-pink-400/30 to-rose-400/30 rounded-full blur-3xl"
               animate={{
                 scale: [1, 1.2, 1],
                 opacity: [0.2, 0.4, 0.2],
@@ -162,7 +162,7 @@ const MenuPage: React.FC<MenuPageProps> = ({
               }}
             />
             <motion.div
-              className="absolute bottom-10 left-10 w-80 h-80 bg-gradient-to-r from-emerald-500/20 to-secondary-500/20 rounded-full blur-3xl"
+              className="absolute bottom-10 left-10 w-80 h-80 bg-gradient-to-r from-rose-400/25 to-pink-300/25 rounded-full blur-3xl"
               animate={{
                 scale: [1.2, 1, 1.2],
                 opacity: [0.3, 0.5, 0.3],
@@ -207,8 +207,8 @@ const MenuPage: React.FC<MenuPageProps> = ({
             {/* Subtle Pattern */}
             <div className="absolute inset-0 opacity-5">
               <div className="absolute inset-0" style={{
-                backgroundImage: `radial-gradient(circle at 30% 30%, #FF6EC7 1px, transparent 1px),
-                                 radial-gradient(circle at 70% 70%, #22c55e 1px, transparent 1px)`,
+                backgroundImage: `radial-gradient(circle at 30% 30%, #f472b6 1px, transparent 1px),
+                                 radial-gradient(circle at 70% 70%, #fb7185 1px, transparent 1px)`,
                 backgroundSize: '60px 60px, 80px 80px',
                 backgroundPosition: '0 0, 30px 30px'
               }} />
@@ -222,27 +222,27 @@ const MenuPage: React.FC<MenuPageProps> = ({
               transition={{ duration: 0.6 }}
               className="text-center"
             >
-              <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-2 sm:mb-3 md:mb-4 font-rounded">
+              <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-pink-800 mb-2 sm:mb-3 md:mb-4 font-rounded">
                 Menu {branch.charAt(0).toUpperCase() + branch.slice(1)}
               </h1>
               
               {/* Description - Hidden on Mobile */}
-              <p className="hidden sm:block text-base md:text-lg text-gray-600 max-w-2xl mx-auto font-medium leading-relaxed mb-4 md:mb-6">
+              <p className="hidden sm:block text-base md:text-lg text-pink-700 max-w-2xl mx-auto font-medium leading-relaxed mb-4 md:mb-6">
                 Jelajahi koleksi lengkap jus segar dan minuman sehat kami
               </p>
               
               {/* Menu Stats - Hidden on Mobile */}
-              <div className="hidden sm:flex flex-wrap justify-center items-center gap-4 md:gap-6 lg:gap-8 text-sm text-gray-500">
+              <div className="hidden sm:flex flex-wrap justify-center items-center gap-4 md:gap-6 lg:gap-8 text-sm text-pink-600">
                 <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 bg-primary-500 rounded-full flex-shrink-0"></span>
+                  <span className="w-2 h-2 bg-pink-500 rounded-full flex-shrink-0"></span>
                   <span className="whitespace-nowrap">{products.length} Menu</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 bg-pinky-500 rounded-full flex-shrink-0"></span>
+                  <span className="w-2 h-2 bg-rose-500 rounded-full flex-shrink-0"></span>
                   <span className="whitespace-nowrap">Rating 4.9/5</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 bg-cute-500 rounded-full flex-shrink-0"></span>
+                  <span className="w-2 h-2 bg-pink-400 rounded-full flex-shrink-0"></span>
                   <span className="whitespace-nowrap">100% Alami</span>
                 </div>
               </div>
@@ -251,18 +251,18 @@ const MenuPage: React.FC<MenuPageProps> = ({
         </section>
 
         {/* Menu Navigation - Responsive Layout */}
-        <section className="py-2 sm:py-3 md:py-4 bg-white border-b border-gray-200 overflow-x-hidden">
+        <section className="py-2 sm:py-3 md:py-4 bg-gradient-to-r from-pink-50 to-rose-50 border-b border-pink-200 overflow-x-hidden">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {/* Search Bar - Centered */}
             <div className="mb-2 sm:mb-4 md:mb-6">
               <div className="relative max-w-sm sm:max-w-md mx-auto">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 sm:w-5 sm:h-5" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-pink-400 w-4 h-4 sm:w-5 sm:h-5" />
                 <input
                   type="text"
                   placeholder="Cari menu favorit..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-9 sm:pl-10 pr-4 py-2 sm:py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 bg-white text-sm"
+                  className="w-full pl-9 sm:pl-10 pr-4 py-2 sm:py-2.5 border border-pink-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-all duration-200 bg-white text-sm"
                 />
               </div>
             </div>
@@ -280,8 +280,8 @@ const MenuPage: React.FC<MenuPageProps> = ({
                       onClick={() => setSelectedCategory(category.value)}
                       className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 whitespace-nowrap flex-shrink-0 ${
                         selectedCategory === category.value
-                          ? 'bg-primary-500 text-white shadow-sm'
-                          : 'bg-gray-100 text-gray-700 hover:bg-primary-50'
+                          ? 'bg-pink-500 text-white shadow-sm'
+                          : 'bg-pink-100 text-pink-700 hover:bg-pink-200'
                       }`}
                     >
                       {category.label}
@@ -294,16 +294,16 @@ const MenuPage: React.FC<MenuPageProps> = ({
               <div className="hidden md:flex items-center justify-center gap-8">
                 {/* View Mode Toggle */}
                 <div className="flex items-center gap-3">
-                  <span className="text-sm font-medium text-gray-500">Tampilan:</span>
-                  <div className="flex bg-gray-100 rounded-lg p-1">
+                  <span className="text-sm font-medium text-pink-600">Tampilan:</span>
+                    <div className="flex bg-pink-100 rounded-lg p-1">
                     <motion.button
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => setViewMode('list')}
                       className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
                         viewMode === 'list'
-                          ? 'bg-white text-primary-600 shadow-sm'
-                          : 'text-gray-600 hover:text-gray-800'
+                          ? 'bg-white text-pink-600 shadow-sm'
+                          : 'text-pink-600 hover:text-pink-800'
                       }`}
                     >
                       <List className="w-4 h-4" />
@@ -315,8 +315,8 @@ const MenuPage: React.FC<MenuPageProps> = ({
                       onClick={() => setViewMode('grid')}
                       className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
                         viewMode === 'grid'
-                          ? 'bg-white text-primary-600 shadow-sm'
-                          : 'text-gray-600 hover:text-gray-800'
+                          ? 'bg-white text-pink-600 shadow-sm'
+                          : 'text-pink-600 hover:text-pink-800'
                       }`}
                     >
                       <Grid3X3 className="w-4 h-4" />
@@ -330,14 +330,14 @@ const MenuPage: React.FC<MenuPageProps> = ({
                   <select
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value as 'name' | 'price' | 'popular')}
-                    className="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2 pr-8 text-sm font-medium focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 min-w-[140px]"
+                    className="appearance-none bg-white border border-pink-300 rounded-lg px-4 py-2 pr-8 text-sm font-medium focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-all duration-200 min-w-[140px]"
                   >
                     <option value="name">Nama</option>
                     <option value="price">Harga</option>
                     <option value="popular">Populer</option>
                   </select>
                   <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                    <Filter className="w-4 h-4 text-gray-400" />
+                    <Filter className="w-4 h-4 text-pink-400" />
                   </div>
                 </div>
               </div>
@@ -345,16 +345,16 @@ const MenuPage: React.FC<MenuPageProps> = ({
               {/* Mobile Controls - Stacked Layout */}
               <div className="md:hidden space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium text-gray-500">Tampilan:</span>
-                  <div className="flex bg-gray-100 rounded-lg p-1">
+                  <span className="text-sm font-medium text-pink-600">Tampilan:</span>
+                    <div className="flex bg-pink-100 rounded-lg p-1">
                     <motion.button
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => setViewMode('list')}
                       className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
                         viewMode === 'list'
-                          ? 'bg-white text-primary-600 shadow-sm'
-                          : 'text-gray-600 hover:text-gray-800'
+                          ? 'bg-white text-pink-600 shadow-sm'
+                          : 'text-pink-600 hover:text-pink-800'
                       }`}
                     >
                       <List className="w-4 h-4" />
@@ -366,8 +366,8 @@ const MenuPage: React.FC<MenuPageProps> = ({
                       onClick={() => setViewMode('grid')}
                       className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
                         viewMode === 'grid'
-                          ? 'bg-white text-primary-600 shadow-sm'
-                          : 'text-gray-600 hover:text-gray-800'
+                          ? 'bg-white text-pink-600 shadow-sm'
+                          : 'text-pink-600 hover:text-pink-800'
                       }`}
                     >
                       <Grid3X3 className="w-4 h-4" />
@@ -380,14 +380,14 @@ const MenuPage: React.FC<MenuPageProps> = ({
                   <select
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value as 'name' | 'price' | 'popular')}
-                    className="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2 pr-8 text-sm font-medium focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 w-full"
+                    className="appearance-none bg-white border border-pink-300 rounded-lg px-4 py-2 pr-8 text-sm font-medium focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-all duration-200 w-full"
                   >
                     <option value="name">Nama</option>
                     <option value="price">Harga</option>
                     <option value="popular">Populer</option>
                   </select>
                   <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                    <Filter className="w-4 h-4 text-gray-400" />
+                    <Filter className="w-4 h-4 text-pink-400" />
                   </div>
                 </div>
               </div>
@@ -396,12 +396,12 @@ const MenuPage: React.FC<MenuPageProps> = ({
         </section>
 
         {/* Menu Display - Premium Interactive Layout */}
-        <section className="py-2 sm:py-4 md:py-6 bg-gradient-to-br from-white via-gray-50 to-white relative overflow-hidden">
+        <section className="py-2 sm:py-4 md:py-6 bg-gradient-to-br from-pink-50 via-rose-50 to-pink-100 relative overflow-hidden">
           {/* Animated Background Elements */}
           <div className="absolute inset-0">
             {/* Main Gradient Orbs */}
             <motion.div
-              className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-primary-500/15 to-pinky-500/15 rounded-full blur-3xl"
+              className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-pink-400/20 to-rose-400/20 rounded-full blur-3xl"
               animate={{
                 scale: [1, 1.2, 1],
                 opacity: [0.2, 0.4, 0.2],
@@ -415,7 +415,7 @@ const MenuPage: React.FC<MenuPageProps> = ({
               }}
             />
             <motion.div
-              className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-r from-emerald-500/15 to-secondary-500/15 rounded-full blur-3xl"
+              className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-r from-rose-400/20 to-pink-300/20 rounded-full blur-3xl"
               animate={{
                 scale: [1.2, 1, 1.2],
                 opacity: [0.3, 0.5, 0.3],
@@ -457,8 +457,8 @@ const MenuPage: React.FC<MenuPageProps> = ({
             {/* Subtle Grid Pattern */}
             <div className="absolute inset-0 opacity-5">
               <div className="absolute inset-0" style={{
-                backgroundImage: `linear-gradient(45deg, #FF6EC7 1px, transparent 1px),
-                                 linear-gradient(-45deg, #22c55e 1px, transparent 1px)`,
+                backgroundImage: `linear-gradient(45deg, #f472b6 1px, transparent 1px),
+                                 linear-gradient(-45deg, #fb7185 1px, transparent 1px)`,
                 backgroundSize: '40px 40px',
                 backgroundPosition: '0 0, 20px 20px'
               }} />
@@ -468,7 +468,7 @@ const MenuPage: React.FC<MenuPageProps> = ({
             {[...Array(25)].map((_, i) => (
               <motion.div
                 key={i}
-                className="absolute w-1 h-1 bg-gradient-to-r from-primary-500/30 to-pinky-500/30 rounded-full"
+                className="absolute w-1 h-1 bg-gradient-to-r from-pink-400/40 to-rose-400/40 rounded-full"
                 style={{
                   left: `${Math.random() * 100}%`,
                   top: `${Math.random() * 100}%`,
@@ -499,10 +499,10 @@ const MenuPage: React.FC<MenuPageProps> = ({
                   transition={{ duration: 0.6 }}
                   className="mb-2 sm:mb-4 md:mb-6"
                 >
-                  <h2 className="text-lg sm:text-2xl md:text-3xl font-black text-gray-900 mb-0.5 sm:mb-1 font-rounded">
+                  <h2 className="text-lg sm:text-2xl md:text-3xl font-black text-pink-800 mb-0.5 sm:mb-1 font-rounded">
                     {selectedCategory === 'all' ? 'Semua Menu' : selectedCategory}
                   </h2>
-                  <p className="text-xs sm:text-sm text-gray-600 font-medium">
+                  <p className="text-xs sm:text-sm text-pink-600 font-medium">
                     {filteredProducts.length} menu tersedia
                   </p>
                 </motion.div>
@@ -565,9 +565,9 @@ const MenuPage: React.FC<MenuPageProps> = ({
                                   initial={{ opacity: 0, y: -10 }}
                                   animate={{ opacity: 1, y: 0 }}
                                   transition={{ duration: 0.3, delay: categoryIndex * 0.1 }}
-                                  className="sticky top-0 bg-white py-2 z-10"
+                                  className="sticky top-0 bg-pink-50 py-2 z-10"
                                 >
-                                  <h3 className="text-base font-black text-gray-800 font-display border-b-2 border-primary-200 pb-2" style={{ fontWeight: 900 }}>
+                                  <h3 className="text-base font-black text-pink-800 font-display border-b-2 border-pink-300 pb-2" style={{ fontWeight: 900 }}>
                                     {category}
                                   </h3>
                                 </motion.div>
@@ -580,12 +580,12 @@ const MenuPage: React.FC<MenuPageProps> = ({
                                     animate={{ opacity: 1, x: 0 }}
                                     exit={{ opacity: 0, x: 20 }}
                                     transition={{ duration: 0.3, delay: (categoryIndex * 0.1) + (index * 0.02) }}
-                                    className="bg-white rounded-lg border border-gray-200 hover:border-primary-200 hover:shadow-sm transition-all duration-200 px-3 py-2.5 sm:py-2 w-full"
+                                    className="bg-white rounded-lg border border-pink-200 hover:border-pink-300 hover:shadow-sm transition-all duration-200 px-3 py-2.5 sm:py-2 w-full"
                                   >
                                     <div className="flex items-center justify-between gap-2 w-full">
                                       {/* Product Name */}
                                       <div className="flex-1 min-w-0 overflow-hidden">
-                                        <h3 className="text-sm font-semibold text-gray-900 font-display truncate">
+                                        <h3 className="text-sm font-semibold text-pink-900 font-display truncate">
                                           {product.name}
                                         </h3>
                                       </div>
@@ -594,15 +594,15 @@ const MenuPage: React.FC<MenuPageProps> = ({
                                       <div className="text-right flex-shrink-0 max-w-[40%]">
                                         {product.is_minuman ? (
                                           <div className="text-right">
-                                            <div className="text-xs sm:text-sm font-bold text-primary-600 font-display truncate">
+                                            <div className="text-xs sm:text-sm font-bold text-pink-600 font-display truncate">
                                               Regular: Rp {(product.price_regular || product.price).toLocaleString('id-ID')}
                                             </div>
-                                            <div className="text-xs text-gray-600 truncate">
+                                            <div className="text-xs text-pink-500 truncate">
                                               Large: Rp {(product.price_large || product.price).toLocaleString('id-ID')}
                                             </div>
                                           </div>
                                         ) : (
-                                          <div className="text-xs sm:text-sm font-bold text-primary-600 font-display truncate">
+                                          <div className="text-xs sm:text-sm font-bold text-pink-600 font-display truncate">
                                             Rp {product.price.toLocaleString('id-ID')}
                                           </div>
                                         )}
@@ -626,12 +626,12 @@ const MenuPage: React.FC<MenuPageProps> = ({
                                 animate={{ opacity: 1, x: 0 }}
                                 exit={{ opacity: 0, x: 20 }}
                                 transition={{ duration: 0.3, delay: index * 0.02 }}
-                                className="bg-white rounded-lg border border-gray-200 hover:border-primary-200 hover:shadow-sm transition-all duration-200 px-3 py-2 w-full"
+                                className="bg-white rounded-lg border border-pink-200 hover:border-pink-300 hover:shadow-sm transition-all duration-200 px-3 py-2 w-full"
                               >
                                 <div className="flex items-center justify-between gap-2 w-full">
                                   {/* Product Name */}
                                   <div className="flex-1 min-w-0 overflow-hidden">
-                                    <h3 className="text-sm font-semibold text-gray-900 font-display truncate">
+                                    <h3 className="text-sm font-semibold text-pink-900 font-display truncate">
                                       {product.name}
                                     </h3>
                                   </div>
@@ -640,15 +640,15 @@ const MenuPage: React.FC<MenuPageProps> = ({
                                   <div className="text-right flex-shrink-0 max-w-[40%]">
                                     {product.is_minuman ? (
                                       <div className="text-right">
-                                        <div className="text-xs sm:text-sm font-bold text-primary-600 font-display truncate">
+                                        <div className="text-xs sm:text-sm font-bold text-pink-600 font-display truncate">
                                           Regular: Rp {(product.price_regular || product.price).toLocaleString('id-ID')}
                                         </div>
-                                        <div className="text-xs text-gray-600 truncate">
+                                        <div className="text-xs text-pink-500 truncate">
                                           Large: Rp {(product.price_large || product.price).toLocaleString('id-ID')}
                                         </div>
                                       </div>
                                     ) : (
-                                      <div className="text-xs sm:text-sm font-bold text-primary-600 font-display truncate">
+                                      <div className="text-xs sm:text-sm font-bold text-pink-600 font-display truncate">
                                         Rp {product.price.toLocaleString('id-ID')}
                                       </div>
                                     )}
@@ -719,9 +719,9 @@ const MenuPage: React.FC<MenuPageProps> = ({
                                   initial={{ opacity: 0, y: -10 }}
                                   animate={{ opacity: 1, y: 0 }}
                                   transition={{ duration: 0.3, delay: categoryIndex * 0.1 }}
-                                  className="sticky top-0 bg-white py-2 z-10"
+                                  className="sticky top-0 bg-pink-50 py-2 z-10"
                                 >
-                                  <h3 className="text-xl font-black text-gray-800 font-display border-b-2 border-primary-200 pb-3" style={{ fontWeight: 900 }}>
+                                  <h3 className="text-xl font-black text-pink-800 font-display border-b-2 border-pink-300 pb-3" style={{ fontWeight: 900 }}>
                                     {category}
                                   </h3>
                                 </motion.div>
@@ -796,13 +796,13 @@ const MenuPage: React.FC<MenuPageProps> = ({
                 transition={{ duration: 0.6 }}
                 className="text-center py-16"
               >
-                <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <Search className="w-12 h-12 text-gray-400" />
+                <div className="w-24 h-24 bg-pink-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Search className="w-12 h-12 text-pink-400" />
                 </div>
-                <h3 className="text-2xl font-black text-gray-900 mb-4 font-rounded">
+                <h3 className="text-2xl font-black text-pink-800 mb-4 font-rounded">
                   Menu tidak ditemukan
                 </h3>
-                <p className="text-gray-600 mb-6 font-medium">
+                <p className="text-pink-600 mb-6 font-medium">
                   Coba gunakan kata kunci yang berbeda atau pilih kategori lain
                 </p>
                 <motion.button
@@ -812,7 +812,7 @@ const MenuPage: React.FC<MenuPageProps> = ({
                     setSearchQuery('');
                     setSelectedCategory('all');
                   }}
-                  className="bg-primary-500 text-white px-6 py-3 rounded-xl font-bold hover:bg-primary-600 transition-all duration-200"
+                  className="bg-pink-500 text-white px-6 py-3 rounded-xl font-bold hover:bg-pink-600 transition-all duration-200"
                 >
                   Reset Filter
                 </motion.button>
