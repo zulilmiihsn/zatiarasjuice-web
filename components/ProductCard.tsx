@@ -2,7 +2,7 @@
 
 import React, { useState, memo, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { ShoppingCart, Apple } from 'lucide-react';
+import { ShoppingCart, Apple, MessageCircle, Truck } from 'lucide-react';
 import Image from 'next/image';
 
 interface ProductCardProps {
@@ -258,7 +258,7 @@ const ProductCard: React.FC<ProductCardProps> = memo(({
               initial={false}
             />
             <span className="relative z-10 flex items-center justify-center gap-1">
-              <span className="text-xs sm:text-sm">💬</span>
+              <MessageCircle className="w-3 h-3 sm:w-4 sm:h-4" />
               <span className="text-xs sm:text-sm">WhatsApp</span>
             </span>
           </motion.a>
@@ -272,14 +272,14 @@ const ProductCard: React.FC<ProductCardProps> = memo(({
             href="https://gofood.co.id/merchant/zatiaras-juice"
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-gradient-to-r from-gold-500 to-accent-500 text-white py-2 sm:py-3 px-2 sm:px-4 rounded-lg sm:rounded-2xl text-xs font-bold hover:from-orange-500 hover:to-gold-600 transition-all duration-300 text-center max-w-full truncate shadow-glow-gold hover:shadow-glow-orange relative overflow-hidden group"
+            className="bg-gradient-to-r from-red-500 to-red-600 text-white py-2 sm:py-3 px-2 sm:px-4 rounded-lg sm:rounded-2xl text-xs font-bold hover:from-red-600 hover:to-red-700 transition-all duration-300 text-center max-w-full truncate shadow-lg hover:shadow-xl relative overflow-hidden group"
           >
             <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-orange-500 to-gold-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              className="absolute inset-0 bg-gradient-to-r from-red-600 to-red-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
               initial={false}
             />
             <span className="relative z-10 flex items-center justify-center gap-1">
-              <span className="text-xs sm:text-sm">🚚</span>
+              <Truck className="w-3 h-3 sm:w-4 sm:h-4" />
               <span className="text-xs sm:text-sm">GoFood</span>
             </span>
           </motion.a>

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform, useSpring, useMotionValue } from 'framer-motion';
-import { ChevronLeft, ChevronRight, Play, Pause, Sparkles } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Play, Pause, Sparkles, MessageCircle } from 'lucide-react';
 import Image from 'next/image';
 
 interface HeroSlide {
@@ -479,7 +479,7 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
                       initial={false}
                     />
                     <span className="relative z-10 flex items-center justify-center gap-2">
-                      <span className="text-2xl">💬</span>
+                      <MessageCircle className="w-6 h-6" />
                       <span>Order via WhatsApp</span>
                     </span>
                   </motion.a>

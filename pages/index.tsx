@@ -3,6 +3,7 @@ import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
+import { Phone, Clock } from 'lucide-react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import HeroBanner from '../components/HeroBanner';
@@ -295,10 +296,10 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                     
                     <div className="space-y-2 text-sm text-gray-500">
                       <p className="flex items-center gap-2">
-                      <span>📞</span> +62812-3456-7890
+                      <Phone className="w-4 h-4 text-pink-500" /> +62812-3456-7890
                     </p>
                       <p className="flex items-center gap-2">
-                      <span>🕒</span> 08:00 - 22:00 WITA
+                      <Clock className="w-4 h-4 text-pink-500" /> 08:00 - 22:00 WITA
                     </p>
                     </div>
                   </div>
@@ -427,10 +428,10 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                     
                     <div className="space-y-2 text-sm text-gray-500">
                       <p className="flex items-center gap-2">
-                      <span>📞</span> +62812-3456-7891
+                      <Phone className="w-4 h-4 text-pink-500" /> +62812-3456-7891
                     </p>
                       <p className="flex items-center gap-2">
-                      <span>🕒</span> 08:00 - 22:00 WITA
+                      <Clock className="w-4 h-4 text-pink-500" /> 08:00 - 22:00 WITA
                     </p>
                     </div>
                   </div>

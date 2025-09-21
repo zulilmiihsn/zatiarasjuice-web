@@ -9,7 +9,10 @@ import {
   Instagram, 
   Facebook, 
   Clock,
-  Heart
+  Heart,
+  MessageCircle,
+  Truck,
+  Utensils
 } from 'lucide-react';
 
 interface FooterProps {
@@ -260,9 +263,13 @@ const Footer: React.FC<FooterProps> = ({ branch }) => {
                   className="block bg-gradient-to-r from-gray-700 to-gray-600 hover:from-primary-500 hover:to-cute-500 rounded-xl px-6 py-3 text-sm font-bold transition-all duration-300 shadow-cute hover:shadow-elegant"
                 >
                   <span className="flex items-center gap-2">
-                    <span className="text-lg">
-                      {partner.name === 'WhatsApp' ? '💬' : partner.name === 'GoFood' ? '🚚' : '🍽️'}
-                    </span>
+                    {partner.name === 'WhatsApp' ? (
+                      <MessageCircle className="w-5 h-5 text-green-500" />
+                    ) : partner.name === 'GoFood' ? (
+                      <Truck className="w-5 h-5 text-red-500" />
+                    ) : (
+                      <Utensils className="w-5 h-5 text-orange-500" />
+                    )}
                     <span>{partner.name}</span>
                   </span>
                 </motion.a>
