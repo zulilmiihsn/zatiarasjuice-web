@@ -185,20 +185,37 @@ export const getCategories = async (branch: Branch): Promise<Category[]> => {
   return transformedData;
 };
 
-// Function untuk mendapatkan info cabang
-export const getBranchInfo = async (branch: Branch): Promise<BranchInfo | null> => {
-  const supabase = createSupabaseClient(branch);
-  const { data, error } = await supabase
-    .from('cabang')
-    .select('*')
-    .single();
-
-  if (error) {
-    console.error('Error fetching branch info:', error);
-    return null;
+// Hardcoded branch info - tidak perlu database
+const branchInfoData: Record<Branch, BranchInfo> = {
+  berau: {
+    id: 'berau',
+    name: 'Berau',
+    address: 'Jl. Ahmad Yani No. 123, Berau, Kalimantan Timur',
+    phone: '+62812-3456-7890',
+    whatsapp: '+62812-3456-7890',
+    hours: '08:00 - 22:00 WITA',
+    latitude: -2.1750,
+    longitude: 117.4900,
+    is_active: true,
+    delivery_radius: 10
+  },
+  samarinda: {
+    id: 'samarinda',
+    name: 'Samarinda',
+    address: 'Jl. Sudirman No. 456, Samarinda, Kalimantan Timur',
+    phone: '+62812-3456-7891',
+    whatsapp: '+62812-3456-7891',
+    hours: '08:00 - 22:00 WITA',
+    latitude: -0.5021,
+    longitude: 117.1536,
+    is_active: true,
+    delivery_radius: 15
   }
+};
 
-  return data;
+// Function untuk mendapatkan info cabang (hardcoded)
+export const getBranchInfo = async (branch: Branch): Promise<BranchInfo | null> => {
+  return branchInfoData[branch] || null;
 };
 
 // Function untuk menghitung jarak antara dua koordinat (Haversine formula)
@@ -225,8 +242,8 @@ export const getNearestBranch = async (
   userLon: number
 ): Promise<Branch | null> => {
   try {
-    const berauInfo = await getBranchInfo('berau');
-    const samarindaInfo = await getBranchInfo('samarinda');
+    const berauInfo = branchInfoData['berau'];
+    const samarindaInfo = branchInfoData['samarinda'];
 
     if (!berauInfo || !samarindaInfo) return null;
 

@@ -54,8 +54,7 @@ const ProductCard: React.FC<ProductCardProps> = memo(({
   };
 
   const hasImage = product.gambar && product.gambar.trim().length > 0;
-  const imageSrc = hasImage ? product.gambar! : '/images/juice-placeholder.svg';
-  const isPlaceholder = !hasImage || imageSrc.includes('placeholder');
+  const isPlaceholder = !hasImage;
 
   return (
     <motion.div
@@ -81,16 +80,27 @@ const ProductCard: React.FC<ProductCardProps> = memo(({
         {(() => {
           return (
             <>
-              <Image
-                src={imageSrc}
-                alt={product.name}
-                fill
-                className="object-cover transition-all duration-500 group-hover:scale-110 group-hover:rotate-2 img-optimized silky-smooth"
-                onError={() => {}}
-                priority={false}
-                loading="lazy"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              />
+              {hasImage ? (
+                <Image
+                  src={product.gambar!}
+                  alt={product.name}
+                  fill
+                  className="object-cover transition-all duration-500 group-hover:scale-110 group-hover:rotate-2 img-optimized silky-smooth"
+                  priority={false}
+                  loading="lazy"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                />
+              ) : (
+                <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-pink-100 via-rose-50 to-pink-100">
+                  <div className="text-center">
+                    <div className="w-16 h-16 mx-auto mb-3 bg-gradient-to-br from-pink-400 to-rose-500 rounded-2xl flex items-center justify-center shadow-lg">
+                      <span className="text-2xl">🥤</span>
+                    </div>
+                    <p className="text-sm text-pink-600 font-semibold">Jus Segar</p>
+                    <p className="text-xs text-pink-500">Gambar akan tampil di sini</p>
+                  </div>
+                </div>
+              )}
               {/* Gradient Overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               
@@ -108,35 +118,6 @@ const ProductCard: React.FC<ProductCardProps> = memo(({
                 }}
               />
               
-              {isPlaceholder && (
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <motion.div 
-                    className="w-20 h-20 bg-gradient-to-br from-primary-100 to-pinky-100 rounded-full flex items-center justify-center shadow-glow-primary"
-                    animate={{ 
-                      scale: [1, 1.1, 1],
-                      rotate: [0, 5, -5, 0],
-                    }}
-                    transition={{ 
-                      duration: 3,
-                      repeat: Infinity,
-                      ease: 'easeInOut'
-                    }}
-                  >
-                    <motion.div
-                      animate={{ 
-                        rotate: [0, 360],
-                      }}
-                      transition={{ 
-                        duration: 4,
-                        repeat: Infinity,
-                        ease: 'linear'
-                      }}
-                    >
-                      <Apple className="w-10 h-10 text-primary-500" />
-                    </motion.div>
-                  </motion.div>
-                </div>
-              )}
             </>
           );
         })()}
