@@ -3,6 +3,33 @@ import Head from 'next/head';
 import { useEffect } from 'react';
 import '../styles/globals.css';
 
+// Preload critical resources
+if (typeof window !== 'undefined') {
+  // Preload critical fonts
+  const preloadFont = (href: string, as: string) => {
+    const link = document.createElement('link');
+    link.rel = 'preload';
+    link.href = href;
+    link.as = as;
+    link.crossOrigin = 'anonymous';
+    document.head.appendChild(link);
+  };
+
+  // Preload critical images
+  const preloadImage = (src: string) => {
+    const link = document.createElement('link');
+    link.rel = 'preload';
+    link.href = src;
+    link.as = 'image';
+    document.head.appendChild(link);
+  };
+
+  // Preload critical resources
+  preloadFont('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;500;600;700;800;900&display=swap', 'style');
+  preloadImage('/images/hero-avocado.jpg');
+  preloadImage('/images/hero-fruits.jpg');
+}
+
 export default function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
     // Font sudah di-import via globals.css
@@ -31,7 +58,6 @@ export default function App({ Component, pageProps }: AppProps) {
         {/* CRITICAL RESOURCE PRELOADING */}
         <link rel="preload" href="/images/hero-avocado.jpg" as="image" type="image/jpeg" />
         <link rel="preload" href="/images/hero-fruits.jpg" as="image" type="image/jpeg" />
-        <link rel="preload" href="/images/hero-seasonal.jpg" as="image" type="image/jpeg" />
         <link rel="preload" href="/images/juice-placeholder.svg" as="image" type="image/svg+xml" />
         
         {/* DNS PREFETCH untuk external resources */}

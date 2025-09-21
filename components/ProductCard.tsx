@@ -36,8 +36,11 @@ const ProductCard: React.FC<ProductCardProps> = memo(({
   const handleAddToCart = useCallback(async () => {
     if (onAddToCart) {
       setIsAddingToCart(true);
-      await onAddToCart({ ...product, quantity: 1 });
-      setIsAddingToCart(false);
+      try {
+        await onAddToCart({ ...product, quantity: 1 });
+      } finally {
+        setIsAddingToCart(false);
+      }
     }
   }, [onAddToCart, product]);
 

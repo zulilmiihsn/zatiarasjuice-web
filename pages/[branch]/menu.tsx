@@ -1,14 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense, useMemo, useCallback } from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import Head from 'next/head';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Filter, Grid3X3, List } from 'lucide-react';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
-import ProductCard from '../../components/ProductCard';
+import LoadingSpinner from '../../components/LoadingSpinner';
 import { getBranchSEOData, getMenuStructuredData } from '../../lib/seo';
 import { getProducts, getCategories, getBranchInfo } from '../../lib/supabase';
 import type { Branch, Product, Category } from '../../lib/supabase';
+
+// Lazy load heavy components for better performance
+const ProductCard = lazy(() => import('../../components/ProductCard'));
 
 interface MenuPageProps {
   branch: Branch;
@@ -25,13 +28,12 @@ const MenuPage: React.FC<MenuPageProps> = ({
   seoData 
 }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
-  const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [sortBy, setSortBy] = useState<'name' | 'price' | 'popular'>('name');
   const [viewMode, setViewMode] = useState<'list' | 'grid'>('list');
 
-  // Filter and sort products
-  useEffect(() => {
+  // Optimized filter and sort products with useMemo
+  const filteredProducts = useMemo(() => {
     let filtered = products;
 
     // Filter by category
@@ -41,9 +43,10 @@ const MenuPage: React.FC<MenuPageProps> = ({
 
     // Filter by search query
     if (searchQuery) {
+      const query = searchQuery.toLowerCase();
       filtered = filtered.filter(product => 
-        product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        product.description?.toLowerCase().includes(searchQuery.toLowerCase())
+        product.name.toLowerCase().includes(query) ||
+        product.description?.toLowerCase().includes(query)
       );
     }
 
@@ -61,15 +64,15 @@ const MenuPage: React.FC<MenuPageProps> = ({
       }
     });
 
-    setFilteredProducts(filtered);
+    return filtered;
   }, [selectedCategory, searchQuery, sortBy, products]);
 
+  // No need for useEffect since we're using useMemo directly
 
-
-  const handleAddToCart = () => {
+  const handleAddToCart = useCallback(() => {
     // Add to cart logic here
     // Product added to cart
-  };
+  }, []);
 
   // Define category priority order for filter buttons
   const categoryPriority = [
@@ -136,7 +139,7 @@ const MenuPage: React.FC<MenuPageProps> = ({
         />
       </Head>
 
-      <div className="min-h-screen overflow-x-hidden">
+      <div className="min-h-screen bg-white overflow-x-hidden">
         <Header branch={branch} currentPath={`/${branch}/menu`} />
         
         {/* Menu Header - Premium Digital Menu Style */}
@@ -177,21 +180,24 @@ const MenuPage: React.FC<MenuPageProps> = ({
             {['🍹', '🥤', '🍓', '🥭', '🍊', '🍇', '🥑', '🍌'].map((icon, i) => (
               <motion.div
                 key={i}
-                className="absolute text-2xl opacity-10"
+                className="absolute text-2xl opacity-10 silky-smooth fps-60"
                 style={{
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`,
+                  left: `${(i * 12.5) % 100}%`,
+                  top: `${(i * 12.5) % 100}%`,
+                  willChange: 'transform, opacity',
+                  contain: 'layout style paint',
+                  transform: 'translateZ(0)',
                 }}
                 animate={{
-                  y: [0, -20, 0],
-                  rotate: [0, 10, -10, 0],
-                  scale: [0.7, 1.1, 0.7],
+                  y: [0, -15, 0],
+                  rotate: [0, 5, -5, 0],
+                  scale: [0.8, 1.0, 0.8],
                 }}
                 transition={{
-                  duration: 6 + Math.random() * 2,
+                  duration: 8 + i * 0.5,
                   repeat: Infinity,
-                  ease: 'easeInOut',
-                  delay: i * 0.3,
+                  ease: 'linear',
+                  delay: i * 0.2,
                 }}
               >
                 {icon}
@@ -731,10 +737,16 @@ const MenuPage: React.FC<MenuPageProps> = ({
                                       transition={{ duration: 0.4, delay: (categoryIndex * 0.1) + (index * 0.05) }}
                                       className="w-full"
                                     >
-                                      <ProductCard 
-                                        product={product} 
-                                        onAddToCart={handleAddToCart}
-                                      />
+                                      <Suspense fallback={
+                                        <div className="h-64 bg-gray-100 rounded-2xl animate-pulse flex items-center justify-center">
+                                          <LoadingSpinner size="md" variant="pulse" />
+                                        </div>
+                                      }>
+                                        <ProductCard 
+                                          product={product} 
+                                          onAddToCart={handleAddToCart}
+                                        />
+                                      </Suspense>
                                     </motion.div>
                                   ))}
                                 </div>
@@ -757,10 +769,16 @@ const MenuPage: React.FC<MenuPageProps> = ({
                                   transition={{ duration: 0.4, delay: index * 0.05 }}
                                   className="w-full"
                                 >
-                                  <ProductCard 
-                                    product={product} 
-                                    onAddToCart={handleAddToCart}
-                                  />
+                                  <Suspense fallback={
+                                    <div className="h-64 bg-gray-100 rounded-2xl animate-pulse flex items-center justify-center">
+                                      <LoadingSpinner size="md" variant="pulse" />
+                                    </div>
+                                  }>
+                                    <ProductCard 
+                                      product={product} 
+                                      onAddToCart={handleAddToCart}
+                                    />
+                                  </Suspense>
                                 </motion.div>
                               ))}
                             </AnimatePresence>

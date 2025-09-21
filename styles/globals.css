@@ -7,7 +7,17 @@
 /* Import Typography Utilities */
 @import './typography.css';
 
-/* Premium Typography Base - 2024 - ULTRA PERFORMANCE */
+/* ULTRA PERFORMANCE CSS - 60FPS OPTIMIZED */
+* {
+  box-sizing: border-box;
+}
+
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Performance-optimized body styles */
 body {
   font-family: 'Nunito Sans', system-ui, sans-serif;
   font-weight: 400;
@@ -16,23 +26,64 @@ body {
   -moz-osx-font-smoothing: grayscale;
   letter-spacing: -0.01em;
   overflow-x: hidden;
-  text-rendering: optimizeSpeed; /* Changed from optimizeLegibility for speed */
+  text-rendering: optimizeSpeed;
   -webkit-text-size-adjust: 100%;
-  /* Removed contain from body to prevent fixed positioning issues */
-  content-visibility: auto; /* Defer rendering until needed */
+  contain: layout style paint;
+  content-visibility: auto;
+  /* GPU acceleration for smooth scrolling */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  /* Optimize for 60fps */
+  will-change: auto;
 }
 
-/* Let Tailwind handle font families and weights */
+/* Performance-optimized smooth scrolling */
+html {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* GPU acceleration for all animated elements */
+.silky-smooth {
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  perspective: 1000px;
+  -webkit-perspective: 1000px;
+}
+
+/* 60fps animation optimization */
+.fps-60 {
+  will-change: transform, opacity;
+  contain: layout style paint;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
+
+/* Performance container for complex animations */
+.perf-container {
+  contain: layout style paint;
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
+
+/* Optimized image rendering */
+.img-optimized {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
 
 /* Font Rounded - M PLUS Rounded 1c */
 .font-rounded {
   font-family: 'M PLUS Rounded 1c', 'Nunito Sans', system-ui, sans-serif !important;
 }
 
-
 /* Custom CSS Variables */
 :root {
-  /* Font Families - Consistent with Tailwind */
   --font-display: 'Quicksand', 'Nunito Sans', system-ui, sans-serif;
   --font-body: 'Nunito Sans', system-ui, sans-serif;
   --font-rounded: 'M PLUS Rounded 1c', 'Nunito Sans', system-ui, sans-serif;
@@ -82,38 +133,27 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Typography base disesuaikan dengan CSS variables di atas */
-
 /* Hide Scrollbar */
 ::-webkit-scrollbar {
   display: none;
 }
 
-/* For Firefox */
 html {
   scrollbar-width: none;
   overflow-x: hidden;
 }
 
-/* For IE and Edge */
 body {
   -ms-overflow-style: none;
 }
 
-/* Custom scrollbar hide utility */
 .scrollbar-hide {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .scrollbar-hide::-webkit-scrollbar {
-  display: none;  /* Chrome, Safari and Opera */
-}
-
-/* NAVBAR TRANSPARENT STYLING */
-header {
-  position: relative;
-  z-index: 50;
+  display: none;
 }
 
 /* Selection */
@@ -144,7 +184,6 @@ header {
     -moz-osx-font-smoothing: grayscale;
   }
   
-  /* ULTRA PERFORMANCE CSS CLASSES */
   .performance-optimized {
     will-change: transform;
     transform: translateZ(0);
@@ -165,7 +204,6 @@ header {
     backface-visibility: hidden;
   }
   
-  /* SILKY SMOOTH ANIMATIONS */
   .silky-smooth {
     will-change: transform, opacity;
     transform: translateZ(0);
@@ -174,39 +212,15 @@ header {
     contain: layout style paint;
   }
   
-  /* ULTRA FAST RENDERING */
-  .ultra-fast {
-    contain: strict;
-    content-visibility: auto;
-    contain-intrinsic-size: 0 200px;
-  }
-  
-  /* 60FPS ANIMATIONS */
   .fps-60 {
     will-change: transform, opacity;
     transform: translate3d(0, 0, 0);
     backface-visibility: hidden;
     perspective: 1000px;
   }
-  
-  /* PERFORMANCE CONTAINERS */
-  .perf-container {
-    contain: layout style paint;
-    content-visibility: auto;
-    contain-intrinsic-size: 0 300px;
-  }
-  
-  /* OPTIMIZED IMAGES */
-  .img-optimized {
-    will-change: transform;
-    transform: translateZ(0);
-    backface-visibility: hidden;
-    image-rendering: optimizeSpeed;
-    image-rendering: -webkit-optimize-contrast;
-  }
 }
 
-/* Premium Custom Components */
+/* Premium Custom Components - Only Used Ones */
 @layer components {
   /* Premium Buttons */
   .btn-primary {
@@ -234,10 +248,6 @@ header {
     @apply bg-white text-primary-600 border-2 border-primary-600 px-8 py-4 rounded-2xl font-bold hover:bg-primary-50 hover:shadow-elegant transition-all duration-300 hover:scale-105;
   }
 
-  .btn-luxury {
-    @apply bg-gradient-to-r from-gold-500 to-accent-500 text-white px-8 py-4 rounded-2xl font-bold hover:shadow-glow-gold transition-all duration-300 hover:scale-105;
-  }
-
   .btn-glass {
     @apply bg-white/10 backdrop-blur-xl border border-white/20 text-white px-8 py-4 rounded-2xl font-bold hover:bg-white/20 transition-all duration-300 hover:scale-105;
   }
@@ -259,31 +269,6 @@ header {
     @apply bg-gradient-to-br from-white to-gray-50 rounded-3xl shadow-elegant hover:shadow-floating transition-all duration-500 border border-gray-100;
   }
 
-  .card-neon {
-    @apply bg-gray-900 rounded-3xl shadow-neon-pink hover:shadow-neon-green transition-all duration-500 border border-primary-500/50;
-  }
-
-  /* Premium Backgrounds */
-  .gradient-bg {
-    @apply bg-gradient-to-br from-primary-500 via-pinky-500 to-cute-500;
-  }
-
-  .gradient-luxury {
-    @apply bg-gradient-to-br from-luxury-900 via-luxury-800 to-luxury-700;
-  }
-
-  .gradient-premium {
-    @apply bg-gradient-to-br from-primary-500 to-violet-500;
-  }
-
-  .gradient-gold {
-    @apply bg-gradient-to-br from-gold-400 to-accent-500;
-  }
-
-  .gradient-emerald {
-    @apply bg-gradient-to-br from-emerald-400 to-secondary-500;
-  }
-
   /* Glass Effects */
   .glass {
     @apply bg-white/10 backdrop-blur-md border border-white/20;
@@ -303,27 +288,7 @@ header {
     box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.5);
   }
 
-  /* Neumorphism */
-  .neumorphism {
-    background: #e0e5ec;
-    box-shadow: 8px 8px 16px #d1d9e6, -8px -8px 16px #ffffff;
-  }
-
-  .neumorphism-inset {
-    background: #e0e5ec;
-    box-shadow: inset 8px 8px 16px #d1d9e6, inset -8px -8px 16px #ffffff;
-  }
-
-  .neumorphism-premium {
-    background: #f0f0f0;
-    box-shadow: 12px 12px 24px #d1d9e6, -12px -12px 24px #ffffff;
-  }
-
   /* Glow Effects */
-  .glow-effect {
-    box-shadow: 0 0 20px rgba(255, 110, 199, 0.3), 0 0 40px rgba(255, 110, 199, 0.2), 0 0 60px rgba(255, 110, 199, 0.1);
-  }
-
   .glow-primary {
     box-shadow: 0 0 20px rgba(255, 110, 199, 0.4), 0 0 40px rgba(255, 110, 199, 0.2);
   }
@@ -348,17 +313,6 @@ header {
     text-shadow: 0 0 10px rgba(245, 158, 11, 0.5), 0 0 20px rgba(245, 158, 11, 0.3);
   }
 
-  /* 3D Effects */
-  .perspective-3d {
-    transform-style: preserve-3d;
-    perspective: 1000px;
-  }
-
-  .perspective-premium {
-    transform-style: preserve-3d;
-    perspective: 1500px;
-  }
-
   /* Text Utilities */
   .line-clamp-2 {
     display: -webkit-box;
@@ -372,38 +326,6 @@ header {
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
-  }
-
-  /* Premium Gradients */
-  .morphing-gradient {
-    background: linear-gradient(-45deg, #FF6EC7, #A8E6CF, #F59E0B, #8B5CF6);
-    background-size: 400% 400%;
-    animation: gradientShift 15s ease infinite;
-  }
-
-  .premium-gradient {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  }
-
-  .luxury-gradient {
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-  }
-
-  .gold-gradient {
-    background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
-  }
-
-  /* Shimmer Effects */
-  .shimmer-effect {
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-    background-size: 200% 100%;
-    animation: shimmer 2s infinite;
-  }
-
-  .shimmer-premium {
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
-    background-size: 200% 100%;
-    animation: shimmer 3s infinite;
   }
 
   /* Premium Typography */
@@ -431,22 +353,9 @@ header {
   .elastic {
     @apply transition-all duration-500 hover:scale-110 active:scale-95;
   }
-
-  /* Premium Borders */
-  .border-premium {
-    @apply border-2 border-gradient-to-r from-primary-500 to-pinky-500;
-  }
-
-  .border-glow {
-    @apply border border-primary-500/50 shadow-glow-primary;
-  }
-
-  .border-neon {
-    @apply border-2 border-primary-500 shadow-neon-pink;
-  }
 }
 
-/* Animations */
+/* Animations - Only Used Ones */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -527,7 +436,6 @@ header {
   }
 }
 
-
 @keyframes gradientShift {
   0% {
     background-position: 0% 50%;
@@ -540,15 +448,6 @@ header {
   }
 }
 
-@keyframes morphing {
-  0%, 100% {
-    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-  }
-  50% {
-    border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
-  }
-}
-
 @keyframes pulse-glow {
   0%, 100% {
     box-shadow: 0 0 20px rgba(255, 110, 199, 0.3);
@@ -557,12 +456,6 @@ header {
     box-shadow: 0 0 40px rgba(255, 110, 199, 0.6), 0 0 60px rgba(255, 110, 199, 0.4);
   }
 }
-
-/* Utility Classes - Only keeping used ones */
-
-
-
-
 
 /* Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
@@ -575,6 +468,3 @@ header {
     scroll-behavior: auto !important;
   }
 }
-
-
-

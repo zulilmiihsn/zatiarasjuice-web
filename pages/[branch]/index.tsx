@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { MapPin, Phone, Clock } from 'lucide-react';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import Head from 'next/head';
@@ -6,10 +6,13 @@ import { motion } from 'framer-motion';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import HeroBanner from '../../components/HeroBanner';
-import ProductCard from '../../components/ProductCard';
+import LoadingSpinner from '../../components/LoadingSpinner';
 import { getBranchSEOData, getMenuStructuredData } from '../../lib/seo';
 import { getProducts, getCategories, getBranchInfo } from '../../lib/supabase';
 import type { Branch, Product, Category } from '../../lib/supabase';
+
+// Lazy load heavy components for better performance
+const ProductCard = lazy(() => import('../../components/ProductCard'));
 
 interface BranchPageProps {
   branch: Branch;
@@ -69,7 +72,7 @@ const BranchPage: React.FC<BranchPageProps> = ({
         />
       </Head>
 
-      <div className="min-h-screen">
+      <div className="min-h-screen bg-white">
         <Header branch={branch} currentPath={`/${branch}`} />
         
         {/* Hero Section - Trendy 2024 dengan Parallax */}
@@ -348,10 +351,16 @@ const BranchPage: React.FC<BranchPageProps> = ({
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: index * 0.1 }}
                   >
-                    <ProductCard 
-                      product={product} 
-                      onAddToCart={handleAddToCart}
-                    />
+                    <Suspense fallback={
+                      <div className="h-64 bg-gray-100 rounded-2xl animate-pulse flex items-center justify-center">
+                        <LoadingSpinner size="md" variant="pulse" />
+                      </div>
+                    }>
+                      <ProductCard 
+                        product={product} 
+                        onAddToCart={handleAddToCart}
+                      />
+                    </Suspense>
                   </motion.div>
                 ))}
               </div>

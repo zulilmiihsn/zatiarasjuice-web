@@ -9,7 +9,7 @@ import HeroBanner from '../components/HeroBanner';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { getUserLocationWithFallback } from '../lib/geolocation';
 
-// Lazy load heavy components
+// Lazy load heavy components for better performance
 const ProductCard = lazy(() => import('../components/ProductCard'));
 
 interface HomePageProps {
@@ -89,12 +89,15 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
         />
       </Head>
 
-      <div className="min-h-screen">
-        <Header />
+      <div className="min-h-screen bg-white">
+        <Header 
+          branch={nearestBranch as 'berau' | 'samarinda' | undefined}
+          currentPath={router.asPath}
+        />
 
         {/* Hero Section - Interactive & Trendy */}
         <HeroBanner 
-          branch={nearestBranch as 'berau' | 'samarinda' | null}
+          branch={nearestBranch as 'berau' | 'samarinda' | undefined}
           onBranchSelect={handleBranchSelect}
         />
 
@@ -502,29 +505,32 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
               }}
             />
             
-            {/* Floating Geometric Shapes */}
-            {[...Array(8)].map((_, i) => (
+            {/* Floating Geometric Shapes - Optimized for Performance */}
+            {[...Array(4)].map((_, i) => (
               <motion.div
                 key={i}
-                className="absolute"
+                className="absolute silky-smooth fps-60"
                 style={{
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`,
+                  left: `${(i * 25) % 100}%`,
+                  top: `${(i * 25) % 100}%`,
+                  willChange: 'transform, opacity',
+                  contain: 'layout style paint',
+                  transform: 'translateZ(0)',
                 }}
                 animate={{
-                  x: [0, Math.random() * 100 - 50],
-                  y: [0, Math.random() * 100 - 50],
-                  rotate: [0, 360],
-                  scale: [0.8, 1.2, 0.8],
-                  opacity: [0.1, 0.3, 0.1],
+                  x: [0, 20, 0],
+                  y: [0, 15, 0],
+                  rotate: [0, 180, 360],
+                  scale: [0.8, 1.1, 0.8],
+                  opacity: [0.1, 0.2, 0.1],
                 }}
                 transition={{
-                  duration: 15 + Math.random() * 10,
+                  duration: 12 + i * 2,
                   repeat: Infinity,
-                  ease: 'easeInOut',
+                  ease: 'linear',
                 }}
               >
-                <div className={`w-${20 + Math.random() * 30} h-${20 + Math.random() * 30} bg-gradient-to-r from-primary-500/10 to-pinky-500/10 rounded-2xl blur-sm`} />
+                <div className="w-16 h-16 bg-gradient-to-r from-primary-500/10 to-pinky-500/10 rounded-2xl blur-sm" />
               </motion.div>
             ))}
             
@@ -781,8 +787,12 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
                   >
-                    <Suspense fallback={<div className="h-64 bg-gray-100 rounded-2xl animate-pulse" />}>
-                    <ProductCard product={product} />
+                    <Suspense fallback={
+                      <div className="h-64 bg-gray-100 rounded-2xl animate-pulse flex items-center justify-center">
+                        <LoadingSpinner size="md" variant="pulse" />
+                      </div>
+                    }>
+                      <ProductCard product={product} />
                     </Suspense>
                   </motion.div>
                 ))}

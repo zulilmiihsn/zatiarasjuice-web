@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -14,8 +14,6 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const router = useRouter();
-
-  // Removed scroll effect for better performance - navbar stays transparent
 
   const navigationItems = [
     { name: 'Menu', href: branch ? `/${branch}/menu` : '/menu' },
@@ -46,7 +44,12 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
   };
 
   return (
-    <header className="w-full bg-transparent">
+    <motion.header
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.6, ease: 'easeOut' }}
+      className="absolute top-0 left-0 right-0 z-50 bg-transparent"
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-12 lg:h-14">
           {/* Logo */}
@@ -226,10 +229,10 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
                 className="absolute inset-0 rounded-2xl"
                 whileHover={{
                   background: [
-                    'linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)',
-                    'linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent)',
-                    'linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)'
-                  ],
+                        'linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)',
+                        'linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent)',
+                        'linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)'
+                      ],
                   backgroundPosition: ['-100%', '100%', '-100%']
                 }}
                 transition={{
@@ -289,7 +292,7 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="lg:hidden bg-white/10 backdrop-blur-xl border-t border-white/20 shadow-strong"
+            className="lg:hidden bg-white/95 backdrop-blur-xl border-t border-white/20 shadow-strong"
           >
             <div className="px-4 py-6 space-y-4">
               {navigationItems.map((item) => (
@@ -305,8 +308,8 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
                     onClick={() => handleNavigation(item.href)}
                     className={`w-full text-left px-3 py-2 rounded-2xl text-base font-medium transition-all duration-300 relative overflow-hidden group ${
                       currentPath === item.href
-                        ? 'text-white bg-white/20 backdrop-blur-xl'
-                        : 'text-white hover:text-primary-200 hover:bg-white/20'
+                        ? 'text-primary-600 bg-primary-50'
+                        : 'text-gray-700 hover:text-primary-600 hover:bg-primary-50'
                     }`}
                   >
                     {/* Ripple Effect for Mobile Menu Items */}
@@ -322,8 +325,8 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
                       }}
                       style={{
                         background: currentPath === item.href
-                          ? 'radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%)'
-                          : 'radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%)'
+                          ? 'radial-gradient(circle, rgba(255,110,199,0.2) 0%, transparent 70%)'
+                          : 'radial-gradient(circle, rgba(255,110,199,0.1) 0%, transparent 70%)'
                       }}
                     />
                     <span className="relative z-10">{item.name}</span>
@@ -361,7 +364,7 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
                   href={`https://wa.me/${branch ? branchInfo[branch].phone.replace(/\D/g, '') : '6281234567890'}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full bg-white/20 backdrop-blur-xl border border-white/30 text-white px-6 py-3 rounded-2xl text-center font-bold hover:bg-white/30 hover:backdrop-blur-2xl shadow-glass hover:shadow-glass-strong transition-all duration-300 block relative overflow-hidden group"
+                  className="w-full bg-gradient-to-r from-primary-500 to-primary-600 text-white px-6 py-3 rounded-2xl text-center font-bold hover:shadow-glow transition-all duration-300 block relative overflow-hidden group"
                 >
                   {/* Ripple Effect for Mobile CTA */}
                   <motion.div
@@ -407,7 +410,7 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
           </motion.div>
         )}
       </AnimatePresence>
-    </header>
+    </motion.header>
   );
 };
 

@@ -88,7 +88,7 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
       title: `Jus Alpukat #1 di ${branch ? branch.charAt(0).toUpperCase() + branch.slice(1) : 'Kaltim'}`,
       subtitle: 'Zatiaras Juice - Premium Quality',
       description: 'Resep rahasia turun temurun, susu segar pilihan, gula aren asli. Lebih dari 3 tahun melayani Berau & Samarinda dengan kualitas konsisten.',
-      image: '/images/hero-healthy.jpg',
+      image: '/images/hero-avocado.jpg',
       ctaText: 'Lihat Menu',
       ctaLink: branch ? `/${branch}/menu` : '/menu',
       gradient: 'from-purple-400 via-violet-500 to-indigo-600',
@@ -110,7 +110,7 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
 
   // ULTRA PERFORMANCE MOUSE TRACKING - 60FPS OPTIMIZED
   useEffect(() => {
-    let ticking = false;
+    let animationFrameId: number | null = null;
     let lastTime = 0;
     const throttleDelay = 16; // ~60fps
     
@@ -118,26 +118,27 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
       const now = performance.now();
       
       if (now - lastTime >= throttleDelay) {
-        if (!ticking) {
-          requestAnimationFrame(() => {
-      if (heroRef.current) {
-        const rect = heroRef.current.getBoundingClientRect();
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
-        
-              // Ultra smooth mouse tracking with reduced sensitivity
-              const mouseXValue = (e.clientX - centerX) / 30; // Further reduced for smoothness
-              const mouseYValue = (e.clientY - centerY) / 30;
-        
-              // Use direct value setting for better performance
-        mouseX.set(mouseXValue);
-        mouseY.set(mouseYValue);
-            }
-            ticking = false;
-            lastTime = now;
-          });
-          ticking = true;
+        if (animationFrameId) {
+          cancelAnimationFrame(animationFrameId);
         }
+        
+        animationFrameId = requestAnimationFrame(() => {
+          if (heroRef.current) {
+            const rect = heroRef.current.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            
+            // Ultra smooth mouse tracking with reduced sensitivity
+            const mouseXValue = (e.clientX - centerX) / 40; // Further reduced for smoothness
+            const mouseYValue = (e.clientY - centerY) / 40;
+      
+            // Use direct value setting for better performance
+            mouseX.set(mouseXValue);
+            mouseY.set(mouseYValue);
+          }
+          lastTime = now;
+          animationFrameId = null;
+        });
       }
     };
 
@@ -146,7 +147,13 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
         window.matchMedia('(prefers-reduced-motion: no-preference)').matches &&
         !window.matchMedia('(hover: none)').matches) {
       window.addEventListener('mousemove', handleMouseMove, { passive: true });
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+      
+      return () => {
+        window.removeEventListener('mousemove', handleMouseMove);
+        if (animationFrameId) {
+          cancelAnimationFrame(animationFrameId);
+        }
+      };
     }
   }, [mouseX, mouseY]);
 
@@ -194,32 +201,32 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
             contain: 'layout style paint'
           }}
         >
-          {[...Array(6)].map((_, i) => ( // Reduced from 8 to 6 for better performance
+          {[...Array(4)].map((_, i) => ( // Further reduced to 4 for optimal performance
             <motion.div
               key={i}
               className="absolute silky-smooth fps-60"
               style={{
-                left: `${(i * 16.67) % 100}%`, // Adjusted for 6 elements
-                top: `${(i * 20) % 100}%`, // Adjusted for 6 elements
+                left: `${(i * 25) % 100}%`, // Adjusted for 4 elements
+                top: `${(i * 25) % 100}%`, // Adjusted for 4 elements
                 willChange: 'transform, opacity',
                 contain: 'layout style paint',
                 transform: 'translateZ(0)', // Force GPU acceleration
               }}
               animate={{
-                x: [0, 20, 0], // Reduced movement for smoother performance
-                y: [0, 15, 0], // Reduced movement for smoother performance
-                rotate: [0, 120, 240, 360], // Smoother rotation
-                scale: [1, 1.1, 1], // Reduced scale for smoother performance
-                opacity: [0.2, 0.5, 0.2], // Reduced opacity for smoother performance
+                x: [0, 15, 0], // Further reduced movement
+                y: [0, 10, 0], // Further reduced movement
+                rotate: [0, 90, 180, 270, 360], // Smoother rotation
+                scale: [1, 1.05, 1], // Further reduced scale
+                opacity: [0.1, 0.3, 0.1], // Further reduced opacity
               }}
               transition={{
-                duration: 10 + i * 1.5, // Longer duration for smoother animation
+                duration: 12 + i * 2, // Longer duration for smoother animation
                 repeat: Infinity,
                 ease: 'linear', // Linear easing for smoother performance
                 repeatType: 'loop',
               }}
             >
-              <div className={`w-16 h-16 bg-gradient-to-r from-white/20 to-white/5 rounded-full blur-lg`} />
+              <div className={`w-12 h-12 bg-gradient-to-r from-white/15 to-white/5 rounded-full blur-lg`} />
             </motion.div>
           ))}
           
