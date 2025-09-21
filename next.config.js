@@ -4,6 +4,15 @@ const nextConfig = {
   swcMinify: true,
   compress: true,
   
+  // Disable hot reload in development to prevent reload loops
+  devIndicators: {
+    buildActivity: false,
+    buildActivityPosition: 'bottom-right',
+  },
+  
+  // Disable fast refresh to prevent reload loops
+  reactStrictMode: false,
+  
   // Image optimization
   images: {
     formats: ['image/webp', 'image/avif'],

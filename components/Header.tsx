@@ -15,6 +15,9 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const router = useRouter();
 
+  // Check if current page is menu page
+  const isMenuPage = currentPath?.includes('/menu');
+
   const navigationItems = [
     { name: 'Menu', href: branch ? `/${branch}/menu` : '/menu' },
     { name: 'Beranda', href: branch ? `/${branch}` : '/' },
@@ -110,7 +113,11 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
                   href={item.href}
                   className={`px-6 py-3 rounded-2xl text-sm font-bold transition-all duration-300 relative overflow-hidden group ${
                     currentPath === item.href
-                      ? 'text-white bg-white/20 backdrop-blur-xl border border-white/30 shadow-glass'
+                      ? isMenuPage 
+                        ? 'text-pink-800 bg-pink-100/80 backdrop-blur-xl border border-pink-200 shadow-glass'
+                        : 'text-white bg-white/20 backdrop-blur-xl border border-white/30 shadow-glass'
+                      : isMenuPage
+                        ? 'text-pink-700 hover:text-pink-800 hover:bg-pink-100/60 hover:backdrop-blur-sm'
                       : 'text-white hover:text-primary-200 hover:bg-white/20 hover:backdrop-blur-sm'
                   }`}
                 >
@@ -127,7 +134,11 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
                     }}
                     style={{
                       background: currentPath === item.href 
-                        ? 'radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 70%)'
+                        ? isMenuPage
+                          ? 'radial-gradient(circle, rgba(244,114,182,0.3) 0%, transparent 70%)'
+                          : 'radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 70%)'
+                        : isMenuPage
+                          ? 'radial-gradient(circle, rgba(244,114,182,0.2) 0%, transparent 70%)'
                         : 'radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%)'
                     }}
                   />
@@ -137,7 +148,11 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
                     className="absolute inset-0 rounded-2xl"
                     whileHover={{
                       boxShadow: currentPath === item.href
-                        ? '0 0 20px rgba(255, 255, 255, 0.4), 0 0 40px rgba(255, 255, 255, 0.2)'
+                        ? isMenuPage
+                          ? '0 0 20px rgba(244, 114, 182, 0.4), 0 0 40px rgba(244, 114, 182, 0.2)'
+                          : '0 0 20px rgba(255, 255, 255, 0.4), 0 0 40px rgba(255, 255, 255, 0.2)'
+                        : isMenuPage
+                          ? '0 0 15px rgba(244, 114, 182, 0.3), 0 0 30px rgba(244, 114, 182, 0.1)'
                         : '0 0 15px rgba(255, 255, 255, 0.3), 0 0 30px rgba(255, 255, 255, 0.1)'
                     }}
                     transition={{ duration: 0.3 }}
@@ -147,7 +162,11 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
                     className="relative z-10"
                     whileHover={{ 
                       textShadow: currentPath === item.href
-                        ? '0 0 12px rgba(255, 255, 255, 0.9)'
+                        ? isMenuPage
+                          ? '0 0 12px rgba(244, 114, 182, 0.9)'
+                          : '0 0 12px rgba(255, 255, 255, 0.9)'
+                        : isMenuPage
+                          ? '0 0 8px rgba(244, 114, 182, 0.6)'
                         : '0 0 8px rgba(255, 255, 255, 0.6)'
                     }}
                 >
@@ -157,7 +176,9 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
                   {/* Active State Overlay */}
                   {currentPath === item.href && (
                     <motion.div
-                      className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl bg-white/30 backdrop-blur-xl"
+                      className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl backdrop-blur-xl ${
+                        isMenuPage ? 'bg-pink-200/30' : 'bg-white/30'
+                      }`}
                       initial={false}
                     />
                   )}
@@ -166,7 +187,11 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
                   <motion.div
                     className="absolute inset-0 rounded-2xl overflow-hidden"
                     whileHover={{
-                      background: [
+                      background: isMenuPage ? [
+                        'radial-gradient(circle at 20% 20%, rgba(244,114,182,0.1) 0%, transparent 50%)',
+                        'radial-gradient(circle at 80% 80%, rgba(244,114,182,0.1) 0%, transparent 50%)',
+                        'radial-gradient(circle at 20% 20%, rgba(244,114,182,0.1) 0%, transparent 50%)'
+                      ] : [
                         'radial-gradient(circle at 20% 20%, rgba(255,255,255,0.1) 0%, transparent 50%)',
                         'radial-gradient(circle at 80% 80%, rgba(255,255,255,0.1) 0%, transparent 50%)',
                         'radial-gradient(circle at 20% 20%, rgba(255,255,255,0.1) 0%, transparent 50%)'
@@ -200,13 +225,19 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
               whileHover={{ 
                 scale: 1.05, 
                 y: -2,
-                boxShadow: '0 20px 40px rgba(255, 110, 199, 0.3)'
+                boxShadow: isMenuPage 
+                  ? '0 20px 40px rgba(244, 114, 182, 0.3)'
+                  : '0 20px 40px rgba(255, 110, 199, 0.3)'
               }}
               whileTap={{ scale: 0.95 }}
               href={`https://wa.me/${branch ? branchInfo[branch].phone.replace(/\D/g, '') : '6281234567890'}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-6 py-3 rounded-2xl text-sm font-bold transition-all duration-300 flex items-center gap-2 relative overflow-hidden group bg-white/20 backdrop-blur-xl border border-white/30 text-white hover:bg-white/30 hover:backdrop-blur-2xl shadow-glass hover:shadow-glass-strong"
+              className={`px-6 py-3 rounded-2xl text-sm font-bold transition-all duration-300 flex items-center gap-2 relative overflow-hidden group backdrop-blur-xl border shadow-glass hover:shadow-glass-strong ${
+                isMenuPage
+                  ? 'bg-pink-100/80 border-pink-200 text-pink-800 hover:bg-pink-200/80 hover:backdrop-blur-2xl'
+                  : 'bg-white/20 border-white/30 text-white hover:bg-white/30 hover:backdrop-blur-2xl'
+              }`}
             >
               {/* Ripple Effect */}
               <motion.div
@@ -220,7 +251,9 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
                   ease: "easeInOut"
                 }}
                 style={{
-                  background: 'radial-gradient(circle, rgba(255,255,255,0.5) 0%, transparent 70%)'
+                  background: isMenuPage
+                    ? 'radial-gradient(circle, rgba(244,114,182,0.3) 0%, transparent 70%)'
+                    : 'radial-gradient(circle, rgba(255,255,255,0.5) 0%, transparent 70%)'
                 }}
               />
               
@@ -228,7 +261,11 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
               <motion.div
                 className="absolute inset-0 rounded-2xl"
                 whileHover={{
-                  background: [
+                  background: isMenuPage ? [
+                        'linear-gradient(90deg, transparent, rgba(244,114,182,0.3), transparent)',
+                        'linear-gradient(90deg, transparent, rgba(244,114,182,0.5), transparent)',
+                        'linear-gradient(90deg, transparent, rgba(244,114,182,0.3), transparent)'
+                      ] : [
                         'linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)',
                         'linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent)',
                         'linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)'
@@ -246,7 +283,9 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
               />
               
               <motion.div
-                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl bg-white/30 backdrop-blur-xl"
+                className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl backdrop-blur-xl ${
+                  isMenuPage ? 'bg-pink-200/30' : 'bg-white/30'
+                }`}
                 initial={false}
               />
               
@@ -259,7 +298,11 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={handleMenuToggle}
-            className="lg:hidden p-1.5 rounded-2xl transition-all duration-500 relative overflow-hidden group text-white hover:text-primary-200 hover:bg-white/20 drop-shadow-lg"
+            className={`lg:hidden p-1.5 rounded-2xl transition-all duration-500 relative overflow-hidden group drop-shadow-lg ${
+              isMenuPage
+                ? 'text-pink-700 hover:text-pink-800 hover:bg-pink-100/60'
+                : 'text-white hover:text-primary-200 hover:bg-white/20'
+            }`}
           >
             {/* Ripple Effect for Mobile Button */}
             <motion.div
@@ -273,7 +316,9 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
                 ease: "easeInOut"
               }}
               style={{
-                background: 'radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%)'
+                background: isMenuPage
+                  ? 'radial-gradient(circle, rgba(244,114,182,0.2) 0%, transparent 70%)'
+                  : 'radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%)'
               }}
             />
             
@@ -292,7 +337,11 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="lg:hidden bg-white/95 backdrop-blur-xl border-t border-white/20 shadow-strong"
+            className={`lg:hidden backdrop-blur-xl border-t shadow-strong ${
+              isMenuPage
+                ? 'bg-pink-50/95 border-pink-200'
+                : 'bg-white/95 border-white/20'
+            }`}
           >
             <div className="px-4 py-6 space-y-4">
               {navigationItems.map((item) => (
@@ -308,7 +357,11 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
                     onClick={() => handleNavigation(item.href)}
                     className={`w-full text-left px-3 py-2 rounded-2xl text-base font-medium transition-all duration-300 relative overflow-hidden group ${
                       currentPath === item.href
-                        ? 'text-primary-600 bg-primary-50'
+                        ? isMenuPage
+                          ? 'text-pink-800 bg-pink-100'
+                          : 'text-primary-600 bg-primary-50'
+                        : isMenuPage
+                          ? 'text-pink-700 hover:text-pink-800 hover:bg-pink-100'
                         : 'text-gray-700 hover:text-primary-600 hover:bg-primary-50'
                     }`}
                   >
@@ -325,7 +378,11 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
                       }}
                       style={{
                         background: currentPath === item.href
-                          ? 'radial-gradient(circle, rgba(255,110,199,0.2) 0%, transparent 70%)'
+                          ? isMenuPage
+                            ? 'radial-gradient(circle, rgba(244,114,182,0.2) 0%, transparent 70%)'
+                            : 'radial-gradient(circle, rgba(255,110,199,0.2) 0%, transparent 70%)'
+                          : isMenuPage
+                            ? 'radial-gradient(circle, rgba(244,114,182,0.1) 0%, transparent 70%)'
                           : 'radial-gradient(circle, rgba(255,110,199,0.1) 0%, transparent 70%)'
                       }}
                     />
@@ -341,11 +398,15 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
                   transition={{ delay: 0.2 }}
                   className="pt-4 border-t border-gray-200"
                 >
-                  <div className="flex items-center space-x-2 text-sm text-gray-600 mb-4">
+                  <div className={`flex items-center space-x-2 text-sm mb-4 ${
+                    isMenuPage ? 'text-pink-600' : 'text-gray-600'
+                  }`}>
                     <MapPin className="w-4 h-4" />
                     <span>{branchInfo[branch].address}</span>
                   </div>
-                  <div className="flex items-center space-x-2 text-sm text-gray-600 mb-4">
+                  <div className={`flex items-center space-x-2 text-sm mb-4 ${
+                    isMenuPage ? 'text-pink-600' : 'text-gray-600'
+                  }`}>
                     <Phone className="w-4 h-4" />
                     <span>{branchInfo[branch].phone}</span>
                   </div>
@@ -364,7 +425,11 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
                   href={`https://wa.me/${branch ? branchInfo[branch].phone.replace(/\D/g, '') : '6281234567890'}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full bg-gradient-to-r from-primary-500 to-primary-600 text-white px-6 py-3 rounded-2xl text-center font-bold hover:shadow-glow transition-all duration-300 block relative overflow-hidden group"
+                  className={`w-full text-white px-6 py-3 rounded-2xl text-center font-bold hover:shadow-glow transition-all duration-300 block relative overflow-hidden group ${
+                    isMenuPage
+                      ? 'bg-gradient-to-r from-pink-500 to-rose-500'
+                      : 'bg-gradient-to-r from-primary-500 to-primary-600'
+                  }`}
                 >
                   {/* Ripple Effect for Mobile CTA */}
                   <motion.div

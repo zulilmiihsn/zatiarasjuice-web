@@ -37,26 +37,26 @@ if (typeof window !== 'undefined') {
 
 export default function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
-    // Initialize ultra performance optimizations
-    const initializePerformance = async () => {
-      try {
-        // Initialize performance integration
-        const performanceIntegration = PerformanceIntegration.getInstance();
-        
-        // Initialize ultra performance optimizer
-        const optimizer = ultraPerformanceOptimizer;
-        
-        // Start performance auditing
-        const auditor = performanceAuditor;
-        
-        // Performance optimizations initialized silently
-        
-      } catch (error) {
-        // Performance optimization failed silently
-      }
-    };
+    // Disable performance monitoring to prevent reload loops
+    // const initializePerformance = async () => {
+    //   try {
+    //     // Initialize performance integration
+    //     const performanceIntegration = PerformanceIntegration.getInstance();
+    //     
+    //     // Initialize ultra performance optimizer
+    //     const optimizer = ultraPerformanceOptimizer;
+    //     
+    //     // Start performance auditing
+    //     const auditor = performanceAuditor;
+    //     
+    //     // Performance optimizations initialized silently
+    //     
+    //   } catch (error) {
+    //     // Performance optimization failed silently
+    //   }
+    // };
 
-    initializePerformance();
+    // initializePerformance();
   }, []);
 
   return (
@@ -89,8 +89,8 @@ export default function App({ Component, pageProps }: AppProps) {
         <link rel="dns-prefetch" href="//fonts.gstatic.com" />
         <link rel="dns-prefetch" href="//images.unsplash.com" />
         
-        {/* SERVICE WORKER REGISTRATION */}
-        <script
+        {/* SERVICE WORKER REGISTRATION - DISABLED TO PREVENT RELOAD LOOPS */}
+        {/* <script
           dangerouslySetInnerHTML={{
             __html: `
               if ('serviceWorker' in navigator) {
@@ -106,7 +106,7 @@ export default function App({ Component, pageProps }: AppProps) {
               }
             `,
           }}
-        />
+        /> */}
       </Head>
       <Component {...pageProps} />
     </>

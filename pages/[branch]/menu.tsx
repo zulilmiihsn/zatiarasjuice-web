@@ -2,13 +2,14 @@ import React, { useState, useEffect, lazy, Suspense, useMemo, useCallback } from
 import { GetStaticProps, GetStaticPaths } from 'next';
 import Head from 'next/head';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Filter, Grid3X3, List } from 'lucide-react';
+import { Search, Filter, Grid3X3, List, Eye } from 'lucide-react';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import { getBranchSEOData } from '../../lib/seo';
 import { getProducts, getCategories, getBranchInfo } from '../../lib/supabase';
 import type { Branch, Product, Category } from '../../lib/supabase';
+import Link from 'next/link';
 
 // Lazy load heavy components for better performance
 const ProductCard = lazy(() => import('../../components/ProductCard'));
@@ -29,7 +30,7 @@ const MenuPage: React.FC<MenuPageProps> = ({
 }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [sortBy, setSortBy] = useState<'name' | 'price' | 'popular'>('name');
+  const [sortBy, setSortBy] = useState<'name' | 'price'>('name');
   const [viewMode, setViewMode] = useState<'list' | 'grid'>('list');
 
   // Optimized filter and sort products with useMemo
@@ -57,8 +58,6 @@ const MenuPage: React.FC<MenuPageProps> = ({
           return a.name.localeCompare(b.name);
         case 'price':
           return a.price - b.price;
-        case 'popular':
-          return (b.rating || 0) - (a.rating || 0);
         default:
           return 0;
       }
@@ -231,20 +230,19 @@ const MenuPage: React.FC<MenuPageProps> = ({
                 Jelajahi koleksi lengkap jus segar dan minuman sehat kami
               </p>
               
-              {/* Menu Stats - Hidden on Mobile */}
-              <div className="hidden sm:flex flex-wrap justify-center items-center gap-4 md:gap-6 lg:gap-8 text-sm text-pink-600">
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 bg-pink-500 rounded-full flex-shrink-0"></span>
-                  <span className="whitespace-nowrap">{products.length} Menu</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 bg-rose-500 rounded-full flex-shrink-0"></span>
-                  <span className="whitespace-nowrap">Rating 4.9/5</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 bg-pink-400 rounded-full flex-shrink-0"></span>
-                  <span className="whitespace-nowrap">100% Alami</span>
-                </div>
+
+              {/* Mobile Overview Button */}
+              <div className="sm:hidden mt-4">
+                <Link href={`/${branch}/overview`}>
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="flex items-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 text-white px-6 py-3 rounded-xl text-sm font-semibold hover:from-pink-600 hover:to-rose-600 transition-all duration-200 mx-auto shadow-lg hover:shadow-xl"
+                  >
+                    <Eye className="w-5 h-5" />
+                    <span>Lihat Semua Menu</span>
+                  </motion.button>
+                </Link>
               </div>
             </motion.div>
           </div>
@@ -292,6 +290,17 @@ const MenuPage: React.FC<MenuPageProps> = ({
 
               {/* Controls Group - Desktop Layout */}
               <div className="hidden md:flex items-center justify-center gap-8">
+                {/* Overview Button - Desktop */}
+                <Link href={`/${branch}/overview`}>
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="flex items-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 text-white px-6 py-3 rounded-xl text-sm font-semibold hover:from-pink-600 hover:to-rose-600 transition-all duration-200 shadow-lg hover:shadow-xl"
+                  >
+                    <Eye className="w-5 h-5" />
+                    <span>Overview Menu</span>
+                  </motion.button>
+                </Link>
                 {/* View Mode Toggle */}
                 <div className="flex items-center gap-3">
                   <span className="text-sm font-medium text-pink-600">Tampilan:</span>
@@ -329,12 +338,11 @@ const MenuPage: React.FC<MenuPageProps> = ({
                 <div className="relative">
                   <select
                     value={sortBy}
-                    onChange={(e) => setSortBy(e.target.value as 'name' | 'price' | 'popular')}
-                    className="appearance-none bg-white border border-pink-300 rounded-lg px-4 py-2 pr-8 text-sm font-medium focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-all duration-200 min-w-[140px]"
+                    onChange={(e) => setSortBy(e.target.value as 'name' | 'price')}
+                    className="appearance-none bg-white border border-pink-300 rounded-lg px-4 py-2 pr-8 text-sm font-medium focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-all duration-200 min-w-[120px]"
                   >
                     <option value="name">Nama</option>
                     <option value="price">Harga</option>
-                    <option value="popular">Populer</option>
                   </select>
                   <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                     <Filter className="w-4 h-4 text-pink-400" />
@@ -342,52 +350,58 @@ const MenuPage: React.FC<MenuPageProps> = ({
                 </div>
               </div>
 
-              {/* Mobile Controls - Stacked Layout */}
-              <div className="md:hidden space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium text-pink-600">Tampilan:</span>
+              {/* Mobile Controls - Compact Layout */}
+              <div className="md:hidden">
+                <div className="flex items-center justify-between gap-3">
+                  {/* View Mode Toggle */}
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-medium text-pink-600">Tampilan:</span>
                     <div className="flex bg-pink-100 rounded-lg p-1">
-                    <motion.button
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      onClick={() => setViewMode('list')}
-                      className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
-                        viewMode === 'list'
-                          ? 'bg-white text-pink-600 shadow-sm'
-                          : 'text-pink-600 hover:text-pink-800'
-                      }`}
-                    >
-                      <List className="w-4 h-4" />
-                      <span>List</span>
-                    </motion.button>
-                    <motion.button
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      onClick={() => setViewMode('grid')}
-                      className={`flex items-center gap-1.5 px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
-                        viewMode === 'grid'
-                          ? 'bg-white text-pink-600 shadow-sm'
-                          : 'text-pink-600 hover:text-pink-800'
-                      }`}
-                    >
-                      <Grid3X3 className="w-4 h-4" />
-                      <span>Grid</span>
-                    </motion.button>
+                      <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        onClick={() => setViewMode('list')}
+                        className={`flex items-center gap-1 px-2 py-1.5 rounded-md text-xs font-medium transition-all duration-200 ${
+                          viewMode === 'list'
+                            ? 'bg-white text-pink-600 shadow-sm'
+                            : 'text-pink-600 hover:text-pink-800'
+                        }`}
+                      >
+                        <List className="w-3 h-3" />
+                        <span>List</span>
+                      </motion.button>
+                      <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        onClick={() => setViewMode('grid')}
+                        className={`flex items-center gap-1 px-2 py-1.5 rounded-md text-xs font-medium transition-all duration-200 ${
+                          viewMode === 'grid'
+                            ? 'bg-white text-pink-600 shadow-sm'
+                            : 'text-pink-600 hover:text-pink-800'
+                        }`}
+                      >
+                        <Grid3X3 className="w-3 h-3" />
+                        <span>Grid</span>
+                      </motion.button>
+                    </div>
                   </div>
-                </div>
 
-                <div className="relative">
-                  <select
-                    value={sortBy}
-                    onChange={(e) => setSortBy(e.target.value as 'name' | 'price' | 'popular')}
-                    className="appearance-none bg-white border border-pink-300 rounded-lg px-4 py-2 pr-8 text-sm font-medium focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-all duration-200 w-full"
-                  >
-                    <option value="name">Nama</option>
-                    <option value="price">Harga</option>
-                    <option value="popular">Populer</option>
-                  </select>
-                  <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                    <Filter className="w-4 h-4 text-pink-400" />
+                  {/* Sort Dropdown */}
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-medium text-pink-600">Urutkan:</span>
+                    <div className="relative">
+                      <select
+                        value={sortBy}
+                        onChange={(e) => setSortBy(e.target.value as 'name' | 'price')}
+                        className="appearance-none bg-white border border-pink-300 rounded-lg px-3 py-1.5 pr-6 text-xs font-medium focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-all duration-200 min-w-[80px]"
+                      >
+                        <option value="name">Nama</option>
+                        <option value="price">Harga</option>
+                      </select>
+                      <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                        <Filter className="w-3 h-3 text-pink-400" />
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -502,9 +516,6 @@ const MenuPage: React.FC<MenuPageProps> = ({
                   <h2 className="text-lg sm:text-2xl md:text-3xl font-black text-pink-800 mb-0.5 sm:mb-1 font-rounded">
                     {selectedCategory === 'all' ? 'Semua Menu' : selectedCategory}
                   </h2>
-                  <p className="text-xs sm:text-sm text-pink-600 font-medium">
-                    {filteredProducts.length} menu tersedia
-                  </p>
                 </motion.div>
 
                 {/* List View - Compact */}

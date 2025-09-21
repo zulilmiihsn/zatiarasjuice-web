@@ -20,16 +20,16 @@ module.exports = {
       colors: {
         // Premium Brand Colors - Only Used Ones
         primary: {
-          50: '#fef7ff',
-          100: '#fceeff',
-          200: '#f8ddff',
-          300: '#f2c2ff',
-          400: '#e899ff',
-          500: '#FF6EC7', // Vibrant Pink - Primary Brand Color
-          600: '#ff4db8',
-          700: '#e6399c',
-          800: '#c2185b',
-          900: '#9c0d47',
+          50: '#fdf2f8',
+          100: '#fce7f3',
+          200: '#fbcfe8',
+          300: '#f9a8d4',
+          400: '#f472b6',
+          500: '#ec4899', // Soft Pink - Primary Brand Color
+          600: '#db2777',
+          700: '#be185d',
+          800: '#9d174d',
+          900: '#831843',
         },
         secondary: {
           50: '#f0fdf4',
