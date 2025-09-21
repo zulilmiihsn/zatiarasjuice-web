@@ -1,18 +1,17 @@
-import React, { useState, lazy, Suspense, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import Head from 'next/head';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Filter, Grid3X3, List, Eye, Apple, Grape, Cherry, Banana } from 'lucide-react';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
-import LoadingSpinner from '../../components/LoadingSpinner';
 import { getBranchSEOData } from '../../lib/seo';
 import { getProducts, getCategories, getBranchInfo } from '../../lib/supabase';
 import type { Branch, Product, Category } from '../../lib/supabase';
 import Link from 'next/link';
 
-// Lazy load heavy components for better performance
-const ProductCard = lazy(() => import('../../components/ProductCard'));
+// Import ProductCard directly to prevent Fast Refresh issues
+import ProductCard from '../../components/ProductCard';
 
 interface MenuPageProps {
   branch: Branch;
@@ -471,8 +470,8 @@ const MenuPage: React.FC<MenuPageProps> = ({
                 key={i}
                 className={`absolute text-3xl opacity-8 ${color}`}
                 style={{
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`,
+                  left: `${(i * 15.7) % 100}%`,
+                  top: `${(i * 23.3) % 100}%`,
                 }}
                 animate={{
                   y: [0, -30, 0],
@@ -506,17 +505,17 @@ const MenuPage: React.FC<MenuPageProps> = ({
                 key={i}
                 className="absolute w-1 h-1 bg-gradient-to-r from-pink-400/40 to-rose-400/40 rounded-full"
                 style={{
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`,
+                  left: `${(i * 7.3) % 100}%`,
+                  top: `${(i * 11.7) % 100}%`,
                 }}
                 animate={{
                   y: [0, -50, 0],
-                  x: [0, Math.random() * 20 - 10, 0],
+                  x: [0, (i % 3 - 1) * 10, 0],
                   scale: [0, 1, 0],
                   opacity: [0, 1, 0],
                 }}
                 transition={{
-                  duration: 4 + Math.random() * 3,
+                  duration: 4 + (i % 3) * 1.5,
                   repeat: Infinity,
                   ease: 'easeInOut',
                   delay: i * 0.2,
@@ -770,16 +769,10 @@ const MenuPage: React.FC<MenuPageProps> = ({
                                       transition={{ duration: 0.4, delay: (categoryIndex * 0.1) + (index * 0.05) }}
                                       className="w-full"
                                     >
-                                      <Suspense fallback={
-                                        <div className="h-64 bg-gray-100 rounded-2xl animate-pulse flex items-center justify-center">
-                                          <LoadingSpinner size="md" variant="pulse" />
-                                        </div>
-                                      }>
-                                        <ProductCard 
-                                          product={product} 
-                                          onAddToCart={handleAddToCart}
-                                        />
-                                      </Suspense>
+                                      <ProductCard 
+                                        product={product} 
+                                        onAddToCart={handleAddToCart}
+                                      />
                                     </motion.div>
                                   ))}
                                 </div>
@@ -802,16 +795,10 @@ const MenuPage: React.FC<MenuPageProps> = ({
                                   transition={{ duration: 0.4, delay: index * 0.05 }}
                                   className="w-full"
                                 >
-                                  <Suspense fallback={
-                                    <div className="h-64 bg-gray-100 rounded-2xl animate-pulse flex items-center justify-center">
-                                      <LoadingSpinner size="md" variant="pulse" />
-                                    </div>
-                                  }>
-                                    <ProductCard 
-                                      product={product} 
-                                      onAddToCart={handleAddToCart}
-                                    />
-                                  </Suspense>
+                                  <ProductCard 
+                                    product={product} 
+                                    onAddToCart={handleAddToCart}
+                                  />
                                 </motion.div>
                               ))}
                             </AnimatePresence>

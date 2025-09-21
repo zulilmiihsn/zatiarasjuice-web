@@ -13,6 +13,20 @@ const nextConfig = {
   // Disable fast refresh to prevent reload loops
   reactStrictMode: false,
   
+  // Optimize development experience
+  onDemandEntries: {
+    maxInactiveAge: 25 * 1000,
+    pagesBufferLength: 2,
+  },
+  
+  // Optimize compilation speed
+  typescript: {
+    ignoreBuildErrors: false,
+  },
+  eslint: {
+    ignoreDuringBuilds: false,
+  },
+  
   // Image optimization
   images: {
     formats: ['image/webp', 'image/avif'],
@@ -41,6 +55,22 @@ const nextConfig = {
 
   // Webpack optimizations
   webpack: (config, { dev, isServer }) => {
+    // Optimize development compilation speed
+    if (dev) {
+      config.watchOptions = {
+        poll: 1000,
+        aggregateTimeout: 300,
+      };
+      
+      // Reduce bundle analysis overhead
+      config.optimization = {
+        ...config.optimization,
+        removeAvailableModules: false,
+        removeEmptyChunks: false,
+        splitChunks: false,
+      };
+    }
+    
     // SVG handling
     config.module.rules.push({
       test: /\.svg$/,
