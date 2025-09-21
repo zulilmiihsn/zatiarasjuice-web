@@ -3,6 +3,11 @@ import Head from 'next/head';
 import { useEffect } from 'react';
 import '../styles/globals.css';
 
+// Import ultra performance optimizations
+import { ultraPerformanceOptimizer } from '../lib/ultra-performance-optimizer';
+import { performanceAuditor } from '../lib/performance-auditor';
+import { PerformanceIntegration } from '../lib/performance-integration';
+
 // Preload critical resources
 if (typeof window !== 'undefined') {
   // Preload critical fonts
@@ -32,7 +37,34 @@ if (typeof window !== 'undefined') {
 
 export default function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
-    // Font sudah di-import via globals.css
+    // Initialize ultra performance optimizations
+    const initializePerformance = async () => {
+      try {
+        // Initialize performance integration
+        const performanceIntegration = PerformanceIntegration.getInstance();
+        
+        // Initialize ultra performance optimizer
+        const optimizer = ultraPerformanceOptimizer;
+        
+        // Start performance auditing
+        const auditor = performanceAuditor;
+        
+        // Log performance metrics
+        console.log('🚀 Ultra Performance Optimizations Initialized');
+        console.log('📊 Performance Metrics:', optimizer.getPerformanceMetrics());
+        
+        // Run comprehensive audit after 5 seconds
+        setTimeout(async () => {
+          const auditResult = await auditor.performComprehensiveAudit();
+          console.log('📈 Performance Audit Result:', auditResult);
+        }, 5000);
+        
+      } catch (error) {
+        console.error('Failed to initialize performance optimizations:', error);
+      }
+    };
+
+    initializePerformance();
   }, []);
 
   return (

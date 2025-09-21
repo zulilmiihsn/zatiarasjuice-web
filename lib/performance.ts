@@ -25,7 +25,7 @@ export class PerformanceMonitor {
           if (entry.entryType === 'largest-contentful-paint') {
             this.metrics.set('LCP', entry.startTime);
           } else if (entry.entryType === 'first-input') {
-            this.metrics.set('FID', entry.processingStart - entry.startTime);
+            this.metrics.set('FID', (entry as any).processingStart - entry.startTime);
           } else if (entry.entryType === 'layout-shift') {
             if (!(entry as any).hadRecentInput) {
               this.metrics.set('CLS', (this.metrics.get('CLS') || 0) + (entry as any).value);

@@ -228,7 +228,7 @@ export class BundleOptimizer {
             response: navEntry.responseEnd - navEntry.responseStart,
             dom: navEntry.domContentLoadedEventEnd - navEntry.domContentLoadedEventStart,
             load: navEntry.loadEventEnd - navEntry.loadEventStart,
-            total: navEntry.loadEventEnd - navEntry.navigationStart,
+            total: navEntry.loadEventEnd - navEntry.fetchStart,
           });
         }
       }
