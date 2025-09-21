@@ -4,9 +4,9 @@ import { useEffect } from 'react';
 import '../styles/globals.css';
 
 // Import ultra performance optimizations
-import { ultraPerformanceOptimizer } from '../lib/ultra-performance-optimizer';
-import { performanceAuditor } from '../lib/performance-auditor';
-import { PerformanceIntegration } from '../lib/performance-integration';
+// import { ultraPerformanceOptimizer } from '../lib/ultra-performance-optimizer';
+// import { performanceAuditor } from '../lib/performance-auditor';
+// import { PerformanceIntegration } from '../lib/performance-integration';
 
 // Preload critical resources
 if (typeof window !== 'undefined') {

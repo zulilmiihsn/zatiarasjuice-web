@@ -1,8 +1,8 @@
-import React, { useState, useEffect, lazy, Suspense, useMemo, useCallback } from 'react';
+import React, { useState, lazy, Suspense, useMemo, useCallback } from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import Head from 'next/head';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Filter, Grid3X3, List, Eye } from 'lucide-react';
+import { Search, Filter, Grid3X3, List, Eye, Apple, Grape, Cherry, Banana } from 'lucide-react';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import LoadingSpinner from '../../components/LoadingSpinner';
@@ -176,10 +176,19 @@ const MenuPage: React.FC<MenuPageProps> = ({
             />
             
             {/* Floating Menu Icons */}
-            {['🍹', '🥤', '🍓', '🥭', '🍊', '🍇', '🥑', '🍌'].map((icon, i) => (
+            {[
+              { icon: Apple, color: 'text-red-400' },
+              { icon: Apple, color: 'text-orange-400' },
+              { icon: Grape, color: 'text-purple-400' },
+              { icon: Cherry, color: 'text-pink-400' },
+              { icon: Banana, color: 'text-yellow-400' },
+              { icon: Apple, color: 'text-yellow-500' },
+              { icon: Apple, color: 'text-green-400' },
+              { icon: Apple, color: 'text-orange-500' }
+            ].map(({ icon: Icon, color }, i) => (
               <motion.div
                 key={i}
-                className="absolute text-2xl opacity-10 silky-smooth fps-60"
+                className={`absolute text-2xl opacity-10 silky-smooth fps-60 ${color}`}
                 style={{
                   left: `${(i * 12.5) % 100}%`,
                   top: `${(i * 12.5) % 100}%`,
@@ -199,7 +208,7 @@ const MenuPage: React.FC<MenuPageProps> = ({
                   delay: i * 0.2,
                 }}
               >
-                {icon}
+                <Icon className="w-6 h-6" />
               </motion.div>
             ))}
             
@@ -357,47 +366,47 @@ const MenuPage: React.FC<MenuPageProps> = ({
                   <div className="flex items-center gap-2">
                     <span className="text-sm font-medium text-pink-600">Tampilan:</span>
                     <div className="flex bg-pink-100 rounded-lg p-1">
-                      <motion.button
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        onClick={() => setViewMode('list')}
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => setViewMode('list')}
                         className={`flex items-center gap-1 px-2 py-1.5 rounded-md text-xs font-medium transition-all duration-200 ${
-                          viewMode === 'list'
+                        viewMode === 'list'
                             ? 'bg-white text-pink-600 shadow-sm'
                             : 'text-pink-600 hover:text-pink-800'
-                        }`}
-                      >
+                      }`}
+                    >
                         <List className="w-3 h-3" />
-                        <span>List</span>
-                      </motion.button>
-                      <motion.button
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        onClick={() => setViewMode('grid')}
+                      <span>List</span>
+                    </motion.button>
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => setViewMode('grid')}
                         className={`flex items-center gap-1 px-2 py-1.5 rounded-md text-xs font-medium transition-all duration-200 ${
-                          viewMode === 'grid'
+                        viewMode === 'grid'
                             ? 'bg-white text-pink-600 shadow-sm'
                             : 'text-pink-600 hover:text-pink-800'
-                        }`}
-                      >
+                      }`}
+                    >
                         <Grid3X3 className="w-3 h-3" />
-                        <span>Grid</span>
-                      </motion.button>
-                    </div>
+                      <span>Grid</span>
+                    </motion.button>
                   </div>
+                </div>
 
                   {/* Sort Dropdown */}
                   <div className="flex items-center gap-2">
                     <span className="text-sm font-medium text-pink-600">Urutkan:</span>
-                    <div className="relative">
-                      <select
-                        value={sortBy}
+                <div className="relative">
+                  <select
+                    value={sortBy}
                         onChange={(e) => setSortBy(e.target.value as 'name' | 'price')}
                         className="appearance-none bg-white border border-pink-300 rounded-lg px-3 py-1.5 pr-6 text-xs font-medium focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-all duration-200 min-w-[80px]"
-                      >
-                        <option value="name">Nama</option>
-                        <option value="price">Harga</option>
-                      </select>
+                  >
+                    <option value="name">Nama</option>
+                    <option value="price">Harga</option>
+                  </select>
                       <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                         <Filter className="w-3 h-3 text-pink-400" />
                       </div>
@@ -444,10 +453,23 @@ const MenuPage: React.FC<MenuPageProps> = ({
             />
             
             {/* Floating Food Icons */}
-            {['🍹', '🥤', '🍓', '🥭', '🍊', '🍇', '🥑', '🍌', '🍎', '🍑', '🥝', '🍍'].map((icon, i) => (
+            {[
+              { icon: Apple, color: 'text-red-400' },
+              { icon: Apple, color: 'text-orange-400' },
+              { icon: Grape, color: 'text-purple-400' },
+              { icon: Cherry, color: 'text-pink-400' },
+              { icon: Banana, color: 'text-yellow-400' },
+              { icon: Apple, color: 'text-yellow-500' },
+              { icon: Apple, color: 'text-green-400' },
+              { icon: Apple, color: 'text-orange-500' },
+              { icon: Grape, color: 'text-indigo-400' },
+              { icon: Cherry, color: 'text-rose-400' },
+              { icon: Banana, color: 'text-amber-400' },
+              { icon: Apple, color: 'text-lime-400' }
+            ].map(({ icon: Icon, color }, i) => (
               <motion.div
                 key={i}
-                className="absolute text-3xl opacity-8"
+                className={`absolute text-3xl opacity-8 ${color}`}
                 style={{
                   left: `${Math.random() * 100}%`,
                   top: `${Math.random() * 100}%`,
@@ -464,7 +486,7 @@ const MenuPage: React.FC<MenuPageProps> = ({
                   delay: i * 0.4,
                 }}
               >
-                {icon}
+                <Icon className="w-8 h-8" />
               </motion.div>
             ))}
             

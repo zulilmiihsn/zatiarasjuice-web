@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { motion, useScroll, useTransform, useSpring, useMotionValue } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Play, Pause, Sparkles, MessageCircle } from 'lucide-react';
 import Image from 'next/image';
@@ -62,7 +62,7 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
   });
 
   // Default slides dengan value proposition yang kuat dan dinamis berdasarkan cabang
-  const defaultSlides: HeroSlide[] = [
+  const defaultSlides: HeroSlide[] = useMemo(() => [
     {
       id: '1',
       title: `Jus Terenak di ${branch ? branch.charAt(0).toUpperCase() + branch.slice(1) : 'Berau & Samarinda'}`,
@@ -93,7 +93,7 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
       ctaLink: branch ? `/${branch}/menu` : '/menu',
       gradient: 'from-purple-400 via-violet-500 to-indigo-600',
     },
-  ];
+  ], [branch]);
 
   const heroSlides = slides || defaultSlides;
 

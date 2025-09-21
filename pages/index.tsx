@@ -3,7 +3,7 @@ import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
-import { Phone, Clock } from 'lucide-react';
+import { Phone, Clock, Leaf, Shield, Sparkles, Apple, Grape, Cherry, Banana } from 'lucide-react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import HeroBanner from '../components/HeroBanner';
@@ -289,7 +289,7 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                         <span>(75+ review)</span>
                       </div>
                       <div className="flex items-center gap-1">
-                        <span className="text-green-500">🍃</span>
+                        <Leaf className="w-4 h-4 text-green-500" />
                         <span className="font-semibold">100% Alami</span>
                       </div>
                     </div>
@@ -421,7 +421,7 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                         <span>(75+ review)</span>
                       </div>
                       <div className="flex items-center gap-1">
-                        <span className="text-green-500">🍃</span>
+                        <Leaf className="w-4 h-4 text-green-500" />
                         <span className="font-semibold">100% Alami</span>
                       </div>
                     </div>
@@ -585,7 +585,7 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="inline-block mb-8"
               >
-                <span className="text-8xl">✨</span>
+                <Sparkles className="w-20 h-20 text-pink-400" />
               </motion.div>
               <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-gray-900 mb-8 font-rounded text-premium">
                 Mengapa Zatiaras Juice adalah Pilihan Terbaik?
@@ -645,7 +645,7 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                 className="text-center bg-gradient-to-br from-gray-50 to-white rounded-2xl p-8 shadow-clean hover:shadow-lg transition-all duration-300"
               >
                 <div className="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                  <span className="text-3xl">🍃</span>
+                  <Leaf className="w-8 h-8 text-green-500" />
                 </div>
                 <h3 className="text-xl font-black text-gray-900 mb-4 font-rounded">100% Alami</h3>
                 <p className="text-gray-600 font-medium leading-relaxed">
@@ -660,7 +660,7 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                 className="text-center bg-gradient-to-br from-gray-50 to-white rounded-2xl p-8 shadow-clean hover:shadow-lg transition-all duration-300"
               >
                 <div className="w-16 h-16 bg-yellow-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                  <span className="text-3xl">💯</span>
+                  <Shield className="w-8 h-8 text-yellow-500" />
                 </div>
                 <h3 className="text-xl font-black text-gray-900 mb-4 font-rounded">Garansi Uang Kembali</h3>
                 <p className="text-gray-600 font-medium leading-relaxed">
@@ -707,10 +707,17 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
               />
               
               {/* Floating Juice Icons */}
-              {['🍹', '🥤', '🍓', '🥭', '🍊', '🍇'].map((icon, i) => (
+              {[
+                { icon: Apple, color: 'text-red-400' },
+                { icon: Apple, color: 'text-orange-400' },
+                { icon: Grape, color: 'text-purple-400' },
+                { icon: Cherry, color: 'text-pink-400' },
+                { icon: Banana, color: 'text-yellow-400' },
+                { icon: Apple, color: 'text-yellow-500' }
+              ].map(({ icon: Icon, color }, i) => (
                 <motion.div
                   key={i}
-                  className="absolute text-4xl opacity-20"
+                  className={`absolute text-4xl opacity-20 ${color}`}
                   style={{
                     left: `${Math.random() * 100}%`,
                     top: `${Math.random() * 100}%`,
@@ -727,7 +734,7 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                     delay: i * 0.5,
                   }}
                 >
-                  {icon}
+                  <Icon className="w-10 h-10" />
                 </motion.div>
               ))}
               

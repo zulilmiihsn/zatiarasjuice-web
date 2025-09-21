@@ -12,7 +12,8 @@ import {
   Heart,
   MessageCircle,
   Truck,
-  Utensils
+  Utensils,
+  Sparkles
 } from 'lucide-react';
 
 interface FooterProps {
@@ -201,7 +202,7 @@ const Footer: React.FC<FooterProps> = ({ branch }) => {
                     href={link.href}
                     className="text-gray-300 hover:text-primary-400 transition-colors duration-300 text-sm font-medium hover:translate-x-2 inline-block"
                   >
-                    ✨ {link.name}
+                    <Sparkles className="w-4 h-4 text-pink-400" /> {link.name}
                   </Link>
                 </li>
               ))}
@@ -296,7 +297,7 @@ const Footer: React.FC<FooterProps> = ({ branch }) => {
               >
                 <Heart className="w-5 h-5 text-primary-400 fill-current" />
               </motion.div>
-              <span>di Kalimantan Timur ✨</span>
+              <span>di Kalimantan Timur</span>
             </div>
             <div className="flex items-center space-x-6 text-sm text-gray-300">
               <Link href="/privacy" className="hover:text-primary-400 transition-colors duration-300 font-medium">

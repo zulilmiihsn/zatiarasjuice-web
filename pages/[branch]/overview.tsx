@@ -19,7 +19,6 @@ interface OverviewPageProps {
 const OverviewPage: React.FC<OverviewPageProps> = ({ 
   branch, 
   products, 
-  categories, 
   seoData 
 }) => {
   // Group products by category and sort by price (highest to lowest)

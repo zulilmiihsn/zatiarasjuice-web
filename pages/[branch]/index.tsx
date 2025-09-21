@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from 'react';
-import { MapPin, Phone, Clock } from 'lucide-react';
+import { MapPin, Phone, Clock, MessageCircle, Truck, Apple, Grape, Cherry, Banana } from 'lucide-react';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import Head from 'next/head';
 import { motion } from 'framer-motion';
@@ -113,10 +113,23 @@ const BranchPage: React.FC<BranchPageProps> = ({
             />
             
             {/* Floating Juice & Fruit Icons */}
-            {['🍹', '🥤', '🍓', '🥭', '🍊', '🍇', '🥑', '🍌', '🍎', '🍑', '🥝', '🍍'].map((icon, i) => (
+            {[
+              { icon: Apple, color: 'text-red-400' },
+              { icon: Apple, color: 'text-orange-400' },
+              { icon: Grape, color: 'text-purple-400' },
+              { icon: Cherry, color: 'text-pink-400' },
+              { icon: Banana, color: 'text-yellow-400' },
+              { icon: Apple, color: 'text-yellow-500' },
+              { icon: Apple, color: 'text-green-400' },
+              { icon: Apple, color: 'text-orange-500' },
+              { icon: Grape, color: 'text-indigo-400' },
+              { icon: Cherry, color: 'text-rose-400' },
+              { icon: Banana, color: 'text-amber-400' },
+              { icon: Apple, color: 'text-lime-400' }
+            ].map(({ icon: Icon, color }, i) => (
               <motion.div
                 key={i}
-                className="absolute text-3xl opacity-15"
+                className={`absolute text-3xl opacity-15 ${color}`}
                 style={{
                   left: `${Math.random() * 100}%`,
                   top: `${Math.random() * 100}%`,
@@ -133,7 +146,7 @@ const BranchPage: React.FC<BranchPageProps> = ({
                   delay: i * 0.6,
                 }}
               >
-                {icon}
+                <Icon className="w-8 h-8" />
               </motion.div>
             ))}
             
@@ -172,7 +185,7 @@ const BranchPage: React.FC<BranchPageProps> = ({
                 Zatiaras Juice {branch.charAt(0).toUpperCase() + branch.slice(1)}
               </h1>
               <p className="text-body-xl text-gray-600 max-w-3xl mx-auto mb-8">
-                {`Nikmati kesegaran jus alpukat dan aneka jus buah segar di cabang ${branch} ✨`}
+                {`Nikmati kesegaran jus alpukat dan aneka jus buah segar di cabang ${branch}`}
               </p>
               
               {/* Quick Stats dengan Glassmorphism */}
@@ -227,7 +240,7 @@ const BranchPage: React.FC<BranchPageProps> = ({
                     initial={false}
                   />
                   <span className="relative z-10 flex items-center justify-center gap-2">
-                    <span className="text-2xl">💬</span>
+                    <MessageCircle className="w-6 h-6" />
                     <span>Order via WhatsApp</span>
                   </span>
                 </motion.a>
@@ -247,7 +260,7 @@ const BranchPage: React.FC<BranchPageProps> = ({
                     initial={false}
                   />
                   <span className="relative z-10 flex items-center justify-center gap-2 group-hover:text-white">
-                    <span className="text-2xl">🚚</span>
+                    <Truck className="w-6 h-6" />
                     <span>Order via GoFood</span>
                   </span>
                 </motion.a>
