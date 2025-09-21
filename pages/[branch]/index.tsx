@@ -131,8 +131,8 @@ const BranchPage: React.FC<BranchPageProps> = ({
                 key={i}
                 className={`absolute text-3xl opacity-15 ${color}`}
                 style={{
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`,
+                  left: `${(i * 18.3) % 100}%`,
+                  top: `${(i * 27.7) % 100}%`,
                 }}
                 animate={{
                   y: [0, -25, 0],
@@ -140,7 +140,7 @@ const BranchPage: React.FC<BranchPageProps> = ({
                   scale: [0.8, 1.2, 0.8],
                 }}
                 transition={{
-                  duration: 7 + Math.random() * 3,
+                  duration: 7 + (i % 3) * 1.5,
                   repeat: Infinity,
                   ease: 'easeInOut',
                   delay: i * 0.6,
@@ -157,15 +157,15 @@ const BranchPage: React.FC<BranchPageProps> = ({
                 key={i}
                 className="absolute w-1 h-1 bg-primary-500/40 rounded-full"
                 style={{
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`,
+                  left: `${(i * 9.7) % 100}%`,
+                  top: `${(i * 13.3) % 100}%`,
                 }}
                 animate={{
                   scale: [0, 1.5, 0],
                   opacity: [0, 1, 0],
                 }}
                 transition={{
-                  duration: 2 + Math.random() * 2,
+                  duration: 2 + (i % 2) * 1.5,
                   repeat: Infinity,
                   ease: 'easeInOut',
                   delay: i * 0.1,
