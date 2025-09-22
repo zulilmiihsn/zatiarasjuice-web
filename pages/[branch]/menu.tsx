@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, lazy, Suspense, memo } from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import Head from 'next/head';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -9,9 +9,10 @@ import { getBranchSEOData } from '../../lib/seo';
 import { getProducts, getCategories, getBranchInfo } from '../../lib/supabase';
 import type { Branch, Product, Category } from '../../lib/supabase';
 import Link from 'next/link';
+import LoadingSpinner from '../../components/LoadingSpinner';
 
-// Import ProductCard directly to prevent Fast Refresh issues
-import ProductCard from '../../components/ProductCard';
+// Lazy load heavy components for better performance
+const ProductCard = lazy(() => import('../../components/ProductCard'));
 
 interface MenuPageProps {
   branch: Branch;
@@ -20,6 +21,72 @@ interface MenuPageProps {
   branchInfo: any;
   seoData: any;
 }
+
+// Memoized Product Grid Component untuk performa yang lebih baik
+const ProductGrid = memo(({ 
+  products, 
+  viewMode, 
+  handleAddToCart 
+}: { 
+  products: Product[]; 
+  viewMode: 'list' | 'grid'; 
+  // eslint-disable-next-line no-unused-vars
+  handleAddToCart: (productItem: Product) => void; 
+}) => {
+  if (viewMode === 'list') {
+    return (
+      <div className="space-y-4">
+        {products.map((product, index) => (
+          <motion.div
+            key={product.id}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.2, delay: index * 0.02 }}
+            className="w-full"
+          >
+            <Suspense fallback={
+              <div className="w-full h-32 bg-gray-100 rounded-2xl animate-pulse flex items-center justify-center">
+                <LoadingSpinner size="sm" />
+              </div>
+            }>
+              <ProductCard 
+                product={product} 
+                onAddToCart={handleAddToCart}
+              />
+            </Suspense>
+          </motion.div>
+        ))}
+      </div>
+    );
+  }
+
+  return (
+    <div className="grid grid-cols-2 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4 md:gap-6 w-full">
+      {products.map((product, index) => (
+        <motion.div
+          key={product.id}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.2, delay: index * 0.02 }}
+          className="w-full"
+        >
+          <Suspense fallback={
+            <div className="w-full h-48 bg-gray-100 rounded-2xl animate-pulse flex items-center justify-center">
+              <LoadingSpinner size="sm" />
+            </div>
+          }>
+            <ProductCard 
+              product={product} 
+              onAddToCart={handleAddToCart}
+            />
+          </Suspense>
+        </motion.div>
+      ))}
+    </div>
+  );
+});
+
+ProductGrid.displayName = 'ProductGrid';
 
 const MenuPage: React.FC<MenuPageProps> = ({ 
   branch, 
@@ -67,8 +134,9 @@ const MenuPage: React.FC<MenuPageProps> = ({
 
   // No need for useEffect since we're using useMemo directly
 
-  const handleAddToCart = useCallback(() => {
-    // Add to cart logic here
+  // eslint-disable-next-line no-unused-vars
+  const handleAddToCart = useCallback((productItem: Product) => {
+    // Add to cart logic here - optimized with useCallback
     // Product added to cart
   }, []);
 
@@ -112,7 +180,7 @@ const MenuPage: React.FC<MenuPageProps> = ({
   return (
     <>
       <Head>
-        <title>{seoData.title}</title>
+        <title>{`${seoData.title}`}</title>
         <meta name="description" content={seoData.description} />
         <meta name="keywords" content={seoData.keywords.join(', ')} />
         <link rel="canonical" href={seoData.canonical} />
@@ -124,11 +192,6 @@ const MenuPage: React.FC<MenuPageProps> = ({
         <meta property="og:url" content={seoData.openGraph.url} />
         <meta property="og:type" content={seoData.openGraph.type} />
         
-        {/* Twitter */}
-        <meta name="twitter:card" content={seoData.twitter.card} />
-        <meta name="twitter:title" content={seoData.twitter.title} />
-        <meta name="twitter:description" content={seoData.twitter.description} />
-        <meta name="twitter:image" content={seoData.twitter.image} />
         
         {/* Structured Data */}
         <script
@@ -652,8 +715,8 @@ const MenuPage: React.FC<MenuPageProps> = ({
                         return (
                           <AnimatePresence>
                             {filteredProducts.map((product, index) => (
-                                <motion.div
-                                  key={product.id}
+                              <motion.div
+                                key={product.id}
                                   initial={{ opacity: 0 }}
                                   animate={{ opacity: 1 }}
                                   exit={{ opacity: 0 }}
@@ -769,10 +832,16 @@ const MenuPage: React.FC<MenuPageProps> = ({
                                       transition={{ duration: 0.2, delay: index * 0.02 }}
                                       className="w-full"
                                     >
-                                      <ProductCard 
-                                        product={product} 
-                                        onAddToCart={handleAddToCart}
-                                      />
+                                        <Suspense fallback={
+                                          <div className="w-full h-48 bg-gray-100 rounded-2xl animate-pulse flex items-center justify-center">
+                                            <LoadingSpinner size="sm" />
+                                          </div>
+                                        }>
+                                          <ProductCard 
+                                            product={product} 
+                                            onAddToCart={handleAddToCart}
+                                          />
+                                        </Suspense>
                                     </motion.div>
                                   ))}
                                 </div>
@@ -784,25 +853,13 @@ const MenuPage: React.FC<MenuPageProps> = ({
                       } else {
                         // Show all products without grouping (price sort or specific category filter)
                         return (
-                          <div className="grid grid-cols-2 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4 md:gap-6 w-full">
-                            <AnimatePresence>
-                              {filteredProducts.map((product, index) => (
-                                <motion.div
-                                  key={product.id}
-                                  initial={{ opacity: 0 }}
-                                  animate={{ opacity: 1 }}
-                                  exit={{ opacity: 0 }}
-                                  transition={{ duration: 0.2, delay: index * 0.02 }}
-                                  className="w-full"
-                                >
-                                  <ProductCard 
-                                    product={product} 
-                                    onAddToCart={handleAddToCart}
-                                  />
-                                </motion.div>
-                              ))}
-                            </AnimatePresence>
-                          </div>
+                          <AnimatePresence>
+                            <ProductGrid 
+                              products={filteredProducts}
+                              viewMode={viewMode}
+                              handleAddToCart={handleAddToCart}
+                            />
+                          </AnimatePresence>
                         );
                       }
                     })()}
@@ -861,11 +918,11 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const branch = params?.branch as Branch;
 
   try {
-    // Fetch data from Supabase
+    // Fetch data from Supabase with optimized queries
     const [products, categories, branchInfo] = await Promise.all([
-      getProducts(branch),
-      getCategories(branch),
-      getBranchInfo(branch)
+      getProducts(branch), // Only fetch essential product data
+      getCategories(branch), // Only fetch active categories
+      getBranchInfo(branch) // Only fetch essential branch info
     ]);
 
     // Fallback data if Supabase fails
@@ -875,13 +932,11 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       name: 'Jus Alpukat Segar',
         kategori_id: null,
       price: 15000,
-        gambar: '/images/juice-placeholder.svg',
         created_at: new Date().toISOString(),
         tipe: 'premium',
         ekstra_ids: null,
       category: 'Jus Alpukat',
         description: 'Jus alpukat segar dengan kualitas terbaik',
-        image_url: '/images/juice-placeholder.svg',
         is_featured: true,
       rating: 4.8,
       review_count: 120
@@ -893,7 +948,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         id: 'fallback-1', 
         name: 'Jus Alpukat',
         description: 'Koleksi Jus Alpukat segar',
-        image_url: '/images/juice-placeholder.svg',
         sort_order: 1,
         is_active: true
       }
@@ -931,13 +985,11 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         name: 'Jus Alpukat Segar',
         kategori_id: null,
         price: 15000,
-        gambar: '/images/juice-placeholder.svg',
         created_at: new Date().toISOString(),
         tipe: 'premium',
         ekstra_ids: null,
         category: 'Jus Alpukat',
         description: 'Jus alpukat segar dengan kualitas terbaik',
-        image_url: '/images/juice-placeholder.svg',
         is_featured: true,
         rating: 4.8,
         review_count: 120
@@ -949,7 +1001,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         id: 'error-1', 
         name: 'Jus Alpukat',
         description: 'Koleksi Jus Alpukat segar',
-        image_url: '/images/juice-placeholder.svg',
         sort_order: 1,
         is_active: true
       }

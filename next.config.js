@@ -4,14 +4,15 @@ const nextConfig = {
   swcMinify: true,
   compress: true,
   
-  // Disable hot reload in development to prevent reload loops
+  // Development indicators
   devIndicators: {
-    buildActivity: false,
+    buildActivity: true,
     buildActivityPosition: 'bottom-right',
   },
   
-  // Disable fast refresh to prevent reload loops
-  reactStrictMode: false,
+  // Enable react strict mode for better development
+  reactStrictMode: true,
+  
   
   // Optimize development experience
   onDemandEntries: {
@@ -27,9 +28,9 @@ const nextConfig = {
     ignoreDuringBuilds: false,
   },
   
-  // Image optimization
+  // Advanced image optimization
   images: {
-    formats: ['image/webp', 'image/avif'],
+    formats: ['image/avif', 'image/webp'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     minimumCacheTTL: 31536000, // 1 year
@@ -60,9 +61,19 @@ const nextConfig = {
   webpack: (config, { dev, isServer }) => {
     // Optimize development compilation speed
     if (dev) {
+      // Optimize HMR and file watching
       config.watchOptions = {
         poll: 1000,
         aggregateTimeout: 300,
+        ignored: /node_modules/,
+      };
+      
+      // Disable some optimizations in development
+      config.optimization = {
+        ...config.optimization,
+        removeAvailableModules: false,
+        removeEmptyChunks: false,
+        splitChunks: false,
       };
     }
     
@@ -78,48 +89,64 @@ const nextConfig = {
       config.optimization.usedExports = true;
       config.optimization.sideEffects = false;
       
-      // Optimize chunks for better caching
+      // Optimize chunks for better caching and code splitting
       config.optimization.splitChunks = {
         chunks: 'all',
         minSize: 20000,
-        maxSize: 244000,
+        maxSize: 200000, // Reduced for better loading
         cacheGroups: {
           default: false,
           vendors: false,
-          // Framework chunk
+          // Framework chunk - Critical for initial load
           framework: {
             chunks: 'all',
             name: 'framework',
             test: /(?<!node_modules.*)[\\/]node_modules[\\/](react|react-dom|scheduler|prop-types|use-subscription)[\\/]/,
+            priority: 50,
+            enforce: true,
+          },
+          // Next.js chunk
+          nextjs: {
+            chunks: 'all',
+            name: 'nextjs',
+            test: /[\\/]node_modules[\\/]next[\\/]/,
+            priority: 45,
+            enforce: true,
+          },
+          // Framer Motion chunk - Heavy animation library
+          framerMotion: {
+            chunks: 'async', // Load async for better initial load
+            name: 'framer-motion',
+            test: /[\\/]node_modules[\\/]framer-motion[\\/]/,
             priority: 40,
             enforce: true,
           },
-          // Framer Motion chunk
-          framerMotion: {
-            chunks: 'all',
-            name: 'framer-motion',
-            test: /[\\/]node_modules[\\/]framer-motion[\\/]/,
-            priority: 35,
-            enforce: true,
-          },
-          // Lucide React chunk
+          // Lucide React chunk - Icon library
           lucideReact: {
-            chunks: 'all',
+            chunks: 'async', // Load async for better initial load
             name: 'lucide-react',
             test: /[\\/]node_modules[\\/]lucide-react[\\/]/,
             priority: 35,
             enforce: true,
           },
-          // Common chunk
+          // Supabase chunk - Database client
+          supabase: {
+            chunks: 'async', // Load async for better initial load
+            name: 'supabase',
+            test: /[\\/]node_modules[\\/]@supabase[\\/]/,
+            priority: 30,
+            enforce: true,
+          },
+          // Common chunk - Shared components
           common: {
             name: 'common',
             minChunks: 2,
             chunks: 'all',
-            priority: 10,
+            priority: 20,
             reuseExistingChunk: true,
             enforce: true,
           },
-          // Vendor chunk
+          // Vendor chunk - Other libraries
           vendor: {
             name: 'vendor',
             test: /[\\/]node_modules[\\/]/,

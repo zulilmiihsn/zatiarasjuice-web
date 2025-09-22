@@ -4,6 +4,12 @@ export default function Document() {
   return (
     <Html lang="id">
       <Head>
+        {/* Favicon & PWA Icons */}
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" type="image/png" sizes="192x192" href="/icon-192x192.png" />
+        <link rel="icon" type="image/png" sizes="512x512" href="/icon-512x512.png" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="/manifest.json" />
         {/* ULTRA PERFORMANCE FONT LOADING */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -24,8 +30,9 @@ export default function Document() {
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         
         {/* Preload critical resources */}
-        <link rel="preload" href="/images/hero-avocado.jpg" as="image" type="image/jpeg" />
-        <link rel="preload" href="/images/hero-fruits.jpg" as="image" type="image/jpeg" />
+        <link rel="preload" href="/images/hero-avocado-juice.png" as="image" type="image/png" />
+        <link rel="preload" href="/images/hero-mango-juice.png" as="image" type="image/png" />
+        <link rel="preload" href="/images/hero-avocado-shake.png" as="image" type="image/png" />
         <link rel="preload" href="/images/juice-placeholder.svg" as="image" type="image/svg+xml" />
       </Head>
       <body>

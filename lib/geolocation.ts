@@ -51,7 +51,8 @@ export const getUserLocation = (): Promise<UserLocation> => {
         });
       },
       (error) => {
-        console.error('Error getting user location:', error);
+        // Log error untuk debugging (bisa dihapus di production)
+        // console.error('Error getting user location:', error);
         reject(error);
       },
       {
@@ -77,7 +78,8 @@ export const getUserLocationByIP = async (): Promise<UserLocation | null> => {
       region: data.region,
     };
   } catch (error) {
-    console.error('Error getting location by IP:', error);
+    // Log error untuk debugging (bisa dihapus di production)
+    // console.error('Error getting location by IP:', error);
     return null;
   }
 };
@@ -122,47 +124,34 @@ export const getNearestBranch = (userLocation: UserLocation): string | null => {
   return nearestBranch;
 };
 
-// Function untuk mendapatkan lokasi user dengan fallback
+// Function untuk mendapatkan lokasi user dengan IP Location saja
 export const getUserLocationWithFallback = async (): Promise<{
   location: UserLocation | null;
   nearestBranch: string | null;
-  method: 'geolocation' | 'ip' | 'none';
+  method: 'ip' | 'none';
 }> => {
   try {
-    // Coba geolocation browser terlebih dahulu
-    const location = await getUserLocation();
-    const nearestBranch = getNearestBranch(location);
-    
-    return {
-      location,
-      nearestBranch,
-      method: 'geolocation',
-    };
-  } catch (error) {
-    console.log('Geolocation failed, trying IP fallback...');
-    
-    try {
-      // Fallback ke IP-based location
-      const location = await getUserLocationByIP();
-      if (location) {
-        const nearestBranch = getNearestBranch(location);
-        return {
-          location,
-          nearestBranch,
-          method: 'ip',
-        };
-      }
-    } catch (ipError) {
-      console.error('IP fallback also failed:', ipError);
+    // Hanya gunakan IP-based location
+    const location = await getUserLocationByIP();
+    if (location) {
+      const nearestBranch = getNearestBranch(location);
+      return {
+        location,
+        nearestBranch,
+        method: 'ip',
+      };
     }
-
-    // Jika semua gagal, return null
-    return {
-      location: null,
-      nearestBranch: null,
-      method: 'none',
-    };
+  } catch (ipError) {
+    // Log error untuk debugging (bisa dihapus di production)
+    // console.error('IP location failed:', ipError);
   }
+
+  // Jika IP location gagal, return null untuk manual selection
+  return {
+    location: null,
+    nearestBranch: null,
+    method: 'none',
+  };
 };
 
 // Function untuk format jarak

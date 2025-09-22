@@ -1,17 +1,20 @@
 import React, { useEffect, useState, lazy, Suspense } from 'react';
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
 import { Phone, Clock, Leaf, Shield, Sparkles, Apple, Grape, Cherry, Banana } from 'lucide-react';
 import Header from '../components/Header';
-import Footer from '../components/Footer';
 import HeroBanner from '../components/HeroBanner';
 import LoadingSpinner from '../components/LoadingSpinner';
+import LoadingScreen from '../components/LoadingScreen';
+import BranchSelectionModal from '../components/BranchSelectionModal';
 import { getUserLocationWithFallback } from '../lib/geolocation';
 
 // Lazy load heavy components for better performance
 const ProductCard = lazy(() => import('../components/ProductCard'));
+const Footer = lazy(() => import('../components/Footer'));
 
 interface HomePageProps {
   featuredProducts: any[];
@@ -22,21 +25,26 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [nearestBranch, setNearestBranch] = useState<string | null>(null);
+  const [showBranchModal, setShowBranchModal] = useState(false);
 
   useEffect(() => {
     const detectLocation = async () => {
       try {
-        const { nearestBranch: branch } = await getUserLocationWithFallback();
+        const { nearestBranch: branch, method } = await getUserLocationWithFallback();
         setNearestBranch(branch);
         
-        // Auto redirect ke cabang terdekat setelah 3 detik
         if (branch) {
+          // Auto redirect ke cabang terdekat setelah 2 detik
           setTimeout(() => {
             router.push(`/${branch}`);
-          }, 3000);
+          }, 2000);
+        } else if (method === 'none') {
+          // Jika IP location gagal, tampilkan modal pilihan
+          setShowBranchModal(true);
         }
       } catch (error) {
-        // Error handling - could be logged to analytics service
+        // Error handling - tampilkan modal pilihan
+        setShowBranchModal(true);
       } finally {
         setIsLoading(false);
       }
@@ -46,20 +54,16 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
   }, [router]);
 
   const handleBranchSelect = (branch: 'berau' | 'samarinda') => {
+    setShowBranchModal(false);
     router.push(`/${branch}`);
   };
 
+  const handleCloseModal = () => {
+    setShowBranchModal(false);
+  };
+
   if (isLoading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center relative overflow-hidden">
-        <LoadingSpinner
-          size="xl"
-          variant="pulse"
-          text="Memuat Zatiaras Juice..."
-          className="text-white"
-        />
-      </div>
-    );
+    return <LoadingScreen size="xl" />;
   }
 
   return (
@@ -77,11 +81,6 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
         <meta property="og:url" content={seoData.openGraph.url} />
         <meta property="og:type" content={seoData.openGraph.type} />
         
-        {/* Twitter */}
-        <meta name="twitter:card" content={seoData.twitter.card} />
-        <meta name="twitter:title" content={seoData.twitter.title} />
-        <meta name="twitter:description" content={seoData.twitter.description} />
-        <meta name="twitter:image" content={seoData.twitter.image} />
         
         {/* Structured Data */}
         <script
@@ -219,7 +218,24 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                 className="card-premium group perspective-3d rounded-[2rem]"
                 style={{ transformStyle: 'preserve-3d' }}
               >
-                <div className="h-56 bg-gradient-to-br from-primary-500 via-pinky-500 to-cute-500 relative overflow-hidden rounded-t-[2rem]">
+                <div className="h-56 relative overflow-hidden rounded-t-[2rem]">
+                  {/* City Background Image */}
+                  <Image
+                    src="/images/city-berau.jpg"
+                    alt="View Berau"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                  />
+                  {/* Overlay Gradient with fade after section in view */}
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"
+                    initial={{ opacity: 0.3 }}
+                    whileInView={{ opacity: 0 }}
+                    viewport={{ once: true, amount: 0.5 }}
+                    transition={{ delay: 2, duration: 1.2, ease: 'easeOut' }}
+                  />
+                  
                   {/* Animated Background Elements */}
                   <div className="absolute inset-0">
                     <motion.div
@@ -351,7 +367,24 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                 className="card-premium group perspective-3d rounded-[2rem]"
                 style={{ transformStyle: 'preserve-3d' }}
               >
-                <div className="h-56 bg-gradient-to-br from-pinky-500 via-pinky-600 to-pinky-700 relative overflow-hidden rounded-t-[2rem]">
+                <div className="h-56 relative overflow-hidden rounded-t-[2rem]">
+                  {/* City Background Image */}
+                  <Image
+                    src="/images/city-samarinda.jpg"
+                    alt="View Samarinda"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                  />
+                  {/* Overlay Gradient with fade after section in view */}
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"
+                    initial={{ opacity: 0.3 }}
+                    whileInView={{ opacity: 0 }}
+                    viewport={{ once: true, amount: 0.5 }}
+                    transition={{ delay: 2, duration: 1.2, ease: 'easeOut' }}
+                  />
+                  
                   {/* Animated Background Elements */}
                   <div className="absolute inset-0">
                     <motion.div
@@ -1036,7 +1069,20 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
           </div>
         </section>
 
-        <Footer />
+        <Suspense fallback={
+          <div className="w-full h-32 bg-gray-100 animate-pulse flex items-center justify-center">
+            <LoadingSpinner size="sm" />
+          </div>
+        }>
+          <Footer />
+        </Suspense>
+
+        {/* Branch Selection Modal */}
+        <BranchSelectionModal
+          isOpen={showBranchModal}
+          onSelectBranch={handleBranchSelect}
+          onClose={handleCloseModal}
+        />
       </div>
     </>
   );
@@ -1069,19 +1115,12 @@ export const getStaticProps: GetStaticProps = async () => {
       'review jus terbaik samarinda',
     ],
     canonical: 'https://zatiarasjuice.com',
-    openGraph: {
-      title: 'Zatiaras Juice — Jus Terenak & Terbaik di Berau & Samarinda | Rating 4.9/5',
-      description: 'Jus terenak di Berau & Samarinda! Rating 4.9/5 dari 150+ review. 100% alami, tanpa pengawet, garansi uang kembali. Order via WhatsApp/GoFood.',
-      image: 'https://zatiarasjuice.com/images/og-home.jpg',
-      url: 'https://zatiarasjuice.com',
-      type: 'website',
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: 'Zatiaras Juice — Jus Terenak & Terbaik di Berau & Samarinda | Rating 4.9/5',
-      description: 'Jus terenak di Berau & Samarinda! Rating 4.9/5 dari 150+ review. 100% alami, tanpa pengawet, garansi uang kembali. Order via WhatsApp/GoFood.',
-      image: 'https://zatiarasjuice.com/images/twitter-home.jpg',
-    },
+      openGraph: {
+        title: 'Zatiaras Juice — Jus Terenak & Terbaik di Berau & Samarinda | Rating 4.9/5',
+        description: 'Jus terenak di Berau & Samarinda! Rating 4.9/5 dari 150+ review. 100% alami, tanpa pengawet, garansi uang kembali. Order via WhatsApp/GoFood.',
+        url: 'https://zatiarasjuice.com',
+        type: 'website',
+      },
     structuredData: {
       '@context': 'https://schema.org',
       '@type': 'Organization',

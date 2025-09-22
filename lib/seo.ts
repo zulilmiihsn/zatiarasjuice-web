@@ -8,21 +8,15 @@ export interface SEOData {
   openGraph: {
     title: string;
     description: string;
-    image: string;
+    image?: string;
     url: string;
     type: string;
-  };
-  twitter: {
-    card: string;
-    title: string;
-    description: string;
-    image: string;
   };
   structuredData: any;
 }
 
 // Data SEO untuk setiap cabang
-export const getBranchSEOData = (branch: 'berau' | 'samarinda'): SEOData => {
+export const getBranchSEOData = (branch: 'berau' | 'samarinda', page: string = 'home'): SEOData => {
   const branchData = {
     berau: {
       name: 'Berau',
@@ -49,6 +43,62 @@ export const getBranchSEOData = (branch: 'berau' | 'samarinda'): SEOData => {
   const data = branchData[branch];
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://zatiarasjuice.com';
 
+  // SEO data berdasarkan halaman
+  if (page === 'contact') {
+    return {
+      title: `Kontak Zatiaras Juice ${data.name} — WhatsApp, Instagram, TikTok`,
+      description: `Hubungi Zatiaras Juice ${data.name} melalui WhatsApp, Instagram, atau TikTok. Customer service siap melayani Anda 24/7. Phone: ${data.phone}`,
+      keywords: [
+        `kontak zatiaras juice ${data.city}`,
+        `whatsapp ${data.name}`,
+        `customer service ${data.city}`,
+        `instagram zatiaras ${data.name}`,
+        `tiktok zatiaras ${data.city}`,
+        `hubungi zatiaras ${data.name}`,
+        `phone zatiaras ${data.city}`,
+        `alamat zatiaras ${data.name}`,
+        `lokasi zatiaras ${data.city}`,
+        `jam buka zatiaras ${data.name}`,
+      ],
+      canonical: `${baseUrl}/${branch}/contact`,
+      openGraph: {
+        title: `Kontak Zatiaras Juice ${data.name} — WhatsApp, Instagram, TikTok`,
+        description: `Hubungi Zatiaras Juice ${data.name} melalui WhatsApp, Instagram, atau TikTok. Customer service siap melayani Anda 24/7.`,
+        url: `${baseUrl}/${branch}/contact`,
+        type: 'website',
+      },
+      structuredData: {
+        '@context': 'https://schema.org',
+        '@type': 'LocalBusiness',
+        name: `Zatiaras Juice ${data.name}`,
+        image: `${baseUrl}/images/logo.png`,
+        description: `Zatiaras Juice ${data.name} - Jus Alpukat & Buah Segar Nomor 1 di ${data.city}`,
+        url: `${baseUrl}/${branch}/contact`,
+        telephone: data.phone,
+        address: {
+          '@type': 'PostalAddress',
+          streetAddress: data.address.split(',')[0],
+          addressLocality: data.city,
+          addressRegion: data.region,
+          addressCountry: 'ID',
+        },
+        geo: {
+          '@type': 'GeoCoordinates',
+          latitude: data.latitude,
+          longitude: data.longitude,
+        },
+        openingHours: 'Mo-Su 08:00-22:00',
+        priceRange: '$$',
+        servesCuisine: 'Indonesian',
+        hasMenu: `${baseUrl}/${branch}/menu`,
+        sameAs: [
+          'https://instagram.com/zatiarasjuice',
+          'https://tiktok.com/@zatiarasjuice',
+        ],
+      },
+    };
+  }
+
   return {
     title: `Zatiaras Juice ${data.name} — Jus Alpukat & Buah Segar Nomor 1 di ${data.city}`,
     description: `Nikmati jus alpukat dan aneka jus segar di Zatiaras Juice ${data.name}. Menu lengkap, harga transparan, order via GoFood/GrabFood/WA. Lokasi: ${data.address}`,
@@ -65,24 +115,17 @@ export const getBranchSEOData = (branch: 'berau' | 'samarinda'): SEOData => {
       `restoran jus ${data.city}`,
     ],
     canonical: `${baseUrl}/${branch}`,
-    openGraph: {
-      title: `Zatiaras Juice ${data.name} — Jus Alpukat & Buah Segar Nomor 1`,
-      description: `Nikmati jus alpukat dan aneka jus segar di Zatiaras Juice ${data.name}. Menu lengkap, harga transparan, order via GoFood/GrabFood/WA.`,
-      image: `${baseUrl}/images/og-${branch}.jpg`,
-      url: `${baseUrl}/${branch}`,
-      type: 'website',
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: `Zatiaras Juice ${data.name} — Jus Alpukat & Buah Segar Nomor 1`,
-      description: `Nikmati jus alpukat dan aneka jus segar di Zatiaras Juice ${data.name}. Menu lengkap, harga transparan, order via GoFood/GrabFood/WA.`,
-      image: `${baseUrl}/images/twitter-${branch}.jpg`,
-    },
+      openGraph: {
+        title: `Zatiaras Juice ${data.name} — Jus Alpukat & Buah Segar Nomor 1`,
+        description: `Nikmati jus alpukat dan aneka jus segar di Zatiaras Juice ${data.name}. Menu lengkap, harga transparan, order via GoFood/GrabFood/WA.`,
+        url: `${baseUrl}/${branch}`,
+        type: 'website',
+      },
     structuredData: {
       '@context': 'https://schema.org',
       '@type': 'LocalBusiness',
       name: `Zatiaras Juice ${data.name}`,
-      image: `${baseUrl}/images/logo-${branch}.png`,
+      image: `${baseUrl}/images/logo.png`,
       description: `Zatiaras Juice ${data.name} - Jus Alpukat & Buah Segar Nomor 1 di ${data.city}`,
       url: `${baseUrl}/${branch}`,
       telephone: data.phone,

@@ -71,7 +71,7 @@ const OverviewPage: React.FC<OverviewPageProps> = ({
   return (
     <>
       <Head>
-        <title>{seoData.title} - Overview</title>
+        <title>{`${seoData.title} - Overview`}</title>
         <meta name="description" content={`Overview lengkap menu ${branch} - ${seoData.description}`} />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
          <style jsx global>{`
@@ -260,13 +260,11 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         name: 'Jus Alpukat Segar',
         kategori_id: null,
         price: 15000,
-        gambar: '/images/juice-placeholder.svg',
         created_at: new Date().toISOString(),
         tipe: 'premium',
         ekstra_ids: null,
         category: 'Jus Alpukat',
         description: 'Jus alpukat segar dengan kualitas terbaik',
-        image_url: '/images/juice-placeholder.svg',
         is_featured: true,
         rating: 4.8,
         review_count: 120,
@@ -281,7 +279,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         id: 'fallback-1', 
         name: 'Jus Alpukat',
         description: 'Koleksi Jus Alpukat segar',
-        image_url: '/images/juice-placeholder.svg',
         sort_order: 1,
         is_active: true
       }
@@ -317,13 +314,11 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         name: 'Jus Alpukat Segar',
         kategori_id: null,
         price: 15000,
-        gambar: '/images/juice-placeholder.svg',
         created_at: new Date().toISOString(),
         tipe: 'premium',
         ekstra_ids: null,
         category: 'Jus Alpukat',
         description: 'Jus alpukat segar dengan kualitas terbaik',
-        image_url: '/images/juice-placeholder.svg',
         is_featured: true,
         rating: 4.8,
         review_count: 120,
@@ -338,7 +333,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         id: 'error-1', 
         name: 'Jus Alpukat',
         description: 'Koleksi Jus Alpukat segar',
-        image_url: '/images/juice-placeholder.svg',
         sort_order: 1,
         is_active: true
       }

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { motion, useScroll, useTransform, useSpring, useMotionValue } from 'framer-motion';
-import { ChevronLeft, ChevronRight, Play, Pause, Sparkles, MessageCircle } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Play, Pause, Sparkles, Menu } from 'lucide-react';
 import Image from 'next/image';
 
 interface HeroSlide {
@@ -16,10 +16,18 @@ interface HeroSlide {
   gradient: string;
 }
 
+// WhatsApp Icon Component
+const WhatsAppIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
+  </svg>
+);
+
 interface HeroBannerProps {
   branch?: 'berau' | 'samarinda' | null;
   slides?: HeroSlide[];
-  onBranchSelect?: (branch: 'berau' | 'samarinda') => void;
+  // eslint-disable-next-line no-unused-vars
+  onBranchSelect?: (selectedBranch: 'berau' | 'samarinda') => void;
 }
 
 const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect }) => {
@@ -68,30 +76,30 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
       title: `Jus Terenak di ${branch ? branch.charAt(0).toUpperCase() + branch.slice(1) : 'Berau & Samarinda'}`,
       subtitle: 'Zatiaras Juice - #1 Choice',
       description: 'Dibuat dari buah alpukat pilihan terbaik, tanpa pengawet, 100% alami. Lebih dari 500+ pelanggan puas setiap bulan. Rating 4.9/5 dari 150+ review.',
-      image: '/images/hero-avocado.jpg',
+      image: '/images/hero-avocado-juice.png',
       ctaText: 'Lihat Menu',
       ctaLink: branch ? `/${branch}/menu` : '/menu',
-      gradient: 'from-emerald-400 via-teal-500 to-cyan-600',
+      gradient: 'from-green-400 via-emerald-500 to-teal-600',
     },
     {
       id: '2',
-      title: 'Jus Segar Terbaik',
+      title: 'Jus Mangga Segar Terbaik',
       subtitle: 'Zatiaras Juice - Fresh Daily',
       description: 'Dibuat fresh setiap hari dengan buah pilihan. Garansi uang kembali jika tidak puas. Order via WhatsApp/GoFood, siap dalam 15 menit.',
-      image: '/images/hero-fruits.jpg',
+      image: '/images/hero-mango-juice.png',
       ctaText: 'Lihat Menu',
       ctaLink: branch ? `/${branch}/menu` : '/menu',
-      gradient: 'from-pink-400 via-rose-500 to-red-600',
+      gradient: 'from-orange-400 via-amber-500 to-yellow-500',
     },
     {
       id: '3',
-      title: `Jus Alpukat #1 di ${branch ? branch.charAt(0).toUpperCase() + branch.slice(1) : 'Kaltim'}`,
+      title: `Alpukat Kocok #1 di ${branch ? branch.charAt(0).toUpperCase() + branch.slice(1) : 'Kaltim'}`,
       subtitle: 'Zatiaras Juice - Premium Quality',
       description: 'Resep rahasia turun temurun, susu segar pilihan, gula aren asli. Lebih dari 3 tahun melayani Berau & Samarinda dengan kualitas konsisten.',
-      image: '/images/hero-avocado.jpg',
+      image: '/images/hero-avocado-shake.png',
       ctaText: 'Lihat Menu',
       ctaLink: branch ? `/${branch}/menu` : '/menu',
-      gradient: 'from-purple-400 via-violet-500 to-indigo-600',
+      gradient: 'from-green-600 via-emerald-700 to-teal-800',
     },
   ], [branch]);
 
@@ -438,7 +446,7 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
                         initial={false}
                       />
                       <span className="relative z-10 flex items-center justify-center gap-2">
-                        <span className="text-2xl">🍹</span>
+                        <Menu className="w-6 h-6" />
                         <span>{heroSlides[currentSlide].ctaText}</span>
                       </span>
                     </motion.button>
@@ -457,7 +465,7 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
                         initial={false}
                       />
                       <span className="relative z-10 flex items-center justify-center gap-2">
-                        <span className="text-2xl">🍹</span>
+                        <Menu className="w-6 h-6" />
                         <span>{heroSlides[currentSlide].ctaText}</span>
                       </span>
                     </motion.a>
@@ -479,7 +487,7 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
                       initial={false}
                     />
                     <span className="relative z-10 flex items-center justify-center gap-2">
-                      <MessageCircle className="w-6 h-6" />
+                      <WhatsAppIcon className="w-6 h-6" />
                       <span>Order via WhatsApp</span>
                     </span>
                   </motion.a>
@@ -515,10 +523,12 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
                 src={heroSlides[currentSlide].image}
                 alt={heroSlides[currentSlide].title}
                 fill
-                className="object-cover transition-transform duration-500"
+                className="object-contain transition-transform duration-500"
                 priority
-                quality={85}
+                quality={90}
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                placeholder="blur"
+                blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
               />
               
               {/* Gradient Overlay */}

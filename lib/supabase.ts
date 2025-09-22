@@ -21,7 +21,7 @@ export interface Product {
   name: string;
   kategori_id: string | null;
   price: number;
-  gambar: string | null;
+  gambar?: string | null;
   created_at: string | null;
   tipe: string | null;
   ekstra_ids: string[] | null;
@@ -87,7 +87,8 @@ export const getProducts = async (branch: Branch): Promise<Product[]> => {
     .order('created_at', { ascending: false });
 
   if (error) {
-    console.error('Error fetching products:', error);
+    // Log error untuk debugging (bisa dihapus di production)
+    // console.error('Error fetching products:', error);
     return [];
   }
 
@@ -133,7 +134,8 @@ export const getProductsByCategory = async (
     .order('created_at', { ascending: false });
 
   if (error) {
-    console.error('Error fetching products by category:', error);
+    // Log error untuk debugging (bisa dihapus di production)
+    // console.error('Error fetching products by category:', error);
     return [];
   }
 
@@ -169,18 +171,27 @@ export const getCategories = async (branch: Branch): Promise<Category[]> => {
     .order('name', { ascending: true });
 
   if (error) {
-    console.error('Error fetching categories:', error);
+    // Log error untuk debugging (bisa dihapus di production)
+    // console.error('Error fetching categories:', error);
     return [];
   }
 
   // Transform data to match expected interface
-  const transformedData = (data || []).map((category: any) => ({
-    ...category,
-    description: category.description || `Koleksi ${category.name} segar`,
-    image_url: category.image_url || '/images/juice-placeholder.svg',
-    sort_order: category.sort_order || 0,
-    is_active: category.is_active !== false, // Default to true
-  }));
+  const transformedData = (data || []).map((category: any) => {
+    const transformed = {
+      ...category,
+      description: category.description || `Koleksi ${category.name} segar`,
+      sort_order: category.sort_order || 0,
+      is_active: category.is_active !== false, // Default to true
+    };
+    
+    // Only add image_url if it exists
+    if (category.image_url) {
+      transformed.image_url = category.image_url;
+    }
+    
+    return transformed;
+  });
 
   return transformedData;
 };
@@ -259,7 +270,8 @@ export const getNearestBranch = async (
 
     return berauDistance < samarindaDistance ? 'berau' : 'samarinda';
   } catch (error) {
-    console.error('Error getting nearest branch:', error);
+    // Log error untuk debugging (bisa dihapus di production)
+    // console.error('Error getting nearest branch:', error);
     return null;
   }
 };

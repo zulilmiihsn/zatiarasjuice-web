@@ -43,7 +43,8 @@ export default async function handler(
       paths: paths || []
     });
   } catch (error) {
-    console.error('Error revalidating:', error);
+    // Log error untuk debugging (bisa dihapus di production)
+    // console.error('Error revalidating:', error);
     return res.status(500).json({ 
       message: 'Error revalidating',
       error: error instanceof Error ? error.message : 'Unknown error'
