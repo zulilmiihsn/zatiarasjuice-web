@@ -24,6 +24,7 @@ interface ProductCardProps {
     is_minuman?: boolean;
   };
   branch?: 'berau' | 'samarinda';
+  onAddToCart?: () => void;
   className?: string;
 }
 
@@ -37,6 +38,7 @@ const WhatsAppIcon = ({ className }: { className?: string }) => (
 const ProductCard: React.FC<ProductCardProps> = memo(({
   product,
   branch,
+  onAddToCart,
   className = '',
 }) => {
   const [isAddingToCart, setIsAddingToCart] = useState(false);
@@ -63,10 +65,15 @@ const ProductCard: React.FC<ProductCardProps> = memo(({
         priceLarge: product.price_large,
         size: product.is_minuman ? 'regular' : undefined,
       });
+      
+      // Open cart sidebar after adding item
+      if (onAddToCart) {
+        onAddToCart();
+      }
     } finally {
       setIsAddingToCart(false);
     }
-  }, [addToCart, setBranch, product, branch]);
+  }, [addToCart, setBranch, product, branch, onAddToCart]);
 
 
   const formatPrice = (price: number) => {

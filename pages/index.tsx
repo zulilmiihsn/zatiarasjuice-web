@@ -10,6 +10,7 @@ import HeroBanner from '../components/HeroBanner';
 import LoadingSpinner from '../components/LoadingSpinner';
 import LoadingScreen from '../components/LoadingScreen';
 import BranchSelectionModal from '../components/BranchSelectionModal';
+import CartSidebar from '../components/CartSidebar';
 import { getUserLocationWithFallback } from '../lib/geolocation';
 
 // Lazy load heavy components for better performance
@@ -26,6 +27,7 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [nearestBranch, setNearestBranch] = useState<string | null>(null);
   const [showBranchModal, setShowBranchModal] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   useEffect(() => {
     // Pastikan router sudah ready sebelum melakukan operasi routing
@@ -840,7 +842,11 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                         <LoadingSpinner size="md" variant="pulse" />
                       </div>
                     }>
-                      <ProductCard product={product} branch={nearestBranch as 'berau' | 'samarinda'} />
+                      <ProductCard 
+                        product={product} 
+                        branch={nearestBranch as 'berau' | 'samarinda'} 
+                        onAddToCart={() => setIsCartOpen(true)}
+                      />
                     </Suspense>
                   </motion.div>
                 ))}
@@ -1089,6 +1095,12 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
           isOpen={showBranchModal}
           onSelectBranch={handleBranchSelect}
           onClose={handleCloseModal}
+        />
+        
+        {/* Cart Sidebar */}
+        <CartSidebar 
+          isOpen={isCartOpen} 
+          onClose={() => setIsCartOpen(false)} 
         />
       </div>
     </>

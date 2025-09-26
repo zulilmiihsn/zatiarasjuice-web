@@ -178,7 +178,7 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => {
                     className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-6 rounded-xl transition-colors flex items-center justify-center gap-3"
                   >
                     <MessageCircle className="w-5 h-5" />
-                    <span>Order via WhatsApp</span>
+                    <span>Pesan Sekarang</span>
                   </button>
                   
                   <button

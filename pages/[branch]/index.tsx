@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from 'react';
+import React, { lazy, Suspense, useState } from 'react';
 import { MapPin, Phone, Clock, Utensils, Apple, Grape, Cherry, Banana } from 'lucide-react';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import Head from 'next/head';
@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import Header from '../../components/Header';
 import HeroBanner from '../../components/HeroBanner';
 import LoadingSpinner from '../../components/LoadingSpinner';
+import CartSidebar from '../../components/CartSidebar';
 import { getBranchSEOData } from '../../lib/seo';
 import { getProducts, getCategories, getBranchInfo } from '../../lib/supabase';
 import type { Branch, Product, Category } from '../../lib/supabase';
@@ -34,10 +35,7 @@ const BranchPage: React.FC<BranchPageProps> = ({
   products, 
   seoData 
 }) => {
-
-
-
-
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   // Featured products berdasarkan nama spesifik
   const featuredProductNames = ['Jus Alpukat', 'Jus Mangga', 'Alpukat Kocok'];
@@ -369,6 +367,7 @@ const BranchPage: React.FC<BranchPageProps> = ({
                       <ProductCard 
                         product={product} 
                         branch={branch}
+                        onAddToCart={() => setIsCartOpen(true)}
                       />
                     </Suspense>
                   </motion.div>
@@ -402,6 +401,12 @@ const BranchPage: React.FC<BranchPageProps> = ({
         }>
           <Footer branch={branch} />
         </Suspense>
+        
+        {/* Cart Sidebar */}
+        <CartSidebar 
+          isOpen={isCartOpen} 
+          onClose={() => setIsCartOpen(false)} 
+        />
       </div>
     </>
   );

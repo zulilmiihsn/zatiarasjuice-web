@@ -10,6 +10,7 @@ import { getProducts, getCategories, getBranchInfo } from '../../lib/supabase';
 import type { Branch, Product, Category } from '../../lib/supabase';
 import Link from 'next/link';
 import LoadingSpinner from '../../components/LoadingSpinner';
+import CartSidebar from '../../components/CartSidebar';
 
 // Lazy load heavy components for better performance
 const ProductCard = lazy(() => import('../../components/ProductCard'));
@@ -51,6 +52,7 @@ const ProductGrid = memo(({
               <ProductCard 
                 product={product} 
                 branch={branch}
+                onAddToCart={() => setIsCartOpen(true)}
               />
             </Suspense>
           </motion.div>
@@ -77,6 +79,7 @@ const ProductGrid = memo(({
             <ProductCard 
               product={product} 
               branch={branch}
+              onAddToCart={() => setIsCartOpen(true)}
             />
           </Suspense>
         </motion.div>
@@ -93,6 +96,7 @@ const MenuPage: React.FC<MenuPageProps> = ({
   categories, 
   seoData 
 }) => {
+  const [isCartOpen, setIsCartOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [sortBy, setSortBy] = useState<'name' | 'price'>('name');
@@ -831,10 +835,11 @@ const MenuPage: React.FC<MenuPageProps> = ({
                                             <LoadingSpinner size="sm" />
                                           </div>
                                         }>
-                                        <ProductCard 
-                                          product={product} 
+                                          <ProductCard 
+                                            product={product} 
                                             branch={branch}
-                                        />
+                                            onAddToCart={() => setIsCartOpen(true)}
+                                          />
                                         </Suspense>
                                     </motion.div>
                                   ))}
@@ -893,6 +898,12 @@ const MenuPage: React.FC<MenuPageProps> = ({
         </section>
 
         <Footer branch={branch} />
+        
+        {/* Cart Sidebar */}
+        <CartSidebar 
+          isOpen={isCartOpen} 
+          onClose={() => setIsCartOpen(false)} 
+        />
       </div>
     </>
   );
