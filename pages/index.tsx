@@ -10,7 +10,7 @@ import HeroBanner from '../components/HeroBanner';
 import LoadingSpinner from '../components/LoadingSpinner';
 import LoadingScreen from '../components/LoadingScreen';
 import BranchSelectionModal from '../components/BranchSelectionModal';
-import CartSidebar from '../components/CartSidebar';
+import AbsoluteFixedCartSidebar from '../components/AbsoluteFixedCartSidebar';
 import { getUserLocationWithFallback } from '../lib/geolocation';
 
 const ProductCard = lazy(() => import('../components/ProductCard'));
@@ -1077,12 +1077,13 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
           onSelectBranch={handleBranchSelect}
           onClose={handleCloseModal}
         />
-        
-        <CartSidebar 
-          isOpen={isCartOpen} 
-          onClose={() => setIsCartOpen(false)} 
-        />
       </div>
+      
+      {/* Cart Sidebar - Floating outside main container */}
+      <AbsoluteFixedCartSidebar 
+        isOpen={isCartOpen} 
+        onClose={() => setIsCartOpen(false)} 
+      />
     </>
   );
 };

@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 import Header from '../../components/Header';
 import HeroBanner from '../../components/HeroBanner';
 import LoadingSpinner from '../../components/LoadingSpinner';
-import CartSidebar from '../../components/CartSidebar';
+import AbsoluteFixedCartSidebar from '../../components/AbsoluteFixedCartSidebar';
 import { getBranchSEOData } from '../../lib/seo';
 import { getProducts, getCategories, getBranchInfo } from '../../lib/supabase';
 import type { Branch, Product, Category } from '../../lib/supabase';
@@ -401,13 +401,13 @@ const BranchPage: React.FC<BranchPageProps> = ({
         }>
           <Footer branch={branch} />
         </Suspense>
-        
-        {/* Cart Sidebar */}
-        <CartSidebar 
-          isOpen={isCartOpen} 
-          onClose={() => setIsCartOpen(false)} 
-        />
       </div>
+      
+      {/* Cart Sidebar - Floating outside main container */}
+      <AbsoluteFixedCartSidebar 
+        isOpen={isCartOpen} 
+        onClose={() => setIsCartOpen(false)} 
+      />
     </>
   );
 };

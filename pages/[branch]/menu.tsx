@@ -10,7 +10,7 @@ import { getProducts, getCategories, getBranchInfo } from '../../lib/supabase';
 import type { Branch, Product, Category } from '../../lib/supabase';
 import Link from 'next/link';
 import LoadingSpinner from '../../components/LoadingSpinner';
-import CartSidebar from '../../components/CartSidebar';
+import AbsoluteFixedCartSidebar from '../../components/AbsoluteFixedCartSidebar';
 
 // Lazy load heavy components for better performance
 const ProductCard = lazy(() => import('../../components/ProductCard'));
@@ -901,13 +901,13 @@ const MenuPage: React.FC<MenuPageProps> = ({
         </section>
 
         <Footer branch={branch} />
-        
-        {/* Cart Sidebar */}
-        <CartSidebar 
-          isOpen={isCartOpen} 
-          onClose={() => setIsCartOpen(false)} 
-        />
       </div>
+      
+      {/* Cart Sidebar - Floating outside main container */}
+      <AbsoluteFixedCartSidebar 
+        isOpen={isCartOpen} 
+        onClose={() => setIsCartOpen(false)} 
+      />
     </>
   );
 };

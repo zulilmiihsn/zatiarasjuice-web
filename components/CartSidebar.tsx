@@ -1,9 +1,36 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Plus, Minus, ShoppingCart, Trash2, MessageCircle } from 'lucide-react';
 import Image from 'next/image';
 import { useCart } from '../contexts/CartContext';
 import { formatCurrency, getWhatsAppUrl, formatCartItem } from '../lib/whatsapp';
+
+// CSS untuk memastikan sidebar benar-benar fixed
+const fixedSidebarStyles = `
+  .cart-sidebar-fixed {
+    position: fixed !important;
+    top: 0 !important;
+    right: 0 !important;
+    height: 100vh !important;
+    z-index: 9999 !important;
+    transform: none !important;
+    will-change: auto !important;
+    contain: none !important;
+  }
+  
+  .cart-backdrop-fixed {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    z-index: 9998 !important;
+    transform: none !important;
+    will-change: auto !important;
+    contain: none !important;
+  }
+`;
 
 interface CartSidebarProps {
   isOpen: boolean;
@@ -12,6 +39,11 @@ interface CartSidebarProps {
 
 const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => {
   const { cart, updateQuantity, removeFromCart, clearCart } = useCart();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleWhatsAppOrder = () => {
     if (cart.items.length === 0) return;
@@ -23,25 +55,31 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => {
     onClose();
   };
 
-  return (
-    <AnimatePresence>
-      {isOpen && (
-        <>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={onClose}
-            className="fixed inset-0 bg-black/50 z-40"
-          />
-          
-          <motion.div
-            initial={{ x: '100%' }}
-            animate={{ x: 0 }}
-            exit={{ x: '100%' }}
-            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed right-0 top-0 h-full w-full max-w-md bg-white shadow-2xl z-50 flex flex-col"
-          >
+  if (!mounted) return null;
+
+  const sidebarContent = (
+    <>
+      <style dangerouslySetInnerHTML={{ __html: fixedSidebarStyles }} />
+      <AnimatePresence>
+        {isOpen && (
+          <>
+            {/* Backdrop - Fixed positioning */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={onClose}
+              className="cart-backdrop-fixed bg-black/50"
+            />
+            
+            {/* Sidebar - Fixed positioning */}
+            <motion.div
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+              className="cart-sidebar-fixed w-full max-w-md bg-white shadow-2xl flex flex-col"
+            >
             <div className="flex items-center justify-between p-6 border-b border-gray-200 flex-shrink-0">
               <div className="flex items-center gap-3">
                 <ShoppingCart className="w-6 h-6 text-pinky-500" />
@@ -60,7 +98,7 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => {
               </button>
             </div>
 
-            <div className="flex-1 overflow-y-auto p-6 min-h-0">
+            <div className="flex-1 overflow-y-auto p-6 min-h-0 max-h-[calc(100vh-200px)]">
               {cart.items.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-full text-center">
                   <ShoppingCart className="w-16 h-16 text-gray-300 mb-4" />
@@ -150,7 +188,7 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => {
             </div>
 
             {cart.items.length > 0 && (
-              <div className="border-t border-gray-200 p-6 space-y-4 flex-shrink-0 bg-white">
+              <div className="border-t border-gray-200 p-6 space-y-4 flex-shrink-0 bg-white sticky bottom-0">
                 <div className="flex justify-between items-center">
                   <span className="text-lg font-semibold text-gray-900">
                     Total ({cart.totalItems} item)
@@ -182,11 +220,14 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => {
                 </p>
               </div>
             )}
-          </motion.div>
-        </>
-      )}
-    </AnimatePresence>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+    </>
   );
+
+  return createPortal(sidebarContent, document.body);
 };
 
 export default CartSidebar;
