@@ -218,7 +218,7 @@ const BranchPage: React.FC<BranchPageProps> = ({
                   whileHover={{ y: -5, scale: 1.02 }}
                   className="backdrop-blur-xl bg-white/70 rounded-2xl p-8 shadow-xl border border-white/20"
                 >
-                  <div className="text-4xl font-bold text-cute-500 mb-2 font-display">100%</div>
+                  <div className="text-4xl font-bold text-pinky-500 mb-2 font-display">100%</div>
                   <div className="text-gray-600 font-medium">Alami & Segar</div>
                 </motion.div>
               </div>
