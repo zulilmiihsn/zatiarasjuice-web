@@ -8,15 +8,19 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   // Load cart from localStorage on initial render
   useEffect(() => {
-    const savedCart = localStorage.getItem('zatiaras_cart');
-    if (savedCart) {
-      setCart(JSON.parse(savedCart));
+    if (typeof window !== 'undefined') {
+      const savedCart = localStorage.getItem('zatiaras_cart');
+      if (savedCart) {
+        setCart(JSON.parse(savedCart));
+      }
     }
   }, []);
 
   // Save cart to localStorage whenever it changes
   useEffect(() => {
-    localStorage.setItem('zatiaras_cart', JSON.stringify(cart));
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('zatiaras_cart', JSON.stringify(cart));
+    }
   }, [cart]);
 
   const calculateTotals = useCallback((items: CartItem[]) => {

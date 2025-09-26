@@ -14,6 +14,8 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({
   const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
     const updateWindowSize = () => {
       setWindowSize({ width: window.innerWidth, height: window.innerHeight });
     };

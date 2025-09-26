@@ -116,6 +116,8 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
 
   // ULTRA PERFORMANCE MOUSE TRACKING - 60FPS OPTIMIZED
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
     let animationFrameId: number | null = null;
     let lastTime = 0;
     const throttleDelay = 16; // ~60fps
@@ -161,7 +163,7 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
         }
       };
     }
-  }, [mouseX, mouseY]);
+  }, []);
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
