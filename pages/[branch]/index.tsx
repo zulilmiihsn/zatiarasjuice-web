@@ -327,8 +327,8 @@ const BranchPage: React.FC<BranchPageProps> = ({
                 whileHover={{ y: -4 }}
                 className="text-center bg-gray-50 rounded-lg p-8 hover:shadow-medium transition-all duration-300"
               >
-                <div className="w-16 h-16 bg-cute-100 rounded-lg flex items-center justify-center mx-auto mb-6">
-                  <Clock className="w-8 h-8 text-cute-600" />
+                <div className="w-16 h-16 bg-pinky-100 rounded-lg flex items-center justify-center mx-auto mb-6">
+                  <Clock className="w-8 h-8 text-pinky-600" />
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-4 font-display">Jam Operasional</h3>
                 <p className="text-gray-600 font-medium">
