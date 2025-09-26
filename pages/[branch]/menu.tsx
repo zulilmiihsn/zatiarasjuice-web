@@ -24,14 +24,16 @@ interface MenuPageProps {
 }
 
 // Memoized Product Grid Component untuk performa yang lebih baik
-const ProductGrid = memo(({ 
-  products, 
+const ProductGrid = memo(({
+  products,
   viewMode,
-  branch
+  branch,
+  onAddToCart
 }: { 
   products: Product[]; 
   viewMode: 'list' | 'grid'; 
   branch: Branch;
+  onAddToCart: () => void;
 }) => {
   if (viewMode === 'list') {
     return (
@@ -52,7 +54,7 @@ const ProductGrid = memo(({
               <ProductCard 
                 product={product} 
                 branch={branch}
-                onAddToCart={() => setIsCartOpen(true)}
+                onAddToCart={onAddToCart}
               />
             </Suspense>
           </motion.div>
@@ -79,7 +81,7 @@ const ProductGrid = memo(({
             <ProductCard 
               product={product} 
               branch={branch}
-              onAddToCart={() => setIsCartOpen(true)}
+              onAddToCart={onAddToCart}
             />
           </Suspense>
         </motion.div>
@@ -857,6 +859,7 @@ const MenuPage: React.FC<MenuPageProps> = ({
                               products={filteredProducts}
                               viewMode={viewMode}
                               branch={branch}
+                              onAddToCart={() => setIsCartOpen(true)}
                             />
                             </AnimatePresence>
                         );

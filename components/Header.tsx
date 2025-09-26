@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, MapPin, Phone, ShoppingCart } from 'lucide-react';
+import { Menu, X, MapPin, Phone, ShoppingCart, MessageCircle } from 'lucide-react';
 import { useCart } from '../contexts/CartContext';
 import CartSidebar from './CartSidebar';
 
@@ -36,6 +36,7 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
   const navigationItems = [
     { name: 'Menu', href: branch ? `/${branch}/menu` : '/menu' },
     { name: 'Beranda', href: branch ? `/${branch}` : '/' },
+    { name: 'Pesan', href: branch ? `/${branch}/pesan` : '/pesan' },
     ...(branch ? [{ name: 'Kontak', href: `/${branch}/contact` }] : []),
   ];
 
@@ -242,6 +243,76 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
                 </motion.span>
               )}
             </motion.button>
+            
+            {/* Pesan Button */}
+            <motion.a
+              whileHover={{ 
+                scale: 1.05, 
+                y: -2,
+                boxShadow: isSpecialPage 
+                  ? '0 20px 40px rgba(244, 114, 182, 0.3)'
+                  : '0 20px 40px rgba(255, 110, 199, 0.3)'
+              }}
+              whileTap={{ scale: 0.95 }}
+              href={branch ? `/${branch}/pesan` : '/pesan'}
+              className={`px-6 py-3 rounded-2xl text-sm font-bold transition-all duration-300 flex items-center gap-2 relative overflow-hidden group backdrop-blur-xl border shadow-glass hover:shadow-glass-strong ${
+                isSpecialPage
+                  ? 'bg-pink-100/80 border-pink-200 text-pink-800 hover:bg-pink-200/80 hover:backdrop-blur-2xl'
+                  : 'bg-white/20 border-white/30 text-white hover:bg-white/30 hover:backdrop-blur-2xl'
+              }`}
+            >
+              {/* Ripple Effect */}
+              <motion.div
+                className="absolute inset-0 rounded-2xl"
+                whileHover={{
+                  scale: [1, 1.3, 1],
+                  opacity: [0, 0.4, 0],
+                }}
+                transition={{
+                  duration: 0.8,
+                  ease: "easeInOut"
+                }}
+                style={{
+                  background: isSpecialPage
+                    ? 'radial-gradient(circle, rgba(244,114,182,0.3) 0%, transparent 70%)'
+                    : 'radial-gradient(circle, rgba(255,255,255,0.5) 0%, transparent 70%)'
+                }}
+              />
+              
+              {/* Shimmer Effect */}
+              <motion.div
+                className="absolute inset-0 rounded-2xl"
+                whileHover={{
+                  background: isSpecialPage ? [
+                        'linear-gradient(90deg, transparent, rgba(244,114,182,0.3), transparent)',
+                        'linear-gradient(90deg, transparent, rgba(244,114,182,0.5), transparent)',
+                        'linear-gradient(90deg, transparent, rgba(244,114,182,0.3), transparent)'
+                      ] : [
+                        'linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)',
+                        'linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent)',
+                        'linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)'
+                      ],
+                  backgroundPosition: ['-100%', '100%', '-100%']
+                }}
+                transition={{
+                  duration: 1.5,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+                style={{
+                  backgroundSize: '200% 100%'
+                }}
+              />
+              
+              <motion.div
+                className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl backdrop-blur-xl ${
+                  isSpecialPage ? 'bg-pink-200/30' : 'bg-white/30'
+                }`}
+                initial={false}
+              />
+              
+              <span className="relative z-10">Pesan</span>
+            </motion.a>
           </div>
 
           {/* Mobile Menu Button */}
@@ -364,11 +435,73 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
                 </motion.div>
               )}
               
+              {/* Pesan Button */}
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.3 }}
                 className="pt-4"
+              >
+                <motion.a
+                  whileHover={{ scale: 1.02, y: -2 }}
+                  whileTap={{ scale: 0.98 }}
+                  href={branch ? `/${branch}/pesan` : '/pesan'}
+                  className={`w-full text-white px-6 py-3 rounded-2xl text-center font-bold hover:shadow-glow transition-all duration-300 block relative overflow-hidden group mb-3 ${
+                    isSpecialPage
+                      ? 'bg-gradient-to-r from-pink-500 to-rose-500'
+                      : 'bg-gradient-to-r from-primary-500 to-primary-600'
+                  }`}
+                >
+                  {/* Ripple Effect for Mobile CTA */}
+                  <motion.div
+                    className="absolute inset-0 rounded-2xl"
+                    whileHover={{
+                      scale: [1, 1.2, 1],
+                      opacity: [0, 0.3, 0],
+                    }}
+                    transition={{
+                      duration: 0.6,
+                      ease: "easeInOut"
+                    }}
+                    style={{
+                      background: 'radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%)'
+                    }}
+                  />
+                  
+                  {/* Shimmer Effect for Mobile CTA */}
+                  <motion.div
+                    className="absolute inset-0 rounded-2xl"
+                    whileHover={{
+                      background: [
+                        'linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)',
+                        'linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)',
+                        'linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)'
+                      ],
+                      backgroundPosition: ['-100%', '100%', '-100%']
+                    }}
+                    transition={{
+                      duration: 1.2,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }}
+                    style={{
+                      backgroundSize: '200% 100%'
+                    }}
+                  />
+                  
+                  <span className="relative z-10 flex items-center justify-center gap-2">
+                    <MessageCircle className="w-5 h-5" />
+                    <span>Pesan</span>
+                  </span>
+                </motion.a>
+              </motion.div>
+
+              {/* Order via WhatsApp Button */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.4 }}
+                className="pt-2"
               >
                 <motion.a
                   whileHover={{ scale: 1.02, y: -2 }}
