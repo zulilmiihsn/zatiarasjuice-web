@@ -4,6 +4,7 @@ import React, { useState, memo, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { ShoppingCart, Utensils } from 'lucide-react';
 import Image from 'next/image';
+import { useCart } from '../contexts/CartContext';
 
 interface ProductCardProps {
   product: {
@@ -22,8 +23,7 @@ interface ProductCardProps {
     price_large?: number;
     is_minuman?: boolean;
   };
-  // eslint-disable-next-line no-unused-vars
-  onAddToCart?: (productItem: any) => void;
+  branch?: 'berau' | 'samarinda';
   className?: string;
 }
 
@@ -36,21 +36,37 @@ const WhatsAppIcon = ({ className }: { className?: string }) => (
 
 const ProductCard: React.FC<ProductCardProps> = memo(({
   product,
-  onAddToCart,
+  branch,
   className = '',
 }) => {
   const [isAddingToCart, setIsAddingToCart] = useState(false);
+  const { addToCart, setBranch } = useCart();
 
   const handleAddToCart = useCallback(async () => {
-    if (onAddToCart) {
-      setIsAddingToCart(true);
-      try {
-        await onAddToCart({ ...product, quantity: 1 });
-      } finally {
-        setIsAddingToCart(false);
+    setIsAddingToCart(true);
+    try {
+      // Set branch if provided
+      if (branch) {
+        setBranch(branch);
       }
+      
+      // Add to cart
+      addToCart({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        image: product.image_url || product.gambar || undefined,
+        category: product.category,
+        description: product.description,
+        // For minuman with size variants
+        priceRegular: product.price_regular,
+        priceLarge: product.price_large,
+        size: product.is_minuman ? 'regular' : undefined,
+      });
+    } finally {
+      setIsAddingToCart(false);
     }
-  }, [onAddToCart, product]);
+  }, [addToCart, setBranch, product, branch]);
 
 
   const formatPrice = (price: number) => {

@@ -38,10 +38,6 @@ const BranchPage: React.FC<BranchPageProps> = ({
 
 
 
-  const handleAddToCart = () => {
-    // Add to cart logic here
-    // Product added to cart
-  };
 
   // Featured products berdasarkan nama spesifik
   const featuredProductNames = ['Jus Alpukat', 'Jus Mangga', 'Alpukat Kocok'];
@@ -372,7 +368,7 @@ const BranchPage: React.FC<BranchPageProps> = ({
                     }>
                       <ProductCard 
                         product={product} 
-                        onAddToCart={handleAddToCart}
+                        branch={branch}
                       />
                     </Suspense>
                   </motion.div>

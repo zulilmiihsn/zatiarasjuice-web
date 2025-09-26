@@ -840,7 +840,7 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                         <LoadingSpinner size="md" variant="pulse" />
                       </div>
                     }>
-                      <ProductCard product={product} />
+                      <ProductCard product={product} branch={nearestBranch as 'berau' | 'samarinda'} />
                     </Suspense>
                   </motion.div>
                 ))}

@@ -5,7 +5,9 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, MapPin, Phone } from 'lucide-react';
+import { Menu, X, MapPin, Phone, ShoppingCart } from 'lucide-react';
+import { useCart } from '../contexts/CartContext';
+import CartSidebar from './CartSidebar';
 
 // WhatsApp Icon Component
 const WhatsAppIcon = ({ className }: { className?: string }) => (
@@ -21,7 +23,9 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(false);
   const router = useRouter();
+  const { cart } = useCart();
 
   // Check if current page is menu or contact page
   const isMenuPage = currentPath?.includes('/menu');
@@ -215,6 +219,29 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
                 <span>{branchInfo[branch].name}</span>
               </motion.div>
             )}
+            
+            {/* Cart Icon */}
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setIsCartOpen(true)}
+              className={`relative p-3 rounded-2xl transition-all duration-300 ${
+                isSpecialPage
+                  ? 'bg-pink-100/80 hover:bg-pink-200/80 text-pink-800'
+                  : 'bg-white/20 hover:bg-white/30 text-white'
+              }`}
+            >
+              <ShoppingCart className="w-5 h-5" />
+              {cart.totalItems > 0 && (
+                <motion.span
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  className="absolute -top-1 -right-1 bg-pinky-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center"
+                >
+                  {cart.totalItems}
+                </motion.span>
+              )}
+            </motion.button>
             
             <motion.a
               whileHover={{ 
@@ -473,6 +500,12 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
           </motion.div>
         )}
       </AnimatePresence>
+      
+      {/* Cart Sidebar */}
+      <CartSidebar 
+        isOpen={isCartOpen} 
+        onClose={() => setIsCartOpen(false)} 
+      />
     </motion.header>
   );
 };

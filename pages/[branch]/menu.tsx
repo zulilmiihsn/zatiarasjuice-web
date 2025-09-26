@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback, lazy, Suspense, memo } from 'react';
+import React, { useState, useMemo, lazy, Suspense, memo } from 'react';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import Head from 'next/head';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -25,13 +25,12 @@ interface MenuPageProps {
 // Memoized Product Grid Component untuk performa yang lebih baik
 const ProductGrid = memo(({ 
   products, 
-  viewMode, 
-  handleAddToCart 
+  viewMode,
+  branch
 }: { 
   products: Product[]; 
   viewMode: 'list' | 'grid'; 
-  // eslint-disable-next-line no-unused-vars
-  handleAddToCart: (productItem: Product) => void; 
+  branch: Branch;
 }) => {
   if (viewMode === 'list') {
     return (
@@ -51,7 +50,7 @@ const ProductGrid = memo(({
             }>
               <ProductCard 
                 product={product} 
-                onAddToCart={handleAddToCart}
+                branch={branch}
               />
             </Suspense>
           </motion.div>
@@ -77,7 +76,7 @@ const ProductGrid = memo(({
           }>
             <ProductCard 
               product={product} 
-              onAddToCart={handleAddToCart}
+              branch={branch}
             />
           </Suspense>
         </motion.div>
@@ -134,11 +133,6 @@ const MenuPage: React.FC<MenuPageProps> = ({
 
   // No need for useEffect since we're using useMemo directly
 
-  // eslint-disable-next-line no-unused-vars
-  const handleAddToCart = useCallback((productItem: Product) => {
-    // Add to cart logic here - optimized with useCallback
-    // Product added to cart
-  }, []);
 
   // Define category priority order for filter buttons
   const categoryPriority = [
@@ -837,10 +831,10 @@ const MenuPage: React.FC<MenuPageProps> = ({
                                             <LoadingSpinner size="sm" />
                                           </div>
                                         }>
-                                          <ProductCard 
-                                            product={product} 
-                                            onAddToCart={handleAddToCart}
-                                          />
+                                        <ProductCard 
+                                          product={product} 
+                                            branch={branch}
+                                        />
                                         </Suspense>
                                     </motion.div>
                                   ))}
@@ -853,13 +847,13 @@ const MenuPage: React.FC<MenuPageProps> = ({
                       } else {
                         // Show all products without grouping (price sort or specific category filter)
                         return (
-                          <AnimatePresence>
+                            <AnimatePresence>
                             <ProductGrid 
                               products={filteredProducts}
                               viewMode={viewMode}
-                              handleAddToCart={handleAddToCart}
+                              branch={branch}
                             />
-                          </AnimatePresence>
+                            </AnimatePresence>
                         );
                       }
                     })()}
