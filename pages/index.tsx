@@ -28,6 +28,9 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
   const [showBranchModal, setShowBranchModal] = useState(false);
 
   useEffect(() => {
+    // Pastikan router sudah ready sebelum melakukan operasi routing
+    if (!router.isReady) return;
+
     const detectLocation = async () => {
       try {
         const { nearestBranch: branch, method } = await getUserLocationWithFallback();
@@ -36,7 +39,9 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
         if (branch) {
           // Auto redirect ke cabang terdekat setelah 2 detik
           setTimeout(() => {
-            router.push(`/${branch}`);
+            if (router.isReady) {
+              router.push(`/${branch}`);
+            }
           }, 2000);
         } else if (method === 'none') {
           // Jika IP location gagal, tampilkan modal pilihan
@@ -51,18 +56,20 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
     };
 
     detectLocation();
-  }, [router]);
+  }, [router.isReady, router]);
 
   const handleBranchSelect = (branch: 'berau' | 'samarinda') => {
     setShowBranchModal(false);
-    router.push(`/${branch}`);
+    if (router.isReady) {
+      router.push(`/${branch}`);
+    }
   };
 
   const handleCloseModal = () => {
     setShowBranchModal(false);
   };
 
-  if (isLoading) {
+  if (isLoading || !router.isReady) {
     return <LoadingScreen size="xl" />;
   }
 
