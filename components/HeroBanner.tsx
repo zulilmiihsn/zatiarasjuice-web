@@ -1,5 +1,3 @@
-'use client';
-
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { motion, useScroll, useTransform, useSpring, useMotionValue } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Play, Pause, Sparkles, Menu } from 'lucide-react';

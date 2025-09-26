@@ -1,172 +1,100 @@
-import React, { createContext, useContext, useReducer, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { Cart, CartItem, CartContextType } from '../lib/types/cart';
 
-// Initial state
-const initialState: Cart = {
-  items: [],
-  totalItems: 0,
-  totalPrice: 0,
-  branch: undefined,
-};
-
-// Action types
-type CartAction =
-  | { type: 'ADD_TO_CART'; payload: Omit<CartItem, 'quantity'> }
-  | { type: 'REMOVE_FROM_CART'; payload: string }
-  | { type: 'UPDATE_QUANTITY'; payload: { itemId: string; quantity: number } }
-  | { type: 'CLEAR_CART' }
-  | { type: 'SET_BRANCH'; payload: 'berau' | 'samarinda' }
-  | { type: 'LOAD_CART'; payload: Cart };
-
-// Reducer function
-function cartReducer(state: Cart, action: CartAction): Cart {
-  switch (action.type) {
-    case 'ADD_TO_CART': {
-      const existingItem = state.items.find(item => item.id === action.payload.id);
-      
-      if (existingItem) {
-        const updatedItems = state.items.map(item =>
-          item.id === action.payload.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        );
-        return {
-          ...state,
-          items: updatedItems,
-          totalItems: updatedItems.reduce((sum, item) => sum + item.quantity, 0),
-          totalPrice: updatedItems.reduce((sum, item) => sum + (item.price * item.quantity), 0),
-        };
-      } else {
-        const newItem = { ...action.payload, quantity: 1 };
-        const updatedItems = [...state.items, newItem];
-        return {
-          ...state,
-          items: updatedItems,
-          totalItems: updatedItems.reduce((sum, item) => sum + item.quantity, 0),
-          totalPrice: updatedItems.reduce((sum, item) => sum + (item.price * item.quantity), 0),
-        };
-      }
-    }
-
-    case 'REMOVE_FROM_CART': {
-      const updatedItems = state.items.filter(item => item.id !== action.payload);
-      return {
-        ...state,
-        items: updatedItems,
-        totalItems: updatedItems.reduce((sum, item) => sum + item.quantity, 0),
-        totalPrice: updatedItems.reduce((sum, item) => sum + (item.price * item.quantity), 0),
-      };
-    }
-
-    case 'UPDATE_QUANTITY': {
-      const { itemId, quantity } = action.payload;
-      if (quantity <= 0) {
-        return cartReducer(state, { type: 'REMOVE_FROM_CART', payload: itemId });
-      }
-      
-      const updatedItems = state.items.map(item =>
-        item.id === itemId ? { ...item, quantity } : item
-      );
-      return {
-        ...state,
-        items: updatedItems,
-        totalItems: updatedItems.reduce((sum, item) => sum + item.quantity, 0),
-        totalPrice: updatedItems.reduce((sum, item) => sum + (item.price * item.quantity), 0),
-      };
-    }
-
-    case 'CLEAR_CART':
-      return {
-        ...state,
-        items: [],
-        totalItems: 0,
-        totalPrice: 0,
-      };
-
-    case 'SET_BRANCH':
-      return {
-        ...state,
-        branch: action.payload,
-      };
-
-    case 'LOAD_CART':
-      return action.payload;
-
-    default:
-      return state;
-  }
-}
-
-// Create context
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
-// Provider component
-export function CartProvider({ children }: { children: React.ReactNode }) {
-  const [cart, dispatch] = useReducer(cartReducer, initialState);
+export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [cart, setCart] = useState<Cart>({ items: [], totalItems: 0, totalPrice: 0, branch: undefined });
 
-  // Load cart from localStorage on mount
+  // Load cart from localStorage on initial render
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const savedCart = localStorage.getItem('zatiaras-cart');
-      if (savedCart) {
-        try {
-          const parsedCart = JSON.parse(savedCart);
-          dispatch({ type: 'LOAD_CART', payload: parsedCart });
-        } catch (error) {
-          // console.error('Error loading cart from localStorage:', error);
-        }
-      }
+    const savedCart = localStorage.getItem('zatiaras_cart');
+    if (savedCart) {
+      setCart(JSON.parse(savedCart));
     }
   }, []);
 
-  // Save cart to localStorage whenever cart changes
+  // Save cart to localStorage whenever it changes
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('zatiaras-cart', JSON.stringify(cart));
-    }
+    localStorage.setItem('zatiaras_cart', JSON.stringify(cart));
   }, [cart]);
 
-  const addToCart = (item: Omit<CartItem, 'quantity'>) => {
-    dispatch({ type: 'ADD_TO_CART', payload: item });
-  };
+  const calculateTotals = useCallback((items: CartItem[]) => {
+    const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
+    const totalPrice = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    return { totalItems, totalPrice };
+  }, []);
 
-  const removeFromCart = (itemId: string) => {
-    dispatch({ type: 'REMOVE_FROM_CART', payload: itemId });
-  };
+  const addToCart = useCallback((item: Omit<CartItem, 'quantity'>) => {
+    setCart(prevCart => {
+      const existingItemIndex = prevCart.items.findIndex(cartItem =>
+        cartItem.id === item.id && cartItem.size === item.size
+      );
 
-  const updateQuantity = (itemId: string, quantity: number) => {
-    dispatch({ type: 'UPDATE_QUANTITY', payload: { itemId, quantity } });
-  };
+      let updatedItems;
+      if (existingItemIndex > -1) {
+        updatedItems = prevCart.items.map((cartItem, index) =>
+          index === existingItemIndex
+            ? { ...cartItem, quantity: cartItem.quantity + 1 }
+            : cartItem
+        );
+      } else {
+        updatedItems = [...prevCart.items, { ...item, quantity: 1 }];
+      }
 
-  const clearCart = () => {
-    dispatch({ type: 'CLEAR_CART' });
-  };
+      const { totalItems, totalPrice } = calculateTotals(updatedItems);
+      return { ...prevCart, items: updatedItems, totalItems, totalPrice };
+    });
+  }, [calculateTotals]);
 
-  const setBranch = (branch: 'berau' | 'samarinda') => {
-    dispatch({ type: 'SET_BRANCH', payload: branch });
-  };
+  const removeFromCart = useCallback((itemId: string) => {
+    setCart(prevCart => {
+      const updatedItems = prevCart.items.filter(item => item.id !== itemId);
+      const { totalItems, totalPrice } = calculateTotals(updatedItems);
+      return { ...prevCart, items: updatedItems, totalItems, totalPrice };
+    });
+  }, [calculateTotals]);
 
-  const value: CartContextType = {
+  const updateQuantity = useCallback((itemId: string, quantity: number) => {
+    setCart(prevCart => {
+      const updatedItems = prevCart.items.map(item =>
+        item.id === itemId
+          ? { ...item, quantity: Math.max(1, quantity) }
+          : item
+      );
+      const { totalItems, totalPrice } = calculateTotals(updatedItems);
+      return { ...prevCart, items: updatedItems, totalItems, totalPrice };
+    });
+  }, [calculateTotals]);
+
+  const clearCart = useCallback(() => {
+    setCart({ items: [], totalItems: 0, totalPrice: 0, branch: undefined });
+  }, []);
+
+  const setBranch = useCallback((newBranch: 'berau' | 'samarinda') => {
+    setCart(prevCart => ({ ...prevCart, branch: newBranch }));
+  }, []);
+
+  const contextValue = React.useMemo(() => ({
     cart,
     addToCart,
     removeFromCart,
     updateQuantity,
     clearCart,
     setBranch,
-  };
+  }), [cart, addToCart, removeFromCart, updateQuantity, clearCart, setBranch]);
 
   return (
-    <CartContext.Provider value={value}>
+    <CartContext.Provider value={contextValue}>
       {children}
     </CartContext.Provider>
   );
-}
+};
 
-// Custom hook to use cart context
-export function useCart() {
+export const useCart = () => {
   const context = useContext(CartContext);
-  if (context === undefined) {
+  if (!context) {
     throw new Error('useCart must be used within a CartProvider');
   }
   return context;
-}
+};

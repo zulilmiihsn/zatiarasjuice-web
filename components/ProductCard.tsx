@@ -1,5 +1,3 @@
-'use client';
-
 import React, { useState, memo, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { ShoppingCart, Utensils } from 'lucide-react';
