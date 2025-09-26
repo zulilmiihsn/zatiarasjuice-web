@@ -63,7 +63,7 @@ const nextConfig = {
     if (dev) {
       // Optimize HMR and file watching
       config.watchOptions = {
-        poll: 1000,
+        poll: false,
         aggregateTimeout: 300,
         ignored: /node_modules/,
       };

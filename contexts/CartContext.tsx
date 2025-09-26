@@ -106,20 +106,24 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   // Load cart from localStorage on mount
   useEffect(() => {
-    const savedCart = localStorage.getItem('zatiaras-cart');
-    if (savedCart) {
-      try {
-        const parsedCart = JSON.parse(savedCart);
-        dispatch({ type: 'LOAD_CART', payload: parsedCart });
-      } catch (error) {
-        console.error('Error loading cart from localStorage:', error);
+    if (typeof window !== 'undefined') {
+      const savedCart = localStorage.getItem('zatiaras-cart');
+      if (savedCart) {
+        try {
+          const parsedCart = JSON.parse(savedCart);
+          dispatch({ type: 'LOAD_CART', payload: parsedCart });
+        } catch (error) {
+          // console.error('Error loading cart from localStorage:', error);
+        }
       }
     }
   }, []);
 
   // Save cart to localStorage whenever cart changes
   useEffect(() => {
-    localStorage.setItem('zatiaras-cart', JSON.stringify(cart));
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('zatiaras-cart', JSON.stringify(cart));
+    }
   }, [cart]);
 
   const addToCart = (item: Omit<CartItem, 'quantity'>) => {
