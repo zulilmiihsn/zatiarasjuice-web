@@ -687,7 +687,7 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                 <div className="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
                   <Leaf className="w-8 h-8 text-green-500" />
                 </div>
-                <h3 className="text-xl font-black text-gray-900 mb-4 font-rounded">100% Alami</h3>
+                <h3 className="text-xl font-black text-pinky-500 mb-4 font-rounded">100% Alami</h3>
                 <p className="text-gray-600 font-medium leading-relaxed">
                   Dibuat dari buah segar pilihan, tanpa pengawet, tanpa pewarna buatan, dan tanpa pemanis sintetis
                 </p>
