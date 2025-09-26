@@ -13,7 +13,6 @@ import BranchSelectionModal from '../components/BranchSelectionModal';
 import CartSidebar from '../components/CartSidebar';
 import { getUserLocationWithFallback } from '../lib/geolocation';
 
-// Lazy load heavy components for better performance
 const ProductCard = lazy(() => import('../components/ProductCard'));
 const Footer = lazy(() => import('../components/Footer'));
 
@@ -29,30 +28,27 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
   const [showBranchModal, setShowBranchModal] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
 
+
   useEffect(() => {
-    // Pastikan router sudah ready sebelum melakukan operasi routing
     if (!router.isReady) return;
 
     const detectLocation = async () => {
       try {
-        const { nearestBranch: branch, method } = await getUserLocationWithFallback();
+        const { nearestBranch: branch } = await getUserLocationWithFallback();
         setNearestBranch(branch);
         
         if (branch) {
-          // Auto redirect ke cabang terdekat setelah 2 detik
           setTimeout(() => {
             if (router.isReady) {
-              router.push(`/${branch}`);
+              router.push(`/${branch}`).catch(() => {
+                setShowBranchModal(true);
+              });
             }
           }, 2000);
         } else {
-          // Jika tidak ada branch yang terdeteksi, tampilkan modal pilihan
-          console.log('No branch detected, showing modal. Method:', method);
           setShowBranchModal(true);
         }
       } catch (error) {
-        // Error handling - tampilkan modal pilihan
-        console.log('Location detection error, showing modal:', error);
         setShowBranchModal(true);
       } finally {
         setIsLoading(false);
@@ -65,13 +61,16 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
   const handleBranchSelect = (branch: 'berau' | 'samarinda') => {
     setShowBranchModal(false);
     if (router.isReady) {
-      router.push(`/${branch}`);
+      router.push(`/${branch}`).catch(() => {
+        setShowBranchModal(true);
+      });
     }
   };
 
   const handleCloseModal = () => {
     setShowBranchModal(false);
   };
+
 
   if (isLoading || !router.isReady) {
     return <LoadingScreen size="xl" />;
@@ -85,15 +84,11 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
         <meta name="keywords" content={seoData.keywords.join(', ')} />
         <link rel="canonical" href={seoData.canonical} />
         
-        {/* Open Graph */}
         <meta property="og:title" content={seoData.openGraph.title} />
         <meta property="og:description" content={seoData.openGraph.description} />
         <meta property="og:image" content={seoData.openGraph.image} />
         <meta property="og:url" content={seoData.openGraph.url} />
         <meta property="og:type" content={seoData.openGraph.type} />
-        
-        
-        {/* Structured Data */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(seoData.structuredData) }}
@@ -106,13 +101,12 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
           currentPath={router.asPath}
         />
 
-        {/* Hero Section - Interactive & Trendy */}
+
         <HeroBanner 
           branch={nearestBranch as 'berau' | 'samarinda' | undefined}
           onBranchSelect={handleBranchSelect}
         />
 
-        {/* Branch Selection Section - Premium & Elegant */}
         <section className="py-24 bg-gradient-to-br from-gray-50 via-white to-gray-50 relative overflow-hidden">
           {/* Animated Background Elements */}
           <div className="absolute inset-0">
@@ -516,7 +510,6 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
           </div>
         </section>
 
-        {/* Why Choose Us Section - Premium & Elegant */}
         <section className="py-24 bg-gradient-to-br from-white via-gray-50 to-white relative overflow-hidden">
           {/* Animated Background Elements */}
           <div className="absolute inset-0">
@@ -550,7 +543,6 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
               }}
             />
             
-            {/* Floating Geometric Shapes - Optimized for Performance */}
             {[...Array(4)].map((_, i) => (
               <motion.div
                 key={i}
@@ -579,7 +571,6 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
               </motion.div>
             ))}
             
-            {/* Pattern Overlay */}
             <div className="absolute inset-0 opacity-5">
               <div className="absolute inset-0" style={{
                 backgroundImage: `radial-gradient(circle at 25% 25%, #FF6EC7 2px, transparent 2px),
@@ -590,7 +581,6 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
               }} />
             </div>
             
-            {/* Gradient Lines */}
             <motion.div
               className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary-500/30 to-transparent"
               animate={{
@@ -715,12 +705,10 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
           </div>
         </section>
 
-        {/* Featured Products Section - Premium & Interactive */}
         {featuredProducts.length > 0 && (
           <section className="py-24 bg-gradient-to-br from-gray-50 via-white to-gray-50 relative overflow-hidden">
             {/* Animated Background Elements */}
             <div className="absolute inset-0">
-              {/* Main Gradient Orbs */}
               <motion.div
                 className="absolute top-1/3 left-1/3 w-80 h-80 bg-gradient-to-r from-emerald-500/20 to-secondary-500/20 rounded-full blur-3xl"
                 animate={{
@@ -750,7 +738,6 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                 }}
               />
               
-              {/* Floating Juice Icons */}
               {[
                 { icon: Apple, color: 'text-red-400' },
                 { icon: Apple, color: 'text-orange-400' },
@@ -782,7 +769,6 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                 </motion.div>
               ))}
               
-              {/* Geometric Pattern */}
               <div className="absolute inset-0 opacity-10">
                 <div className="absolute inset-0" style={{
                   backgroundImage: `linear-gradient(45deg, #FF6EC7 1px, transparent 1px),
@@ -793,7 +779,6 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                 }} />
               </div>
               
-              {/* Animated Dots */}
               {[...Array(12)].map((_, i) => (
                 <motion.div
                   key={i}
@@ -857,7 +842,6 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
           </section>
         )}
 
-        {/* Testimoni Section - Premium & Interactive */}
         <section className="py-24 bg-gradient-to-br from-primary-50 via-pinky-50 to-cute-50 relative overflow-hidden">
           {/* Animated Background Elements */}
           <div className="absolute inset-0">
@@ -891,7 +875,6 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
               }}
             />
             
-            {/* Floating Quote Icons */}
             {[...Array(6)].map((_, i) => (
               <motion.div
                 key={i}
@@ -916,7 +899,6 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
               </motion.div>
             ))}
             
-            {/* Heart Pattern */}
             <div className="absolute inset-0 opacity-5">
               <div className="absolute inset-0" style={{
                 backgroundImage: `radial-gradient(circle at 20% 20%, #FF6EC7 3px, transparent 3px),
@@ -927,7 +909,6 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
               }} />
             </div>
             
-            {/* Floating Stars */}
             {[...Array(15)].map((_, i) => (
               <motion.div
                 key={i}
@@ -952,7 +933,6 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
               </motion.div>
             ))}
             
-            {/* Animated Lines */}
             <motion.div
               className="absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary-500/30 to-transparent"
               animate={{
@@ -1092,14 +1072,12 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
         <Footer />
         </Suspense>
 
-        {/* Branch Selection Modal */}
         <BranchSelectionModal
           isOpen={showBranchModal}
           onSelectBranch={handleBranchSelect}
           onClose={handleCloseModal}
         />
         
-        {/* Cart Sidebar */}
         <CartSidebar 
           isOpen={isCartOpen} 
           onClose={() => setIsCartOpen(false)} 
@@ -1110,7 +1088,6 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  // Featured products will be loaded from database
   const featuredProducts: any[] = [];
 
   const seoData = {
@@ -1183,7 +1160,7 @@ export const getStaticProps: GetStaticProps = async () => {
       featuredProducts,
       seoData,
     },
-    revalidate: 3600, // Revalidate every hour
+    revalidate: 3600,
   };
 };
 

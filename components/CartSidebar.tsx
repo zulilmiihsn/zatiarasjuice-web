@@ -19,7 +19,6 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => {
     const whatsappUrl = getWhatsAppUrl(cart);
     window.open(whatsappUrl, '_blank');
     
-    // Clear cart after order
     clearCart();
     onClose();
   };
@@ -28,7 +27,6 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => {
     <AnimatePresence>
       {isOpen && (
         <>
-          {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -37,7 +35,6 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => {
             className="fixed inset-0 bg-black/50 z-40"
           />
           
-          {/* Sidebar */}
           <motion.div
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
@@ -45,7 +42,6 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => {
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
             className="fixed right-0 top-0 h-full w-full max-w-md bg-white shadow-2xl z-50 flex flex-col"
           >
-            {/* Header - Fixed */}
             <div className="flex items-center justify-between p-6 border-b border-gray-200 flex-shrink-0">
               <div className="flex items-center gap-3">
                 <ShoppingCart className="w-6 h-6 text-pinky-500" />
@@ -64,7 +60,6 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => {
               </button>
             </div>
 
-            {/* Cart Items - Scrollable Area */}
             <div className="flex-1 overflow-y-auto p-6 min-h-0">
               {cart.items.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-full text-center">
@@ -87,7 +82,6 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => {
                       className="bg-gray-50 rounded-xl p-4"
                     >
                       <div className="flex items-start gap-3">
-                        {/* Product Image */}
                         <div className="w-16 h-16 bg-gradient-to-br from-pink-100 to-rose-100 rounded-lg flex items-center justify-center flex-shrink-0">
                           {item.image ? (
                             <Image
@@ -104,7 +98,6 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => {
                           )}
                         </div>
 
-                        {/* Product Info */}
                         <div className="flex-1 min-w-0">
                           <h4 className="font-semibold text-gray-900 truncate">
                             {formatCartItem(item)}
@@ -117,7 +110,6 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => {
                           </p>
                         </div>
 
-                        {/* Remove Button */}
                         <button
                           onClick={() => removeFromCart(item.id)}
                           className="p-1 hover:bg-red-100 rounded-full transition-colors"
@@ -126,7 +118,6 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => {
                         </button>
                       </div>
 
-                      {/* Quantity Controls */}
                       <div className="flex items-center justify-between mt-3">
                         <div className="flex items-center gap-2">
                           <button
@@ -158,10 +149,8 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => {
               )}
             </div>
 
-            {/* Footer - Fixed */}
             {cart.items.length > 0 && (
               <div className="border-t border-gray-200 p-6 space-y-4 flex-shrink-0 bg-white">
-                {/* Total */}
                 <div className="flex justify-between items-center">
                   <span className="text-lg font-semibold text-gray-900">
                     Total ({cart.totalItems} item)
@@ -171,7 +160,6 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => {
                   </span>
                 </div>
 
-                {/* Action Buttons */}
                 <div className="space-y-3">
                   <button
                     onClick={handleWhatsAppOrder}
@@ -189,7 +177,6 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => {
                   </button>
                 </div>
 
-                {/* Info */}
                 <p className="text-xs text-gray-500 text-center">
                   Pesanan akan dikirim ke WhatsApp cabang yang dipilih
                 </p>

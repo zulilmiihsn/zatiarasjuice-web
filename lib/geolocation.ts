@@ -1,4 +1,3 @@
-// Geolocation utilities untuk UX berbasis lokasi
 
 export interface UserLocation {
   latitude: number;
@@ -16,7 +15,6 @@ export interface BranchLocation {
   region: string;
 }
 
-// Koordinat cabang Zatiaras Juice
 export const BRANCH_LOCATIONS: Record<string, BranchLocation> = {
   berau: {
     name: 'Zatiaras Juice Berau',
@@ -34,7 +32,6 @@ export const BRANCH_LOCATIONS: Record<string, BranchLocation> = {
   },
 };
 
-// Function untuk mendapatkan lokasi user melalui browser geolocation API
 export const getUserLocation = (): Promise<UserLocation> => {
   return new Promise((resolve, reject) => {
     if (!navigator.geolocation) {
@@ -51,8 +48,6 @@ export const getUserLocation = (): Promise<UserLocation> => {
         });
       },
       (error) => {
-        // Log error untuk debugging (bisa dihapus di production)
-        // console.error('Error getting user location:', error);
         reject(error);
       },
       {
@@ -64,34 +59,51 @@ export const getUserLocation = (): Promise<UserLocation> => {
   });
 };
 
-// Function untuk mendapatkan lokasi user melalui IP fallback
 export const getUserLocationByIP = async (): Promise<UserLocation | null> => {
   try {
-    const response = await fetch('https://ipapi.co/json/');
+    const response = await fetch('https://ipinfo.io/json', {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+      },
+    });
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
     const data = await response.json();
     
+    if (!data.loc) {
+      throw new Error('Invalid location data received');
+    }
+    
+    const [lat, lon] = data.loc.split(',').map(Number);
+    
+    if (isNaN(lat) || isNaN(lon)) {
+      throw new Error('Invalid coordinates received');
+    }
+    
+    
     return {
-      latitude: data.latitude,
-      longitude: data.longitude,
+      latitude: lat,
+      longitude: lon,
       accuracy: 10000, // IP-based location kurang akurat
       city: data.city,
       region: data.region,
     };
   } catch (error) {
-    // Log error untuk debugging (bisa dihapus di production)
-    // console.error('Error getting location by IP:', error);
     return null;
   }
 };
 
-// Function untuk menghitung jarak antara dua koordinat (Haversine formula)
 export const calculateDistance = (
   lat1: number,
   lon1: number,
   lat2: number,
   lon2: number
 ): number => {
-  const R = 6371; // Radius bumi dalam kilometer
+  const R = 6371;
   const dLat = (lat2 - lat1) * Math.PI / 180;
   const dLon = (lon2 - lon1) * Math.PI / 180;
   const a = 
@@ -102,7 +114,6 @@ export const calculateDistance = (
   return R * c;
 };
 
-// Function untuk mendapatkan cabang terdekat
 export const getNearestBranch = (userLocation: UserLocation): string | null => {
   let nearestBranch: string | null = null;
   let minDistance = Infinity;
@@ -121,20 +132,23 @@ export const getNearestBranch = (userLocation: UserLocation): string | null => {
     }
   });
 
+  if (minDistance > 500) {
+    return null;
+  }
   return nearestBranch;
 };
 
-// Function untuk mendapatkan lokasi user dengan IP Location saja
 export const getUserLocationWithFallback = async (): Promise<{
   location: UserLocation | null;
   nearestBranch: string | null;
   method: 'ip' | 'none';
 }> => {
   try {
-    // Hanya gunakan IP-based location
     const location = await getUserLocationByIP();
+    
     if (location) {
       const nearestBranch = getNearestBranch(location);
+      
       return {
         location,
         nearestBranch,
@@ -142,11 +156,8 @@ export const getUserLocationWithFallback = async (): Promise<{
       };
     }
   } catch (ipError) {
-    // Log error untuk debugging (bisa dihapus di production)
-    // console.error('IP location failed:', ipError);
   }
-
-  // Jika IP location gagal, return null untuk manual selection
+  
   return {
     location: null,
     nearestBranch: null,
@@ -154,7 +165,6 @@ export const getUserLocationWithFallback = async (): Promise<{
   };
 };
 
-// Function untuk format jarak
 export const formatDistance = (distance: number): string => {
   if (distance < 1) {
     return `${Math.round(distance * 1000)}m`;
@@ -162,7 +172,6 @@ export const formatDistance = (distance: number): string => {
   return `${distance.toFixed(1)}km`;
 };
 
-// Function untuk mendapatkan arah ke cabang (Google Maps)
 export const getDirectionsUrl = (branchName: string): string => {
   const branch = BRANCH_LOCATIONS[branchName];
   if (!branch) return '#';

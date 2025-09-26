@@ -14,7 +14,6 @@ interface HeroSlide {
   gradient: string;
 }
 
-// WhatsApp Icon Component
 const WhatsAppIcon = ({ className }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor">
     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
@@ -25,7 +24,7 @@ interface HeroBannerProps {
   branch?: 'berau' | 'samarinda' | null;
   slides?: HeroSlide[];
   // eslint-disable-next-line no-unused-vars
-  onBranchSelect?: (selectedBranch: 'berau' | 'samarinda') => void;
+  onBranchSelect?: (branch: 'berau' | 'samarinda') => void;
 }
 
 const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect }) => {
@@ -38,22 +37,18 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
     offset: ["start start", "end start"]
   });
 
-  // ULTRA PERFORMANCE PARALLAX TRANSFORMS - 60FPS OPTIMIZED
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.05]); // Reduced scale for smoother performance
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.05]);
 
-  // Optimized parallax speeds with better performance curves
   const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "25%"], { clamp: true });
   const glassmorphismY = useTransform(scrollYProgress, [0, 1], ["0%", "-15%"], { clamp: true });
   const imageY = useTransform(scrollYProgress, [0, 1], ["0%", "35%"], { clamp: true });
   const floatingElementsY = useTransform(scrollYProgress, [0, 1], ["0%", "50%"], { clamp: true });
   
-  // Reduced rotation effects for smoother performance
   const backgroundRotate = useTransform(scrollYProgress, [0, 1], [0, 3], { clamp: true });
   const glassmorphismRotate = useTransform(scrollYProgress, [0, 1], [0, -2], { clamp: true });
   const imageRotate = useTransform(scrollYProgress, [0, 1], [0, 1.5], { clamp: true });
   const floatingElementsRotate = useTransform(scrollYProgress, [0, 1], [0, 6], { clamp: true });
 
-  // Ultra optimized mouse parallax with better spring config
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
   const rotateX = useSpring(useTransform(mouseY, [-200, 200], [3, -3], { clamp: true }), { 
@@ -67,7 +62,6 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
     mass: 0.8
   });
 
-  // Default slides dengan value proposition yang kuat dan dinamis berdasarkan cabang
   const defaultSlides: HeroSlide[] = useMemo(() => [
     {
       id: '1',
@@ -103,7 +97,6 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
 
   const heroSlides = slides || defaultSlides;
 
-  // Auto-play functionality
   useEffect(() => {
     if (!isPlaying) return;
 
@@ -114,13 +107,12 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
     return () => clearInterval(interval);
   }, [isPlaying, heroSlides.length]);
 
-  // ULTRA PERFORMANCE MOUSE TRACKING - 60FPS OPTIMIZED
   useEffect(() => {
     if (typeof window === 'undefined') return;
     
     let animationFrameId: number | null = null;
     let lastTime = 0;
-    const throttleDelay = 16; // ~60fps
+    const throttleDelay = 16;
     
     const handleMouseMove = (e: MouseEvent) => {
       const now = performance.now();
@@ -136,11 +128,9 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
             const centerX = rect.left + rect.width / 2;
             const centerY = rect.top + rect.height / 2;
             
-            // Ultra smooth mouse tracking with reduced sensitivity
-            const mouseXValue = (e.clientX - centerX) / 40; // Further reduced for smoothness
+            const mouseXValue = (e.clientX - centerX) / 40;
             const mouseYValue = (e.clientY - centerY) / 40;
       
-            // Use direct value setting for better performance
             mouseX.set(mouseXValue);
             mouseY.set(mouseYValue);
           }
@@ -150,7 +140,6 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
       }
     };
 
-    // Only add listener if user prefers motion and device supports it
     if (typeof window !== 'undefined' && 
         window.matchMedia('(prefers-reduced-motion: no-preference)').matches &&
         !window.matchMedia('(hover: none)').matches) {
@@ -163,7 +152,7 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
         }
       };
     }
-  }, []);
+  }, [mouseX, mouseY]);
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
@@ -185,7 +174,6 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
         perspective: '1000px',
       }}
     >
-      {/* Animated Background dengan Enhanced Parallax */}
       <motion.div 
         className="absolute inset-0 silky-smooth fps-60"
         style={{ 
@@ -200,7 +188,6 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
           <div className="absolute inset-0 bg-black/20" />
         </div>
         
-        {/* Floating Premium Shapes - Optimized for Performance */}
         <motion.div 
           className="absolute inset-0 overflow-hidden silky-smooth fps-60"
           style={{ 
@@ -209,23 +196,23 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
             contain: 'layout style paint'
           }}
         >
-          {[...Array(4)].map((_, i) => ( // Further reduced to 4 for optimal performance
+          {[...Array(4)].map((_, i) => (
             <motion.div
               key={i}
               className="absolute silky-smooth fps-60"
               style={{
-                left: `${(i * 25) % 100}%`, // Adjusted for 4 elements
-                top: `${(i * 25) % 100}%`, // Adjusted for 4 elements
+                left: `${(i * 25) % 100}%`,
+                top: `${(i * 25) % 100}%`,
                 willChange: 'transform, opacity',
                 contain: 'layout style paint',
                 transform: 'translateZ(0)', // Force GPU acceleration
               }}
               animate={{
-                x: [0, 15, 0], // Further reduced movement
-                y: [0, 10, 0], // Further reduced movement
-                rotate: [0, 90, 180, 270, 360], // Smoother rotation
-                scale: [1, 1.05, 1], // Further reduced scale
-                opacity: [0.1, 0.3, 0.1], // Further reduced opacity
+                x: [0, 15, 0],
+                y: [0, 10, 0],
+                rotate: [0, 90, 180, 270, 360],
+                scale: [1, 1.05, 1],
+                opacity: [0.1, 0.3, 0.1],
               }}
               transition={{
                 duration: 12 + i * 2, // Longer duration for smoother animation
@@ -238,14 +225,13 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
             </motion.div>
           ))}
           
-          {/* ULTRA PERFORMANCE Geometric Shapes - 60FPS Optimized */}
-          {[...Array(3)].map((_, i) => ( // Reduced from 4 to 3 for better performance
+          {[...Array(3)].map((_, i) => (
             <motion.div
               key={`geo-${i}`}
               className="absolute silky-smooth fps-60"
               style={{
-                left: `${(i * 33.33) % 100}%`, // Adjusted for 3 elements
-                top: `${(i * 40) % 100}%`, // Adjusted for 3 elements
+                left: `${(i * 33.33) % 100}%`,
+                top: `${(i * 40) % 100}%`,
                 y: floatingElementsY,
                 rotate: floatingElementsRotate,
                 willChange: 'transform',
@@ -253,10 +239,10 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
                 transform: 'translateZ(0)', // Force GPU acceleration
               }}
               animate={{
-                x: [0, 15, 0], // Reduced movement for smoother performance
-                y: [0, 10, 0], // Reduced movement for smoother performance
-                rotate: [0, 60, 120, 180], // Smoother rotation
-                scale: [0.9, 1.05, 0.9], // Reduced scale for smoother performance
+                x: [0, 15, 0],
+                y: [0, 10, 0],
+                rotate: [0, 60, 120, 180],
+                scale: [0.9, 1.05, 0.9],
               }}
               transition={{
                 duration: 12 + i * 2, // Longer duration for smoother animation
@@ -270,7 +256,6 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
           ))}
         </motion.div>
 
-        {/* ULTRA PERFORMANCE Gradient Orbs - 60FPS Optimized */}
         <div className="absolute inset-0">
           <motion.div
             className="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-gradient-to-r from-pink-500/30 to-purple-500/30 rounded-full blur-3xl silky-smooth fps-60"
@@ -282,13 +267,13 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
               transform: 'translateZ(0)',
             }}
             animate={{
-              scale: [1, 1.2, 1], // Reduced scale for smoother performance
-              opacity: [0.2, 0.5, 0.2], // Reduced opacity for smoother performance
-              x: [0, 30, 0], // Reduced movement for smoother performance
-              y: [0, -20, 0], // Reduced movement for smoother performance
+              scale: [1, 1.2, 1],
+              opacity: [0.2, 0.5, 0.2],
+              x: [0, 30, 0],
+              y: [0, -20, 0],
             }}
             transition={{
-              duration: 12, // Longer duration for smoother animation
+              duration: 12,
               repeat: Infinity,
               ease: 'linear', // Linear easing for smoother performance
               repeatType: 'loop',
@@ -304,13 +289,13 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
               transform: 'translateZ(0)',
             }}
             animate={{
-              scale: [1.1, 1, 1.1], // Reduced scale for smoother performance
-              opacity: [0.3, 0.6, 0.3], // Reduced opacity for smoother performance
-              x: [0, -25, 0], // Reduced movement for smoother performance
-              y: [0, 25, 0], // Reduced movement for smoother performance
+              scale: [1.1, 1, 1.1],
+              opacity: [0.3, 0.6, 0.3],
+              x: [0, -25, 0],
+              y: [0, 25, 0],
             }}
             transition={{
-              duration: 14, // Longer duration for smoother animation
+              duration: 14,
               repeat: Infinity,
               ease: 'linear', // Linear easing for smoother performance
               repeatType: 'loop',
@@ -326,12 +311,12 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
               transform: 'translateZ(0)',
             }}
             animate={{
-              scale: [1, 1.15, 1], // Reduced scale for smoother performance
-              opacity: [0.2, 0.5, 0.2], // Reduced opacity for smoother performance
-              rotate: [0, 120, 240, 360], // Smoother rotation
+              scale: [1, 1.15, 1],
+              opacity: [0.2, 0.5, 0.2],
+              rotate: [0, 120, 240, 360],
             }}
             transition={{
-              duration: 16, // Longer duration for smoother animation
+              duration: 16,
               repeat: Infinity,
               ease: 'linear', // Linear easing for smoother performance
               repeatType: 'loop',
@@ -340,7 +325,6 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
         </div>
       </motion.div>
 
-      {/* ULTRA PERFORMANCE Main Content dengan 3D Transform - 60FPS Optimized */}
       <motion.div
         className="relative h-full flex items-center justify-center silky-smooth fps-60"
         style={{
@@ -353,7 +337,6 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
         }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-          {/* Text Content dengan Enhanced Glassmorphism Parallax */}
           <motion.div
             initial={{ opacity: 0, x: -100 }}
             animate={{ opacity: 1, x: 0 }}
@@ -365,7 +348,6 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
               transformStyle: 'preserve-3d'
             }}
           >
-            {/* Glassmorphism Card - Enhanced with Parallax */}
             <motion.div 
               className="backdrop-blur-xl bg-white/10 rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 border border-white/20 shadow-2xl min-h-[400px] sm:min-h-[450px] lg:min-h-[500px] flex flex-col"
               style={{
@@ -379,7 +361,6 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
                 transition={{ duration: 0.6, delay: 0.4 }}
                 className="flex flex-col h-full space-y-4 sm:space-y-6"
               >
-                {/* Top Section - Subtitle */}
                 <div className="flex-shrink-0">
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -399,7 +380,6 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
                   </motion.div>
                 </div>
 
-                {/* Middle Section - Title */}
                 <div className="flex-1 flex items-center">
                   <motion.h1
                     initial={{ opacity: 0, y: 30 }}
@@ -411,7 +391,6 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
                   </motion.h1>
                 </div>
 
-                {/* Bottom Section - Description */}
                 <div className="flex-1 flex items-start pt-4">
                   <motion.p
                     initial={{ opacity: 0, y: 20 }}
@@ -423,7 +402,6 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
                   </motion.p>
                 </div>
 
-                {/* CTA Buttons dengan Modern Design */}
                 <div className="flex-shrink-0 mt-6">
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -497,7 +475,6 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
             </motion.div>
           </motion.div>
 
-          {/* Image Content dengan Enhanced 3D Parallax */}
           <motion.div
             initial={{ opacity: 0, x: 100 }}
             animate={{ opacity: 1, x: 0 }}
@@ -509,7 +486,6 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
               rotate: imageRotate
             }}
           >
-            {/* 3D Image Container dengan Parallax */}
             <motion.div
               className="relative h-64 sm:h-80 md:h-96 lg:h-[500px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl"
               style={{
@@ -531,11 +507,9 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
                 blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
               />
               
-              {/* Gradient Overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
             </motion.div>
 
-            {/* Floating Background Elements dengan Parallax */}
             <motion.div
               className="absolute -top-4 -left-4 w-24 h-24 bg-gradient-to-r from-pink-500/30 to-purple-500/30 rounded-full blur-xl"
               style={{ y: floatingElementsY, rotate: floatingElementsRotate }}
@@ -566,7 +540,6 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
         </div>
       </motion.div>
 
-      {/* Navigation Controls dengan Modern Design */}
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex items-center space-x-4 z-20">
         <motion.button
           whileHover={{ scale: 1.1, rotate: -5 }}
@@ -596,7 +569,6 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
         </motion.button>
       </div>
 
-      {/* Slide Indicators dengan Modern Design */}
       <div className="absolute bottom-8 right-8 flex space-x-3 z-20">
         {heroSlides.map((_, index) => (
           <motion.button
@@ -613,7 +585,6 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
         ))}
       </div>
 
-      {/* Scroll Indicator - Hidden on Mobile */}
       <motion.div
         className="absolute bottom-8 left-8 z-20 hidden sm:block"
         animate={{ y: [0, 10, 0] }}
