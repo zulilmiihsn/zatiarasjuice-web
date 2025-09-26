@@ -204,7 +204,7 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                   transition={{ duration: 0.6, delay: 0.5 }}
                   className="text-center"
                 >
-                  <div className="text-4xl font-black text-emerald-500 mb-2 font-display">100%</div>
+                  <div className="text-4xl font-black text-pinky-500 mb-2 font-display">100%</div>
                   <div className="text-gray-600 font-semibold">Alami</div>
                 </motion.div>
               </div>
