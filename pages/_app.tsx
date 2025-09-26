@@ -16,9 +16,9 @@ export default function App({ Component, pageProps }: AppProps) {
         <link rel="manifest" href="/manifest.json" />
         
         {/* CRITICAL RESOURCE PRELOADING */}
-        <link rel="preload" href="/images/hero-avocado-juice.png" as="image" type="image/png" />
-        <link rel="preload" href="/images/hero-mango-juice.png" as="image" type="image/png" />
-        <link rel="preload" href="/images/hero-avocado-shake.png" as="image" type="image/png" />
+        <link rel="preload" href="/images/hero-avocado-juice.png?v=20250926" as="image" type="image/png" />
+        <link rel="preload" href="/images/hero-mango-juice.png?v=20250926" as="image" type="image/png" />
+        <link rel="preload" href="/images/hero-avocado-shake.png?v=20250926" as="image" type="image/png" />
         <link rel="dns-prefetch" href="//images.unsplash.com" />
         
         {/* CRITICAL CSS INLINE - Above the fold optimization */}

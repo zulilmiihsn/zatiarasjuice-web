@@ -30,9 +30,9 @@ export default function Document() {
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         
         {/* Preload critical resources */}
-        <link rel="preload" href="/images/hero-avocado-juice.png" as="image" type="image/png" />
-        <link rel="preload" href="/images/hero-mango-juice.png" as="image" type="image/png" />
-        <link rel="preload" href="/images/hero-avocado-shake.png" as="image" type="image/png" />
+        <link rel="preload" href="/images/hero-avocado-juice.png?v=20250926" as="image" type="image/png" />
+        <link rel="preload" href="/images/hero-mango-juice.png?v=20250926" as="image" type="image/png" />
+        <link rel="preload" href="/images/hero-avocado-shake.png?v=20250926" as="image" type="image/png" />
         <link rel="preload" href="/images/juice-placeholder.svg" as="image" type="image/svg+xml" />
       </Head>
       <body>
