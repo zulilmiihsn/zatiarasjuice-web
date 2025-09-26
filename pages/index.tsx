@@ -45,12 +45,14 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
               router.push(`/${branch}`);
             }
           }, 2000);
-        } else if (method === 'none') {
-          // Jika IP location gagal, tampilkan modal pilihan
+        } else {
+          // Jika tidak ada branch yang terdeteksi, tampilkan modal pilihan
+          console.log('No branch detected, showing modal. Method:', method);
           setShowBranchModal(true);
         }
       } catch (error) {
         // Error handling - tampilkan modal pilihan
+        console.log('Location detection error, showing modal:', error);
         setShowBranchModal(true);
       } finally {
         setIsLoading(false);
