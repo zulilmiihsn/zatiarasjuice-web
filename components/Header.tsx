@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -30,15 +30,23 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
   // Check if current page is menu or contact page
   const isMenuPage = currentPath?.includes('/menu');
   const isContactPage = currentPath?.includes('/contact');
-  const isSpecialPage = isMenuPage || isContactPage;
+  const isPesanPage = currentPath?.includes('/pesan');
+  const isSpecialPage = isMenuPage || isContactPage || isPesanPage;
   const isHomepage = currentPath === '/' || currentPath === undefined;
 
-  const navigationItems = [
-    { name: 'Menu', href: branch ? `/${branch}/menu` : '/menu' },
-    { name: 'Beranda', href: branch ? `/${branch}` : '/' },
-    { name: 'Pesan', href: branch ? `/${branch}/pesan` : '/pesan' },
-    ...(branch ? [{ name: 'Kontak', href: `/${branch}/contact` }] : []),
-  ];
+  const navigationItems = useMemo(() => {
+    const baseItems = [
+      { name: 'Menu', href: branch ? `/${branch}/menu` : '/menu' },
+      { name: 'Beranda', href: branch ? `/${branch}` : '/' },
+      { name: 'Pesan', href: branch ? `/${branch}/pesan` : '/pesan' },
+    ];
+    
+    if (branch) {
+      baseItems.push({ name: 'Kontak', href: `/${branch}/contact` });
+    }
+    
+    return baseItems;
+  }, [branch]);
 
   const branchInfo = {
     berau: {
