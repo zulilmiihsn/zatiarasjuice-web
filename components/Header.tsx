@@ -36,7 +36,6 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
     const baseItems = [
       { name: 'Menu', href: branch ? `/${branch}/menu` : '/menu' },
       { name: 'Beranda', href: branch ? `/${branch}` : '/' },
-      { name: 'Pesan', href: branch ? `/${branch}/pesan` : '/pesan' },
     ];
     
     if (branch) {
