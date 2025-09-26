@@ -1074,7 +1074,7 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
             <LoadingSpinner size="sm" />
           </div>
         }>
-          <Footer />
+        <Footer />
         </Suspense>
 
         {/* Branch Selection Modal */}
@@ -1115,12 +1115,12 @@ export const getStaticProps: GetStaticProps = async () => {
       'review jus terbaik samarinda',
     ],
     canonical: 'https://zatiarasjuice.com',
-      openGraph: {
-        title: 'Zatiaras Juice — Jus Terenak & Terbaik di Berau & Samarinda | Rating 4.9/5',
-        description: 'Jus terenak di Berau & Samarinda! Rating 4.9/5 dari 150+ review. 100% alami, tanpa pengawet, garansi uang kembali. Order via WhatsApp/GoFood.',
-        url: 'https://zatiarasjuice.com',
-        type: 'website',
-      },
+    openGraph: {
+      title: 'Zatiaras Juice — Jus Terenak & Terbaik di Berau & Samarinda | Rating 4.9/5',
+      description: 'Jus terenak di Berau & Samarinda! Rating 4.9/5 dari 150+ review. 100% alami, tanpa pengawet, garansi uang kembali. Order via WhatsApp/GoFood.',
+      url: 'https://zatiarasjuice.com',
+      type: 'website',
+    },
     structuredData: {
       '@context': 'https://schema.org',
       '@type': 'Organization',
