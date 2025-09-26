@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
-import { MapPin, X, Phone, Clock, Sparkles, Star, Navigation } from 'lucide-react';
+import { MapPin, Phone, Clock, Sparkles, Star, Navigation } from 'lucide-react';
 
 interface BranchSelectionModalProps {
   isOpen: boolean;

@@ -26,13 +26,11 @@ interface MenuPageProps {
 const ProductGrid = memo(({
   products,
   viewMode,
-  branch,
-  onAddToCart
+  branch
 }: { 
   products: Product[]; 
   viewMode: 'list' | 'grid'; 
   branch: Branch;
-  onAddToCart: () => void;
 }) => {
   if (viewMode === 'list') {
     return (
@@ -53,7 +51,6 @@ const ProductGrid = memo(({
               <ProductCard 
                 product={product} 
                 branch={branch}
-                onAddToCart={onAddToCart}
               />
             </Suspense>
           </motion.div>
@@ -80,7 +77,6 @@ const ProductGrid = memo(({
             <ProductCard 
               product={product} 
               branch={branch}
-              onAddToCart={onAddToCart}
             />
           </Suspense>
         </motion.div>

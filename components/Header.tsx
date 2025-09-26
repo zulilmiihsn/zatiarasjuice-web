@@ -3,9 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, MapPin, Phone, ShoppingCart, MessageCircle } from 'lucide-react';
-import { useCart } from '../contexts/CartContext';
-import CartSidebar from './CartSidebar';
+import { Menu, X, MapPin, Phone, MessageCircle } from 'lucide-react';
 
 const WhatsAppIcon = ({ className }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor">
@@ -20,9 +18,7 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isCartOpen, setIsCartOpen] = useState(false);
   const router = useRouter();
-  const { cart } = useCart();
 
   const isMenuPage = currentPath?.includes('/menu');
   const isContactPage = currentPath?.includes('/contact');
@@ -216,27 +212,6 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
               </motion.div>
             )}
             
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => setIsCartOpen(true)}
-              className={`relative p-3 rounded-2xl transition-all duration-300 ${
-                isSpecialPage
-                  ? 'bg-pink-100/80 hover:bg-pink-200/80 text-pink-800'
-                  : 'bg-white/20 hover:bg-white/30 text-white'
-              }`}
-            >
-              <ShoppingCart className="w-5 h-5" />
-              {cart.totalItems > 0 && (
-                <motion.span
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  className="absolute -top-1 -right-1 bg-pinky-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center"
-                >
-                  {cart.totalItems}
-                </motion.span>
-              )}
-            </motion.button>
             
             {/* Pesan Button */}
             <motion.a
@@ -549,10 +524,6 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
         )}
       </AnimatePresence>
       
-      <CartSidebar 
-        isOpen={isCartOpen} 
-        onClose={() => setIsCartOpen(false)} 
-      />
     </motion.header>
   );
 };
