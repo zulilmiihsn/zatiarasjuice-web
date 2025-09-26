@@ -1,0 +1,23 @@
+{
+  "name": "Zatiaras Juice - Jus Alpukat & Buah Segar Nomor 1",
+  "short_name": "Zatiaras Juice",
+  "description": "Nikmati kesegaran jus alpukat dan aneka jus buah segar di Zatiaras Juice. Menu lengkap, harga transparan, order via GoFood/GrabFood/WA.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#FF6EC7",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "id",
+  "categories": ["food", "lifestyle", "health"],
+  "icons": [],
+  "screenshots": [],
+  "shortcuts": [],
+  "related_applications": [
+    {
+      "platform": "webapp",
+      "url": "https://zatiarasjuice.com/manifest.json"
+    }
+  ],
+  "prefer_related_applications": false
+}
