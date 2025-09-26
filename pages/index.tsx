@@ -10,7 +10,6 @@ import HeroBanner from '../components/HeroBanner';
 import LoadingSpinner from '../components/LoadingSpinner';
 import LoadingScreen from '../components/LoadingScreen';
 import BranchSelectionModal from '../components/BranchSelectionModal';
-import AbsoluteFixedCartSidebar from '../components/AbsoluteFixedCartSidebar';
 import { getUserLocationWithFallback } from '../lib/geolocation';
 
 const ProductCard = lazy(() => import('../components/ProductCard'));
@@ -26,7 +25,6 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [nearestBranch, setNearestBranch] = useState<string | null>(null);
   const [showBranchModal, setShowBranchModal] = useState(false);
-  const [isCartOpen, setIsCartOpen] = useState(false);
 
 
   useEffect(() => {
@@ -832,7 +830,6 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                       <ProductCard 
                         product={product} 
                         branch={nearestBranch as 'berau' | 'samarinda'} 
-                        onAddToCart={() => setIsCartOpen(true)}
                       />
                     </Suspense>
                   </motion.div>
@@ -1079,11 +1076,6 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
         />
       </div>
       
-      {/* Cart Sidebar - Floating outside main container */}
-      <AbsoluteFixedCartSidebar 
-        isOpen={isCartOpen} 
-        onClose={() => setIsCartOpen(false)} 
-      />
     </>
   );
 };

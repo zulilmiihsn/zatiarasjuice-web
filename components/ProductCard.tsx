@@ -1,8 +1,7 @@
-import React, { useState, memo, useCallback } from 'react';
+import React, { memo } from 'react';
 import { motion } from 'framer-motion';
-import { ShoppingCart, Utensils } from 'lucide-react';
+import { Utensils } from 'lucide-react';
 import Image from 'next/image';
-import { useCart } from '../contexts/CartContext';
 
 interface ProductCardProps {
   product: {
@@ -22,7 +21,6 @@ interface ProductCardProps {
     is_minuman?: boolean;
   };
   branch?: 'berau' | 'samarinda';
-  onAddToCart?: () => void;
   className?: string;
 }
 
@@ -35,48 +33,20 @@ const WhatsAppIcon = ({ className }: { className?: string }) => (
 const ProductCard: React.FC<ProductCardProps> = memo(({
   product,
   branch,
-  onAddToCart,
   className = '',
 }) => {
-  const [isAddingToCart, setIsAddingToCart] = useState(false);
-  const { addToCart, setBranch } = useCart();
-
-  const handleAddToCart = useCallback(async () => {
-    setIsAddingToCart(true);
-    try {
-      // Set branch if provided
-      if (branch) {
-        setBranch(branch);
-      }
-      
-      // Add to cart
-      addToCart({
-        id: product.id,
-        name: product.name,
-        price: product.price,
-        image: product.image_url || product.gambar || undefined,
-        category: product.category,
-        description: product.description,
-        priceRegular: product.price_regular,
-        priceLarge: product.price_large,
-        size: product.is_minuman ? 'regular' : undefined,
-      });
-      
-      if (onAddToCart) {
-        onAddToCart();
-      }
-    } finally {
-      setIsAddingToCart(false);
-    }
-  }, [addToCart, setBranch, product, branch, onAddToCart]);
-
-
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('id-ID', {
       style: 'currency',
       currency: 'IDR',
       minimumFractionDigits: 0,
     }).format(price);
+  };
+
+  const getWhatsAppUrl = () => {
+    const branchNumber = branch === 'berau' ? '6285255555555' : '6285255555556';
+    const message = `Halo! Saya ingin memesan ${product.name} dari Zatiaras Juice ${branch === 'berau' ? 'Berau' : 'Samarinda'}.`;
+    return `https://wa.me/${branchNumber}?text=${encodeURIComponent(message)}`;
   };
 
   const hasImage = product.gambar && product.gambar.trim().length > 0;
@@ -99,195 +69,110 @@ const ProductCard: React.FC<ProductCardProps> = memo(({
         contain: 'layout style paint'
       }}
     >
-
       <div className="relative h-32 sm:h-48 overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
         {(() => {
-          return (
-            <>
-              {hasImage ? (
-                <Image
-                  src={product.gambar!}
-                  alt={product.name}
-                  fill
-                  className="object-cover transition-all duration-500 group-hover:scale-110 group-hover:rotate-2 img-optimized silky-smooth"
-                  priority={false}
-                  loading="lazy"
-                  sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 20vw"
-                  placeholder="blur"
-                  blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
-                  quality={75}
-                />
-              ) : (
-                <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-pink-100 via-rose-50 to-pink-100">
-                  <div className="w-16 h-16 rounded-2xl flex items-center justify-center">
-                    <Image
-                      src="/images/juice-placeholder-icon.png"
-                      alt="Juice Placeholder"
-                      width={48}
-                      height={48}
-                      className="w-12 h-12 object-contain"
-                      loading="lazy"
-                      priority={false}
-                    />
-                  </div>
-                </div>
-              )}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100"
-                animate={{
-                  x: ['-100%', '100%'],
-                }}
-                transition={{
-                  duration: 1.5,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                  delay: 0.5
-                }}
+          if (hasImage) {
+            return (
+              <Image
+                src={product.gambar!}
+                alt={product.name}
+                fill
+                className="object-cover group-hover:scale-110 transition-transform duration-700"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                priority={product.is_featured}
               />
-              
-            </>
-          );
+            );
+          } else {
+            return (
+              <div className="w-full h-full flex items-center justify-center">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-pink-400 to-rose-500 rounded-2xl flex items-center justify-center shadow-lg">
+                  <Utensils className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
+                </div>
+              </div>
+            );
+          }
         })()}
-      </div>
-
-      <div className="p-3 sm:p-4 max-w-full">
-        {product.category && (
-          <div className="mb-2 sm:mb-3">
-            <motion.span 
-              className="inline-block px-2 py-1 sm:px-3 sm:py-1.5 text-xs font-bold text-primary-600 bg-gradient-to-r from-primary-50 to-pinky-50 rounded-lg sm:rounded-full border border-primary-200 shadow-soft"
-              whileHover={{ 
-                scale: 1.05,
-                boxShadow: '0 4px 12px rgba(255, 110, 199, 0.3)'
-              }}
-            >
-              {product.category}
-            </motion.span>
+        
+        {/* Premium Badge */}
+        {product.is_featured && (
+          <div className="absolute top-3 left-3 bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg">
+            ⭐ Featured
           </div>
         )}
+      </div>
 
-        <motion.h3 
-          className="text-sm sm:text-lg font-black text-gray-900 mb-2 sm:mb-3 line-clamp-2 font-display max-w-full truncate"
-          whileHover={{ 
-            color: '#FF6EC7',
-            textShadow: '0 0 10px rgba(255, 110, 199, 0.3)'
-          }}
-        >
-          {product.name}
-        </motion.h3>
+      <div className="p-4 sm:p-6">
+        <div className="flex items-start justify-between mb-3">
+          <div className="flex-1 min-w-0">
+            <h3 className="font-bold text-gray-900 text-lg sm:text-xl mb-1 line-clamp-2 group-hover:text-pink-600 transition-colors">
+              {product.name}
+            </h3>
+            {product.category && (
+              <p className="text-sm text-gray-500 mb-2">{product.category}</p>
+            )}
+          </div>
+        </div>
 
-        <div className="mb-3 sm:mb-4 max-w-full">
-          {product.is_minuman ? (
-            <div className="space-y-1 sm:space-y-1 max-w-full">
-              <div className="flex items-center justify-between max-w-full">
-                <span className="text-xs sm:text-sm text-gray-600 truncate">Regular:</span>
-                <span className="text-sm sm:text-xl font-bold text-primary-600 truncate">
-                  {formatPrice(product.price_regular || product.price)}
-                </span>
+        {product.description && (
+          <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+            {product.description}
+          </p>
+        )}
+
+        {/* Price Display */}
+        <div className="mb-4">
+          {product.is_minuman && product.price_regular && product.price_large ? (
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-gray-500">Regular</span>
+                <span className="font-bold text-pink-600">{formatPrice(product.price_regular)}</span>
               </div>
-              <div className="flex items-center justify-between max-w-full">
-                <span className="text-xs sm:text-sm text-gray-600 truncate">Large:</span>
-                <span className="text-xs sm:text-sm font-semibold text-gray-700 truncate">
-                  {formatPrice(product.price_large || product.price)}
-                </span>
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-gray-500">Large</span>
+                <span className="font-bold text-pink-600">{formatPrice(product.price_large)}</span>
               </div>
             </div>
           ) : (
-            <span className="text-sm sm:text-xl font-bold text-gray-900 max-w-full truncate block">
-              {formatPrice(product.price)}
-            </span>
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-gray-500">Harga</span>
+              <span className="font-bold text-pink-600 text-lg">{formatPrice(product.price)}</span>
+            </div>
           )}
         </div>
 
-        <motion.button
-          whileHover={{ 
-            scale: 1.05, 
-            y: -2,
-            boxShadow: '0 10px 25px rgba(255, 110, 199, 0.4)'
-          }}
-          whileTap={{ scale: 0.95 }}
-          onClick={handleAddToCart}
-          disabled={isAddingToCart}
-          className="w-full max-w-full bg-gradient-to-r from-primary-500 to-pinky-500 text-white py-2.5 sm:py-4 rounded-xl sm:rounded-2xl font-bold text-xs sm:text-sm hover:from-pink-500 hover:to-purple-500 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-1.5 sm:gap-3 shadow-glow-primary hover:shadow-glow-pinky relative overflow-hidden group"
+        {/* Rating */}
+        {product.rating && (
+          <div className="flex items-center gap-2 mb-4">
+            <div className="flex items-center">
+              {[...Array(5)].map((_, i) => (
+                <span
+                  key={i}
+                  className={`text-sm ${
+                    i < Math.floor(product.rating!) ? 'text-yellow-400' : 'text-gray-300'
+                  }`}
+                >
+                  ★
+                </span>
+              ))}
+            </div>
+            <span className="text-sm text-gray-500">
+              {product.rating} ({product.review_count || 0} reviews)
+            </span>
+          </div>
+        )}
+
+        {/* WhatsApp Order Button */}
+        <motion.a
+          href={getWhatsAppUrl()}
+          target="_blank"
+          rel="noopener noreferrer"
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl"
         >
-          <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-pink-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-            initial={false}
-          />
-          {isAddingToCart ? (
-            <>
-              <motion.div 
-                className="w-4 h-4 sm:w-5 sm:h-5 border-2 border-white border-t-transparent rounded-full animate-spin relative z-10" 
-                animate={{ rotate: 360 }}
-                transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-              />
-              <span className="relative z-10 text-xs sm:text-sm">Menambahkan...</span>
-            </>
-          ) : (
-            <>
-              <motion.div
-                className="relative z-10"
-                animate={{ 
-                  rotate: [0, 10, -10, 0],
-                }}
-                transition={{ 
-                  duration: 2,
-                  repeat: Infinity,
-                  ease: 'easeInOut'
-                }}
-              >
-                <ShoppingCart className="w-4 h-4 sm:w-5 sm:h-5" />
-              </motion.div>
-              <span className="relative z-10 text-xs sm:text-sm">Tambah ke Keranjang</span>
-            </>
-          )}
-        </motion.button>
-
-        <div className="mt-2 sm:mt-4 grid grid-cols-2 gap-1.5 sm:gap-3 max-w-full">
-          <motion.a
-            whileHover={{ 
-              scale: 1.05, 
-              y: -2,
-              boxShadow: '0 8px 20px rgba(34, 197, 94, 0.4)'
-            }}
-            whileTap={{ scale: 0.95 }}
-            href={`https://wa.me/6281234567890?text=Halo, saya ingin order ${product.name}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-gradient-to-r from-emerald-500 to-secondary-500 text-white py-2 sm:py-3 px-2 sm:px-4 rounded-lg sm:rounded-2xl text-xs font-bold hover:from-green-500 hover:to-emerald-600 transition-all duration-300 text-center max-w-full truncate shadow-glow-secondary hover:shadow-glow-green relative overflow-hidden group"
-          >
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-green-500 to-emerald-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-              initial={false}
-            />
-            <span className="relative z-10 flex items-center justify-center gap-1">
-              <WhatsAppIcon className="w-3 h-3 sm:w-4 sm:h-4" />
-              <span className="text-xs sm:text-sm">WhatsApp</span>
-            </span>
-          </motion.a>
-          <motion.a
-            whileHover={{ 
-              scale: 1.05, 
-              y: -2,
-              boxShadow: '0 8px 20px rgba(245, 158, 11, 0.4)'
-            }}
-            whileTap={{ scale: 0.95 }}
-            href="https://gofood.co.id/merchant/zatiaras-juice"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-gradient-to-r from-red-500 to-red-600 text-white py-2 sm:py-3 px-2 sm:px-4 rounded-lg sm:rounded-2xl text-xs font-bold hover:from-red-600 hover:to-red-700 transition-all duration-300 text-center max-w-full truncate shadow-lg hover:shadow-xl relative overflow-hidden group"
-          >
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-red-600 to-red-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-              initial={false}
-            />
-              <span className="relative z-10 flex items-center justify-center gap-1">
-                <Utensils className="w-3 h-3 sm:w-4 sm:h-4" />
-                <span className="text-xs sm:text-sm">GoFood</span>
-              </span>
-          </motion.a>
-        </div>
+          <WhatsAppIcon className="w-5 h-5" />
+          <span>Order via WhatsApp</span>
+        </motion.a>
       </div>
     </motion.div>
   );

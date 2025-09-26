@@ -10,7 +10,6 @@ import { getProducts, getCategories, getBranchInfo } from '../../lib/supabase';
 import type { Branch, Product, Category } from '../../lib/supabase';
 import Link from 'next/link';
 import LoadingSpinner from '../../components/LoadingSpinner';
-import AbsoluteFixedCartSidebar from '../../components/AbsoluteFixedCartSidebar';
 
 // Lazy load heavy components for better performance
 const ProductCard = lazy(() => import('../../components/ProductCard'));
@@ -98,7 +97,6 @@ const MenuPage: React.FC<MenuPageProps> = ({
   categories, 
   seoData 
 }) => {
-  const [isCartOpen, setIsCartOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [sortBy, setSortBy] = useState<'name' | 'price'>('name');
@@ -840,7 +838,6 @@ const MenuPage: React.FC<MenuPageProps> = ({
                                           <ProductCard 
                                             product={product} 
                                             branch={branch}
-                                            onAddToCart={() => setIsCartOpen(true)}
                                           />
                                         </Suspense>
                                     </motion.div>
@@ -859,7 +856,6 @@ const MenuPage: React.FC<MenuPageProps> = ({
                               products={filteredProducts}
                               viewMode={viewMode}
                               branch={branch}
-                              onAddToCart={() => setIsCartOpen(true)}
                             />
                             </AnimatePresence>
                         );
@@ -903,11 +899,6 @@ const MenuPage: React.FC<MenuPageProps> = ({
         <Footer branch={branch} />
       </div>
       
-      {/* Cart Sidebar - Floating outside main container */}
-      <AbsoluteFixedCartSidebar 
-        isOpen={isCartOpen} 
-        onClose={() => setIsCartOpen(false)} 
-      />
     </>
   );
 };
