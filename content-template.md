@@ -55,7 +55,7 @@ Keunggulan 3: Garansi Uang Kembali - Tidak puas dengan jus kami? Kami berikan ga
 
 ### TESTIMONI 1
 ```
-Nama: S*****
+Nama: S**** 
 Kota: Berau
 Testimoni: "suka bangettt.. setiap pesan selalu minta less sugar dan bagiku rasanya sesuai dengan yg aku mau. jus favoritku jus alpukat sama jus pakcoy,apel,nanas. semoga bisa selalu mempertahankan kualitas ya kakk!!"
 Rating: 5

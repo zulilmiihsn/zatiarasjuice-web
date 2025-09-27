@@ -47,7 +47,6 @@ const Footer: React.FC<FooterProps> = ({ branch }) => {
   const quickLinks = [
     { name: 'Beranda', href: branch ? `/${branch}` : '/' },
     { name: 'Menu', href: branch ? `/${branch}/menu` : '/menu' },
-    { name: 'Tentang Kami', href: branch ? `/${branch}/about` : '/about' },
     { name: 'Kontak', href: branch ? `/${branch}/contact` : '/contact' },
   ];
 
@@ -75,11 +74,11 @@ const Footer: React.FC<FooterProps> = ({ branch }) => {
   const deliveryPartners = branch === 'berau' ? [
     { name: 'GoFood', href: 'https://gofood.co.id/berau/restaurant/juice-zatiaras-tanjungredeb-65ca1162-75a7-4c4e-ab1e-14369af8bf64' },
     { name: 'GrabFood', href: 'https://food.grab.com/id/en/restaurant/zatiaras-juice-berau' },
-    { name: 'WhatsApp', href: `https://wa.me/${currentBranch?.whatsapp.replace(/\D/g, '') || '6281350354856'}` },
+    { name: 'WhatsApp', href: `https://wa.me/${currentBranch?.whatsapp.replace(/\D/g, '') || '6281350354856'}?text=Halo, saya ingin order dari Zatiaras Juice Berau` },
   ] : branch === 'samarinda' ? [
     { name: 'GoFood', href: 'https://gofood.co.id/samarinda/restaurant/zatiaras-jus-samarinda-e66a662d-6a07-4069-b35f-62642eb1e2c6' },
     { name: 'GrabFood', href: 'https://food.grab.com/id/en/restaurant/zatiaras-juice-samarinda' },
-    { name: 'WhatsApp', href: `https://wa.me/${currentBranch?.whatsapp.replace(/\D/g, '') || '6285820615188'}` },
+    { name: 'WhatsApp', href: `https://wa.me/${currentBranch?.whatsapp.replace(/\D/g, '') || '6285820615188'}?text=Halo, saya ingin order dari Zatiaras Juice Samarinda` },
   ] : [
     { name: 'GoFood', href: 'https://gofood.co.id/merchant/zatiaras-juice' },
     { name: 'GrabFood', href: 'https://food.grab.com/id/en/restaurant/zatiaras-juice' },

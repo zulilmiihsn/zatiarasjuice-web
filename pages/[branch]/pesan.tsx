@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { lazy, Suspense, startTransition } from 'react';
+import { GetStaticProps, GetStaticPaths } from 'next';
 import Head from 'next/head';
 import { motion } from 'framer-motion';
 import { Utensils, ArrowLeft, Sparkles, MapPin, Phone } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import Header from '../../components/Header';
-import Footer from '../../components/Footer';
+import LoadingSpinner from '../../components/LoadingSpinner';
+import { getBranchSEOData } from '../../lib/seo';
 import type { Branch } from '../../lib/supabase';
+
+// Lazy load Footer untuk performa yang lebih baik
+const Footer = lazy(() => import('../../components/Footer'));
 
 // WhatsApp Icon Component
 const WhatsAppIcon = ({ className }: { className?: string }) => (
@@ -14,25 +20,27 @@ const WhatsAppIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-// GoFood Icon Component
+// GoFood Icon Component (Sendok & Garpu)
 const GoFoodIcon = ({ className }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+    <path d="M8.1 13.34l2.83-2.83L3.91 3.5c-1.56 1.56-1.56 4.09 0 5.66l4.19 4.18zm6.78-1.81c1.53.71 3.68.21 5.27-1.38 1.91-1.91 2.28-4.65.81-6.12-1.46-1.46-4.2-1.1-6.12.81-1.59 1.59-2.09 3.74-1.38 5.27L3.7 19.87l1.41 1.41L12 14.41l6.88 6.88 1.41-1.41L13.41 13l1.47-1.47z"/>
   </svg>
 );
 
-// Grab Icon Component
+// Grab Icon Component (Sendok & Garpu)
 const GrabIcon = ({ className }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.94-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+    <path d="M8.1 13.34l2.83-2.83L3.91 3.5c-1.56 1.56-1.56 4.09 0 5.66l4.19 4.18zm6.78-1.81c1.53.71 3.68.21 5.27-1.38 1.91-1.91 2.28-4.65.81-6.12-1.46-1.46-4.2-1.1-6.12.81-1.59 1.59-2.09 3.74-1.38 5.27L3.7 19.87l1.41 1.41L12 14.41l6.88 6.88 1.41-1.41L13.41 13l1.47-1.47z"/>
   </svg>
 );
 
 interface PesanPageProps {
   branch: Branch;
+  seoData: any;
 }
 
-const PesanPage: React.FC<PesanPageProps> = ({ branch }) => {
+const PesanPage: React.FC<PesanPageProps> = ({ branch, seoData }) => {
+  const router = useRouter();
   const branchInfo = {
     berau: {
       name: 'Berau',
@@ -96,7 +104,7 @@ const PesanPage: React.FC<PesanPageProps> = ({ branch }) => {
   return (
     <>
       <Head>
-        <title>Pesan Sekarang - Zatiaras Juice {branchInfo.name} | WhatsApp, GoFood, Grab</title>
+        <title>{`Pesan Sekarang - Zatiaras Juice ${branchInfo.name} | WhatsApp, GoFood, Grab`}</title>
         <meta name="description" content={`Pesan Zatiaras Juice ${branchInfo.name} melalui WhatsApp, GoFood, atau Grab. Delivery cepat dan mudah di ${branchInfo.city}.`} />
         <meta name="keywords" content={`pesan zatiaras juice ${branch}, whatsapp order ${branchInfo.city}, gofood ${branchInfo.city}, grab ${branchInfo.city}, delivery ${branchInfo.city}`} />
         <link rel="canonical" href={`https://zatiarasjuice.com/${branch}/pesan`} />
@@ -108,7 +116,7 @@ const PesanPage: React.FC<PesanPageProps> = ({ branch }) => {
         <meta property="og:type" content="website" />
       </Head>
 
-      <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-rose-50">
+      <div className="min-h-screen bg-white">
         <Header branch={branch} currentPath={`/${branch}/pesan`} />
         
         {/* Hero Section */}
@@ -142,8 +150,7 @@ const PesanPage: React.FC<PesanPageProps> = ({ branch }) => {
               </h1>
               
               <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-8">
-                Pilih platform pesanan favorit Anda untuk cabang <strong>{branchInfo.name}</strong>. 
-                Tim kami siap melayani Anda 24/7!
+                Pilih platform pesanan favorit Anda untuk cabang <strong>{branchInfo.name}</strong>.
               </p>
 
               {/* Branch Info */}
@@ -250,13 +257,17 @@ const PesanPage: React.FC<PesanPageProps> = ({ branch }) => {
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link
-                  href={`/${branch}`}
+                <button
+                  onClick={() => {
+                    startTransition(() => {
+                      router.push(`/${branch}`);
+                    });
+                  }}
                   className="inline-flex items-center gap-3 bg-white text-primary-600 px-8 py-4 rounded-2xl font-bold hover:bg-gray-50 transition-all duration-300 shadow-lg hover:shadow-xl"
                 >
                   <ArrowLeft className="w-5 h-5" />
                   <span>Kembali ke Beranda</span>
-                </Link>
+                </button>
                 <Link
                   href={`/${branch}/menu`}
                   className="inline-flex items-center gap-3 bg-white/20 text-white px-8 py-4 rounded-2xl font-bold hover:bg-white/30 transition-all duration-300 shadow-lg hover:shadow-xl"
@@ -269,10 +280,38 @@ const PesanPage: React.FC<PesanPageProps> = ({ branch }) => {
           </div>
         </section>
 
-        <Footer branch={branch} />
+        <Suspense fallback={
+          <div className="w-full h-32 bg-gray-100 animate-pulse flex items-center justify-center">
+            <LoadingSpinner size="sm" />
+          </div>
+        }>
+          <Footer branch={branch} />
+        </Suspense>
       </div>
     </>
   );
+};
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  return {
+    paths: [
+      { params: { branch: 'berau' } },
+      { params: { branch: 'samarinda' } },
+    ],
+    fallback: false,
+  };
+};
+
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const branch = params?.branch as Branch;
+
+  return {
+    props: {
+      branch,
+      seoData: getBranchSEOData(branch, 'pesan'),
+    },
+    revalidate: 3600, // Revalidate every hour
+  };
 };
 
 export default PesanPage;

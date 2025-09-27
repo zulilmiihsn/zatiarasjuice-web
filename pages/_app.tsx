@@ -30,8 +30,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <link rel="preconnect" href="https://images.unsplash.com" />
         <link rel="preconnect" href="https://wa.me" />
         
-        {/* Font preloading */}
-        <link rel="preload" href="/fonts/nunito-sans.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+        {/* Font preloading - removed local font preload as it doesn't exist */}
         
         {/* CRITICAL CSS INLINE - Optimized for minimal size */}
         <style dangerouslySetInnerHTML={{

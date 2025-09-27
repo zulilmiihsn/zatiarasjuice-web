@@ -46,18 +46,31 @@ interface ContactPageProps {
 
 const ContactPage: React.FC<ContactPageProps> = ({ branch, seoData }) => {
   const contactInfo = {
-    whatsapp: [
+    whatsapp: branch === 'berau' ? [
       {
-        name: "WhatsApp Berau",
+        name: "WhatsApp 1",
         number: "+62813-5035-4856",
         description: "Order & Customer Service Berau",
         link: "https://wa.me/6281350354856"
       },
       {
-        name: "WhatsApp Samarinda", 
+        name: "WhatsApp 2", 
+        number: "+62813-4988-2015",
+        description: "Nomor Telepon Berau (via WhatsApp)",
+        link: "https://wa.me/6281349882015"
+      }
+    ] : [
+      {
+        name: "WhatsApp 1",
         number: "+62858-2061-5188",
         description: "Order & Customer Service Samarinda",
         link: "https://wa.me/6285820615188"
+      },
+      {
+        name: "WhatsApp 2", 
+        number: "+62813-5007-6071",
+        description: "Nomor Telepon Samarinda (via WhatsApp)",
+        link: "https://wa.me/6281350076071"
       }
     ],
     social: [
@@ -152,14 +165,14 @@ const ContactPage: React.FC<ContactPageProps> = ({ branch, seoData }) => {
               <h2 className="text-3xl sm:text-4xl font-black text-gray-900 mb-4">
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-emerald-600">
                   WhatsApp
-                </span> Customer Service
+                </span>
               </h2>
               <p className="text-lg text-gray-600">
                 Chat langsung dengan tim cabang {contactInfo.branchInfo.name}
               </p>
             </motion.div>
 
-            <div className="max-w-2xl mx-auto">
+            <div className="max-w-2xl mx-auto space-y-6">
               {contactInfo.whatsapp.map((wa, index) => (
                 <motion.div
                   key={wa.name}
@@ -223,7 +236,7 @@ const ContactPage: React.FC<ContactPageProps> = ({ branch, seoData }) => {
             >
               <h2 className="text-3xl sm:text-4xl font-black text-gray-900 mb-4">
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-purple-600">
-                  Social Media
+                  Sosial Media
                 </span> Kami
               </h2>
               <p className="text-lg text-gray-600">
@@ -376,7 +389,19 @@ const ContactPage: React.FC<ContactPageProps> = ({ branch, seoData }) => {
                   className="inline-flex items-center gap-3 bg-white text-primary-600 px-8 py-4 rounded-2xl font-bold hover:bg-gray-50 transition-all duration-300 shadow-lg hover:shadow-xl"
                 >
                   <WhatsAppIcon className="w-6 h-6" />
-                  <span>Chat WhatsApp</span>
+                  <span>Chat WhatsApp 1</span>
+                </motion.a>
+                
+                <motion.a
+                  href={contactInfo.whatsapp[1].link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="inline-flex items-center gap-3 bg-white/20 text-white px-8 py-4 rounded-2xl font-bold hover:bg-white/30 transition-all duration-300 border border-white/30"
+                >
+                  <WhatsAppIcon className="w-6 h-6" />
+                  <span>Chat WhatsApp 2</span>
                 </motion.a>
                 
                 <motion.a

@@ -363,7 +363,7 @@ const MenuPage: React.FC<MenuPageProps> = ({
                     className="flex items-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 text-white px-6 py-3 rounded-xl text-sm font-semibold hover:from-pink-600 hover:to-rose-600 transition-all duration-200 shadow-lg hover:shadow-xl"
                   >
                     <Eye className="w-5 h-5" />
-                    <span>Overview Menu</span>
+                    <span>Semua Menu</span>
                   </motion.button>
                 </Link>
                 {/* View Mode Toggle */}

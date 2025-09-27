@@ -100,7 +100,7 @@ export const getProducts = async (branch: Branch): Promise<Product[]> => {
     return {
       ...product,
       category: product.kategori?.name || 'Lainnya',
-      description: product.tipe || 'Jus segar berkualitas tinggi',
+      description: 'Jus segar berkualitas tinggi',
       // Keep original gambar field, let ProductCard handle fallback
       is_featured: product.tipe === 'premium' || product.tipe === 'favorit',
       rating: 4.5, // Default rating
@@ -147,7 +147,7 @@ export const getProductsByCategory = async (
     return {
       ...product,
       category: product.kategori?.name || 'Lainnya',
-      description: product.tipe || 'Jus segar berkualitas tinggi',
+      description: 'Jus segar berkualitas tinggi',
       // Keep original gambar field, let ProductCard handle fallback
       is_featured: product.tipe === 'premium' || product.tipe === 'favorit',
       rating: 4.5, // Default rating

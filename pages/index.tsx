@@ -172,7 +172,7 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
               </h2>
               <p className="text-xl text-gray-600 max-w-4xl mx-auto font-medium leading-relaxed mb-8">
                 Lebih dari 500+ pelanggan puas setiap bulan. Rating 4.9/5 dari 500+ review. 
-                <span className="text-primary-600 font-bold text-luxury"> Garansi uang kembali jika tidak puas!</span>
+                <span className="text-primary-600 font-bold text-luxury"> Dijamin segar dan berkualitas tinggi!</span>
               </p>
               
               {/* Premium Stats */}
@@ -298,7 +298,7 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                   <div className="space-y-4">
                     <h3 className="text-2xl font-black text-gray-900 font-rounded">Zatiaras Juice Berau</h3>
                     <p className="text-gray-600 text-sm leading-relaxed">
-                    Jl. Ahmad Yani No. 123, Berau, Kalimantan Timur
+                    Jl. Merah Delima depan Klinik Berlian Bakti, Berau, Kalimantan Timur
                   </p>
                     
                     {/* Trust Indicators - Simplified */}
@@ -316,7 +316,7 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                     
                     <div className="space-y-2 text-sm text-gray-500">
                       <p className="flex items-center gap-2">
-                      <Phone className="w-4 h-4 text-pink-500" /> +62812-3456-7890
+                      <Phone className="w-4 h-4 text-pink-500" /> +62813-4988-2015
                     </p>
                       <p className="flex items-center gap-2">
                       <Clock className="w-4 h-4 text-pink-500" /> 08:00 - 22:00 WITA
@@ -447,7 +447,7 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                   <div className="space-y-4">
                     <h3 className="text-2xl font-black text-gray-900 font-rounded">Zatiaras Juice Samarinda</h3>
                     <p className="text-gray-600 text-sm leading-relaxed">
-                    Jl. Sudirman No. 456, Samarinda, Kalimantan Timur
+                    Jl. Juanda Samping Ami Ali Parfum, Samarinda, Kalimantan Timur
                   </p>
                     
                     {/* Trust Indicators - Simplified */}
@@ -465,7 +465,7 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                     
                     <div className="space-y-2 text-sm text-gray-500">
                       <p className="flex items-center gap-2">
-                      <Phone className="w-4 h-4 text-pink-500" /> +62812-3456-7891
+                      <Phone className="w-4 h-4 text-pink-500" /> +62813-5007-6071
                     </p>
                       <p className="flex items-center gap-2">
                       <Clock className="w-4 h-4 text-pink-500" /> 08:00 - 22:00 WITA
@@ -695,9 +695,9 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                 <div className="w-16 h-16 bg-yellow-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
                   <Shield className="w-8 h-8 text-yellow-500" />
                 </div>
-                <h3 className="text-xl font-black text-gray-900 mb-4 font-rounded">Garansi Uang Kembali</h3>
+                <h3 className="text-xl font-black text-gray-900 mb-4 font-rounded">Kualitas Terjamin</h3>
                 <p className="text-gray-600 font-medium leading-relaxed">
-                  Tidak puas dengan jus kami? Kami berikan garansi uang kembali 100% tanpa syarat
+                  Setiap jus dibuat dengan standar kualitas tinggi, menggunakan buah segar pilihan dan proses yang higienis
                 </p>
               </motion.div>
             </div>
@@ -967,7 +967,7 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                 Kata Mereka Tentang Zatiaras Juice
               </h2>
               <p className="text-lg text-gray-600 max-w-3xl mx-auto font-medium leading-relaxed">
-                Testimoni nyata dari pelanggan yang sudah merasakan kelezatan jus kami
+                Testimoni nyata dari pelanggan yang sudah merasakan kesegaran Jus kami
               </p>
             </motion.div>
 
@@ -976,20 +976,20 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.1 }}
-                className="bg-white rounded-2xl p-8 shadow-clean hover:shadow-lg transition-all duration-300"
+                className="bg-white rounded-2xl p-8 shadow-clean hover:shadow-lg transition-all duration-300 h-full flex flex-col"
               >
-                <div className="space-y-4">
-                  <div className="flex items-center">
+                <div className="flex flex-col h-full">
+                  <div className="flex items-center mb-4">
                     <div className="flex text-yellow-400">
                       {[...Array(5)].map((_, i) => (
                         <span key={i}>⭐</span>
                       ))}
                     </div>
                   </div>
-                  <p className="text-gray-600 font-medium leading-relaxed">
+                  <p className="text-gray-600 font-medium leading-relaxed flex-grow mb-6">
                     "suka bangettt.. setiap pesan selalu minta less sugar dan bagiku rasanya sesuai dengan yg aku mau. jus favoritku jus alpukat sama jus pakcoy,apel,nanas. semoga bisa selalu mempertahankan kualitas ya kakk!!"
                   </p>
-                  <div className="flex items-center">
+                  <div className="flex items-center mt-auto">
                     <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center mr-4">
                       <span className="text-primary-600 font-bold text-lg">S</span>
                     </div>
@@ -1005,20 +1005,20 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
-                className="bg-white rounded-2xl p-8 shadow-clean hover:shadow-lg transition-all duration-300"
+                className="bg-white rounded-2xl p-8 shadow-clean hover:shadow-lg transition-all duration-300 h-full flex flex-col"
               >
-                <div className="space-y-4">
-                  <div className="flex items-center">
+                <div className="flex flex-col h-full">
+                  <div className="flex items-center mb-4">
                     <div className="flex text-yellow-400">
                       {[...Array(5)].map((_, i) => (
                         <span key={i}>⭐</span>
                       ))}
                     </div>
                   </div>
-                  <p className="text-gray-600 font-medium leading-relaxed">
+                  <p className="text-gray-600 font-medium leading-relaxed flex-grow mb-6">
                     "kaa ini kenapa siih jusnya.... Kok enaak bgt 🤤 kentaal, bnr2 bnyk buaahnya yg dijuss,kerasaa.. Juga semua sesuai request.. 💕 makasii kaa"
                   </p>
-                  <div className="flex items-center">
+                  <div className="flex items-center mt-auto">
                     <div className="w-12 h-12 bg-pinky-100 rounded-full flex items-center justify-center mr-4">
                       <span className="text-pinky-600 font-bold text-lg">A</span>
                     </div>
@@ -1034,22 +1034,22 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
-                className="bg-white rounded-2xl p-8 shadow-clean hover:shadow-lg transition-all duration-300"
+                className="bg-white rounded-2xl p-8 shadow-clean hover:shadow-lg transition-all duration-300 h-full flex flex-col"
               >
-                <div className="space-y-4">
-                  <div className="flex items-center">
+                <div className="flex flex-col h-full">
+                  <div className="flex items-center mb-4">
                     <div className="flex text-yellow-400">
                       {[...Array(5)].map((_, i) => (
                         <span key={i}>⭐</span>
                       ))}
                     </div>
                   </div>
-                  <p className="text-gray-600 font-medium leading-relaxed">
+                  <p className="text-gray-600 font-medium leading-relaxed flex-grow mb-6">
                     "benar2 mantul sesuai request..sangat memuaskan konsumen..👍👍👍"
                   </p>
-                  <div className="flex items-center">
+                  <div className="flex items-center mt-auto">
                     <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mr-4">
-                      <span className="text-green-600 font-bold text-lg">L</span>
+                      <span className="text-green-600 font-bold text-lg">B</span>
                     </div>
                     <div>
                       <p className="font-semibold text-gray-900">B* **** ******</p>

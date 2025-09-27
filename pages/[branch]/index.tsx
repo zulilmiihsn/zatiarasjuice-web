@@ -178,7 +178,7 @@ const BranchPage: React.FC<BranchPageProps> = ({
                 Zatiaras Juice {branch.charAt(0).toUpperCase() + branch.slice(1)}
               </h1>
               <p className="text-body-xl text-gray-600 max-w-3xl mx-auto mb-8">
-                {`Nikmati kesegaran jus alpukat dan aneka jus buah segar di cabang ${branch}`}
+                {`Nikmati kesegaran Jus Alpukat dan Aneka Jus Buah segar lainnya di ${branch.charAt(0).toUpperCase() + branch.slice(1)}`}
               </p>
               
               {/* Quick Stats dengan Glassmorphism */}
@@ -223,7 +223,7 @@ const BranchPage: React.FC<BranchPageProps> = ({
                     boxShadow: '0 20px 40px rgba(255, 105, 180, 0.3)',
                   }}
                   whileTap={{ scale: 0.95 }}
-                  href="https://wa.me/6281234567890"
+                  href={branch === 'berau' ? 'https://wa.me/6281350354856' : 'https://wa.me/6285820615188'}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group relative bg-gradient-to-r from-primary-500 to-pinky-500 text-white px-6 py-3 rounded-xl text-base font-bold overflow-hidden shadow-lg"
@@ -292,7 +292,10 @@ const BranchPage: React.FC<BranchPageProps> = ({
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-4 font-display">Lokasi</h3>
                 <p className="text-gray-600 font-medium leading-relaxed">
-                  {`Jl. Contoh No. 123, ${branch.charAt(0).toUpperCase() + branch.slice(1)}`}
+                  {branch === 'berau' 
+                    ? 'Jl. Merah Delima depan Klinik Berlian Bakti, Berau, Kalimantan Timur'
+                    : 'Jl. Juanda Samping Ami Ali Parfum, Samarinda, Kalimantan Timur'
+                  }
                 </p>
               </motion.div>
 
@@ -308,7 +311,7 @@ const BranchPage: React.FC<BranchPageProps> = ({
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-4 font-display">Telepon</h3>
                 <p className="text-gray-600 font-medium">
-                  +62812-3456-7890
+                  {branch === 'berau' ? '+62813-4988-2015' : '+62813-5007-6071'}
                 </p>
               </motion.div>
 
