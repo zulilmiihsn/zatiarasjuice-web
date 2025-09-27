@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import { motion } from 'framer-motion';
-import { Utensils } from 'lucide-react';
 import Image from 'next/image';
+import { Utensils } from 'lucide-react';
 
 interface ProductCardProps {
   product: {

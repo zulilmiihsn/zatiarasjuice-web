@@ -55,6 +55,8 @@ const nextConfig = {
     // Enable modern bundling optimizations
     esmExternals: true,
     serverComponentsExternalPackages: [],
+    // Optimize bundle size
+    optimizeCss: true,
   },
 
   // Webpack optimizations
@@ -92,8 +94,8 @@ const nextConfig = {
       // Optimize chunks for better caching and code splitting
       config.optimization.splitChunks = {
         chunks: 'all',
-        minSize: 20000,
-        maxSize: 200000, // Reduced for better loading
+        minSize: 15000, // Reduced for smaller chunks
+        maxSize: 150000, // Further reduced for better loading
         cacheGroups: {
           default: false,
           vendors: false,
