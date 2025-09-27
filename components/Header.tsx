@@ -69,11 +69,12 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
       className="absolute top-0 left-0 right-0 z-50 bg-transparent"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-12 lg:h-14">
+        <div className="flex items-center justify-center h-12 lg:h-14 relative">
+          {/* Logo - Positioned absolutely on the left */}
           <motion.div
             whileHover={{ scale: 1.05, rotate: 5 }}
             whileTap={{ scale: 0.95 }}
-            className="flex-shrink-0"
+            className="absolute left-0 flex-shrink-0"
           >
             <Link href={branch ? `/${branch}` : '/'} className="flex items-center">
               <motion.div 
@@ -93,6 +94,7 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
             </Link>
           </motion.div>
 
+          {/* Navigation - Centered */}
           <nav className="hidden lg:flex items-center space-x-6">
             {navigationItems.map((item) => (
               <motion.div
@@ -196,7 +198,8 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
             ))}
           </nav>
 
-          <div className="hidden lg:flex items-center space-x-4">
+          {/* Right side elements - Positioned absolutely on the right */}
+          <div className="absolute right-0 hidden lg:flex items-center space-x-4">
             {branch && !isHomepage && (
               <motion.div
                 whileHover={{ scale: 1.05 }}
@@ -282,11 +285,12 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
             </motion.a>
           </div>
 
+          {/* Mobile menu button - Positioned absolutely on the right for mobile */}
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={handleMenuToggle}
-            className={`lg:hidden p-1.5 rounded-2xl transition-all duration-500 relative overflow-hidden group drop-shadow-lg ${
+            className={`lg:hidden absolute right-0 p-1.5 rounded-2xl transition-all duration-500 relative overflow-hidden group drop-shadow-lg ${
               isSpecialPage
                 ? 'text-pink-700 hover:text-pink-800 hover:bg-pink-100/60'
                 : 'text-white hover:text-primary-200 hover:bg-white/20'
