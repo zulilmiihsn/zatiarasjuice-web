@@ -487,7 +487,7 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
             }}
           >
             <motion.div
-              className="relative h-64 sm:h-80 md:h-96 lg:h-[500px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl"
+              className="hero-image-container relative h-64 sm:h-80 md:h-96 lg:h-[500px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl"
               style={{
                 rotateY: useTransform(mouseX, [-300, 300], [-5, 5]),
                 rotateX: useTransform(mouseY, [-300, 300], [5, -5]),
@@ -499,12 +499,31 @@ const HeroBanner: React.FC<HeroBannerProps> = ({ branch, slides, onBranchSelect 
                 src={heroSlides[currentSlide].image}
                 alt={heroSlides[currentSlide].title}
                 fill
-                className="object-contain transition-transform duration-500"
+                className="hero-image object-cover transition-transform duration-500"
                 priority
-                quality={90}
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                quality={100}
+                sizes="(max-width: 640px) 100vw, (max-width: 768px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 50vw, 33vw"
                 placeholder="blur"
                 blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
+                style={{
+                  objectFit: 'cover',
+                  objectPosition: 'center',
+                }}
+                onLoad={() => {
+                  // Force re-render untuk memastikan gambar ter-load dengan kualitas maksimal
+                  if (typeof window !== 'undefined') {
+                    const img = document.querySelector(`img[alt="${heroSlides[currentSlide].title}"]`) as HTMLImageElement;
+                    if (img) {
+                      img.style.imageRendering = 'high-quality';
+                      img.style.imageRendering = '-webkit-optimize-contrast';
+                      img.style.imageRendering = 'crisp-edges';
+                      img.classList.add('hero-image');
+                      // Force repaint untuk memastikan filter diterapkan
+                      img.style.transform = 'translateZ(0)';
+                      img.style.backfaceVisibility = 'hidden';
+                    }
+                  }
+                }}
               />
               
               <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />

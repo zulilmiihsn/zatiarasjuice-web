@@ -7,7 +7,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Header from '../../components/Header';
 import LoadingSpinner from '../../components/LoadingSpinner';
-import { getBranchSEOData } from '../../lib/seo';
 import type { Branch } from '../../lib/supabase';
 
 // Lazy load Footer untuk performa yang lebih baik
@@ -36,10 +35,9 @@ const GrabIcon = ({ className }: { className?: string }) => (
 
 interface PesanPageProps {
   branch: Branch;
-  seoData: any;
 }
 
-const PesanPage: React.FC<PesanPageProps> = ({ branch, seoData }) => {
+const PesanPage: React.FC<PesanPageProps> = ({ branch }) => {
   const router = useRouter();
   const branchInfo = {
     berau: {
@@ -308,7 +306,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   return {
     props: {
       branch,
-      seoData: getBranchSEOData(branch, 'pesan'),
     },
     revalidate: 3600, // Revalidate every hour
   };
