@@ -42,13 +42,13 @@ const Header: React.FC<HeaderProps> = ({ branch, currentPath }) => {
   const branchInfo = {
     berau: {
       name: 'Berau',
-      phone: '+62812-3456-7890',
-      address: 'Jl. Ahmad Yani No. 123, Berau',
+      phone: '+62813-4988-2015',
+      address: 'Jl. Merah Delima depan Klinik Berlian Bakti, Berau',
     },
     samarinda: {
       name: 'Samarinda',
-      phone: '+62812-3456-7891',
-      address: 'Jl. Sudirman No. 456, Samarinda',
+      phone: '+62813-5007-6071',
+      address: 'Jl. Juanda Samping Ami Ali Parfum, Samarinda',
     },
   };
 

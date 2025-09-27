@@ -55,8 +55,8 @@ const nextConfig = {
     // Enable modern bundling optimizations
     esmExternals: true,
     serverComponentsExternalPackages: [],
-    // Optimize bundle size
-    optimizeCss: true,
+    // Optimize bundle size - disabled to fix critters error
+    // optimizeCss: true,
   },
 
   // Webpack optimizations

@@ -36,19 +36,19 @@ const PesanPage: React.FC<PesanPageProps> = ({ branch }) => {
   const branchInfo = {
     berau: {
       name: 'Berau',
-      phone: '+62812-3456-7890',
-      address: 'Jl. Ahmad Yani No. 123, Berau, Kalimantan Timur',
+      phone: '+62813-4988-2015',
+      address: 'Jl. Merah Delima depan Klinik Berlian Bakti, Berau, Kalimantan Timur',
       city: 'Berau'
     },
     samarinda: {
       name: 'Samarinda',
-      phone: '+62812-3456-7891',
-      address: 'Jl. Sudirman No. 456, Samarinda, Kalimantan Timur',
+      phone: '+62813-5007-6071',
+      address: 'Jl. Juanda Samping Ami Ali Parfum, Samarinda, Kalimantan Timur',
       city: 'Samarinda'
     }
   }[branch] || {
     name: 'Zatiaras Juice',
-    phone: '+62812-3456-7890',
+    phone: '+62813-4988-2015',
     address: 'Cabang Utama',
     city: 'Kalimantan Timur'
   };
@@ -73,7 +73,9 @@ const PesanPage: React.FC<PesanPageProps> = ({ branch }) => {
       color: 'from-red-500 to-red-600',
       bgColor: 'from-red-50 to-red-50',
       textColor: 'text-red-700',
-      link: `https://gofood.co.id/merchant/zatiaras-juice-${branch}`,
+      link: branch === 'berau' 
+        ? 'https://gofood.co.id/berau/restaurant/juice-zatiaras-tanjungredeb-65ca1162-75a7-4c4e-ab1e-14369af8bf64'
+        : 'https://gofood.co.id/samarinda/restaurant/zatiaras-jus-samarinda-e66a662d-6a07-4069-b35f-62642eb1e2c6',
       features: ['Delivery cepat', 'Pembayaran mudah', 'Tracking order']
     },
     {
@@ -84,7 +86,9 @@ const PesanPage: React.FC<PesanPageProps> = ({ branch }) => {
       color: 'from-green-600 to-green-700',
       bgColor: 'from-green-50 to-green-50',
       textColor: 'text-green-700',
-      link: `https://food.grab.com/id/en/restaurant/zatiaras-juice-${branch}`,
+      link: branch === 'berau'
+        ? 'https://food.grab.com/id/en/restaurant/zatiaras-juice-berau'
+        : 'https://food.grab.com/id/en/restaurant/zatiaras-juice-samarinda',
       features: ['Promo menarik', 'Rating & review', 'Customer support']
     }
   ];

@@ -22,9 +22,9 @@ export const getBranchSEOData = (branch: 'berau' | 'samarinda', page: string = '
       name: 'Berau',
       city: 'Berau',
       region: 'Kalimantan Timur',
-      address: 'Jl. Ahmad Yani No. 123, Berau, Kalimantan Timur',
-      phone: '+62812-3456-7890',
-      whatsapp: '+62812-3456-7890',
+      address: 'Jl. Merah Delima depan Klinik Berlian Bakti, Berau, Kalimantan Timur',
+      phone: '+62813-4988-2015',
+      whatsapp: '+62813-5035-4856',
       latitude: -2.1872,
       longitude: 117.3703,
     },
@@ -32,9 +32,9 @@ export const getBranchSEOData = (branch: 'berau' | 'samarinda', page: string = '
       name: 'Samarinda',
       city: 'Samarinda',
       region: 'Kalimantan Timur',
-      address: 'Jl. Sudirman No. 456, Samarinda, Kalimantan Timur',
-      phone: '+62812-3456-7891',
-      whatsapp: '+62812-3456-7891',
+      address: 'Jl. Juanda Samping Ami Ali Parfum, Samarinda, Kalimantan Timur',
+      phone: '+62813-5007-6071',
+      whatsapp: '+62858-2061-5188',
       latitude: -0.5021,
       longitude: 117.1536,
     },
@@ -59,6 +59,11 @@ export const getBranchSEOData = (branch: 'berau' | 'samarinda', page: string = '
         `alamat zatiaras ${data.name}`,
         `lokasi zatiaras ${data.city}`,
         `jam buka zatiaras ${data.name}`,
+        `jus terenak ${data.city}`,
+        `jus terbaik ${data.name}`,
+        `delivery jus ${data.city}`,
+        `gofood ${data.name}`,
+        `grabfood ${data.city}`,
       ],
       canonical: `${baseUrl}/${branch}/contact`,
       openGraph: {
@@ -92,8 +97,8 @@ export const getBranchSEOData = (branch: 'berau' | 'samarinda', page: string = '
         servesCuisine: 'Indonesian',
         hasMenu: `${baseUrl}/${branch}/menu`,
         sameAs: [
-          'https://instagram.com/zatiarasjuice',
-          'https://tiktok.com/@zatiarasjuice',
+          branch === 'berau' ? 'https://instagram.com/zatiarasjuice' : 'https://instagram.com/zatiarasjuice_smr',
+          'https://tiktok.com/@zatiarasjuice_01',
         ],
       },
     };
@@ -113,6 +118,14 @@ export const getBranchSEOData = (branch: 'berau' | 'samarinda', page: string = '
       `delivery jus ${data.city}`,
       `jus buah segar ${data.name}`,
       `restoran jus ${data.city}`,
+      `jus terenak ${data.city}`,
+      `jus terbaik ${data.name}`,
+      `rating 4.9 jus ${data.city}`,
+      `review jus ${data.name}`,
+      `jus mangga ${data.city}`,
+      `alpukat kocok ${data.name}`,
+      `jus sehat ${data.city}`,
+      `jus alami ${data.name}`,
     ],
     canonical: `${baseUrl}/${branch}`,
       openGraph: {
@@ -151,10 +164,14 @@ export const getBranchSEOData = (branch: 'berau' | 'samarinda', page: string = '
         url: `${baseUrl}/${branch}/menu`,
       },
       sameAs: [
-        'https://www.instagram.com/zatiarasjuice',
-        'https://www.tiktok.com/@zatiarasjuice',
-        'https://gofood.co.id/merchant/zatiaras-juice',
-        'https://food.grab.com/id/en/restaurant/zatiaras-juice',
+        branch === 'berau' ? 'https://www.instagram.com/zatiarasjuice' : 'https://www.instagram.com/zatiarasjuice_smr',
+        'https://www.tiktok.com/@zatiarasjuice_01',
+        branch === 'berau' 
+          ? 'https://gofood.co.id/berau/restaurant/juice-zatiaras-tanjungredeb-65ca1162-75a7-4c4e-ab1e-14369af8bf64'
+          : 'https://gofood.co.id/samarinda/restaurant/zatiaras-jus-samarinda-e66a662d-6a07-4069-b35f-62642eb1e2c6',
+        branch === 'berau'
+          ? 'https://food.grab.com/id/en/restaurant/zatiaras-juice-berau'
+          : 'https://food.grab.com/id/en/restaurant/zatiaras-juice-samarinda',
       ],
       aggregateRating: {
         '@type': 'AggregateRating',
@@ -165,6 +182,93 @@ export const getBranchSEOData = (branch: 'berau' | 'samarinda', page: string = '
   };
 };
 
+// SEO data untuk homepage
+export const getHomepageSEOData = (): SEOData => {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://zatiarasjuice.com';
+  
+  return {
+    title: 'Zatiaras Juice — Jus Terenak & Terbaik di Berau & Samarinda | Rating 4.9/5',
+    description: 'Jus terenak di Berau & Samarinda! Rating 4.9/5 dari 500+ review. 100% alami, tanpa pengawet. Order via WhatsApp/GoFood/GrabFood. Jus alpukat & buah segar terbaik.',
+    keywords: [
+      'jus terenak berau',
+      'jus terbaik samarinda',
+      'jus alpukat terenak berau',
+      'jus segar terbaik samarinda',
+      'zatiaras juice berau',
+      'zatiaras juice samarinda',
+      'jus terenak di berau',
+      'jus terbaik di samarinda',
+      'menu jus terenak berau',
+      'harga jus terbaik samarinda',
+      'gofood berau jus terenak',
+      'grabfood samarinda jus terbaik',
+      'delivery jus terenak berau',
+      'jus buah segar terbaik samarinda',
+      'restoran jus terenak berau',
+      'rating 4.9 jus berau',
+      'review jus terbaik samarinda',
+      'jus mangga terbaik',
+      'alpukat kocok terenak',
+      'jus sehat alami',
+      'jus tanpa pengawet',
+    ],
+    canonical: baseUrl,
+    openGraph: {
+      title: 'Zatiaras Juice — Jus Terenak & Terbaik di Berau & Samarinda',
+      description: 'Jus terenak di Berau & Samarinda! Rating 4.9/5 dari 500+ review. 100% alami, tanpa pengawet. Order via WhatsApp/GoFood/GrabFood.',
+      url: baseUrl,
+      type: 'website',
+    },
+    structuredData: {
+      '@context': 'https://schema.org',
+      '@type': 'Organization',
+      name: 'Zatiaras Juice',
+      description: 'Jus Alpukat & Buah Segar Nomor 1 di Berau & Samarinda',
+      url: baseUrl,
+      logo: `${baseUrl}/images/logo.png`,
+      sameAs: [
+        'https://www.instagram.com/zatiarasjuice_smr',
+        'https://www.facebook.com/zatiarasjuice',
+        'https://www.tiktok.com/@zatiarasjuice_01',
+      ],
+      aggregateRating: {
+        '@type': 'AggregateRating',
+        ratingValue: '4.9',
+        reviewCount: '500',
+      },
+      hasOfferCatalog: {
+        '@type': 'OfferCatalog',
+        name: 'Menu Jus Zatiaras',
+        itemListElement: [
+          {
+            '@type': 'Offer',
+            itemOffered: {
+              '@type': 'Product',
+              name: 'Jus Alpukat',
+              description: 'Dibuat dari buah alpukat pilihan terbaik, tanpa pengawet, 100% alami',
+            },
+          },
+          {
+            '@type': 'Offer',
+            itemOffered: {
+              '@type': 'Product',
+              name: 'Jus Mangga',
+              description: 'Dibuat fresh setiap hari dengan buah pilihan',
+            },
+          },
+          {
+            '@type': 'Offer',
+            itemOffered: {
+              '@type': 'Product',
+              name: 'Alpukat Kocok',
+              description: 'Resep rahasia turun temurun, susu segar pilihan, gula aren asli',
+            },
+          },
+        ],
+      },
+    },
+  };
+};
 
 // Function untuk generate breadcrumb structured data
 export const getBreadcrumbStructuredData = (items: Array<{name: string, url: string}>): any => {

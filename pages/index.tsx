@@ -11,6 +11,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import LoadingScreen from '../components/LoadingScreen';
 import BranchSelectionModal from '../components/BranchSelectionModal';
 import { getUserLocationWithFallback } from '../lib/geolocation';
+import { getHomepageSEOData } from '../lib/seo';
 
 const ProductCard = lazy(() => import('../components/ProductCard'));
 const Footer = lazy(() => import('../components/Footer'));
@@ -170,7 +171,7 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                 Jus Terenak di Berau & Samarinda
               </h2>
               <p className="text-xl text-gray-600 max-w-4xl mx-auto font-medium leading-relaxed mb-8">
-                Lebih dari 500+ pelanggan puas setiap bulan. Rating 4.9/5 dari 150+ review. 
+                Lebih dari 500+ pelanggan puas setiap bulan. Rating 4.9/5 dari 500+ review. 
                 <span className="text-primary-600 font-bold text-luxury"> Garansi uang kembali jika tidak puas!</span>
               </p>
               
@@ -305,7 +306,7 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                       <div className="flex items-center gap-1">
                         <span className="text-yellow-500">⭐</span>
                         <span className="font-semibold">4.9/5</span>
-                        <span>(75+ review)</span>
+                        <span>(500+ review)</span>
                       </div>
                       <div className="flex items-center gap-1">
                         <Leaf className="w-4 h-4 text-green-500" />
@@ -454,7 +455,7 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                       <div className="flex items-center gap-1">
                         <span className="text-yellow-500">⭐</span>
                         <span className="font-semibold">4.9/5</span>
-                        <span>(75+ review)</span>
+                        <span>(500+ review)</span>
                       </div>
                       <div className="flex items-center gap-1">
                         <Leaf className="w-4 h-4 text-green-500" />
@@ -666,7 +667,7 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                 </motion.div>
                 <h3 className="text-2xl font-black text-gray-900 mb-6 font-rounded text-premium">Rating 4.9/5</h3>
                 <p className="text-gray-600 font-medium leading-relaxed text-lg">
-                  Lebih dari 150+ review positif dari pelanggan yang puas dengan kualitas dan rasa jus kami
+                  Lebih dari 500+ review positif dari pelanggan yang puas dengan kualitas dan rasa jus kami
                 </p>
               </motion.div>
 
@@ -986,14 +987,14 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                     </div>
                   </div>
                   <p className="text-gray-600 font-medium leading-relaxed">
-                    "Jus alpukat Zatiaras memang yang terenak di Berau! Rasanya beda banget, segar dan enak banget. Udah jadi langganan 2 tahun ini."
+                    "suka bangettt.. setiap pesan selalu minta less sugar dan bagiku rasanya sesuai dengan yg aku mau. jus favoritku jus alpukat sama jus pakcoy,apel,nanas. semoga bisa selalu mempertahankan kualitas ya kakk!!"
                   </p>
                   <div className="flex items-center">
                     <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center mr-4">
                       <span className="text-primary-600 font-bold text-lg">S</span>
                     </div>
                     <div>
-                      <p className="font-semibold text-gray-900">Sarah M.</p>
+                      <p className="font-semibold text-gray-900">S*****</p>
                       <p className="text-sm text-gray-500">Pelanggan Berau</p>
                     </div>
                   </div>
@@ -1015,14 +1016,14 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                     </div>
                   </div>
                   <p className="text-gray-600 font-medium leading-relaxed">
-                    "Kualitas konsisten, selalu segar dan enak. Pelayanannya juga cepat banget. Recommended banget untuk yang cari jus terbaik di Samarinda!"
+                    "kaa ini kenapa siih jusnya.... Kok enaak bgt 🤤 kentaal, bnr2 bnyk buaahnya yg dijuss,kerasaa.. Juga semua sesuai request.. 💕 makasii kaa"
                   </p>
                   <div className="flex items-center">
                     <div className="w-12 h-12 bg-pinky-100 rounded-full flex items-center justify-center mr-4">
                       <span className="text-pinky-600 font-bold text-lg">A</span>
                     </div>
                     <div>
-                      <p className="font-semibold text-gray-900">Ahmad R.</p>
+                      <p className="font-semibold text-gray-900">A****.</p>
                       <p className="text-sm text-gray-500">Pelanggan Samarinda</p>
                     </div>
                   </div>
@@ -1044,15 +1045,15 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
                     </div>
                   </div>
                   <p className="text-gray-600 font-medium leading-relaxed">
-                    "Jus mangganya segar banget, manis alami. Harganya juga reasonable. Sekeluarga suka banget, jadi langganan tetap di sini."
+                    "benar2 mantul sesuai request..sangat memuaskan konsumen..👍👍👍"
                   </p>
                   <div className="flex items-center">
                     <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mr-4">
                       <span className="text-green-600 font-bold text-lg">L</span>
                     </div>
                     <div>
-                      <p className="font-semibold text-gray-900">Lisa K.</p>
-                      <p className="text-sm text-gray-500">Pelanggan Berau</p>
+                      <p className="font-semibold text-gray-900">B* **** ******</p>
+                      <p className="text-sm text-gray-500">Pelanggan Samarinda</p>
                     </div>
                   </div>
                 </div>
@@ -1083,70 +1084,7 @@ const HomePage: React.FC<HomePageProps> = ({ featuredProducts, seoData }) => {
 export const getStaticProps: GetStaticProps = async () => {
   const featuredProducts: any[] = [];
 
-  const seoData = {
-    title: 'Zatiaras Juice — Jus Terenak & Terbaik di Berau & Samarinda | Rating 4.9/5',
-    description: 'Jus terenak di Berau & Samarinda! Rating 4.9/5 dari 150+ review. 100% alami, tanpa pengawet, garansi uang kembali. Order via WhatsApp/GoFood. Siap dalam 15 menit!',
-    keywords: [
-      'jus terenak berau',
-      'jus terbaik samarinda',
-      'jus alpukat terenak berau',
-      'jus segar terbaik samarinda',
-      'zatiaras juice berau',
-      'zatiaras juice samarinda',
-      'jus terenak di berau',
-      'jus terbaik di samarinda',
-      'menu jus terenak berau',
-      'harga jus terbaik samarinda',
-      'gofood berau jus terenak',
-      'grabfood samarinda jus terbaik',
-      'delivery jus terenak berau',
-      'jus buah segar terbaik samarinda',
-      'restoran jus terenak berau',
-      'rating 4.9 jus berau',
-      'review jus terbaik samarinda',
-    ],
-    canonical: 'https://zatiarasjuice.com',
-    openGraph: {
-      title: 'Zatiaras Juice — Jus Terenak & Terbaik di Berau & Samarinda | Rating 4.9/5',
-      description: 'Jus terenak di Berau & Samarinda! Rating 4.9/5 dari 150+ review. 100% alami, tanpa pengawet, garansi uang kembali. Order via WhatsApp/GoFood.',
-      url: 'https://zatiarasjuice.com',
-      type: 'website',
-    },
-    structuredData: {
-      '@context': 'https://schema.org',
-      '@type': 'Organization',
-      name: 'Zatiaras Juice',
-      description: 'Jus Terenak & Terbaik di Berau & Samarinda - Rating 4.9/5 dari 150+ review',
-      url: 'https://zatiarasjuice.com',
-      logo: 'https://zatiarasjuice.com/images/logo.png',
-      sameAs: [
-        'https://www.instagram.com/zatiarasjuice',
-        'https://www.facebook.com/zatiarasjuice',
-        'https://www.tiktok.com/@zatiarasjuice',
-      ],
-      aggregateRating: {
-        '@type': 'AggregateRating',
-        ratingValue: '4.9',
-        reviewCount: '150',
-        bestRating: '5',
-        worstRating: '1',
-      },
-      hasOfferCatalog: {
-        '@type': 'OfferCatalog',
-        name: 'Menu Zatiaras Juice',
-        itemListElement: featuredProducts.map((product) => ({
-          '@type': 'Offer',
-          itemOffered: {
-            '@type': 'Product',
-            name: product.name,
-            description: product.description,
-          },
-          price: product.price,
-          priceCurrency: 'IDR',
-        })),
-      },
-    },
-  };
+  const seoData = getHomepageSEOData();
 
   return {
     props: {

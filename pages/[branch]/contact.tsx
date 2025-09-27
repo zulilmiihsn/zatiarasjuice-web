@@ -49,31 +49,31 @@ const ContactPage: React.FC<ContactPageProps> = ({ branch, seoData }) => {
     whatsapp: [
       {
         name: "WhatsApp Berau",
-        number: "+62812-3456-7890",
+        number: "+62813-5035-4856",
         description: "Order & Customer Service Berau",
-        link: "https://wa.me/6281234567890"
+        link: "https://wa.me/6281350354856"
       },
       {
         name: "WhatsApp Samarinda", 
-        number: "+62812-3456-7891",
+        number: "+62858-2061-5188",
         description: "Order & Customer Service Samarinda",
-        link: "https://wa.me/6281234567891"
+        link: "https://wa.me/6285820615188"
       }
     ],
     social: [
       {
         name: "Instagram",
-        handle: "@zatiarasjuice",
+        handle: branch === 'berau' ? "@zatiarasjuice" : "@zatiarasjuice_smr",
         description: "Follow untuk update menu & promo",
-        link: "https://instagram.com/zatiarasjuice",
+        link: branch === 'berau' ? "https://instagram.com/zatiarasjuice" : "https://instagram.com/zatiarasjuice_smr",
         icon: InstagramIcon,
         color: "from-pink-500 to-purple-600"
       },
       {
         name: "TikTok",
-        handle: "@zatiarasjuice",
+        handle: "@zatiarasjuice_01",
         description: "Video tutorial & review produk",
-        link: "https://tiktok.com/@zatiarasjuice",
+        link: "https://tiktok.com/@zatiarasjuice_01",
         icon: TikTokIcon,
         color: "from-gray-900 to-gray-700"
       }
@@ -81,9 +81,9 @@ const ContactPage: React.FC<ContactPageProps> = ({ branch, seoData }) => {
     branchInfo: {
       name: branch.charAt(0).toUpperCase() + branch.slice(1),
       address: branch === 'berau' 
-        ? 'Jl. Ahmad Yani No. 123, Berau, Kalimantan Timur'
-        : 'Jl. Sudirman No. 456, Samarinda, Kalimantan Timur',
-      phone: branch === 'berau' ? '+62812-3456-7890' : '+62812-3456-7891',
+        ? 'Jl. Merah Delima depan Klinik Berlian Bakti, Berau, Kalimantan Timur'
+        : 'Jl. Juanda Samping Ami Ali Parfum, Samarinda, Kalimantan Timur',
+      phone: branch === 'berau' ? '+62813-4988-2015' : '+62813-5007-6071',
       hours: '08:00 - 22:00 WITA'
     }
   };
@@ -380,7 +380,7 @@ const ContactPage: React.FC<ContactPageProps> = ({ branch, seoData }) => {
                 </motion.a>
                 
                 <motion.a
-                  href="https://instagram.com/zatiarasjuice"
+                  href={branch === 'berau' ? "https://instagram.com/zatiarasjuice" : "https://instagram.com/zatiarasjuice_smr"}
                   target="_blank"
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.05 }}

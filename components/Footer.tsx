@@ -28,16 +28,16 @@ const Footer: React.FC<FooterProps> = ({ branch }) => {
   const branchInfo = {
     berau: {
       name: 'Berau',
-      address: 'Jl. Ahmad Yani No. 123, Berau, Kalimantan Timur',
-      phone: '+62812-3456-7890',
-      whatsapp: '+62812-3456-7890',
+      address: 'Jl. Merah Delima depan Klinik Berlian Bakti, Berau, Kalimantan Timur',
+      phone: '+62813-4988-2015',
+      whatsapp: '+62813-5035-4856',
       hours: '08:00 - 22:00 WITA',
     },
     samarinda: {
       name: 'Samarinda',
-      address: 'Jl. Sudirman No. 456, Samarinda, Kalimantan Timur',
-      phone: '+62812-3456-7891',
-      whatsapp: '+62812-3456-7891',
+      address: 'Jl. Juanda Samping Ami Ali Parfum, Samarinda, Kalimantan Timur',
+      phone: '+62813-5007-6071',
+      whatsapp: '+62858-2061-5188',
       hours: '08:00 - 22:00 WITA',
     },
   };
@@ -58,16 +58,32 @@ const Footer: React.FC<FooterProps> = ({ branch }) => {
     </svg>
   );
 
-  const socialLinks = [
+  const socialLinks = branch === 'berau' ? [
     { name: 'Instagram', href: 'https://instagram.com/zatiarasjuice', icon: Instagram },
     { name: 'Facebook', href: 'https://facebook.com/zatiarasjuice', icon: Facebook },
-    { name: 'TikTok', href: 'https://tiktok.com/@zatiarasjuice', icon: TikTokIcon },
+    { name: 'TikTok', href: 'https://tiktok.com/@zatiarasjuice_01', icon: TikTokIcon },
+  ] : branch === 'samarinda' ? [
+    { name: 'Instagram', href: 'https://instagram.com/zatiarasjuice_smr', icon: Instagram },
+    { name: 'Facebook', href: 'https://facebook.com/zatiarasjuice', icon: Facebook },
+    { name: 'TikTok', href: 'https://tiktok.com/@zatiarasjuice_01', icon: TikTokIcon },
+  ] : [
+    { name: 'Instagram', href: 'https://instagram.com/zatiarasjuice_smr', icon: Instagram },
+    { name: 'Facebook', href: 'https://facebook.com/zatiarasjuice', icon: Facebook },
+    { name: 'TikTok', href: 'https://tiktok.com/@zatiarasjuice_01', icon: TikTokIcon },
   ];
 
-  const deliveryPartners = [
+  const deliveryPartners = branch === 'berau' ? [
+    { name: 'GoFood', href: 'https://gofood.co.id/berau/restaurant/juice-zatiaras-tanjungredeb-65ca1162-75a7-4c4e-ab1e-14369af8bf64' },
+    { name: 'GrabFood', href: 'https://food.grab.com/id/en/restaurant/zatiaras-juice-berau' },
+    { name: 'WhatsApp', href: `https://wa.me/${currentBranch?.whatsapp.replace(/\D/g, '') || '6281350354856'}` },
+  ] : branch === 'samarinda' ? [
+    { name: 'GoFood', href: 'https://gofood.co.id/samarinda/restaurant/zatiaras-jus-samarinda-e66a662d-6a07-4069-b35f-62642eb1e2c6' },
+    { name: 'GrabFood', href: 'https://food.grab.com/id/en/restaurant/zatiaras-juice-samarinda' },
+    { name: 'WhatsApp', href: `https://wa.me/${currentBranch?.whatsapp.replace(/\D/g, '') || '6285820615188'}` },
+  ] : [
     { name: 'GoFood', href: 'https://gofood.co.id/merchant/zatiaras-juice' },
     { name: 'GrabFood', href: 'https://food.grab.com/id/en/restaurant/zatiaras-juice' },
-    { name: 'WhatsApp', href: `https://wa.me/${currentBranch?.whatsapp.replace(/\D/g, '') || '6281234567890'}` },
+    { name: 'WhatsApp', href: 'https://wa.me/6281234567890' },
   ];
 
   return (
@@ -147,8 +163,8 @@ const Footer: React.FC<FooterProps> = ({ branch }) => {
               </div>
             </div>
             <p className="text-gray-300 text-sm leading-relaxed mb-6">
-              Nikmati kesegaran jus alpukat dan aneka jus buah segar berkualitas tinggi. 
-              Dibuat dengan cinta dan bahan-bahan terbaik untuk kesehatan Anda.
+              Nikmati kesegaran Jus Alpukat dan Aneka Jus Buah Segar berkualitas. 
+              Dibuat dengan cinta dan bahan-bahan terbaik untuk kesehatan dan kepuasan Anda.
             </p>
             <div className="flex space-x-4">
               {socialLinks.map((social) => (
@@ -280,7 +296,6 @@ const Footer: React.FC<FooterProps> = ({ branch }) => {
               >
                 <Heart className="w-5 h-5 text-primary-400 fill-current" />
               </motion.div>
-              <span>di Kalimantan Timur</span>
             </div>
           </div>
         </div>
