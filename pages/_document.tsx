@@ -28,6 +28,9 @@ export default function Document() {
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+
+        {/* Google Search Console Verification */}
+        <meta name="google-site-verification" content="-W59lS_Txhh80C4hgWeriUh4_CdGq5o7iG9BwaDCKYc" />
         
         {/* Preload critical resources */}
         <link rel="preload" href="/images/hero-avocado-juice.png?v=20250926" as="image" type="image/png" />

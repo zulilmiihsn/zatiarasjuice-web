@@ -687,7 +687,11 @@ const MenuPage: React.FC<MenuPageProps> = ({
                                               Regular: Rp {(product.price_regular || product.price).toLocaleString('id-ID')}
                                             </div>
                                             <div className="text-xs text-pink-500 truncate">
-                                              Large: Rp {(product.price_large || product.price).toLocaleString('id-ID')}
+                                              {(() => {
+                                                const regular = product.price_regular || product.price;
+                                                const large = regular + 8000;
+                                                return <>Large: Rp {large.toLocaleString('id-ID')}</>;
+                                              })()}
                                             </div>
                                           </div>
                                         ) : (
@@ -733,7 +737,11 @@ const MenuPage: React.FC<MenuPageProps> = ({
                                           Regular: Rp {(product.price_regular || product.price).toLocaleString('id-ID')}
                                         </div>
                                         <div className="text-xs text-pink-500 truncate">
-                                          Large: Rp {(product.price_large || product.price).toLocaleString('id-ID')}
+                                          {(() => {
+                                            const regular = product.price_regular || product.price;
+                                            const large = regular + 8000;
+                                            return <>Large: Rp {large.toLocaleString('id-ID')}</>;
+                                          })()}
                                         </div>
                                       </div>
                                     ) : (

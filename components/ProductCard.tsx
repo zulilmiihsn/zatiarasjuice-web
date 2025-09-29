@@ -128,7 +128,7 @@ const ProductCard: React.FC<ProductCardProps> = memo(({
 
         {/* Price Display */}
         <div className="mb-4">
-          {product.is_minuman && product.price_regular && product.price_large ? (
+          {product.is_minuman && product.price_regular ? (
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <span className="text-sm text-gray-500">Regular</span>
@@ -136,7 +136,7 @@ const ProductCard: React.FC<ProductCardProps> = memo(({
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm text-gray-500">Large</span>
-                <span className="font-bold text-pink-600">{formatPrice(product.price_large)}</span>
+                <span className="font-bold text-pink-600">{formatPrice((product.price_regular || product.price) + 8000)}</span>
               </div>
             </div>
           ) : (
