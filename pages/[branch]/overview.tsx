@@ -34,8 +34,8 @@ const OverviewPage: React.FC<OverviewPageProps> = ({
   // Sort products in each category by price (highest to lowest)
   Object.keys(groupedProducts).forEach(category => {
     groupedProducts[category].sort((a, b) => {
-      const priceA = a.is_minuman ? (a.price_large || a.price_regular || a.price) : a.price;
-      const priceB = b.is_minuman ? (b.price_large || b.price_regular || b.price) : b.price;
+      const priceA = a.is_minuman ? (a.price_regular || a.price) : a.price;
+      const priceB = b.is_minuman ? (b.price_regular || b.price) : b.price;
       return priceB - priceA; // Highest to lowest
     });
   });
@@ -1827,7 +1827,7 @@ const OverviewPage: React.FC<OverviewPageProps> = ({
                                  R: Rp{(product.price_regular || product.price).toLocaleString('id-ID')}
                                </div>
                                <div className="text-pico text-pink-500 group-hover:text-pink-600 transition-colors duration-200" style={{fontSize: '8px', lineHeight: '10px'}}>
-                                 L: Rp{(product.price_large || product.price).toLocaleString('id-ID')}
+                                 L: Rp{((product.price_regular || product.price) + 8000).toLocaleString('id-ID')}
                                </div>
                              </div>
                            ) : (
